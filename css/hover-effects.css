@@ -1,0 +1,171 @@
+/* Nethwin Bookshop - Hover Effects */
+
+/* Navigation Link Hover Effects - EXACT SAME AS SIGNUP.HTML */
+.nav-link {
+  @apply text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #0ad167;
+  transition: width 0.3s ease-in-out;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Alternative nav link class for pages that need the exact signup.html effect */
+.nav-link-signup-style {
+  @apply text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group;
+}
+
+.nav-link-signup-style::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #0ad167;
+  transition: width 0.3s ease-in-out;
+}
+
+.nav-link-signup-style:hover::after {
+  width: 100%;
+}
+
+/* Primary Button Hover Effects */
+.btn-primary {
+  @apply transition-all duration-300 ease-in-out hover:bg-[#08b85a] hover:scale-105 hover:shadow-lg hover:shadow-[#0ad167]/25;
+}
+
+/* Secondary Button Hover Effects */
+.btn-secondary {
+  @apply transition-all duration-300 ease-in-out hover:bg-[#e8ebe8] hover:scale-105 hover:shadow-md;
+}
+
+/* Success Button Hover Effects */
+.btn-success {
+  @apply transition-all duration-300 ease-in-out hover:bg-[#16d116] hover:scale-[1.02] hover:shadow-lg hover:shadow-[#19e619]/30;
+}
+
+/* Form Input Hover Effects */
+.form-input {
+  @apply transition-all duration-300 ease-in-out focus:scale-[1.01] focus:shadow-md;
+}
+
+/* Card Hover Effects */
+.card-hover {
+  @apply transition-all duration-300 ease-in-out hover:scale-[1.02] hover:shadow-xl hover:shadow-black/10;
+}
+
+/* Logo Hover Effects */
+.logo-hover {
+  @apply transition-all duration-300 ease-in-out hover:scale-110 hover:rotate-2;
+}
+
+/* Icon Hover Effects */
+.icon-hover {
+  @apply transition-all duration-300 ease-in-out hover:scale-110 hover:text-[#0ad167];
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Custom animations */
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.animate-slide-in-left {
+  animation: slideInFromLeft 0.5s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInFromRight 0.5s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-pulse-custom {
+  animation: pulse 2s infinite;
+}
+
+/* Loading spinner */
+.spinner {
+  @apply inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin;
+}
+
+/* Ripple effect for buttons */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.ripple:active::before {
+  width: 300px;
+  height: 300px;
+}

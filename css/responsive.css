@@ -1,0 +1,61 @@
+/* Global responsive utilities */
+:root {
+  --container-padding: 16px;
+}
+
+/***** Base containers *****/
+.container,
+.layout-container { padding-left: var(--container-padding); padding-right: var(--container-padding); }
+
+/***** Typography scaling *****/
+h1, .text-4xl { font-size: clamp(1.5rem, 4vw, 2.25rem); }
+h2, .text-3xl { font-size: clamp(1.25rem, 3.2vw, 1.875rem); }
+h3, .text-2xl { font-size: clamp(1.125rem, 2.6vw, 1.5rem); }
+
+/***** Header/nav *****/
+@media (max-width: 768px) {
+  header { padding-left: 12px; padding-right: 12px; }
+  header .flex-1 { justify-content: flex-end; }
+  header .items-center.gap-9 { gap: 14px; }
+  header a { font-size: 0.9rem; }
+  header .h-10 { height: 36px; }
+}
+@media (max-width: 480px) {
+  header .items-center.gap-9 { gap: 10px; }
+  header a { font-size: 0.85rem; }
+}
+
+/***** Buttons *****/
+button, .btn, .btn-primary, .btn-secondary, .btn-success { min-height: 44px; }
+
+/***** Forms *****/
+.form-input { min-height: 48px; }
+textarea.form-input { min-height: 90px; }
+
+/* Stack district/city row on small screens */
+@media (max-width: 640px) {
+  .flex.w-full.gap-4 { flex-direction: column; gap: 12px; }
+}
+
+/***** Cards/boxes grid *****/
+@media (max-width: 768px) {
+  .grid-cols-2, .md\:grid-cols-2 { grid-template-columns: 1fr !important; }
+  .h-96 { height: 14rem; }
+  .p-16 { padding: 2rem; }
+}
+
+/***** Images *****/
+img { max-width: 100%; height: auto; }
+
+/***** Footer spacing *****/
+footer { padding: 16px; }
+
+
+/* Extra small-screen nav/form tweaks */
+@media (max-width: 640px) {
+  header .flex-1 { gap: 8px; }
+  header .flex.items-center.gap-9 { flex-wrap: wrap; gap: 10px; }
+  header .flex.gap-2 { gap: 8px; }
+  .max-w-[500px] { max-width: 100% !important; }
+  .h-14 { height: 44px; }
+}
