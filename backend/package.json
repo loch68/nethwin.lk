@@ -1,0 +1,28 @@
+{
+  "name": "bookstore-multi-module-backend",
+  "version": "1.0.0",
+  "description": "Multi-module BookStore backend with 5 member functionalities",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "integrated": "node ../server-integration.js",
+    "seed": "node scripts/seed.js",
+    "seed:extra": "node scripts/seed_extra.js",
+    "clear": "node scripts/clear.js"
+  },
+  "keywords": ["bookstore", "multi-module", "express", "mongodb", "crud"],
+  "author": "5-Member Team",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.18.1",
+    "nodemailer": "^7.0.6",
+    "multer": "^1.4.4"
+  }
+}
