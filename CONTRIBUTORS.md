@@ -5,8 +5,8 @@ This project was developed by a collaborative team of 5 developers, each special
 ## Team Members
 
 ### Lochna  - Frontend Developer (User Authentication)
-- **Email:** lochagraphy@email.com
-- **GitHub:** @lochna-dev
+- **Email:** lochagraphy@gmail.com
+- **GitHub:** @locha68
 - **Contributions:**
   - User registration and login system
   - Profile management interface
@@ -14,7 +14,7 @@ This project was developed by a collaborative team of 5 developers, each special
   - Admin user management pages
 
 ### Thevidu  - Full-Stack Developer (Product Catalog)
-- **Email:** thevidu@email.com
+- **Email:** theviduhewage@gmail.com
 - **GitHub:** @thevidu-fullstack
 - **Contributions:**
   - Book catalog and search functionality
@@ -23,7 +23,7 @@ This project was developed by a collaborative team of 5 developers, each special
   - Admin product management system
 
 ### Theekshana - Backend Developer (E-commerce)
-- **Email:** theekshana@email.com
+- **Email:** theekshanagee@gmail.com
 - **GitHub:** @theekshana-backend
 - **Contributions:**
   - Shopping cart functionality
@@ -32,7 +32,7 @@ This project was developed by a collaborative team of 5 developers, each special
   - Order management and tracking
 
 ### Nelithra  - Frontend Developer (Print Services)
-- **Email:** nelithras@email.com
+- **Email:** nelithras@gmail.com
 - **GitHub:** @nelithra-frontend
 - **Contributions:**
   - Print-on-demand service interface
@@ -41,7 +41,7 @@ This project was developed by a collaborative team of 5 developers, each special
   - Service pricing calculator
 
 ### Oneka  - Full-Stack Developer (Admin Systems)
-- **Email:** oneka@email.com
+- **Email:** onekaguruge@gmail.com
 - **GitHub:** @oneka-admin
 - **Contributions:**
   - Admin dashboard and analytics
