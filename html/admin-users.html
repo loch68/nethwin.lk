@@ -1,0 +1,445 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Users - NethwinLK</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        .sidebar-transition {
+            transition: transform 0.3s ease-in-out;
+        }
+        .sidebar-hidden {
+            transform: translateX(-100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="relative flex size-full min-h-screen flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden" style='font-family: Inter, "Noto Sans", sans-serif;'>
+        <div class="layout-container flex h-full grow flex-col">
+            
+            <!-- Sidebar -->
+            <div id="sidebar" class="fixed left-0 top-0 z-40 h-screen w-64 bg-white shadow-lg sidebar-transition">
+                <div class="flex h-full flex-col">
+                    <!-- Logo Section -->
+                    <div class="flex items-center gap-4 p-6 border-b border-[#e8f2ec]">
+                        <div class="size-4">
+                            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    fill-rule="evenodd"
+                                    clip-rule="evenodd"
+                                    d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
+                                    fill="#19e619"
+                                ></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-[#0e1a13] text-lg font-bold leading-tight tracking-[-0.015em]">NethwinLK Admin</h2>
+                    </div>
+
+                    <!-- Navigation Menu -->
+                    <nav class="flex-1 p-4 space-y-2">
+                        <a href="admin-dashboard.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"></path>
+                            </svg>
+                            Dashboard
+                        </a>
+                        <a href="admin-users.html" class="flex items-center gap-3 px-4 py-3 text-[#19e619] bg-[#e8f2ec] rounded-lg font-medium">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                            </svg>
+                            Users
+                        </a>
+                        <a href="admin-orders.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                            </svg>
+                            Orders
+                        </a>
+                        <a href="#" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                            </svg>
+                            Products
+                        </a>
+                        <a href="admin-reviews.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                            </svg>
+                            Reviews
+                        </a>
+                    </nav>
+
+                    <!-- Logout Section -->
+                    <div class="p-4 border-t border-[#e8f2ec]">
+                        <button onclick="logout()" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-red-600 hover:bg-red-50 rounded-lg font-medium transition-colors w-full">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                            </svg>
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="ml-64 flex-1">
+                <!-- Top Header -->
+                <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f2ec] px-10 py-3">
+                    <div class="flex items-center gap-4 text-[#0e1a13]">
+                        <button id="sidebarToggle" class="size-4 md:hidden">
+                            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    fill-rule="evenodd"
+                                    clip-rule="evenodd"
+                                    d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
+                                    fill="currentColor"
+                                ></path>
+                            </svg>
+                        </button>
+                        
+                    </div>
+                   
+                     
+                </header>
+
+                <!-- Main Content Area -->
+                <div class="px-40 flex flex-1 justify-center py-5">
+                    <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                        <!-- Header Section -->
+                        <div class="flex flex-wrap justify-between gap-3 p-4">
+                            <p class="text-[#0e1a13] tracking-light text-[32px] font-bold leading-tight min-w-72">Customers</p>
+                            <button
+                                onclick="openAddUserModal()"
+                                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#e8f2ec] text-[#0e1a13] text-sm font-medium leading-normal"
+                            >
+                                <span class="truncate">Add customer</span>
+                            </button>
+                        </div>
+
+                        <!-- Search Section -->
+                        <div class="px-4 py-3">
+                            <label class="flex flex-col min-w-40 h-12 w-full">
+                                <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                                    <div
+                                        class="text-[#51946c] flex border-none bg-[#e8f2ec] items-center justify-center pl-4 rounded-l-lg border-r-0"
+                                        data-icon="MagnifyingGlass"
+                                        data-size="24px"
+                                        data-weight="regular"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                                            <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+                                        </svg>
+                                    </div>
+                                    <input
+                                        id="searchInput"
+                                        placeholder="Search customers"
+                                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1a13] focus:outline-0 focus:ring-0 border-none bg-[#e8f2ec] focus:border-none h-full placeholder:text-[#51946c] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                                        value=""
+                                    />
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- Filter Tabs -->
+                        <div class="pb-3">
+                            <div class="flex border-b border-[#d1e6d9] px-4 gap-8">
+                                <button onclick="filterUsers('all')" class="filter-tab active flex flex-col items-center justify-center border-b-[3px] border-b-[#38e07b] text-[#0e1a13] pb-[13px] pt-4">
+                                    <p class="text-[#0e1a13] text-sm font-bold leading-normal tracking-[0.015em]">All</p>
+                                </button>
+                                <button onclick="filterUsers('active')" class="filter-tab flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#51946c] pb-[13px] pt-4">
+                                    <p class="text-[#51946c] text-sm font-bold leading-normal tracking-[0.015em]">Active</p>
+                                </button>
+                                <button onclick="filterUsers('inactive')" class="filter-tab flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#51946c] pb-[13px] pt-4">
+                                    <p class="text-[#51946c] text-sm font-bold leading-normal tracking-[0.015em]">Inactive</p>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Users Table -->
+                        <div class="px-4 py-3 @container">
+                            <div class="flex overflow-hidden rounded-lg border border-[#d1e6d9] bg-[#f8fbfa]">
+                                <table class="flex-1">
+                                    <thead>
+                                        <tr class="bg-[#f8fbfa]">
+                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[400px] text-sm font-medium leading-normal">Name</th>
+                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[400px] text-sm font-medium leading-normal">Email</th>
+                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[400px] text-sm font-medium leading-normal">Phone</th>
+                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[400px] text-sm font-medium leading-normal">Orders</th>
+                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[400px] text-sm font-medium leading-normal">Total spent</th>
+                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-60 text-sm font-medium leading-normal">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="usersTableBody">
+                                        <!-- Table rows will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit User Modal -->
+    <div id="userModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg p-6 w-full max-w-md">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 id="modalTitle" class="text-lg font-semibold text-[#0e1a13]">Add New User</h3>
+                    <button onclick="closeUserModal()" class="text-gray-500 hover:text-gray-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <form id="userForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-[#0e1a13] mb-1">Name</label>
+                        <input type="text" id="userName" required class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-[#0e1a13] mb-1">Email</label>
+                        <input type="email" id="userEmail" required class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-[#0e1a13] mb-1">Phone</label>
+                        <input type="tel" id="userPhone" required class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-[#0e1a13] mb-1">Status</label>
+                        <select id="userStatus" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex gap-3 pt-4">
+                        <button type="submit" class="flex-1 bg-[#19e619] text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors">
+                            Save
+                        </button>
+                        <button type="button" onclick="closeUserModal()" class="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let users = [];
+        let currentFilter = 'all';
+        let editingUserId = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUsers();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                filterUsersBySearch(e.target.value);
+            });
+
+            document.getElementById('userForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                await saveUser();
+            });
+        }
+
+        async function loadUsers() {
+            try {
+                const res = await fetch('/api/users');
+                const data = await res.json();
+                users = (data.users || data || []).map(u => ({
+                    id: u._id,
+                    name: u.fullName || u.name || '',
+                    email: u.email || '',
+                    phone: u.phone || '',
+                    orders: u.ordersCount || 0,
+                    totalSpent: u.totalSpent || 0,
+                    status: u.status || 'active'
+                }));
+                renderUsersTable();
+            } catch (e) {
+                console.error('Failed to load users', e);
+            }
+        }
+
+        function renderUsersTable(list = users) {
+            const tbody = document.getElementById('usersTableBody');
+            tbody.innerHTML = '';
+
+            list.forEach(user => {
+                if (currentFilter === 'all' || user.status === currentFilter) {
+                    const row = document.createElement('tr');
+                    row.className = 'border-t border-t-[#d1e6d9]';
+                    row.innerHTML = `
+                        <td class="h-[72px] px-4 py-2 w-[400px] text-[#0e1a13] text-sm font-normal leading-normal"><button class="underline" onclick="openEditUserModal('${user.id}')">${user.name}</button></td>
+                        <td class="h-[72px] px-4 py-2 w-[400px] text-[#51946c] text-sm font-normal leading-normal">${user.email}</td>
+                        <td class="h-[72px] px-4 py-2 w-[400px] text-[#51946c] text-sm font-normal leading-normal">${user.phone}</td>
+                        <td class="h-[72px] px-4 py-2 w-[400px] text-[#51946c] text-sm font-normal leading-normal">${user.orders}</td>
+                        <td class="h-[72px] px-4 py-2 w-[400px] text-[#51946c] text-sm font-normal leading-normal">LKR ${user.totalSpent}</td>
+                        <td class="h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
+                            <div class="flex gap-2">
+                                <button onclick="updateStatus('${user.id}')" class="flex items-center justify-center rounded-lg h-8 px-3 bg-[#e8f2ec] text-[#0e1a13] text-xs">${user.status}</button>
+                                <button onclick="deleteUser('${user.id}')" class="flex items-center justify-center rounded-lg h-8 px-3 bg-red-50 text-red-700 text-xs">Delete</button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                }
+            });
+        }
+
+        function filterUsers(status) {
+            currentFilter = status;
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('border-b-[#38e07b]', 'text-[#0e1a13]');
+                tab.classList.add('border-b-transparent', 'text-[#51946c]');
+                tab.querySelector('p').classList.remove('text-[#0e1a13]');
+                tab.querySelector('p').classList.add('text-[#51946c]');
+            });
+            event.currentTarget.classList.remove('border-b-transparent', 'text-[#51946c]');
+            event.currentTarget.classList.add('border-b-[#38e07b]', 'text-[#0e1a13]');
+            event.currentTarget.querySelector('p').classList.remove('text-[#51946c]');
+            event.currentTarget.querySelector('p').classList.add('text-[#0e1a13]');
+            renderUsersTable();
+        }
+
+        function filterUsersBySearch(searchTerm) {
+            const term = (searchTerm || '').toLowerCase();
+            const filteredUsers = !term ? users : users.filter(user => 
+                (user.name || '').toLowerCase().includes(term) ||
+                (user.email || '').toLowerCase().includes(term) ||
+                (user.phone || '').includes(term)
+            );
+            renderUsersTable(filteredUsers);
+        }
+
+        function openAddUserModal() {
+            editingUserId = null;
+            document.getElementById('modalTitle').textContent = 'Add New User';
+            document.getElementById('userForm').reset();
+            document.getElementById('userModal').classList.remove('hidden');
+        }
+
+        function openEditUserModal(userId) {
+            const user = users.find(u => u.id === userId);
+            if (!user) return;
+            editingUserId = userId;
+            document.getElementById('modalTitle').textContent = 'Edit User';
+            document.getElementById('userName').value = user.name || '';
+            document.getElementById('userEmail').value = user.email || '';
+            document.getElementById('userPhone').value = user.phone || '';
+            document.getElementById('userStatus').value = user.status || 'active';
+            document.getElementById('userModal').classList.remove('hidden');
+        }
+
+        function closeUserModal() {
+            document.getElementById('userModal').classList.add('hidden');
+            editingUserId = null;
+        }
+
+        async function saveUser() {
+            const body = {
+                fullName: document.getElementById('userName').value,
+                email: document.getElementById('userEmail').value,
+                phone: document.getElementById('userPhone').value,
+                status: document.getElementById('userStatus').value,
+                username: (document.getElementById('userEmail').value || '').split('@')[0]
+            };
+
+            try {
+                if (editingUserId) {
+                    await fetch(`/api/users/${editingUserId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+                } else {
+                    await fetch('/api/users', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+                }
+                closeUserModal();
+                await loadUsers();
+            } catch (err) {
+                alert('Save failed');
+            }
+        }
+
+        async function updateStatus(userId) {
+            const newStatus = prompt('Enter status (active/inactive/suspended):');
+            if (!newStatus || !['active','inactive','suspended'].includes(newStatus)) return;
+            try {
+                await fetch(`/api/users/${userId}/status`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: newStatus }) });
+                await loadUsers();
+            } catch (e) {
+                alert('Failed to update status');
+            }
+        }
+
+        async function deleteUser(userId) {
+            if (!confirm('Delete this user?')) return;
+            try {
+                await fetch(`/api/users/${userId}`, { method: 'DELETE' });
+                await loadUsers();
+            } catch (e) {
+                alert('Failed to delete user');
+            }
+        }
+
+        // Sidebar toggle functionality
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+
+        function toggleSidebar() {
+            if (window.innerWidth < 768) {
+                sidebar.classList.toggle('sidebar-hidden');
+            }
+        }
+
+        sidebarToggle.addEventListener('click', toggleSidebar);
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth < 768 && 
+                !sidebar.contains(e.target) && 
+                !sidebarToggle.contains(e.target)) {
+                sidebar.classList.add('sidebar-hidden');
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                sidebar.classList.remove('sidebar-hidden');
+            } else {
+                sidebar.classList.add('sidebar-hidden');
+            }
+        });
+
+        // Initialize sidebar state on load
+        if (window.innerWidth < 768) {
+            sidebar.classList.add('sidebar-hidden');
+        }
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = 'admin-login.html';
+            }
+        }
+    </script>
+</body>
+</html>
