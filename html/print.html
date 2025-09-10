@@ -1,0 +1,322 @@
+<!-- Save as: print.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <title>Print on Demand - NethwinLK</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&family=Inter:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="../css/hover-effects.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+  <body>
+    <div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif]">
+      <div class="layout-container flex flex-col grow h-full">
+        <!-- Header -->
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f2f4f1] px-10 py-3">
+          <div class="flex items-center gap-4 text-[#111418]">
+            <div class="h-10">
+              <!-- Logo -->
+              <a href="index.html" aria-label="Go to Home">
+                <img src="../assets/fLogo.png" alt="NETHWIN Logo" class="h-10 w-auto" />
+              </a>
+            </div>
+          </div>
+          <div class="flex flex-1 justify-end gap-8">
+            <div class="flex items-center gap-9">
+              <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="bookshop.html">Bookshop<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span></a>
+              <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="agency.html">Advertising Agency<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span></a>
+              <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="contactus.html">Contact Us<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span></a>
+              <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="aboutus.html">About Us<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span></a>
+            </div>
+            <div class="flex gap-2">
+              <button
+                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#0ad167] text-[#151612] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out hover:bg-[#08b85a] hover:scale-105 hover:shadow-lg hover:shadow-[#0ad167]/25"
+              >
+              <a href="login.html "><span class="truncate" >Login</span> </a>
+              </button>
+              <a href="cart.html"><button
+                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f2f4f1] text-[#151612] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out hover:bg-[#e8ebe8] hover:scale-105 hover:shadow-md"
+              >
+                <span class="truncate">Cart</span>
+              </button></a>
+              <a href="search.html">
+              <button
+                class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[#f2f4f1] text-[#151612] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 transition-all duration-300 ease-in-out hover:bg-[#e8ebe8] hover:scale-105 hover:shadow-md"
+              >
+                <div class="text-[#151612]" data-icon="MagnifyingGlass" data-size="20px" data-weight="regular">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
+                    ></path>
+                  </svg>
+                </div>
+              </button>
+              </a>
+            </div>
+          </div>
+        </header>
+
+        <!-- Form Starts Here -->
+        <form
+          id="printForm"
+          class="px-40 flex justify-center py-5 flex-1"
+          method="POST"
+          action="#"
+          enctype="multipart/form-data"
+        >
+          <div class="flex flex-col max-w-[960px] flex-1">
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+              <p class="text-[32px] font-bold">Upload Your Document</p>
+            </div>
+
+            <!-- Document Name -->
+            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+              <label class="flex flex-col w-full">
+                <p class="font-medium pb-2">Document Name</p>
+                <input
+                  type="text"
+                  name="documentName"
+                  placeholder="Enter document name"
+                  required
+                  class="form-input w-full h-14 p-[15px] rounded-xl border border-[#dbdfe6]"
+                />
+              </label>
+            </div>
+
+
+
+<!-- File Upload -->
+<div class="flex flex-col p-4">
+  <div class="flex flex-col items-center gap-6 rounded-xl border-2 border-dashed border-[#dbdfe6] px-6 py-14">
+    <div class="text-center">
+      <p class="text-lg font-bold">Upload Files</p>
+      <p class="text-sm">Accepted: PDF, DOCX, Images</p>
+    </div>
+    <input
+      type="file"
+      id="documentFile"
+      name="documentFile"
+      accept=".pdf,.doc,.docx,.jpg,.png"
+      multiple
+      class="form-input cursor-pointer"
+    />
+  </div>
+</div>
+
+<!-- Document Previews -->
+<h2 class="text-[22px] font-bold px-4 pb-3 pt-5">Document Previews</h2>
+<div id="previewContainer" class="p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
+
+            <!-- Print Options -->
+            <h2 class="text-[22px] font-bold px-4 pb-3 pt-5">Customization Options</h2>
+
+            <div class="flex max-w-[480px] flex-wrap gap-4 px-4 py-3">
+              <label class="flex flex-col w-full">
+                <p class="pb-2 font-medium">Paper Size</p>
+                <select name="paperSize" required class="form-input h-14 p-[15px] rounded-xl border border-[#dbdfe6]">
+                  <option value="">Select</option>
+                  <option value="A4">A4</option>
+                  <option value="A5">A5</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="flex max-w-[480px] flex-wrap gap-4 px-4 py-3">
+              <label class="flex flex-col w-full">
+                <p class="pb-2 font-medium">Color</p>
+                <select name="color" required class="form-input h-14 p-[15px] rounded-xl border border-[#dbdfe6]">
+                  <option value="">Select</option>
+                  <option value="Black & White">Black & White</option>
+                  <option value="Color">Color</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="flex max-w-[480px] flex-wrap gap-4 px-4 py-3">
+              <label class="flex flex-col w-full">
+                <p class="pb-2 font-medium">Binding</p>
+                <select name="binding" required class="form-input h-14 p-[15px] rounded-xl border border-[#dbdfe6]">
+                  <option value="">Select</option>
+                  <option value="Spiral">Spiral</option>
+                  <option value="Stapled">Stapled</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="flex max-w-[480px] flex-wrap gap-4 px-4 py-3">
+              <label class="flex flex-col w-full">
+                <p class="pb-2 font-medium">Number of Copies</p>
+                <input
+                  type="number"
+                  name="copies"
+                  min="1"
+                  required
+                  class="form-input h-14 p-[15px] rounded-xl border border-[#dbdfe6]"
+                />
+              </label>
+            </div>
+
+            <div class="flex max-w-[480px] flex-wrap gap-4 px-4 py-3">
+              <label class="flex flex-col w-full">
+                <p class="pb-2 font-medium">Finishing</p>
+                <select name="finishing" required class="form-input h-14 p-[15px] rounded-xl border border-[#dbdfe6]">
+                  <option value="">Select</option>
+                  <option value="Glossy">Glossy</option>
+                  <option value="Matte">Matte</option>
+                </select>
+              </label>
+            </div>
+
+            <!-- Delivery Options -->
+            <h2 class="text-[22px] font-bold px-4 pb-3 pt-5">Delivery Options</h2>
+            <div class="flex flex-col gap-3 p-4">
+              <label class="flex items-center gap-4 border p-[15px] rounded-xl border-[#dbdfe6]">
+                <input type="radio" name="delivery" value="Home" required class="h-5 w-5" />
+                <span class="text-sm font-medium">Home Delivery (within 10km)</span>
+              </label>
+              <label class="flex items-center gap-4 border p-[15px] rounded-xl border-[#dbdfe6]">
+                <input type="radio" name="delivery" value="Pickup" required class="h-5 w-5" />
+                <span class="text-sm font-medium">Store Pickup</span>
+              </label>
+            </div>
+
+            <!-- Pricing Info -->
+            <h2 class="text-[22px] font-bold px-4 pb-3 pt-5">Pricing</h2>
+                                    <p class="px-4">Estimated Price: LKR 15.00</p>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-between gap-3 px-4 py-3">
+              <a href="index.html">
+                <button type="button" class="h-10 px-4 bg-[#f2f4f1] text-[#151612] rounded-xl font-bold">
+                  Back to Home
+                </button>
+              </a>
+              <div class="flex gap-3">
+                <button type="submit" class="h-10 px-4 bg-[#0b61da] text-white rounded-xl font-bold">
+                  Submit Print Order
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script>
+const fileInput = document.getElementById('documentFile');
+const previewContainer = document.getElementById('previewContainer');
+let filesArray = [];
+
+fileInput.addEventListener('change', function(event) {
+  const selectedFiles = Array.from(event.target.files);
+  filesArray = filesArray.concat(selectedFiles);
+  updateFileInput();
+  renderPreviews();
+});
+
+function updateFileInput() {
+  const dataTransfer = new DataTransfer();
+  filesArray.forEach(file => dataTransfer.items.add(file));
+  fileInput.files = dataTransfer.files;
+}
+
+// Submit print order to backend as an Order (type: 'print')
+document.getElementById('printForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const form = e.target;
+  const payload = {
+    type: 'print',
+    items: [],
+    total: 0,
+    status: 'to-fulfill',
+    meta: {
+      documentName: form.documentName?.value || '',
+      paperSize: form.paperSize?.value || '',
+      color: form.color?.value || '',
+      binding: form.binding?.value || '',
+      copies: parseInt(form.copies?.value || '1'),
+      finishing: form.finishing?.value || '',
+      delivery: form.delivery?.value || ''
+    }
+  };
+  try {
+    const res = await fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    if (!res.ok) throw new Error(await res.text());
+    alert('Print order submitted successfully!');
+    form.reset();
+    filesArray = [];
+    renderPreviews();
+  } catch(err) {
+    alert('Failed to submit print order');
+    console.error(err);
+  }
+});
+
+function renderPreviews() {
+  previewContainer.innerHTML = "";
+  filesArray.forEach((file, index) => {
+    const fileType = file.type;
+    const previewBox = document.createElement('div');
+    previewBox.className = "relative border rounded-lg overflow-hidden bg-white shadow";
+
+    // Remove Button
+    const removeBtn = document.createElement('button');
+    removeBtn.innerHTML = "✕";
+    removeBtn.className = "absolute top-1 right-1 bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full hover:bg-red-600";
+    removeBtn.onclick = () => {
+      filesArray.splice(index, 1);
+      updateFileInput();
+      renderPreviews();
+    };
+    previewBox.appendChild(removeBtn);
+
+    // File Preview
+    if (fileType.startsWith('image/')) {
+      const img = document.createElement('img');
+      img.className = "w-full h-32 object-cover";
+      const reader = new FileReader();
+      reader.onload = e => img.src = e.target.result;
+      reader.readAsDataURL(file);
+      previewBox.appendChild(img);
+
+    } else if (fileType === 'application/pdf') {
+      const icon = document.createElement('div');
+      icon.className = "flex items-center justify-center h-32 text-red-600 font-bold";
+      icon.textContent = "PDF";
+      previewBox.appendChild(icon);
+
+    } else if (
+      fileType === 'application/msword' ||
+      fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    ) {
+      const icon = document.createElement('div');
+      icon.className = "flex items-center justify-center h-32 text-blue-600 font-bold";
+      icon.textContent = "DOC";
+      previewBox.appendChild(icon);
+
+    } else {
+      const icon = document.createElement('div');
+      icon.className = "flex items-center justify-center h-32 text-gray-600 font-bold";
+      icon.textContent = "FILE";
+      previewBox.appendChild(icon);
+    }
+
+    previewContainer.appendChild(previewBox);
+  });
+}
+</script>
+
+
+</body>
+</html>
+
+  </body>
+</html>
