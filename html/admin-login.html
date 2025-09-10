@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - NethwinLK</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="../css/hover-effects.css" />
+    <style>
+        .admin-bg {
+            background: linear-gradient(135deg, #f1f1f0 0%, #7f9b7f 100%);
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body class="admin-bg min-h-screen flex items-center justify-center font-[Inter, 'Noto Sans', sans-serif]">
+    
+    <!-- Admin Login Card -->
+    <div class="glass-effect rounded-2xl p-8 w-full max-w-md mx-4">
+        <div class="flex justify-center mb-6">
+            <a href="index.html" aria-label="Go to Home">
+                <img src="../assets/fLogo.png" alt="NETHWIN Logo" class="h-16 w-auto" />
+            </a>
+        </div>
+
+        <h2 class="text-white text-3xl font-bold text-center mb-2">Admin Access</h2>
+        <p class="text-white/80 text-center mb-8">Enter your credentials to continue</p>
+
+        <!-- Admin Login Form -->
+        <form action="admin-dashboard.html" method="POST" class="space-y-6">
+            <!-- Username -->
+            <div>
+                <label for="adminUsername" class="block text-white text-sm font-medium mb-2">Admin Username</label>
+                <input
+                    id="adminUsername"
+                    name="adminUsername"
+                    type="text"
+                    required
+                    placeholder="Enter admin username"
+                    class="w-full rounded-lg border border-white/20 bg-white/10 text-white h-12 px-4 placeholder:text-white/60 focus:border-white/40 focus:ring-2 focus:ring-white/20 focus:outline-none transition-all"
+                />
+            </div>
+
+            <!-- Password -->
+            <div>
+                <label for="adminPassword" class="block text-white text-sm font-medium mb-2">Admin Password</label>
+                <div class="relative">
+                    <input
+                        id="adminPassword"
+                        name="adminPassword"
+                        type="password"
+                        required
+                        placeholder="Enter admin password"
+                        class="w-full rounded-lg border border-white/20 bg-white/10 text-white h-12 px-4 pr-12 placeholder:text-white/60 focus:border-white/40 focus:ring-2 focus:ring-white/20 focus:outline-none transition-all"
+                    />
+                    <button
+                        type="button"
+                        id="togglePassword"
+                        class="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/80 hover:text-white transition-colors focus:outline-none z-10"
+                        aria-label="Toggle password visibility"
+                    >
+                        <!-- Open eye icon -->
+                        <svg id="iconEyeOpen" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12Z" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                        <!-- Eye off icon -->
+                        <svg id="iconEyeOff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 hidden">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12Z" />
+                            <circle cx="12" cy="12" r="3" />
+                            <path d="M3 3l18 18" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Remember Me -->
+            <div class="flex items-center justify-between">
+                <label class="flex items-center">
+                    <input type="checkbox" class="rounded border-white/20 bg-white/10 text-blue-600 focus:ring-blue-500">
+                    <span class="ml-2 text-white/80 text-sm">Remember me</span>
+                </label>
+                <a href="#" class="text-white/80 text-sm hover:text-white transition-colors">Forgot password?</a>
+            </div>
+
+            <!-- Login Button -->
+            <button
+                type="submit"
+                class="w-full bg-white text-gray-800 font-bold py-3 rounded-lg hover:bg-gray-100 transition-all transform hover:scale-105"
+            >
+                Access Admin Panel
+            </button>
+        </form>
+
+        <!-- Back to Main Site -->
+        <div class="mt-8 text-center">
+            <a href="index.html" class="text-white/80 hover:text-white transition-colors text-sm">
+                ← Back to Main Site
+            </a>
+        </div>
+
+        <!-- Security Notice -->
+        <div class="mt-6 p-4 bg-red-500/20 border border-red-500/30 rounded-lg">
+            <p class="text-red-200 text-xs text-center">
+                ⚠️ This is a restricted area. Unauthorized access attempts will be logged.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Password visibility toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('adminPassword');
+            const iconEyeOpen = document.getElementById('iconEyeOpen');
+            const iconEyeOff = document.getElementById('iconEyeOff');
+
+            function setVisible(isVisible) {
+                passwordInput.type = isVisible ? 'text' : 'password';
+                iconEyeOpen.classList.toggle('hidden', isVisible);
+                iconEyeOff.classList.toggle('hidden', !isVisible);
+            }
+
+            togglePassword.addEventListener('click', function() {
+                const isCurrentlyPassword = passwordInput.type === 'password';
+                setVisible(isCurrentlyPassword);
+            });
+        });
+
+        // Admin login form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            // Simple validation (in real app, this would be server-side)
+            if (username === 'admin' && password === 'admin123') {
+                window.location.href = 'admin-dashboard.html';
+            } else {
+                alert('Invalid credentials. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>
