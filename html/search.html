@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search for Items - NethwinLK</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="../css/hover-effects.css" />
+    <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body>
+    <div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif]">
+        <div class="layout-container flex flex-col grow h-full">
+            <!-- Header -->
+            <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f2f4f1] px-10 py-3">
+                <div class="flex items-center gap-4 text-[#111418]">
+                    <div class="h-10">
+                        <a href="index.html" aria-label="Go to Home">
+                            <img src="../assets/fLogo.png" alt="NETHWIN Logo" class="h-10 w-auto" />
+                        </a>
+                    </div>
+                </div>
+                <div class="flex flex-1 justify-end gap-8">
+                    <div class="flex items-center gap-9">
+                        <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="print.html">Print on Demand<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span></a>
+                        <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="bookshop.html">Bookshop<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span></a>
+                        <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="agency.html">Advertising Agency<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span></a>
+                        <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="contactus.html">Contact Us<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span></a>
+                        <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="aboutus.html">About Us<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span></a>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#0ad167] text-[#151612] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out hover:bg-[#08b85a] hover:scale-105 hover:shadow-lg hover:shadow-[#0ad167]/25">
+                            <a href="login.html"><span class="truncate">Login</span></a>
+                        </button>
+                        <a href="cart.html">
+                            <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f2f4f1] text-[#151612] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out hover:bg-[#e8ebe8] hover:scale-105 hover:shadow-md">
+                                <span class="truncate">Cart</span>
+                            </button>
+                        </a>
+                        <a href="search.html">
+                            <button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[#f2f4f1] text-[#151612] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 transition-all duration-300 ease-in-out hover:bg-[#e8ebe8] hover:scale-105 hover:shadow-md">
+                                <div class="text-[#151612]" data-icon="MagnifyingGlass" data-size="20px" data-weight="regular">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                                        <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+                                    </svg>
+                                </div>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <div class="px-4 md:px-10 flex flex-1 justify-center py-5">
+                <div class="layout-content-container flex flex-col max-w-[1200px] flex-1">
+                    
+                    <!-- Search Bar -->
+                    <div class="mb-8">
+                        <div class="px-4">
+                            <div class="flex w-full items-center rounded-xl border border-[#d1e6d9] bg-white shadow-sm focus-within:shadow-md transition-shadow duration-300">
+                                <div class="text-[#7c8863] flex items-center justify-center pl-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                                        <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+                                    </svg>
+                                </div>
+                                <input
+                                    id="searchInput"
+                                    class="flex-1 px-4 py-3 text-[#151811] focus:outline-none border-none bg-transparent placeholder:text-[#7c8863] text-base font-normal leading-normal"
+                                    placeholder="Search products..."
+                                />
+                                <button onclick="clearSearch()" class="flex items-center justify-center p-3 text-[#7c8863] hover:text-[#19e619] transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                                        <path d="M165.66,101.66,139.31,128l26.35,26.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Search Results Title -->
+                    <h3 id="searchResultsTitle" class="text-[#151811] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2">Search for products</h3>
+                    
+                    <!-- Item Sorter -->
+                    <div class="mb-6 px-4">
+                        <div class="flex flex-wrap items-center justify-between gap-4 p-4 bg-gradient-to-r from-[#f8fcf8] to-[#f2f4f1] rounded-xl border border-[#d0e7d0]">
+                            <div class="flex items-center gap-3">
+                                <span class="text-[#0e1a13] text-sm font-medium">Sort by:</span>
+                                <div class="flex flex-wrap gap-2">
+                                    <button 
+                                        onclick="sortProducts('relevance')" 
+                                        id="sort-relevance"
+                                        class="sort-btn active bg-[#19e619] text-white border-[#19e619]">
+                                        Relevance
+                                    </button>
+                                    <button 
+                                        onclick="sortProducts('price-low')" 
+                                        id="sort-price-low"
+                                        class="sort-btn">
+                                        Price: Low to High
+                                    </button>
+                                    <button 
+                                        onclick="sortProducts('price-high')" 
+                                        id="sort-price-high"
+                                        class="sort-btn">
+                                        Price: High to Low
+                                    </button>
+                                    <button 
+                                        onclick="sortProducts('name-asc')" 
+                                        id="sort-name-asc"
+                                        class="sort-btn">
+                                        Name: A to Z
+                                    </button>
+                                    <button 
+                                        onclick="sortProducts('name-desc')" 
+                                        id="sort-name-desc"
+                                        class="sort-btn">
+                                        Name: Z to A
+                                    </button>
+                                    <button 
+                                        onclick="sortProducts('newest')" 
+                                        id="sort-newest"
+                                        class="sort-btn">
+                                        Newest First
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-[#0e1a13] text-sm font-medium">View:</span>
+                                <button 
+                                    onclick="changeViewMode('grid')" 
+                                    id="view-grid"
+                                    class="view-btn active">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
+                                        <path d="M104,40H40A16,16,0,0,0,24,56v48a16,16,0,0,0,16,16h64a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H40V56h64v48Zm112-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h64a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,64H152V56h64v48ZM104,136H40a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h64a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H40V152h64v48Zm112-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h64a16,16,0,0,0,16-16V152A16,16,0,0,0,216,136Zm0,64H152V152h64v48Z"></path>
+                                    </svg>
+                                </button>
+                                <button 
+                                    onclick="changeViewMode('list')" 
+                                    id="view-list"
+                                    class="view-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
+                                        <path d="M224,120H40a8,8,0,0,1,0-16H224a8,8,0,0,1,0,16ZM40,72H224a8,8,0,0,1,0,16H40a8,8,0,0,1,0-16Zm0,96H224a8,8,0,0,1,0,16H40a8,8,0,0,1,0-16Z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Search Results Container -->
+                    <div id="searchResults">
+                        <!-- Results will be displayed here -->
+                    </div>
+
+                    <!-- Pagination -->
+                    <div id="pagination" class="flex items-center justify-center p-4">
+                        <!-- Pagination will be generated here -->
+                    </div>
+
+                    <!-- Loading Message -->
+                    <div id="loadingMessage" class="text-center py-12">
+                        <div class="text-[#76816a] text-lg">Loading products...</div>
+                    </div>
+
+                    <!-- No Products Message -->
+                    <div id="noProductsMessage" class="hidden text-center py-12">
+                        <div class="text-[#76816a] text-lg mb-4">No products available</div>
+                        <p class="text-[#76816a] text-sm">Please import some products first</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allProducts = [];
+        let filteredProducts = [];
+        let currentPage = 1;
+        const productsPerPage = 12;
+
+        // Normalize product from products.json to internal shape
+        function normalizeFromDataJson(p, id) {
+            return {
+                id,
+                name: p.name || '',
+                description: p.description || '',
+                image: p.image || '',
+                sellingPrice: (typeof p.price === 'number') ? p.price : 0,
+                unitPurchasePrice: (typeof p.purchasePrice === 'number') ? p.purchasePrice : 0,
+                discount: 0,
+                sku: p.sku || '',
+                brand: p.brand || '',
+                category: p.category || '',
+                currentStock: (typeof p.stockQty === 'number') ? p.stockQty : 0
+            };
+        }
+
+        function isPlaceholderDataset(list) {
+            if (!Array.isArray(list) || list.length === 0) return true;
+            let placeholders = 0;
+            let zeros = 0;
+            for (let i = 0; i < Math.min(25, list.length); i++) {
+                const n = (list[i].name || '').trim();
+                if (/^Product\s\d+$/i.test(n)) placeholders++;
+                if (!list[i].sellingPrice && !list[i].unitPurchasePrice) zeros++;
+            }
+            return placeholders >= 5 || zeros >= 20;
+        }
+
+        // Initialize the page
+        function initializePage() {
+            loadProducts();
+            setupEventListeners();
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('q');
+            if (searchQuery) {
+                document.getElementById('searchInput').value = searchQuery;
+                searchProducts(searchQuery);
+            }
+        }
+
+        async function loadProducts() {
+            const savedProducts = localStorage.getItem('allProducts');
+            if (savedProducts) {
+                try {
+                    const parsed = JSON.parse(savedProducts);
+                    if (!isPlaceholderDataset(parsed)) {
+                        allProducts = parsed;
+                        filteredProducts = [...allProducts];
+                        displaySearchResults();
+                        hideLoadingMessage();
+                        return;
+                    }
+                } catch {}
+            }
+            // Fallback or placeholder detected → fetch and normalize
+            try {
+                const res = await fetch('/api/products?limit=500');
+                const payload = await res.json();
+                const data = Array.isArray(payload) ? payload : (payload.products || []);
+                allProducts = data.map((p, i) => ({
+                    id: p._id || p.id || i,
+                    name: p.name || '',
+                    description: p.description || '',
+                    image: p.image || '',
+                    sellingPrice: (typeof p.sellingPrice === 'number') ? p.sellingPrice : (typeof p.price === 'number' ? p.price : 0),
+                    unitPurchasePrice: (typeof p.unitPurchasePrice === 'number') ? p.unitPurchasePrice : 0,
+                    discount: p.discount || 0,
+                    sku: p.sku || '',
+                    brand: p.brand || '',
+                    category: p.category || '',
+                    currentStock: (typeof p.currentStock === 'number') ? p.currentStock : 0
+                }));
+                try { localStorage.setItem('allProducts', JSON.stringify(allProducts)); } catch {}
+                filteredProducts = [...allProducts];
+                displaySearchResults();
+                hideLoadingMessage();
+            } catch (err) {
+                console.error('Failed to load /api/products for search', err);
+                showNoProductsMessage();
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            const searchInput = document.getElementById('searchInput');
+            if (!searchInput) { console.error('Search input not found'); return; }
+            searchInput.addEventListener('input', function(e) { searchProducts(e.target.value); });
+            searchInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') { searchProducts(e.target.value); } });
+        }
+
+        function searchProducts(query) {
+            if (!query.trim()) {
+                filteredProducts = [...allProducts];
+            } else {
+                const q = query.toLowerCase();
+                filteredProducts = allProducts.filter(product => 
+                    (product.name || '').toLowerCase().includes(q) ||
+                    (product.description || '').toLowerCase().includes(q) ||
+                    (product.category && product.category.toLowerCase().includes(q)) ||
+                    (product.brand && product.brand.toLowerCase().includes(q)) ||
+                    (product.sku && product.sku.toLowerCase().includes(q))
+                );
+            }
+            currentPage = 1;
+            displaySearchResults();
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            searchProducts('');
+        }
+
+        function displaySearchResults() {
+            const resultsContainer = document.getElementById('searchResults');
+            const resultsTitle = document.getElementById('searchResultsTitle');
+            const paginationContainer = document.getElementById('pagination');
+            const noProductsMessage = document.getElementById('noProductsMessage');
+            const loadingMessage = document.getElementById('loadingMessage');
+
+            if (!resultsContainer || !resultsTitle) { console.error('Required elements not found'); return; }
+
+            // Always hide loaders when rendering
+            if (loadingMessage) loadingMessage.classList.add('hidden');
+
+            if (filteredProducts.length === 0) {
+                resultsTitle.textContent = 'No products found';
+                resultsContainer.innerHTML = `
+                    <div class="text-center py-8">
+                        <p class="text-[#7c8863]">No products match your search criteria.</p>
+                    </div>
+                `;
+                if (paginationContainer) { paginationContainer.innerHTML = ''; }
+                if (noProductsMessage) noProductsMessage.classList.remove('hidden');
+                return;
+            }
+
+            // We have results → ensure the empty-state is hidden
+            if (noProductsMessage) noProductsMessage.classList.add('hidden');
+
+            resultsTitle.textContent = `${filteredProducts.length} result${filteredProducts.length === 1 ? '' : 's'} found`;
+
+            const startIndex = (currentPage - 1) * productsPerPage;
+            const endIndex = startIndex + productsPerPage;
+            const productsToShow = filteredProducts.slice(startIndex, endIndex);
+
+            const productsHTML = productsToShow.map(product => createProductCard(product)).join('');
+
+            // Ensure the container has a layout class
+            if (!resultsContainer.classList.contains('product-grid') && !resultsContainer.classList.contains('product-list')) {
+                resultsContainer.classList.add('product-grid');
+            }
+            // Render cards directly in the container
+            resultsContainer.innerHTML = productsHTML;
+
+            createPagination();
+        }
+
+        function createPagination() {
+            const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+            const paginationContainer = document.getElementById('pagination');
+            if (!paginationContainer) { console.error('Pagination container not found'); return; }
+            if (totalPages <= 1) { paginationContainer.innerHTML = ''; return; }
+            let paginationHTML = '';
+            paginationHTML += `
+                <a href="#" onclick="changePage(${currentPage - 1}); return false;" class="flex size-10 items-center justify-center">
+                    <div class="text-[#151811]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256"><path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path></svg>
+                    </div>
+                </a>`;
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            if (endPage - startPage + 1 < maxVisiblePages) { startPage = Math.max(1, endPage - maxVisiblePages + 1); }
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHTML += `
+                    <a class="text-sm font-${i === currentPage ? 'bold' : 'normal'} leading-normal flex size-10 items-center justify-center text-[#151811] rounded-full ${i === currentPage ? 'bg-[#f3f4f0]' : ''}" href="#" onclick="changePage(${i}); return false;">${i}</a>`;
+            }
+            paginationHTML += `
+                <a href="#" onclick="changePage(${currentPage + 1}); return false;" class="flex size-10 items-center justify-center">
+                    <div class="text-[#151811]"><svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path></svg></div>
+                </a>`;
+            paginationContainer.innerHTML = paginationHTML;
+        }
+
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                displaySearchResults();
+                const resultsContainer = document.getElementById('searchResults');
+                if (resultsContainer) { resultsContainer.scrollIntoView({ behavior: 'smooth' }); }
+            }
+        }
+
+        function hideLoadingMessage() {
+            const loadingMessage = document.getElementById('loadingMessage');
+            const noProductsMessage = document.getElementById('noProductsMessage');
+            if (loadingMessage) { loadingMessage.classList.add('hidden'); }
+            // Also ensure the empty state is hidden when we have data (will be re-shown if zero results)
+            if (noProductsMessage && filteredProducts.length > 0) { noProductsMessage.classList.add('hidden'); }
+        }
+
+        function showNoProductsMessage() {
+            const loadingMessage = document.getElementById('loadingMessage');
+            const noProductsMessage = document.getElementById('noProductsMessage');
+            if (loadingMessage) { loadingMessage.classList.add('hidden'); }
+            if (noProductsMessage) { noProductsMessage.classList.remove('hidden'); }
+        }
+
+        function sortProducts(sortType) {
+            document.querySelectorAll('.sort-btn').forEach(btn => { btn.classList.remove('active'); });
+            const button = document.getElementById(`sort-${sortType}`);
+            if (button) { button.classList.add('active'); }
+            switch(sortType) {
+                case 'relevance': break;
+                case 'price-low': filteredProducts.sort((a,b)=>(a.sellingPrice||0)-(b.sellingPrice||0)); break;
+                case 'price-high': filteredProducts.sort((a,b) => (b.sellingPrice||0)-(a.sellingPrice||0)); break;
+                case 'name-asc': filteredProducts.sort((a,b)=>a.name.localeCompare(b.name)); break;
+                case 'name-desc': filteredProducts.sort((a,b)=>b.name.localeCompare(a.name)); break;
+                case 'newest': filteredProducts.sort((a,b)=>(b.id||0)-(a.id||0)); break;
+            }
+            currentPage = 1;
+            displaySearchResults();
+        }
+
+        function changeViewMode(mode) {
+            document.querySelectorAll('.view-btn').forEach(btn => { btn.classList.remove('active'); });
+            const button = document.getElementById(`view-${mode}`);
+            if (button) { button.classList.add('active'); }
+            const resultsContainer = document.getElementById('searchResults');
+            if (!resultsContainer) return;
+            if (mode === 'list') { resultsContainer.classList.remove('product-grid'); resultsContainer.classList.add('product-list'); }
+            else { resultsContainer.classList.remove('product-list'); resultsContainer.classList.add('product-grid'); }
+            displaySearchResults();
+        }
+
+        function initializeSortingAndView() {
+            const relevanceBtn = document.getElementById('sort-relevance');
+            const gridBtn = document.getElementById('view-grid');
+            if (relevanceBtn) relevanceBtn.classList.add('active');
+            if (gridBtn) gridBtn.classList.add('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePage();
+            initializeSortingAndView();
+        });
+    </script>
+</body>
+</html>

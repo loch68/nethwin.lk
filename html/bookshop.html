@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookshop - NethwinLK</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="../css/hover-effects.css" />
+    <style>
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+        }
+
+        .quick-search-btn {
+            background: white;
+            border: 2px solid #d0e7d0;
+            color: #51946c;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-search-btn:hover {
+            background: #19e619;
+            border-color: #19e619;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(25, 230, 25, 0.3);
+        }
+    </style>
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body>
+    <div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif]">
+        <div class="layout-container flex flex-col grow h-full">
+            <!-- Header -->
+            <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f2f4f1] px-10 py-3">
+                <div class="flex items-center gap-4 text-[#111418]">
+                    <div class="h-10">
+                        <a href="index.html" aria-label="Go to Home">
+                            <img src="../assets/fLogo.png" alt="NETHWIN Logo" class="h-10 w-auto" />
+                        </a>
+                    </div>
+                </div>
+                <div class="flex flex-1 justify-end gap-8">
+                    <div class="flex items-center gap-9">
+                        <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="print.html">
+                            Print on Demand
+                            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                        <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="agency.html">
+                            Advertising Agency
+                            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                        <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="contactus.html">
+                            Contact Us
+                            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                        <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="aboutus.html">
+                            About Us
+                            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#0ad167] text-[#151612] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out hover:bg-[#08b85a] hover:scale-105 hover:shadow-lg hover:shadow-[#0ad167]/25">
+                            <a href="login.html"><span class="truncate">Login</span></a>
+                        </button>
+                        <a href="cart.html">
+                            <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f2f4f1] text-[#151612] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out hover:bg-[#e8ebe8] hover:scale-105 hover:shadow-md">
+                                <span class="truncate">Cart</span>
+                            </button>
+                        </a>
+                        <a href="search.html">
+                            <button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[#f2f4f1] text-[#151612] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 transition-all duration-300 ease-in-out hover:bg-[#e8ebe8] hover:scale-105 hover:shadow-md">
+                                <div class="text-[#151612]" data-icon="MagnifyingGlass" data-size="20px" data-weight="regular">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                                        <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+                                    </svg>
+                                </div>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+
+
+            <!-- Newsletter Subscription Popup -->
+            <div id="newsletterPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                <div class="bg-white rounded-2xl p-8 max-w-md mx-4 relative transform transition-all duration-300 scale-95 opacity-0" id="popupContent">
+                    <!-- Close Button -->
+                    <button id="closeNewsletterBtn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                    
+                    <!-- Newsletter Content -->
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-r from-[#19e619] to-[#0ad167] rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-[#0e1a13] mb-2">Stay Updated!</h3>
+                        <p class="text-[#51946c] mb-6">Subscribe to our newsletter for exclusive offers, new products, and stationery tips!</p>
+                        
+                        <form id="newsletterForm" class="space-y-4">
+                            <div>
+                                <input type="email" id="newsletterEmail" placeholder="Enter your email address" 
+                                       class="w-full px-4 py-3 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent text-[#0e1a13] placeholder-[#51946c]">
+                            </div>
+                            <button type="submit" class="w-full bg-gradient-to-r from-[#19e619] to-[#0ad167] text-white py-3 px-6 rounded-lg font-semibold hover:from-[#0ad167] hover:to-[#19e619] transition-all duration-300 transform hover:scale-105">
+                                Subscribe Now
+                            </button>
+                        </form>
+                        
+                        <!-- Action Buttons -->
+                        <div class="flex flex-col gap-2 mt-4">
+                            <button id="remindLaterBtn" class="w-full bg-[#f8fcf8] border border-[#d1e6d9] text-[#51946c] py-2 px-4 rounded-lg font-medium hover:bg-[#e8f2ec] transition-all duration-300">
+                                Remind me in 15 minutes
+                            </button>
+                            <button id="nextTimeBtn" class="w-full bg-[#f8fcf8] border border-[#d1e6d9] text-[#51946c] py-2 px-4 rounded-lg font-medium hover:bg-[#e8f2ec] transition-all duration-300">
+                                Next time
+                            </button>
+                            <button id="dontShowAgainBtn" class="w-full bg-[#f8fcf8] border border-[#d1e6d9] text-[#51946c] py-2 px-4 rounded-lg font-medium hover:bg-[#e8f2ec] transition-all duration-300">
+                                Don't show again
+                            </button>
+                        </div>
+                        
+                        <p class="text-xs text-[#51946c] mt-4">We respect your privacy. Unsubscribe at any time.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="px-4 md:px-10 flex flex-1 justify-center py-5">
+                <div class="layout-content-container flex flex-col max-w-[1200px] flex-1">
+                    
+                    <!-- Hero Section -->
+                    <div class="@container mb-8">
+                        <div class="@[480px]:p-4">
+                            <div class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-xl items-center justify-center p-4"
+                                 style='background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("assets/bg3.webp");'>
+                                <div class="flex flex-col gap-2 text-center">
+                                    <h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">
+                                        Our Product Collection
+                                    </h1>
+                                    <h2 class="text-white text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal">
+                                        Discover our amazing collection of products - books, stationery, and more.
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Search Section -->
+                    <div class="mb-8">
+                        <div class="bg-gradient-to-r from-[#f8fcf8] to-[#f2f4f1] rounded-xl p-6 border border-[#d0e7d0]">
+                            <div class="text-center mb-6">
+                                <h2 class="text-[#0e1a13] text-2xl font-bold leading-tight tracking-[-0.015em] mb-2">
+                                    Search Our Bookshop
+                                </h2>
+                                <p class="text-[#51946c] text-base">
+                                    Find books, stationery, and more from our extensive collection
+                                </p>
+                            </div>
+                            
+                            <!-- Search Bar -->
+                            <div class="max-w-4xl mx-auto">
+                                <div class="relative">
+                                    <input 
+                                        type="text" 
+                                        id="searchInput"
+                                        placeholder="Search for books, stationery, authors, categories..." 
+                                        class="w-full px-6 py-4 text-lg border-2 border-[#d0e7d0] rounded-xl focus:outline-none focus:border-[#19e619] focus:ring-2 focus:ring-[#19e619]/20 transition-all duration-300 bg-white text-[#0e1a13] placeholder-[#51946c]"
+                                    />
+                                    <button 
+                                        id="searchButton"
+                                        class="absolute right-2 top-2 bg-gradient-to-r from-[#19e619] to-[#0ad167] hover:from-[#0ad167] hover:to-[#19e619] text-white p-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
+                                            <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                
+                                <!-- Quick Search Suggestions -->
+                                <div class="mt-4 flex flex-wrap justify-center gap-2">
+                                    <button class="quick-search-btn" data-search="books">Books</button>
+                                    <button class="quick-search-btn" data-search="stationery">Stationery</button>
+                                    <button class="quick-search-btn" data-search="pens">Pens</button>
+                                    <button class="quick-search-btn" data-search="notebooks">Notebooks</button>
+                                    <button class="quick-search-btn" data-search="art supplies">Art Supplies</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Popular Stationery Section -->
+                    <div class="mb-12">
+                        <h2 class="text-[#151612] text-2xl font-bold leading-tight tracking-[-0.015em] px-4 pb-6">Popular Stationery</h2>
+                        <div id="bestSellingContainer" class="product-grid">
+                            <!-- Popular stationery products will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Discounted Products Section -->
+                    <div class="mb-12">
+                        <h2 class="text-[#151612] text-2xl font-bold leading-tight tracking-[-0.015em] px-4 pb-6">Discounted Products</h2>
+                        <div id="discountedContainer" class="product-grid">
+                            <!-- Discounted products will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- All Products Section -->
+                    <div class="mb-12">
+                        <h2 class="text-[#151612] text-2xl font-bold leading-tight tracking-[-0.015em] px-4 pb-6">All Products</h2>
+                        <div id="allProductsContainer" class="product-grid">
+                            <!-- All products will be loaded here -->
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <div id="pagination" class="flex items-center justify-center p-4 flex-wrap">
+                            <!-- Pagination buttons will be generated here -->
+                        </div>
+                    </div>
+
+                    <!-- Loading Message -->
+                    <div id="loadingMessage" class="text-center py-12">
+                        <div class="text-[#76816a] text-lg">Loading products...</div>
+                    </div>
+
+                    <!-- No Products Message -->
+                    <div id="noProductsMessage" class="hidden text-center py-12">
+                        <div class="text-[#76816a] text-lg mb-4">No products available</div>
+                        <p class="text-[#76816a] text-sm">Please import some products first</p>
+                    </div>
+
+                    <!-- Back to Home Button -->
+                    <div class="flex justify-center px-4 py-6 mt-8">
+                        <a href="index.html">
+                            <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#19e619] text-white text-sm font-bold leading-normal tracking-[0.015em]">
+                                <span class="truncate">Back to Home</span>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="flex justify-center">
+                <div class="flex max-w-[960px] flex-1 flex-col">
+                    <footer class="flex flex-col gap-6 px-5 py-10 text-center @container">
+                        <div class="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around">
+                            <a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="#">About Us</a>
+                            <a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="#">Contact</a>
+                            <a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="#">FAQ</a>
+                            <a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="#">Terms of Service</a>
+                            <a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="#">Privacy Policy</a>
+                        </div>
+                        <p class="text-[#76816a] text-base font-normal leading-normal">@2025 NethwinLK. All rights reserved.</p>
+                    </footer>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        let allProducts = [];
+        let currentPage = 1;
+        const productsPerPage = 12;
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();
+            setupNewsletterPopup();
+        });
+
+        // Load products from localStorage
+        function loadProducts() {
+            const savedProducts = localStorage.getItem('allProducts');
+            if (savedProducts) {
+                allProducts = JSON.parse(savedProducts);
+                displayAllSections();
+            } else {
+                showNoProductsMessage();
+            }
+        }
+
+        // Display all sections
+        function displayAllSections() {
+            displayBestSelling();
+            displayDiscounted();
+            displayAllProducts();
+            hideLoadingMessage();
+        }
+
+        // Display best selling products (top 6 by sales)
+        function displayBestSelling() {
+            const container = document.getElementById('bestSellingContainer');
+            const bestSelling = allProducts
+                .sort((a, b) => (b.sales || 0) - (a.sales || 0))
+                .slice(0, 6);
+            
+            if (bestSelling.length === 0) {
+                container.innerHTML = '<div class="col-span-full text-center text-[#76816a]">No best selling products available</div>';
+                return;
+            }
+
+            container.innerHTML = bestSelling.map(product => createProductCard(product)).join('');
+        }
+
+        // Display discounted products (top 4 with highest discount)
+        function displayDiscounted() {
+            const container = document.getElementById('discountedContainer');
+            const discounted = allProducts
+                .filter(product => product.discount && product.discount > 0)
+                .sort((a, b) => (b.discount || 0) - (a.discount || 0))
+                .slice(0, 4);
+            
+            if (discounted.length === 0) {
+                container.innerHTML = '<div class="col-span-full text-center text-[#76816a]">No discounted products available</div>';
+                return;
+            }
+
+            container.innerHTML = discounted.map(product => createProductCard(product)).join('');
+        }
+
+        // Display all products with pagination
+        function displayAllProducts() {
+            const container = document.getElementById('allProductsContainer');
+            const startIndex = (currentPage - 1) * productsPerPage;
+            const endIndex = startIndex + productsPerPage;
+            const productsToShow = allProducts.slice(startIndex, endIndex);
+            
+            if (productsToShow.length === 0) {
+                container.innerHTML = '<div class="col-span-full text-center text-[#76816a]">No products available</div>';
+                return;
+            }
+
+            container.innerHTML = productsToShow.map(product => createProductCard(product)).join('');
+            createPagination();
+        }
+
+                // Create product card HTML
+        function createProductCard(product) {
+            const originalPrice = product.unitPurchasePrice || product.sellingPrice;
+            const discountedPrice = product.sellingPrice;
+            const hasDiscount = product.discount && product.discount > 0;
+            const maxStock = Math.min(product.currentStock || 0, 20); // Limit to 20 for dropdown
+            
+            return `
+                <div class="bg-gradient-to-br from-white to-[#f8faf8] rounded-2xl border border-[#d1e6d9] overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-[1.02] group">
+                    <div class="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 relative cursor-pointer overflow-hidden" onclick="window.location.href='product-detail.html?id=${product.id}'">
+                        <img src="${product.image || 'https://via.placeholder.com/300x300?text=No+Image'}" 
+                             alt="${product.name}" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        ${hasDiscount ? `
+                            <div class="absolute top-3 right-3 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                                -${product.discount}%
+                            </div>
+                        ` : ''}
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-[#151612] text-xl mb-3 line-clamp-2 cursor-pointer hover:text-[#19e619] transition-colors duration-300" onclick="window.location.href='product-detail.html?id=${product.id}'">${product.name}</h3>
+                        <p class="text-[#76816a] text-sm mb-4 line-clamp-2 leading-relaxed">${product.description || 'No description available'}</p>
+                        
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="text-xs bg-gradient-to-r from-[#e8f2ec] to-[#d1e6d9] text-[#4e974e] px-3 py-1.5 rounded-full font-medium">${product.category || 'Uncategorized'}</span>
+                            ${product.brand ? `<span class="text-xs bg-gradient-to-r from-[#f2f4f1] to-[#e8f2ec] text-[#76816a] px-3 py-1.5 rounded-full font-medium">${product.brand}</span>` : ''}
+                        </div>
+                        
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="flex items-center gap-3">
+                                <span class="text-2xl font-bold bg-gradient-to-r from-[#19e619] to-[#0ad167] bg-clip-text text-transparent">LKR ${discountedPrice.toFixed(2)}</span>
+                                ${hasDiscount ? `<span class="text-sm text-[#76816a] line-through">LKR ${originalPrice.toFixed(2)}</span>` : ''}
+                            </div>
+                            <span class="text-sm text-[#76816a] bg-[#f8faf8] px-2 py-1 rounded-full">Stock: ${product.currentStock || 0}</span>
+                        </div>
+                        
+                        <div class="flex gap-2">
+                            <div class="flex items-center bg-gradient-to-r from-[#f8faf8] to-[#f0f4f0] border border-[#d1e6d9] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+                                <button onclick="changeQuantity(${product.id}, -1)" class="px-2 py-1.5 bg-gradient-to-r from-[#e8f2ec] to-[#d1e6d9] text-[#151612] hover:from-[#19e619] hover:to-[#0ad167] hover:text-white transition-all duration-300 text-sm font-bold flex items-center justify-center min-w-[32px]">−</button>
+                                <span id="quantity-${product.id}" class="flex-1 text-center py-1.5 text-sm font-bold text-[#151612] bg-white min-w-[40px]">1</span>
+                                <button onclick="changeQuantity(${product.id}, 1)" class="px-2 py-1.5 bg-gradient-to-r from-[#e8f2ec] to-[#d1e6d9] text-[#151612] hover:from-[#19e619] hover:to-[#0ad167] hover:text-white transition-all duration-300 text-sm font-bold flex items-center justify-center min-w-[32px]">+</button>
+                            </div>
+                            <button onclick="addToCart(${product.id})" 
+                                    class="flex-1 px-4 py-2 bg-gradient-to-r from-[#19e619] to-[#0ad167] text-white rounded-lg hover:from-[#0ad167] hover:to-[#19e619] transition-all duration-300 text-sm font-bold shadow-md hover:shadow-lg transform hover:scale-105">
+                               Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Create pagination
+        function createPagination() {
+            const totalPages = Math.ceil(allProducts.length / productsPerPage);
+            const paginationContainer = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            let paginationHTML = '';
+            
+            // Previous button
+            paginationHTML += `
+                <a href="#" onclick="changePage(${currentPage - 1}); return false;" class="flex size-10 items-center justify-center">
+                    <div class="text-[#151811]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
+                        </svg>
+                    </div>
+                </a>
+            `;
+            
+            // Page numbers
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHTML += `
+                    <a class="text-sm font-${i === currentPage ? 'bold' : 'normal'} leading-normal flex size-10 items-center justify-center text-[#151811] rounded-full ${i === currentPage ? 'bg-[#f3f4f0]' : ''}" 
+                       href="#" onclick="changePage(${i}); return false;">
+                        ${i}
+                    </a>
+                `;
+            }
+            
+            // Next button
+            paginationHTML += `
+                <a href="#" onclick="changePage(${currentPage + 1}); return false;" class="flex size-10 items-center justify-center">
+                    <div class="text-[#151811]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
+                        </svg>
+                    </div>
+                </a>
+            `;
+            
+            paginationContainer.innerHTML = paginationHTML;
+        }
+
+        // Change page
+        function changePage(page) {
+            const totalPages = Math.ceil(allProducts.length / productsPerPage);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                displayAllProducts();
+                // Scroll to top of all products section
+                document.getElementById('allProductsContainer').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Hide loading message
+        function hideLoadingMessage() {
+            document.getElementById('loadingMessage').classList.add('hidden');
+        }
+
+        // Show no products message
+        function showNoProductsMessage() {
+            document.getElementById('loadingMessage').classList.add('hidden');
+            document.getElementById('noProductsMessage').classList.remove('hidden');
+        }
+
+        // Change quantity function
+        function changeQuantity(productId, change) {
+            const quantitySpan = document.getElementById(`quantity-${productId}`);
+            if (!quantitySpan) {
+                console.log('Quantity span not found for product:', productId);
+                return;
+            }
+            
+            let currentQuantity = parseInt(quantitySpan.textContent) || 1;
+            console.log('Current quantity:', currentQuantity, 'Change:', change);
+            
+            // Simple approach - just change the quantity with reasonable limits
+            const newQuantity = currentQuantity + change;
+            
+            // Set reasonable limits (1 to 20)
+            if (newQuantity >= 1 && newQuantity <= 20) {
+                quantitySpan.textContent = newQuantity;
+                // Add visual feedback
+                quantitySpan.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    quantitySpan.style.transform = 'scale(1)';
+                }, 150);
+                console.log('Quantity updated to:', newQuantity);
+            } else {
+                console.log('Quantity out of bounds:', newQuantity);
+            }
+        }
+
+        // Add to cart function (placeholder)
+        function addToCart(productId) {
+            const quantitySpan = document.getElementById(`quantity-${productId}`);
+            const quantity = quantitySpan ? parseInt(quantitySpan.textContent) : 1;
+            
+            // This would integrate with your cart system
+            alert(`Added ${quantity} item(s) to cart! (Cart functionality to be implemented)`);
+        }
+
+        // Newsletter Popup Functions
+        function setupNewsletterPopup() {
+            // Check if popup should be shown based on user preferences
+            if (shouldShowNewsletterPopup()) {
+                setTimeout(() => {
+                    showNewsletterPopup();
+                }, 1000);
+            }
+        }
+
+        function showNewsletterPopup() {
+            const popup = document.getElementById('newsletterPopup');
+            const popupContent = document.getElementById('popupContent');
+            
+            popup.classList.remove('hidden');
+            
+            // Animate in
+            setTimeout(() => {
+                popupContent.classList.remove('scale-95', 'opacity-0');
+                popupContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            
+            // Setup event listeners
+            setupNewsletterEventListeners();
+        }
+
+        function hideNewsletterPopup() {
+            const popup = document.getElementById('newsletterPopup');
+            const popupContent = document.getElementById('popupContent');
+            
+            // Animate out
+            popupContent.classList.remove('scale-100', 'opacity-100');
+            popupContent.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                popup.classList.add('hidden');
+            }, 300);
+        }
+
+        function setupNewsletterEventListeners() {
+            const closeBtn = document.getElementById('closeNewsletterBtn');
+            const popup = document.getElementById('newsletterPopup');
+            const form = document.getElementById('newsletterForm');
+            const remindLaterBtn = document.getElementById('remindLaterBtn');
+            const nextTimeBtn = document.getElementById('nextTimeBtn');
+            const dontShowAgainBtn = document.getElementById('dontShowAgainBtn');
+            
+            // Close button
+            closeBtn.addEventListener('click', hideNewsletterPopup);
+            
+            // Close on background click
+            popup.addEventListener('click', (e) => {
+                if (e.target === popup) {
+                    hideNewsletterPopup();
+                }
+            });
+            
+            // Remind me in 15 minutes
+            remindLaterBtn.addEventListener('click', () => {
+                setNewsletterReminder(15); // 15 minutes
+                hideNewsletterPopup();
+            });
+            
+            // Next time (show on next page visit)
+            nextTimeBtn.addEventListener('click', () => {
+                setNewsletterNextTime();
+                hideNewsletterPopup();
+            });
+            
+            // Don't show again
+            dontShowAgainBtn.addEventListener('click', () => {
+                setNewsletterNeverShow();
+                hideNewsletterPopup();
+            });
+            
+            // Form submission
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('newsletterEmail').value.trim();
+                
+                if (email && isValidEmail(email)) {
+                    // Here you would typically send the email to your backend
+                    alert('Thank you for subscribing to our newsletter!');
+                    setNewsletterSubscribed();
+                    hideNewsletterPopup();
+                } else {
+                    alert('Please enter a valid email address.');
+                }
+            });
+        }
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Newsletter Popup Preference Management
+        function shouldShowNewsletterPopup() {
+            const preferences = getNewsletterPreferences();
+            
+            // If user chose "don't show again", never show
+            if (preferences.neverShow) {
+                return false;
+            }
+            
+            // If user subscribed, don't show again
+            if (preferences.subscribed) {
+                return false;
+            }
+            
+            // Check if reminder time has passed
+            if (preferences.remindAt && preferences.remindAt > Date.now()) {
+                return false;
+            }
+            
+            // Check if it's time for "next time" (24 hours)
+            if (preferences.nextTimeAt && preferences.nextTimeAt > Date.now()) {
+                return false;
+            }
+            
+            return true;
+        }
+
+        function getNewsletterPreferences() {
+            const stored = localStorage.getItem('newsletterPreferences');
+            return stored ? JSON.parse(stored) : {
+                neverShow: false,
+                subscribed: false,
+                remindAt: null,
+                nextTimeAt: null
+            };
+        }
+
+        function setNewsletterPreferences(preferences) {
+            localStorage.setItem('newsletterPreferences', JSON.stringify(preferences));
+        }
+
+        function setNewsletterReminder(minutes) {
+            const preferences = getNewsletterPreferences();
+            preferences.remindAt = Date.now() + (minutes * 60 * 1000);
+            setNewsletterPreferences(preferences);
+        }
+
+        function setNewsletterNextTime() {
+            const preferences = getNewsletterPreferences();
+            preferences.nextTimeAt = Date.now() + (24 * 60 * 60 * 1000); // 24 hours
+            setNewsletterPreferences(preferences);
+        }
+
+        function setNewsletterNeverShow() {
+            const preferences = getNewsletterPreferences();
+            preferences.neverShow = true;
+            setNewsletterPreferences(preferences);
+        }
+
+        function setNewsletterSubscribed() {
+            const preferences = getNewsletterPreferences();
+            preferences.subscribed = true;
+            setNewsletterPreferences(preferences);
+        }
+
+        // Search Functionality
+        function setupSearchFunctionality() {
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            const quickSearchBtns = document.querySelectorAll('.quick-search-btn');
+
+            // Search button click
+            searchButton.addEventListener('click', performSearch);
+
+            // Enter key press in search input
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+
+            // Quick search buttons
+            quickSearchBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const searchTerm = btn.getAttribute('data-search');
+                    searchInput.value = searchTerm;
+                    performSearch();
+                });
+            });
+        }
+
+        function performSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const searchTerm = searchInput.value.trim();
+            
+            if (searchTerm) {
+                // Store search term in localStorage for search.html to use
+                localStorage.setItem('bookshopSearchTerm', searchTerm);
+                
+                // Navigate to search.html
+                window.location.href = 'search.html';
+            } else {
+                // Show error or focus the input
+                searchInput.focus();
+                searchInput.style.borderColor = '#ff6b6b';
+                setTimeout(() => {
+                    searchInput.style.borderColor = '#d0e7d0';
+                }, 2000);
+            }
+        }
+
+        // Initialize search functionality when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setupSearchFunctionality();
+        });
+    </script>
+    <script>
+      (function() {
+        const allEl = document.getElementById('allProductsContainer');
+        const bestEl = document.getElementById('bestSellingContainer');
+        const discEl = document.getElementById('discountedContainer');
+        if (!allEl) return;
+
+        // Basic cart using localStorage
+        function getCart() {
+          try { return JSON.parse(localStorage.getItem('nethwin_cart') || '[]'); } catch { return []; }
+        }
+        function setCart(items) {
+          localStorage.setItem('nethwin_cart', JSON.stringify(items));
+        }
+        function addToCart(product) {
+          const items = getCart();
+          const id = product._id || product.sku || product.name;
+          const idx = items.findIndex(i => i.id === id);
+          if (idx >= 0) {
+            items[idx].qty += 1;
+          } else {
+            items.push({ id, name: product.name, price: product.sellingPrice || product.price || 0, qty: 1 });
+          }
+          setCart(items);
+        }
+
+        function createCard(p) {
+          const priceNum = (typeof p.sellingPrice === 'number' ? p.sellingPrice : (typeof p.price === 'number' ? p.price : 0));
+          const price = priceNum ? `Rs. ${priceNum.toFixed(2)}` : 'Price on request';
+          const stock = (typeof p.currentStock === 'number') ? `${p.currentStock}` : 'N/A';
+          const link = `product-detail.html?id=${p._id}`;
+          const div = document.createElement('div');
+          div.className = 'rounded-xl border border-[#d0e7d0] p-4 hover:shadow-md transition-all duration-300 bg-white flex flex-col';
+          div.innerHTML = `
+            <a href="${link}" class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-[#0e1a13] font-semibold hover:underline">${p.name || 'Unnamed product'}</p>
+                <p class="text-[#51946c] text-xs mt-1">${p.category || ''}${p.brand ? ' • ' + p.brand : ''}</p>
+                ${p.sku ? `<p class=\"text-[#51946c] text-[11px] mt-1\">SKU: ${p.sku}</p>` : ''}
+              </div>
+              <span class="text-xs text-[#51946c]">${p.businessLocation || ''}</span>
+            </a>
+            <div class="mt-3 flex items-center justify-between">
+              <span class="text-[#0e1a13] font-bold">${price}</span>
+              <span class="text-xs text-[#51946c]">Stock: ${stock}</span>
+            </div>
+            <div class="mt-4 grid grid-cols-2 gap-2">
+              <button class="px-3 py-2 rounded-lg bg-[#f2f4f1] text-[#0e1a13] text-sm font-medium hover:bg-[#e8ebe8] transition" data-action="add">Add to Cart</button>
+              <a href="${link}" class="px-3 py-2 rounded-lg bg-[#19e619] text-[#0e1a13] text-sm font-bold hover:bg-[#16d116] transition text-center">View & Buy</a>
+            </div>
+          `;
+          const addBtn = div.querySelector('[data-action="add"]');
+          addBtn?.addEventListener('click', (e) => {
+            e.preventDefault();
+            addToCart(p);
+            addBtn.textContent = 'Added!';
+            setTimeout(() => addBtn.textContent = 'Add to Cart', 800);
+          });
+          return div;
+        }
+
+        function renderProducts(products) {
+          allEl.innerHTML = '';
+          products.slice(0, 60).forEach((p) => allEl.appendChild(createCard(p)));
+          if (bestEl) {
+            bestEl.innerHTML = '';
+            products.filter(p => (p.currentStock||0) > 5).slice(0, 12).forEach((p) => bestEl.appendChild(createCard(p)));
+          }
+          if (discEl) {
+            discEl.innerHTML = '';
+            products.filter(p => (p.sellingPrice||p.price||0) > 0 && (p.unitPurchasePrice||0) > 0 && (p.sellingPrice||p.price) < p.unitPurchasePrice).slice(0, 12).forEach((p) => discEl.appendChild(createCard(p)));
+          }
+        }
+
+        function wireSearch(base) {
+          const q = document.getElementById('searchInput');
+          const btn = document.getElementById('searchButton');
+          function doSearch() {
+            const term = (q?.value || '').trim();
+            if (!term) return renderProducts(base);
+            fetch(`/api/products?search=${encodeURIComponent(term)}&limit=200`)
+              .then(r => r.json())
+              .then(({ products }) => renderProducts(products))
+              .catch(() => renderProducts(base));
+          }
+          btn?.addEventListener('click', doSearch);
+          q?.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+        }
+
+        fetch('/api/products?limit=200')
+          .then(r => r.json())
+          .then(({ products }) => {
+            try { localStorage.setItem('allProducts', JSON.stringify(products)); } catch {}
+            renderProducts(products);
+            wireSearch(products);
+          })
+          .catch(err => {
+            console.error('Failed to load /api/products', err);
+          });
+      })();
+    </script>
+</body>
+</html>
+
