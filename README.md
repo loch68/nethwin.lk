@@ -14,8 +14,8 @@ A comprehensive e-commerce platform for books and print-on-demand services, deve
 
 | Member | Role | Responsibility |
 |--------|------|----------------|
-| **Lochna** | Frontend Developer | User Authentication & Profile Management |
-| **Thevidu** | Full-Stack Developer | Book Catalog & Search Functionality |
+| **Lochana** | Frontend Developer | User Authentication & Profile Management |
+| **Thevindu** | Full-Stack Developer | Book Catalog & Search Functionality |
 | **Theekshana** | Backend Developer | Shopping Cart & Order Processing |
 | **Nelithra** | Frontend Developer | Print Services & File Upload |
 | **Oneka** | Full-Stack Developer | Admin Dashboard & Analytics |
@@ -85,20 +85,16 @@ npm start
 - Main website: `http://localhost:4000/html/index.html`
 - Admin dashboard: `http://localhost:4000/html/admin-dashboard.html`
 
-## 🔐 Admin Access
-
-- **Email:** admin@nethwin.com
-- **Password:** admin123
 
 ## 📊 Module Breakdown
 
-### User Authentication (Lochna)
+### User Authentication (Lochana)
 - User registration and login
 - Profile management
 - JWT-based authentication
 - Admin user management
 
-### Book Catalog (Thevidu)
+### Book Catalog (Thevindu)
 - Product listing and search
 - Category filtering
 - Product detail pages
@@ -126,10 +122,3 @@ npm start
 
 This project was developed collaboratively by our 5-member team. Each member was responsible for their designated module while ensuring seamless integration across the platform.
 
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 📞 Contact
-
-For any inquiries about this project, please contact our development team through the repository issues or pull requests.
