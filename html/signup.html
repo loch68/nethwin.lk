@@ -1,19 +1,21 @@
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - NethwinLK</title>
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
     <link
       rel="stylesheet"
       as="style"
       onload="this.rel='stylesheet'"
-      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
     />
-
-    <title>Stitch Design</title>
-    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
-
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link rel="stylesheet" href="../css/hover-effects.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/background-animations.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
     <style>
       .city-search-container {
         position: relative;
@@ -44,66 +46,84 @@
         border-bottom: none;
       }
     </style>
-    <link rel="stylesheet" href="../css/responsive.css" />
 </head>
-  <body>
-    <div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif]">
-        <div class="layout-container flex flex-col grow h-full">
-          <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f2f4f1] px-10 py-3">
-            <div class="flex items-center gap-4 text-[#111418]">
-              <div class="h-10">
-                <!-- Logo -->
-                <a href="index.html" aria-label="Go to Home">
-                  <img src="../assets/fLogo.png" alt="NETHWIN Logo" class="h-10 w-auto" />
-                </a>
-              </div>
-            </div>
-            <div class="flex flex-1 justify-end gap-8">
-              <div class="flex items-center gap-9">
-                <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="bookshop.html">
-                  Bookshop
-                  <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span>
-                </a>
-                <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="agency.html">
-                  Advertising Agency
-                  <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span>
-                </a>
-                <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="contactus.html">
-                  Contact Us
-                  <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span>
-                </a>
-                <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="aboutus.html">
-                  About Us
-                  <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span>
-                </a>
-              </div>
-              <div class="flex gap-2">
-                <button
-                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#0ad167] text-[#151612] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out hover:bg-[#08b85a] hover:scale-105 hover:shadow-lg hover:shadow-[#0ad167]/25"
-                >
-                <a href="login.html "><span class="truncate" >Login</span> </a>
-                </button>
-                <a href="cart.html"><button
-                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f2f4f1] text-[#151612] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out hover:bg-[#e8ebe8] hover:scale-105 hover:shadow-md"
-                >
-                  <span class="truncate">Cart</span>
-                </button></a>
-                <a href="search.html">
-                <button
-                  class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[#f2f4f1] text-[#151612] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 transition-all duration-300 ease-in-out hover:bg-[#e8ebe8] hover:scale-105 hover:shadow-md"
-                >
-                  <div class="text-[#151612]" data-icon="MagnifyingGlass" data-size="20px" data-weight="regular">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                      <path
-                        d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
-                      ></path>
-                    </svg>
-                  </div>
-                </button>
-                </a>
-              </div>
-            </div>
-          </header>
+<body>
+    <div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient">
+        <!-- Background Animation Container -->
+        <div class="particles-container fixed inset-0 pointer-events-none z-0" id="particlesContainer"></div>
+        <div class="layout-container flex flex-col grow h-full relative z-10">
+            <!-- Modern Seamless Navbar -->
+            <nav class="modern-navbar fixed top-0 left-0 right-0 z-30">
+                <div class="navbar-container">
+                    <!-- Logo/Brand -->
+                    <div class="navbar-brand">
+                        <a href="index.html" class="flex items-center">
+                            <img src="../assets/fLogo.png" alt="NethwinLK" class="navbar-logo">
+                        </a>
+                    </div>
+                    
+                    <!-- Navigation Links -->
+                    <div class="navbar-links" id="navbarLinks">
+                        <a href="index.html" class="nav-link">Home</a>
+                        <a href="print.html" class="nav-link">Print Services</a>
+                        <a href="bookshop.html" class="nav-link">Bookshop</a>
+                        <a href="aboutus.html" class="nav-link">About</a>
+                        <a href="contactus.html" class="nav-link">Contact</a>
+                    </div>
+                    
+                    <!-- Desktop Auth Area -->
+                    <div class="navbar-auth" id="navbarAuth">
+                        <a href="cart.html" class="nav-auth-btn">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+                            </svg>
+                            Cart
+                        </a>
+                        <a href="search.html" class="nav-auth-btn">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            Search
+                        </a>
+                        <a href="login.html" class="nav-auth-btn">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path>
+                            </svg>
+                            Login
+                        </a>
+                    </div>
+                    
+                    <!-- Mobile Auth Icons (hidden on desktop) -->
+                    <div class="mobile-auth-icons hidden md:hidden">
+                        <a href="cart.html" class="mobile-icon-btn">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+                            </svg>
+                        </a>
+                        <a href="search.html" class="mobile-icon-btn">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </a>
+                        <a href="login.html" class="mobile-icon-btn">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path>
+                            </svg>
+                        </a>
+                        
+                    </div>
+                    
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" id="mobileToggle">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </nav>
+            
+            <!-- Navbar Spacer -->
+            <div style="height: 4rem;"></div>
         <div class="flex flex-1 justify-center py-5">
           <div class="flex flex-col items-center w-full max-w-[600px] py-5 px-4">
             <h2 class="text-[#0e1b0e] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">Create your account</h2>
@@ -597,7 +617,7 @@
       const errorText = document.getElementById('errorText');
 
       // API Base URL
-      const API_BASE_URL = '';
+      const API_BASE_URL = 'http://localhost:3000/api';
 
       // Show message function
       function showMessage(type, message) {
@@ -698,24 +718,18 @@
         signupBtn.innerHTML = '<span class="truncate">Creating Account...</span>';
 
         try {
-          const response = await fetch(`${API_BASE_URL}/api/auth/signup`, {
+          const response = await fetch(`${API_BASE_URL}/customers/signup`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-              fullName: document.getElementById('fullName').value.trim(),
-              email: document.getElementById('email').value.trim(),
-              phone: document.getElementById('phone').value.trim(),
-              password: document.getElementById('password').value
-            })
+            body: JSON.stringify(formData)
           });
 
           const result = await response.json();
 
           if (response.ok) {
-            showMessage('success', 'Account created successfully! Redirecting...');
-            try { localStorage.setItem('authToken', result.token); } catch {}
+            showMessage('success', 'Account created successfully! You can now login.');
             
             // Clear form
             document.getElementById('username').value = '';
@@ -730,10 +744,10 @@
             document.getElementById('password').value = '';
             document.getElementById('confirmPassword').value = '';
             
-            // Redirect to profile after 1.5 seconds
+            // Redirect to login page after 3 seconds
             setTimeout(() => {
-              window.location.href = 'profile.html';
-            }, 1500);
+              window.location.href = 'login.html';
+            }, 3000);
           } else {
             showMessage('error', result.error || 'Failed to create account');
           }
@@ -770,13 +784,17 @@
       }
 
       // Add test data button (for development only)
-      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        const testButton = document.createElement('button');
-        testButton.textContent = 'Fill Test Data';
-        testButton.className = 'text-xs bg-blue-500 text-white px-2 py-1 rounded mt-2';
-        testButton.onclick = fillTestData;
-        document.querySelector('.flex.flex-col.items-center').appendChild(testButton);
-      }
+      
+    </script>
+
+    <script src="../javascript/navbar.js"></script>
+    <script src="../javascript/background-animations.js"></script>
+    <script>
+        // Initialize auth system
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeAuth();
+            setActiveNavLink('signup.html');
+        });
     </script>
   </body>
 </html>

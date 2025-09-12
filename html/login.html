@@ -1,190 +1,226 @@
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - NethwinLK</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
     <link
       rel="stylesheet"
       as="style"
       onload="this.rel='stylesheet'"
-      href="https://fonts.googleapis.com/css2?display=swap&family=Inter:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900&display=swap"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
     />
-
-    <title>Login - NethwinLK</title>
-    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
-
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/hover-effects.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/background-animations.css" />
     <link rel="stylesheet" href="../css/responsive.css" />
 </head>
-    <body class="flex flex-col min-h-screen" style='font-family: Inter, "Noto Sans", sans-serif;'>
-    
+<body>
+    <div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient">
+        <!-- Background Animation Container -->
+        <div class="particles-container fixed inset-0 pointer-events-none z-0" id="particlesContainer"></div>
+        <div class="layout-container flex flex-col grow h-full relative z-10">
+            <!-- Modern Seamless Navbar -->
+            <nav class="modern-navbar fixed top-0 left-0 right-0 z-30">
+                <div class="navbar-container">
+                    <!-- Logo/Brand -->
+                    <div class="navbar-brand">
+                        <a href="index.html" class="flex items-center">
+                            <img src="../assets/fLogo.png" alt="NethwinLK" class="navbar-logo">
+                        </a>
+                    </div>
+                    
+                    <!-- Navigation Links -->
+                    <div class="navbar-links" id="navbarLinks">
+                        <a href="index.html" class="nav-link">Home</a>
+                        <a href="print.html" class="nav-link">Print Services</a>
+                        <a href="bookshop.html" class="nav-link">Bookshop</a>
+                        <a href="aboutus.html" class="nav-link">About</a>
+                        <a href="contactus.html" class="nav-link">Contact</a>
+                    </div>
+                    
+                    <!-- Desktop Auth Area -->
+                    <div class="navbar-auth" id="navbarAuth">
+                        <a href="cart.html" class="nav-auth-btn">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+                            </svg>
+                            Cart
+                        </a>
+                        <a href="search.html" class="nav-auth-btn">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            Search
+                        </a>
+                      
+                        <a href="signup.html" class="nav-auth-btn">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M12.5 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                            </svg>
+                            Sign Up
+                        </a>
+                    </div>
+                    
+                    <!-- Mobile Auth Icons (hidden on desktop) -->
+                    <div class="mobile-auth-icons hidden md:hidden">
+                        <a href="cart.html" class="mobile-icon-btn">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+                            </svg>
+                        </a>
+                        <a href="search.html" class="mobile-icon-btn">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </a>
+                        
+                        <a href="signup.html" class="mobile-icon-btn">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M12.5 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" id="mobileToggle">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </nav>
+            
+            <!-- Navbar Spacer -->
+            <div style="height: 4rem;"></div>
 
-      
-      <!-- Navigation Header -->
-    <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f2f4f1] px-10 py-3 bg-white/90 backdrop-blur-sm shadow-lg">
-      <div class="flex items-center gap-4 text-[#111418]">
-        <div class="h-10">
-          <!-- Logo -->
-          <a href="index.html" aria-label="Go to Home">
-            <img src="../assets/fLogo.png" alt="NETHWIN Logo" class="h-10 w-auto" />
-          </a>
+            <!-- Main Content -->
+            <main class="flex-1 flex items-center justify-center py-12 px-4">
+                <div class="w-full max-w-md bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl p-8 border border-white/20">
+                    <div class="flex justify-center mb-6">
+                        <a href="index.html" aria-label="Go to Home">
+                            <img src="../assets/fLogo.png" alt="NETHWIN Logo" class="h-12 w-auto" />
+                        </a>
+                    </div>
+
+                    <h2 class="text-[#0e1b0e] text-3xl font-bold text-center mb-8">Welcome Back</h2>
+
+                    <!-- Login Form -->
+                    <form id="loginForm" class="space-y-6">
+                        <!-- Username -->
+                        <div>
+                            <label for="username" class="block text-sm font-medium text-[#0e1b0e] mb-2">Username</label>
+                            <input
+                                id="username"
+                                name="username"
+                                type="text"
+                                required
+                                placeholder="Enter your username"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-[#0ad167] transition duration-300 bg-white/90"
+                            />
+                        </div>
+
+                        <!-- Password -->
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-[#0e1b0e] mb-2">Password</label>
+                            <div class="relative">
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    required
+                                    placeholder="Enter your password"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-[#0ad167] transition duration-300 pr-12 bg-white/90"
+                                />
+                                <button type="button" id="togglePassword" aria-label="Toggle password visibility" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#0ad167] transition-colors">
+                                    <svg id="iconEyeOpen" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12Z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                    <svg id="iconEyeOff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 hidden">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12Z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                        <path d="M3 3l18 18" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Login button -->
+                        <button
+                            type="submit"
+                            class="w-full bg-[#0ad167] hover:bg-[#08b85a] text-[#0e1b0e] font-bold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-[#0ad167]/25"
+                        >
+                            Login
+                        </button>
+                    </form>
+
+                    <!-- Sign up link -->
+                    <p class="text-center text-sm text-gray-600 mt-6">
+                        Don't have an account?
+                        <a href="signup.html" class="text-[#0ad167] hover:text-[#08b85a] font-medium underline transition-colors">Sign up</a>
+                    </p>
+                </div>
+            </main>
         </div>
-      </div>
-      <div class="flex flex-1 justify-end gap-8">
-                 <div class="flex items-center gap-9">
-           <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="bookshop.html">
-             Bookshop
-             <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span>
-           </a>
-           <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="agency.html">
-             Advertising Agency
-             <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span>
-           </a>
-           <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="contactus.html">
-             Contact Us
-             <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span>
-           </a>
-           <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="aboutus.html">
-             About Us
-             <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span>
-           </a>
-         </div>
-        <div class="flex gap-2">
-          <button
-            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#0ad167] text-[#151612] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out hover:bg-[#08b85a] hover:scale-105 hover:shadow-lg hover:shadow-[#0ad167]/25"
-          >
-          <a href="signup.html "><span class="truncate" >Sign up</span> </a>
-          </button>
-          <a href="cart.html"><button
-            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f2f4f1] text-[#151612] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out hover:bg-[#e8ebe8] hover:scale-105 hover:shadow-md"
-          >
-            <span class="truncate">Cart</span>
-          </button></a>
-          <a href="search.html">
-          <button
-            class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[#f2f4f1] text-[#151612] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 transition-all duration-300 ease-in-out hover:bg-[#e8ebe8] hover:scale-105 hover:shadow-md"
-          >
-            <div class="text-[#151612]" data-icon="MagnifyingGlass" data-size="20px" data-weight="regular">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                <path
-                  d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
-                ></path>
-              </svg>
-            </div>
-          </button>
-          </a>
-        </div>
-      </div>
-    </header>
-    
-    <!-- Login Card -->
-    <div class="flex-1 flex items-center justify-center">
-      <div class="w-full max-w-md bg-white shadow-lg rounded-2xl p-6">
-      <div class="flex justify-center mb-4">
-        <a href="index.html" aria-label="Go to Home">
-          <img src="../assets/fLogo.png" alt="NETHWIN Logo" class="h-12 w-auto" />
-        </a>
-      </div>
-
-      <h2 class="text-[#0e1b0e] text-2xl font-bold text-center pb-5">Welcome Back</h2>
-
-      <!-- Form starts -->
-      <form id="loginForm" class="space-y-4">
-        <!-- Username -->
-        <div>
-          <label for="username" class="sr-only">Username</label>
-          <input
-            id="username"
-            name="username"
-            type="text"
-            required
-            placeholder="Username"
-            class="form-input w-full rounded-lg border border-[#d0e7d0] bg-[#f8fcf8] text-[#0e1b0e] h-14 px-4 placeholder:text-[#4e974e] focus:border-[#19e619] focus:ring-2 focus:ring-[#19e619]"
-          />
-        </div>
-
-        <!-- Password -->
-        <div>
-          <label for="password" class="sr-only">Password</label>
-          <div class="relative">
-            <input
-              id="password"
-              name="password"
-              type="password"
-              required
-              placeholder="Password"
-              class="form-input w-full rounded-lg border border-[#d0e7d0] bg-[#f8fcf8] text-[#0e1b0e] h-14 px-4 pr-12 placeholder:text-[#4e974e] focus:border-[#19e619] focus:ring-2 focus:ring-[#19e619]"
-            />
-            <button type="button" id="togglePassword" aria-label="Toggle password visibility" class="absolute right-3 top-1/2 -translate-y-1/2 text-[#4e974e] hover:text-[#0e1b0e] z-10">
-              <svg id="iconEyeOpen" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12Z" />
-                <circle cx="12" cy="12" r="3" />
-              </svg>
-              <svg id="iconEyeOff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 hidden">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12Z" />
-                <circle cx="12" cy="12" r="3" />
-                <path d="M3 3l18 18" />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Login button -->
-        <button
-          type="submit"
-          class="w-full bg-[#19e619] text-[#0e1b0e] font-bold py-3 rounded-lg transition-all duration-300 ease-in-out hover:bg-[#16d116] hover:scale-[1.02] hover:shadow-lg hover:shadow-[#19e619]/30"
-        >
-          Login
-        </button>
-      </form>
-      <!-- Form ends -->
-
-      <!-- Sign up -->
-              <p class="text-center text-sm text-[#4e974e] mt-4">
-          Don't have an account?
-        <a href="signup.html" class="underline font-medium">Sign up</a>
-      </p>
-
-
-      </div>
     </div>
 
-
-
+    <script src="../javascript/navbar.js"></script>
+    <script src="../javascript/background-animations.js"></script>
     <script>
-      // Login form handling with admin authentication
-      document.addEventListener('DOMContentLoaded', function() {
-        const passwordInput = document.getElementById('password');
-        const toggleBtn = document.getElementById('togglePassword');
-        const iconEyeOpen = document.getElementById('iconEyeOpen');
-        const iconEyeOff = document.getElementById('iconEyeOff');
-
-        function setVisible(isVisible) {
-          passwordInput.type = isVisible ? 'text' : 'password';
-          iconEyeOpen.classList.toggle('hidden', isVisible);
-          iconEyeOff.classList.toggle('hidden', !isVisible);
-        }
-        toggleBtn.addEventListener('click', function() {
-          const isPassword = passwordInput.type === 'password';
-          setVisible(isPassword);
+        // Initialize auth system
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeAuth();
+            setActiveNavLink('login.html');
         });
-      });
-      document.getElementById('loginForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const username = document.getElementById('username').value.trim();
-        const password = document.getElementById('password').value;
-        try {
-          const res = await fetch('/api/auth/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ email: username, password }) });
-          const data = await res.json();
-          if (!res.ok) throw new Error(data.error || 'Login failed');
-          try { localStorage.setItem('authToken', data.token); } catch {}
-          window.location.href = 'profile.html';
-        } catch (err) {
-          alert(err.message);
-        }
-      });
+
+        // Password toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.getElementById('togglePassword');
+            const iconEyeOpen = document.getElementById('iconEyeOpen');
+            const iconEyeOff = document.getElementById('iconEyeOff');
+
+            function setVisible(isVisible) {
+                passwordInput.type = isVisible ? 'text' : 'password';
+                iconEyeOpen.classList.toggle('hidden', isVisible);
+                iconEyeOff.classList.toggle('hidden', !isVisible);
+            }
+
+            toggleBtn.addEventListener('click', function() {
+                const isPassword = passwordInput.type === 'password';
+                setVisible(isPassword);
+            });
+        });
+
+        // Login form handling
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Login failed');
+                
+                try { 
+                    localStorage.setItem('authToken', data.token); 
+                } catch {}
+                
+                window.location.href = 'profile.html';
+            } catch (err) {
+                alert(err.message);
+            }
+        });
     </script>
-  </body>
+</body>
 </html>

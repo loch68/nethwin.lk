@@ -6,78 +6,679 @@
     <title>Welcome to NethwinLK</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/hover-effects.css" />
+    <link rel="stylesheet" href="css/hover-effects.css" />
+    <link rel="stylesheet" href="css/background-animations.css" />
     <link rel="stylesheet" href="../css/responsive.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --primary-green: #0ad167;
+        --dark-green: #1b5e20;
+        --light-green: #e8f5e9;
+        --accent-green: #19e619;
+        --text-dark: #151612;
+        --shadow-light: rgba(0, 0, 0, 0.1);
+        --shadow-medium: rgba(0, 0, 0, 0.15);
+        --shadow-heavy: rgba(0, 0, 0, 0.25);
+      }
+      
+      * {
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Inter', sans-serif;
+        overflow-x: hidden;
+      }
+      
+      .modern-gradient {
+        background: linear-gradient(135deg, #fdfefd 0%, #f8fbf8 30%, #f2f7f2 70%, #fafcfa 100%);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .modern-gradient::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+          radial-gradient(circle at 20% 80%, rgba(10, 209, 103, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(25, 230, 25, 0.08) 0%, transparent 50%),
+          radial-gradient(circle at 40% 40%, rgba(139, 195, 74, 0.06) 0%, transparent 50%);
+        animation: backgroundShift 20s ease-in-out infinite;
+        z-index: -2;
+      }
+      
+      .modern-gradient::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="0.5" fill="%23ffffff" opacity="0.02"/><circle cx="75" cy="75" r="0.3" fill="%23ffffff" opacity="0.03"/><circle cx="50" cy="10" r="0.4" fill="%23ffffff" opacity="0.02"/><circle cx="10" cy="60" r="0.2" fill="%23ffffff" opacity="0.04"/><circle cx="90" cy="40" r="0.3" fill="%23ffffff" opacity="0.02"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        opacity: 0.3;
+        z-index: -1;
+      }
+      
+      @keyframes backgroundShift {
+        0%, 100% {
+          transform: translateX(0) translateY(0) scale(1);
+        }
+        25% {
+          transform: translateX(-5px) translateY(-10px) scale(1.02);
+        }
+        50% {
+          transform: translateX(10px) translateY(5px) scale(0.98);
+        }
+        75% {
+          transform: translateX(-3px) translateY(8px) scale(1.01);
+        }
+      }
+      
+      .glass-effect {
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      
+      .floating-animation {
+        animation: float 6s ease-in-out infinite;
+      }
+      
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+      }
+      
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .fade-in-up.animate {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      .stagger-animation {
+        animation-delay: var(--delay, 0s);
+      }
+    </style>
 </head>
 
-  <body class="flex flex-col min-h-screen">
-
-   
-  
-
-    <!-- Logo at top middle -->
-    <div class="logo-float text-center mb-8">
-      <img src="../assets/fLogo.png" alt="NETHWIN Logo" class="h-40 mx-auto logo-hover">
+  <body class="flex flex-col min-h-screen modern-gradient">
+    <!-- Animated background particles -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+      <div class="particles-container"></div>
     </div>
 
-    <!-- Main content area -->
-    <div class="flex-1 px-8">
-      <!-- Welcome Section -->
-      <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold text-green-900 mb-4">Welcome to NethwinLK</h1>
-        <p class="text-lg text-green-700 mb-8">Discover our amazing collection of products</p>
+    <!-- Top Navigation with Login -->
+    <div class="flex justify-between items-center p-6 relative z-20">
+      <div></div> <!-- Spacer -->
+      <div class="fade-in-up" id="topAuthArea" data-delay="0.1">
+        <a href="login.html" class="transparent-btn group">
+          <span class="btn-text">Login</span>
+          <div class="btn-bg"></div>
+        </a>
       </div>
+    </div>
 
-      
+    <!-- Logo at top middle -->
+    <div class="logo-float text-center mb-4 relative z-10 fade-in-up" data-delay="0.2">
+      <img src="../assets/fLogo.png" alt="NETHWIN Logo" class="h-36 md:h-40 mx-auto logo-hover floating-animation">
+    </div>
+
+
+    <!-- Main content area -->
+    <div class="flex-1 px-8 relative z-10">
+      <!-- Welcome Section -->
+      <div class="text-center mb-6 fade-in-up" data-delay="0.4">
+        <h1 class="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-800 via-green-600 to-green-800 mb-3 tracking-tight">
+          Welcome to <span class="text-primary-green">NethwinLK</span>
+        </h1>
+        <p class="text-base text-green-700 mb-4 font-medium max-w-xl mx-auto">
+          Discover our amazing collection of products and premium printing services
+        </p>
+        <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-green-500 to-transparent mx-auto rounded-full"></div>
+      </div>
 
       <!-- Main Navigation Boxes -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-6xl mx-auto">
         <!-- Print on Demand Box -->
-        <a href="print.html"
-          class="card-hover flex flex-col items-center justify-center rounded-xl shadow-lg p-16 w-full h-96 text-center text-green-900 font-bold text-4xl bg-gradient-to-br from-green-50 to-green-100 border-2 border-transparent hover:border-green-300 hover:from-green-100 hover:to-green-200">
-          Print on Demand
+        <a href="print.html" class="modern-card print-card group fade-in-up" data-delay="0.6">
+          <div class="card-content">
+            <div class="icon-container">
+              <svg class="w-16 h-16 text-green-700 group-hover:text-white transition-colors duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+              </svg>
+            </div>
+            <h2 class="text-3xl font-bold text-green-900 group-hover:text-white transition-colors duration-500 mb-2">Print on Demand</h2>
+            <p class="text-green-700 group-hover:text-green-100 transition-colors duration-500 text-lg">Professional printing services</p>
+          </div>
+          <div class="card-bg"></div>
         </a>
 
         <!-- Enter Bookshop Box -->
-        <a href="bookshop.html"
-          class="card-hover flex flex-col items-center justify-center rounded-xl shadow-lg p-16 w-full h-96 text-center text-green-900 font-bold text-4xl bg-gradient-to-br from-green-50 to-green-100 border-2 border-transparent hover:border-green-300 hover:from-green-100 hover:to-green-200">
-          Enter Bookshop <br>
+        <a href="bookshop.html" class="modern-card bookshop-card group fade-in-up" data-delay="0.8">
+          <div class="card-content">
+            <div class="icon-container">
+              <svg class="w-16 h-16 text-green-700 group-hover:text-white transition-colors duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+              </svg>
+            </div>
+            <h2 class="text-3xl font-bold text-green-900 group-hover:text-white transition-colors duration-500 mb-2">Enter Bookshop</h2>
+            <p class="text-green-700 group-hover:text-green-100 transition-colors duration-500 text-lg">Explore our book collection</p>
+          </div>
+          <div class="card-bg"></div>
         </a>
-      </div>
-      
-      <!-- Auth / Profile -->
-      <div class="flex justify-center mt-8" id="authArea">
-        <a href="login.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#0ad167] text-[#151612] text-sm font-bold leading-normal tracking-[0.015em]">Login</a>
       </div>
     </div>
     
+    <!-- Modern Footer -->
+    <footer class="py-8 text-center relative z-10 fade-in-up" data-delay="1.2">
+      <div class="glass-effect rounded-2xl mx-auto max-w-md py-4 px-6">
+        <p class="text-green-800 text-sm font-medium"> 2025 NethwinLK. All rights reserved.</p>
+      </div>
+    </footer>
+    
+    <script src="javascript/background-animations.js"></script>
+    
     <script>
-      // Toggle login button -> profile icon based on auth token
-      (function(){
-        try {
-          const token = localStorage.getItem('authToken');
-          if (token) {
-            const area = document.getElementById('authArea');
-            if (area) {
-              area.innerHTML = '<a href="profile.html" class="flex items-center gap-2 px-4 py-2 bg-[#e8f2ec] rounded-full text-[#0e1a13]">\n                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-3-3.87M7 21v-2a4 4 0 013-3.87"/><circle cx="12" cy="7" r="4"/></svg>\n                Profile\n              </a>';
-            }
+      // Modern JavaScript with enhanced animations and interactions
+      class NethwinApp {
+        constructor() {
+          this.init();
+        }
+
+        init() {
+          this.createParticles();
+          this.setupScrollAnimations();
+          this.setupAuthSystem();
+          this.setupModernInteractions();
+          this.setupPerformanceOptimizations();
+        }
+
+        // Create floating particles background
+        createParticles() {
+          const container = document.querySelector('.particles-container');
+          const particleCount = 50;
+
+          // Create floating particles
+          for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            const size = Math.random() * 8 + 3;
+            const opacity = Math.random() * 0.6 + 0.2;
+            const colors = ['rgba(10, 209, 103,', 'rgba(25, 230, 25,', 'rgba(76, 175, 80,', 'rgba(139, 195, 74,'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            particle.style.cssText = `
+              position: absolute;
+              width: ${size}px;
+              height: ${size}px;
+              background: ${color} ${opacity});
+              border-radius: 50%;
+              left: ${Math.random() * 100}%;
+              top: ${Math.random() * 100}%;
+              animation: float ${Math.random() * 20 + 15}s infinite ease-in-out;
+              animation-delay: ${Math.random() * 10}s;
+              box-shadow: 0 0 ${size * 3}px ${color} ${opacity * 0.7});
+            `;
+            container.appendChild(particle);
           }
-        } catch {}
-      })();
+          
+          // Create geometric shapes
+          for (let i = 0; i < 15; i++) {
+            const shape = document.createElement('div');
+            shape.className = 'geometric-shape';
+            const shapeTypes = ['circle', 'square', 'triangle', 'hexagon'];
+            const shapeType = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
+            const size = Math.random() * 60 + 30;
+            
+            let shapeCSS = '';
+            switch(shapeType) {
+              case 'circle':
+                shapeCSS = 'border-radius: 50%;';
+                break;
+              case 'square':
+                shapeCSS = 'border-radius: 12px; transform: rotate(45deg);';
+                break;
+              case 'triangle':
+                shapeCSS = 'clip-path: polygon(50% 0%, 0% 100%, 100% 100%);';
+                break;
+              case 'hexagon':
+                shapeCSS = 'clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);';
+                break;
+            }
+            
+            shape.style.cssText = `
+              position: absolute;
+              width: ${size}px;
+              height: ${size}px;
+              background: linear-gradient(${Math.random() * 360}deg, rgba(10, 209, 103, 0.15), rgba(25, 230, 25, 0.08), rgba(76, 175, 80, 0.12));
+              ${shapeCSS}
+              left: ${Math.random() * 100}%;
+              top: ${Math.random() * 100}%;
+              animation: geometricFloat ${Math.random() * 25 + 20}s infinite ease-in-out;
+              animation-delay: ${Math.random() * 15}s;
+              border: 2px solid rgba(255, 255, 255, 0.15);
+              filter: blur(0.5px);
+            `;
+            container.appendChild(shape);
+          }
+          
+          // Create light rays
+          for (let i = 0; i < 12; i++) {
+            const ray = document.createElement('div');
+            ray.className = 'light-ray';
+            const rayWidth = Math.random() * 3 + 1;
+            ray.style.cssText = `
+              position: absolute;
+              width: ${rayWidth}px;
+              height: ${Math.random() * 300 + 150}px;
+              background: linear-gradient(to bottom, 
+                transparent, 
+                rgba(10, 209, 103, ${Math.random() * 0.4 + 0.1}), 
+                rgba(25, 230, 25, ${Math.random() * 0.3 + 0.1}), 
+                transparent);
+              left: ${Math.random() * 100}%;
+              top: ${Math.random() * 100}%;
+              transform: rotate(${Math.random() * 360}deg);
+              animation: rayPulse ${Math.random() * 12 + 8}s infinite ease-in-out;
+              animation-delay: ${Math.random() * 8}s;
+              border-radius: ${rayWidth}px;
+              filter: blur(0.5px);
+            `;
+            container.appendChild(ray);
+          }
+          
+          // Create floating orbs
+          for (let i = 0; i < 8; i++) {
+            const orb = document.createElement('div');
+            orb.className = 'floating-orb';
+            const orbSize = Math.random() * 80 + 40;
+            orb.style.cssText = `
+              position: absolute;
+              width: ${orbSize}px;
+              height: ${orbSize}px;
+              background: radial-gradient(circle at 30% 30%, 
+                rgba(255, 255, 255, 0.3), 
+                rgba(10, 209, 103, 0.1), 
+                rgba(25, 230, 25, 0.05));
+              border-radius: 50%;
+              left: ${Math.random() * 100}%;
+              top: ${Math.random() * 100}%;
+              animation: orbFloat ${Math.random() * 30 + 25}s infinite ease-in-out;
+              animation-delay: ${Math.random() * 10}s;
+              filter: blur(1px);
+              border: 1px solid rgba(255, 255, 255, 0.1);
+            `;
+            container.appendChild(orb);
+          }
+          
+          // Create sparkles
+          for (let i = 0; i < 20; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.cssText = `
+              position: absolute;
+              width: 4px;
+              height: 4px;
+              background: rgba(255, 255, 255, ${Math.random() * 0.8 + 0.2});
+              left: ${Math.random() * 100}%;
+              top: ${Math.random() * 100}%;
+              animation: sparkleAnimation ${Math.random() * 3 + 2}s infinite ease-in-out;
+              animation-delay: ${Math.random() * 3}s;
+              clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            `;
+            container.appendChild(sparkle);
+          }
+        }
+
+        // Setup scroll-triggered animations
+        setupScrollAnimations() {
+          const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+          };
+
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const delay = entry.target.dataset.delay || '0';
+                setTimeout(() => {
+                  entry.target.classList.add('animate');
+                }, parseFloat(delay) * 1000);
+                observer.unobserve(entry.target);
+              }
+            });
+          }, observerOptions);
+
+          document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+          });
+        }
+
+        // Enhanced auth system
+        setupAuthSystem() {
+          try {
+            const token = localStorage.getItem('authToken');
+            const topAuthArea = document.getElementById('topAuthArea');
+            
+            if (token && topAuthArea) {
+              topAuthArea.innerHTML = `
+                <a href="profile.html" class="transparent-btn profile-btn group">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                  </svg>
+                  <span class="btn-text">Profile</span>
+                  <div class="btn-bg"></div>
+                </a>
+              `;
+            }
+          } catch (error) {
+            console.warn('Auth system initialization failed:', error);
+          }
+        }
+
+        // Modern card interactions
+        setupModernInteractions() {
+          const cards = document.querySelectorAll('.modern-card');
+          
+          cards.forEach(card => {
+            // Mouse move effect
+            card.addEventListener('mousemove', (e) => {
+              const rect = card.getBoundingClientRect();
+              const x = e.clientX - rect.left;
+              const y = e.clientY - rect.top;
+              
+              const centerX = rect.width / 2;
+              const centerY = rect.height / 2;
+              
+              const rotateX = (y - centerY) / 10;
+              const rotateY = (centerX - x) / 10;
+              
+              card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+              card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            });
+            
+            // Click ripple effect
+            card.addEventListener('click', (e) => {
+              const ripple = document.createElement('div');
+              const rect = card.getBoundingClientRect();
+              const size = Math.max(rect.width, rect.height);
+              const x = e.clientX - rect.left - size / 2;
+              const y = e.clientY - rect.top - size / 2;
+              
+              ripple.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: ripple 0.6s ease-out;
+                pointer-events: none;
+                z-index: 1;
+              `;
+              
+              card.appendChild(ripple);
+              
+              setTimeout(() => {
+                ripple.remove();
+              }, 600);
+            });
+          });
+        }
 
 
-      // Change background overlay opacity when hovering over cards
-      document.querySelectorAll('.hover-box').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-          document.body.classList.add('card-hovered');
-        });
-        
-        card.addEventListener('mouseleave', () => {
-          document.body.classList.remove('card-hovered');
-        });
+        // Performance optimizations
+        setupPerformanceOptimizations() {
+          // Preload critical resources
+          const preloadLinks = [
+            'print.html',
+            'bookshop.html',
+            'login.html'
+          ];
+          
+          preloadLinks.forEach(link => {
+            const linkEl = document.createElement('link');
+            linkEl.rel = 'prefetch';
+            linkEl.href = link;
+            document.head.appendChild(linkEl);
+          });
+          
+          // Smooth scrolling
+          document.documentElement.style.scrollBehavior = 'smooth';
+        }
+      }
+
+      // Initialize app when DOM is loaded
+      document.addEventListener('DOMContentLoaded', () => {
+        new NethwinApp();
       });
 
-
+      // Add CSS animations
+      const style = document.createElement('style');
+      style.textContent = `
+        .modern-card {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 3rem;
+          width: 100%;
+          height: 24rem;
+          text-align: center;
+          border-radius: 1.5rem;
+          background: rgba(255, 255, 255, 0.9);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          overflow: hidden;
+          cursor: pointer;
+        }
+        
+        .modern-card:hover {
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-content {
+          position: relative;
+          z-index: 2;
+          transition: all 0.4s ease;
+        }
+        
+        .card-bg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(135deg, #0ad167, #19e619);
+          transform: translateY(100%);
+          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: 1;
+        }
+        
+        .modern-card:hover .card-bg {
+          transform: translateY(0);
+        }
+        
+        .icon-container {
+          margin-bottom: 1rem;
+          transform: translateY(0);
+          transition: transform 0.4s ease;
+        }
+        
+        .modern-card:hover .icon-container {
+          transform: translateY(-5px);
+        }
+        
+        .modern-btn {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0.75rem 2rem;
+          background: #0ad167;
+          color: #151612;
+          font-weight: 600;
+          border-radius: 2rem;
+          text-decoration: none;
+          overflow: hidden;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(10, 209, 103, 0.3);
+        }
+        
+        .modern-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(10, 209, 103, 0.4);
+        }
+        
+        .transparent-btn {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0.5rem 1.5rem;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          color: #1b5e20;
+          font-weight: 600;
+          border-radius: 2rem;
+          text-decoration: none;
+          overflow: hidden;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .transparent-btn:hover {
+          background: rgba(255, 255, 255, 0.2);
+          border-color: rgba(10, 209, 103, 0.3);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+          color: #0ad167;
+        }
+        
+        .btn-bg {
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+          transition: left 0.5s ease;
+        }
+        
+        .modern-btn:hover .btn-bg {
+          left: 100%;
+        }
+        
+        @keyframes ripple {
+          to {
+            transform: scale(2);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes geometricFloat {
+          0%, 100% {
+            transform: translateY(0px) rotate(0deg) scale(1);
+            opacity: 0.4;
+          }
+          25% {
+            transform: translateY(-30px) rotate(90deg) scale(1.1);
+            opacity: 0.7;
+          }
+          50% {
+            transform: translateY(-15px) rotate(180deg) scale(0.9);
+            opacity: 0.5;
+          }
+          75% {
+            transform: translateY(-40px) rotate(270deg) scale(1.05);
+            opacity: 0.8;
+          }
+        }
+        
+        @keyframes orbFloat {
+          0%, 100% {
+            transform: translateX(0px) translateY(0px) scale(1);
+            opacity: 0.3;
+          }
+          33% {
+            transform: translateX(30px) translateY(-20px) scale(1.1);
+            opacity: 0.6;
+          }
+          66% {
+            transform: translateX(-20px) translateY(25px) scale(0.9);
+            opacity: 0.4;
+          }
+        }
+        
+        @keyframes sparkleAnimation {
+          0%, 100% {
+            transform: scale(0) rotate(0deg);
+            opacity: 0;
+          }
+          50% {
+            transform: scale(1) rotate(180deg);
+            opacity: 1;
+          }
+        }
+        
+        @keyframes rayPulse {
+          0%, 100% {
+            opacity: 0.1;
+            transform: scale(1) rotate(var(--rotation, 0deg));
+          }
+          50% {
+            opacity: 0.4;
+            transform: scale(1.1) rotate(calc(var(--rotation, 0deg) + 10deg));
+          }
+        }
+        
+        .particles-container {
+          background: 
+            radial-gradient(ellipse at center, rgba(10, 209, 103, 0.05) 0%, transparent 70%),
+            radial-gradient(ellipse at 20% 20%, rgba(25, 230, 25, 0.03) 0%, transparent 60%),
+            radial-gradient(ellipse at 80% 80%, rgba(76, 175, 80, 0.04) 0%, transparent 50%);
+        }
+        
+        
+        @media (max-width: 768px) {
+          .modern-card {
+            height: 18rem;
+            padding: 2rem;
+          }
+          
+          .modern-card h2 {
+            font-size: 1.5rem;
+          }
+          
+          .transparent-btn {
+            padding: 0.4rem 1.2rem;
+            font-size: 0.9rem;
+          }
+          
+        }
+      `;
+      document.head.appendChild(style);
     </script>
   </body>
 </html>
