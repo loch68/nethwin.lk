@@ -126,7 +126,7 @@
                                         class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-white focus:border-[#0ad167] h-32 placeholder:text-[#4e974e] p-[15px] text-base font-normal leading-normal"></textarea>
                                 </div>
                                 <button type="button" id="sendContact"
-                                    class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-[#0ad167] text-[#0e1b0e] text-base font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out hover:bg-[#08b85a] hover:scale-[1.02] hover:shadow-lg hover:shadow-[#0ad167]/30">
+                                    class="btn-primary flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 text-base font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out">
                                     <span class="truncate">Send Message</span>
                                 </button>
                             </form>
@@ -138,7 +138,7 @@
                                 <h2 class="text-[#0e1b0e] text-2xl font-bold leading-tight pb-6">Contact Information</h2>
                                 <div class="space-y-6">
                                     <div class="flex items-center gap-4">
-                                        <div class="bg-[#0ad167] text-[#0e1b0e] p-3 rounded-full">
+                                        <div class="bg-[#19e619] text-[#ffffff] p-3 rounded-full">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256">
                                                 <path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z"></path>
                                             </svg>
@@ -149,7 +149,7 @@
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-4">
-                                        <div class="bg-[#0ad167] text-[#0e1b0e] p-3 rounded-full">
+                                        <div class="bg-[#19e619] text-[#ffffff] p-3 rounded-full">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256">
                                                 <path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"></path>
                                             </svg>
@@ -160,7 +160,7 @@
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-4">
-                                        <div class="bg-[#0ad167] text-[#0e1b0e] p-3 rounded-full">
+                                        <div class="bg-[#19e619] text-[#ffffff] p-3 rounded-full">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256">
                                                 <path d="M128,64a40,40,0,1,0,40,40A40,40,0,0,0,128,64Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,128Zm0-112a88.1,88.1,0,0,0-88,88c0,31.4,14.51,64.68,42,96.25a254.19,254.19,0,0,0,41.45,38.3,8,8,0,0,0,9.18,0A254.19,254.19,0,0,0,174,200.25c27.45-31.57,42-64.85,42-96.25A88.1,88.1,0,0,0,128,16Zm0,206c-16.53-13-72-60.75-72-118a72,72,0,0,1,144,0C200,161.23,144.53,209,128,222Z"></path>
                                             </svg>
@@ -206,6 +206,57 @@
                 </div>
             </div>
         </div>
+        
+            <!-- QR Codes Section -->
+            <div class="flex flex-1 justify-center py-5">
+                <div class="flex flex-col items-center w-full max-w-[1200px] py-5 px-4">
+                    <!-- QR Codes Section CHANGE THIS AFTER GETTING THE CORRECT WHATSAPP NUMBER -->
+                    <div class="bg-white rounded-xl p-8 border border-[#d0e7d0] w-full shadow-sm">
+                        <h2 class="text-[#0e1b0e] text-2xl font-bold leading-tight pb-6">Quick Contact</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- WhatsApp QR Code -->
+                            <div class="bg-white p-6 rounded-lg border border-[#d0e7d0] shadow-sm">
+                                <div class="text-center">
+                                    
+                                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wa.me/94778660753" 
+                                             alt="WhatsApp QR Code" 
+                                             class="mx-auto rounded-lg shadow-sm">
+                                    
+                                    <h3 class="text-[#0e1b0e] font-semibold text-lg mb-2">WhatsApp Chat</h3>
+                                    <p class="text-[#4e974e] text-sm mb-3">Scan to start a conversation</p>
+                                    <a href="https://wa.me/94778660753" 
+                                       class="btn-primary inline-flex items-center gap-2">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                                        </svg>
+                                        Chat Now
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Contact Info QR Code -->
+                            <div class="bg-white p-6 rounded-lg border border-[#d0e7d0] shadow-sm">
+                                <div class="text-center">
+                                    
+                                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=mailto:nethwin@yahoo.com?subject=Contact%20from%20Website&body=Hello%20NethwinLK%2C%0A%0AI%20would%20like%20to%20get%20in%20touch%20with%20you.%0A%0AThank%20you." 
+                                             alt="Contact Info QR Code" 
+                                             class="mx-auto rounded-lg shadow-sm">
+                                    
+                                    <h3 class="text-[#0e1b0e] font-semibold text-lg mb-2">Emain Inquiry</h3>
+                                    <p class="text-[#4e974e] text-sm mb-3">Scan for quick email contact</p>
+                                    <a href="mailto:nethwin@yahoo.com?subject=Contact from Website" 
+                                       class="btn-primary inline-flex items-center gap-2">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                                        </svg>
+                                        Email Us
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         <footer class="flex justify-center">
                 <div class="flex max-w-[960px] flex-1 flex-col">
                     <footer class="flex flex-col gap-6 px-5 py-10 text-center @container">
