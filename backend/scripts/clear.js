@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Product = require('../src/models/Product');
 
 async function main() {
-  const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/nethwin_shop';
+  const uri = process.env.MONGODB_URI || 'mongodb+srv://Cluster28608:nethwinlk@cluster28608.qqqrppl.mongodb.net/bookstore';
   await mongoose.connect(uri, { serverSelectionTimeoutMS: 5000 });
   const result = await Product.deleteMany({});
   console.log(`Deleted ${result.deletedCount} products.`);

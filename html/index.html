@@ -373,12 +373,25 @@
             const topAuthArea = document.getElementById('topAuthArea');
             
             if (token && topAuthArea) {
+              // Check if user is admin
+              const userData = localStorage.getItem('userData');
+              let isAdmin = false;
+              
+              if (userData) {
+                try {
+                  const user = JSON.parse(userData);
+                  isAdmin = user.role === 'admin';
+                } catch (e) {
+                  console.warn('Error parsing user data:', e);
+                }
+              }
+              
               topAuthArea.innerHTML = `
-                <a href="profile.html" class="transparent-btn profile-btn group">
+                <a href="${isAdmin ? 'admin-dashboard.html' : 'profile.html'}" class="transparent-btn profile-btn group" id="profileLink">
                   <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                   </svg>
-                  <span class="btn-text">Profile</span>
+                  <span class="btn-text">${isAdmin ? 'Admin Dashboard' : 'Profile'}</span>
                   <div class="btn-bg"></div>
                 </a>
               `;

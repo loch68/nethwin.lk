@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/nethwin_shop';
+const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://Cluster28608:nethwinlk@cluster28608.qqqrppl.mongodb.net/bookstore';
 mongoose
   .connect(mongoUri, { 
     serverSelectionTimeoutMS: 5000,
@@ -191,7 +191,65 @@ app.get('/api/users', async (req, res) => {
   res.json({ users });
 });
 app.post('/api/users', async (req, res) => {
-  try { const user = await User.create(req.body || {}); res.status(201).json(user); } catch (e) { res.status(400).json({ error: e.message }); }
+  try {
+    const {
+      fullName,
+      email,
+      username,
+      phoneNumber,
+      password,
+      role = 'customer',
+      customerType = 'online',
+      status = 'active'
+    } = req.body || {};
+
+    // Validate required fields
+    if (!fullName || !email || !username || !password) {
+      return res.status(400).json({ error: 'fullName, email, username, password required' });
+    }
+
+    // Check if user already exists
+    const existing = await User.findOne({ 
+      $or: [{ email }, { username }] 
+    }).lean();
+    if (existing) {
+      return res.status(409).json({ error: 'Email or username already exists' });
+    }
+
+    // Hash password
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    // Create user
+    const user = await User.create({
+      fullName,
+      email,
+      username,
+      phoneNumber: phoneNumber || '',
+      passwordHash,
+      role,
+      customerType,
+      status
+    });
+
+    // Return user without password hash
+    const userResponse = {
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      username: user.username,
+      phoneNumber: user.phoneNumber,
+      role: user.role,
+      customerType: user.customerType,
+      status: user.status,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt
+    };
+
+    res.status(201).json(userResponse);
+  } catch (e) { 
+    console.error('User creation error:', e);
+    res.status(400).json({ error: e.message }); 
+  }
 });
 app.put('/api/users/:id', async (req, res) => {
   try { const u = await User.findByIdAndUpdate(req.params.id, { $set: req.body || {} }, { new: true }).lean(); if (!u) return res.status(404).json({ error: 'Not found' }); res.json(u); } catch (e) { res.status(400).json({ error: e.message }); }
@@ -308,27 +366,112 @@ const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-me';
 
 app.post('/api/auth/signup', async (req, res) => {
   try {
-    const { fullName, email, phone, password } = req.body || {};
-    if (!fullName || !email || !password) return res.status(400).json({ error: 'fullName, email, password required' });
-    const existing = await User.findOne({ email }).lean();
+    // Handle both old and new field names for backward compatibility
+    const {
+      // New field names from frontend
+      Username, FullName, EmailAddress, PhoneNumber, Address, Province, District, City, ZipCode, PasswordHash,
+      // Old field names for backward compatibility
+      fullName, email, phone, password, username
+    } = req.body || {};
+
+    // Use new field names if available, otherwise fall back to old ones
+    const usernameValue = Username || username || email?.split('@')[0] || 'user';
+    const fullNameValue = FullName || fullName;
+    const emailValue = EmailAddress || email;
+    const phoneValue = PhoneNumber || phone || '';
+    const addressValue = Address || '';
+    const provinceValue = Province || '';
+    const districtValue = District || '';
+    const cityValue = City || '';
+    const zipCodeValue = ZipCode || '';
+    const passwordValue = PasswordHash || password;
+
+    // Validate required fields
+    if (!fullNameValue || !emailValue || !passwordValue) {
+      return res.status(400).json({ error: 'fullName, email, password required' });
+    }
+
+    // Check if user already exists
+    const existing = await User.findOne({ email: emailValue }).lean();
     if (existing) return res.status(409).json({ error: 'Email already registered' });
-    const passwordHash = await require('bcryptjs').hash(password, 10);
-    const user = await User.create({ fullName, email, phone: phone || '', password: passwordHash, status: 'active', username: email.split('@')[0] });
-    const token = require('jsonwebtoken').sign({ sub: user._id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
-    res.status(201).json({ token, user: { _id: user._id, fullName: user.fullName, email: user.email, phone: user.phone, status: user.status } });
-  } catch (e) { res.status(400).json({ error: e.message }); }
+
+    // Hash password
+    const passwordHash = await require('bcryptjs').hash(passwordValue, 10);
+
+    // Create user with all fields
+    const user = await User.create({
+      username: usernameValue,
+      fullName: fullNameValue,
+      email: emailValue,
+      phoneNumber: phoneValue,
+      address: addressValue,
+      province: provinceValue,
+      district: districtValue,
+      city: cityValue,
+      zipCode: zipCodeValue,
+      passwordHash: passwordHash,
+      status: 'active',
+      role: 'customer'
+    });
+
+    // Generate JWT token
+    const token = require('jsonwebtoken').sign(
+      { sub: user._id, email: user.email }, 
+      JWT_SECRET, 
+      { expiresIn: '7d' }
+    );
+
+    res.status(201).json({ 
+      token, 
+      user: { 
+        _id: user._id, 
+        fullName: user.fullName, 
+        email: user.email, 
+        phone: user.phoneNumber, 
+        status: user.status 
+      } 
+    });
+  } catch (e) { 
+    console.error('Signup error:', e);
+    res.status(400).json({ error: e.message }); 
+  }
 });
 
 app.post('/api/auth/login', async (req, res) => {
   try {
-    const { email, password } = req.body || {};
-    const user = await User.findOne({ email }).lean();
+    const { email, username, password } = req.body || {};
+    
+    // Determine if the input is an email or username
+    const isEmail = email && email.includes('@');
+    const loginField = isEmail ? email : (username || email);
+    
+    // Search for user by email or username
+    const user = await User.findOne({
+      $or: [
+        { email: loginField },
+        { username: loginField }
+      ]
+    }).lean();
+    
     if (!user) return res.status(401).json({ error: 'Invalid credentials' });
-    const ok = await require('bcryptjs').compare(password || '', user.password || '');
+    const ok = await require('bcryptjs').compare(password || '', user.passwordHash || '');
     if (!ok) return res.status(401).json({ error: 'Invalid credentials' });
     const token = require('jsonwebtoken').sign({ sub: user._id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
-    res.json({ token, user: { _id: user._id, fullName: user.fullName, email: user.email, phone: user.phone, status: user.status } });
-  } catch (e) { res.status(400).json({ error: e.message }); }
+    res.json({ 
+      token, 
+      user: { 
+        _id: user._id, 
+        fullName: user.fullName, 
+        email: user.email, 
+        phone: user.phoneNumber, 
+        status: user.status,
+        role: user.role
+      } 
+    });
+  } catch (e) { 
+    console.error('Login error:', e);
+    res.status(400).json({ error: e.message }); 
+  }
 });
 
 app.get('/api/me', async (req, res) => {
