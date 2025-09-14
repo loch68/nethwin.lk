@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,9 +9,13 @@
       rel="stylesheet"
       as="style"
       onload="this.rel='stylesheet'"
-      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
     />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="../css/hover-effects.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/background-animations.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
     <style>
         .sidebar-transition {
             transition: transform 0.3s ease-in-out;
@@ -21,9 +24,10 @@
             transform: translateX(-100%);
         }
     </style>
+    <script src="../javascript/auth.js"></script>
 </head>
 <body>
-    <div class="relative flex size-full min-h-screen flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden" style='font-family: Inter, "Noto Sans", sans-serif;'>
+    <div class="relative flex size-full min-h-screen flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden" style="font-family: Inter, 'Noto Sans', sans-serif;">
         <div class="layout-container flex h-full grow flex-col">
             
             <!-- Sidebar -->
@@ -48,7 +52,7 @@
                     <nav class="flex-1 p-4 space-y-2">
                         <a href="admin-dashboard.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"></path>
                             </svg>
                             Dashboard
@@ -59,13 +63,19 @@
                             </svg>
                             Users
                         </a>
-                        <a href="admin-orders.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                        <a href="admin-bookshop-orders.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                             </svg>
-                            Orders
+                            Bookshop Orders
                         </a>
-                        <a href="#" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                        <a href="admin-print-orders.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                            </svg>
+                            Print Orders
+                        </a>
+                        <a href="admin-products.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
                             </svg>
@@ -77,10 +87,33 @@
                             </svg>
                             Reviews
                         </a>
+                        <a href="admin-messages.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4-.8L3 20l.8-4A8.94 8.94 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                            </svg>
+                            Messages
+                        </a>
+                        <a href="admin-settings.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Settings
+                        </a>
                     </nav>
 
-                    <!-- Logout Section -->
-                    <div class="p-4 border-t border-[#e8f2ec]">
+                    <!-- User Mode & Logout Section -->
+                    <div class="p-4 border-t border-[#e8f2ec] space-y-2">
+                        <button 
+                            id="userModeBtn" 
+                            class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-blue-600 hover:bg-blue-50 rounded-lg font-medium transition-colors w-full text-left"
+                            title="Switch to User Mode for Testing"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                            User Mode
+                        </button>
                         <button onclick="logout()" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-red-600 hover:bg-red-50 rounded-lg font-medium transition-colors w-full">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
@@ -93,23 +126,10 @@
 
             <!-- Main Content -->
             <div class="ml-64 flex-1">
-                <!-- Top Header -->
-                <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f2ec] px-10 py-3">
-                    <div class="flex items-center gap-4 text-[#0e1a13]">
-                        <button id="sidebarToggle" class="size-4 md:hidden">
-                            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
-                                    d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
-                                    fill="currentColor"
-                                ></path>
-                            </svg>
-                        </button>
-                        
-                    </div>
-                   
-                     
+                <header
+                    class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f2ec] px-10 py-3"
+                >
+                    <div class="flex items-center gap-4 text-[#0e1a13]"></div>
                 </header>
 
                 <!-- Main Content Area -->
@@ -150,33 +170,19 @@
                             </label>
                         </div>
 
-                        <!-- Filter Tabs -->
-                        <div class="pb-3">
-                            <div class="flex border-b border-[#d1e6d9] px-4 gap-8">
-                                <button onclick="filterUsers('all')" class="filter-tab active flex flex-col items-center justify-center border-b-[3px] border-b-[#38e07b] text-[#0e1a13] pb-[13px] pt-4">
-                                    <p class="text-[#0e1a13] text-sm font-bold leading-normal tracking-[0.015em]">All</p>
-                                </button>
-                                <button onclick="filterUsers('active')" class="filter-tab flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#51946c] pb-[13px] pt-4">
-                                    <p class="text-[#51946c] text-sm font-bold leading-normal tracking-[0.015em]">Active</p>
-                                </button>
-                                <button onclick="filterUsers('inactive')" class="filter-tab flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#51946c] pb-[13px] pt-4">
-                                    <p class="text-[#51946c] text-sm font-bold leading-normal tracking-[0.015em]">Inactive</p>
-                                </button>
-                            </div>
-                        </div>
-
                         <!-- Users Table -->
                         <div class="px-4 py-3 @container">
                             <div class="flex overflow-hidden rounded-lg border border-[#d1e6d9] bg-[#f8fbfa]">
                                 <table class="flex-1">
                                     <thead>
                                         <tr class="bg-[#f8fbfa]">
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[400px] text-sm font-medium leading-normal">Name</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[400px] text-sm font-medium leading-normal">Email</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[400px] text-sm font-medium leading-normal">Phone</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[400px] text-sm font-medium leading-normal">Orders</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[400px] text-sm font-medium leading-normal">Total spent</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-60 text-sm font-medium leading-normal">Status</th>
+                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[300px] text-sm font-medium leading-normal">Name</th>
+                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[300px] text-sm font-medium leading-normal">Email</th>
+                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[200px] text-sm font-medium leading-normal">Phone</th>
+                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[150px] text-sm font-medium leading-normal">Role</th>
+                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[150px] text-sm font-medium leading-normal">Type</th>
+                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[120px] text-sm font-medium leading-normal">Status</th>
+                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[120px] text-sm font-medium leading-normal">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="usersTableBody">
@@ -191,253 +197,335 @@
         </div>
     </div>
 
-    <!-- Add/Edit User Modal -->
-    <div id="userModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-lg p-6 w-full max-w-md">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 id="modalTitle" class="text-lg font-semibold text-[#0e1a13]">Add New User</h3>
-                    <button onclick="closeUserModal()" class="text-gray-500 hover:text-gray-700">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
+    <!-- Add Customer Modal -->
+    <div id="addUserModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-[#0e1a13]">Add New Customer</h3>
+                <button onclick="closeAddUserModal()" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <form id="addUserForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-[#0e1a13] mb-1">Full Name *</label>
+                    <input type="text" id="addFullName" required class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:ring-2 focus:ring-[#19e619] focus:border-[#19e619]">
                 </div>
                 
-                <form id="userForm" class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-[#0e1a13] mb-1">Name</label>
-                        <input type="text" id="userName" required class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-sm font-medium text-[#0e1a13] mb-1">Email</label>
-                        <input type="email" id="userEmail" required class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-sm font-medium text-[#0e1a13] mb-1">Phone</label>
-                        <input type="tel" id="userPhone" required class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-sm font-medium text-[#0e1a13] mb-1">Status</label>
-                        <select id="userStatus" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                        </select>
-                    </div>
-                    
-                    <div class="flex gap-3 pt-4">
-                        <button type="submit" class="flex-1 bg-[#19e619] text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors">
-                            Save
-                        </button>
-                        <button type="button" onclick="closeUserModal()" class="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors">
-                            Cancel
-                        </button>
-                    </div>
-                </form>
+                <div>
+                    <label class="block text-sm font-medium text-[#0e1a13] mb-1">Email *</label>
+                    <input type="email" id="addEmail" required class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:ring-2 focus:ring-[#19e619] focus:border-[#19e619]">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-[#0e1a13] mb-1">Username *</label>
+                    <input type="text" id="addUsername" required class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:ring-2 focus:ring-[#19e619] focus:border-[#19e619]">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-[#0e1a13] mb-1">Phone Number</label>
+                    <input type="tel" id="addPhone" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:ring-2 focus:ring-[#19e619] focus:border-[#19e619]">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-[#0e1a13] mb-1">Password *</label>
+                    <input type="password" id="addPassword" required class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:ring-2 focus:ring-[#19e619] focus:border-[#19e619]">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-[#0e1a13] mb-1">Role *</label>
+                    <select id="addRole" required class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:ring-2 focus:ring-[#19e619] focus:border-[#19e619]">
+                        <option value="customer">Customer</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-[#0e1a13] mb-1">Customer Type *</label>
+                    <select id="addCustomerType" required class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:ring-2 focus:ring-[#19e619] focus:border-[#19e619]">
+                        <option value="online">Online Customer</option>
+                        <option value="instore">In-Store Customer</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-[#0e1a13] mb-1">Status *</label>
+                    <select id="addStatus" required class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:ring-2 focus:ring-[#19e619] focus:border-[#19e619]">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="suspended">Suspended</option>
+                    </select>
+                </div>
+                
+                <div class="flex gap-3 pt-4">
+                    <button type="submit" class="flex-1 bg-[#19e619] text-white py-2 px-4 rounded-lg hover:bg-[#16d117] transition-colors">
+                        Add Customer
+                    </button>
+                    <button type="button" onclick="closeAddUserModal()" class="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Details Modal -->
+    <div id="userDetailsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg p-6 w-full max-w-lg mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-[#0e1a13]">Customer Details</h3>
+                <button onclick="closeUserDetailsModal()" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="userDetailsContent" class="space-y-4">
+                <!-- User details will be populated here -->
+            </div>
+            
+            <div class="flex gap-3 pt-4">
+                <button onclick="editUser()" class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                    Edit User
+                </button>
+                <button onclick="deleteUserFromModal()" class="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors">
+                    Delete User
+                </button>
+                <button onclick="closeUserDetailsModal()" class="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors">
+                    Close
+                </button>
             </div>
         </div>
     </div>
 
     <script>
-        let users = [];
-        let currentFilter = 'all';
-        let editingUserId = null;
-
+        // Authentication check
         document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in and is admin
+            if (!window.authManager.isLoggedIn()) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+            
+            if (!window.authManager.isAdmin()) {
+                window.location.href = 'profile.html';
+                return;
+            }
+            
+            // User Mode functionality
+            document.getElementById('userModeBtn').addEventListener('click', function() {
+                if (confirm('Switch to User Mode? You can access the website as a regular customer for testing purposes.')) {
+                    localStorage.setItem('adminMode', 'false');
+                    window.location.href = 'index.html';
+                }
+            });
+            
+            // Load users
             loadUsers();
-            setupEventListeners();
         });
 
-        function setupEventListeners() {
-            document.getElementById('searchInput').addEventListener('input', function(e) {
-                filterUsersBySearch(e.target.value);
-            });
-
-            document.getElementById('userForm').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                await saveUser();
-            });
-        }
+        let users = [];
+        let selectedUser = null;
+        let filteredUsers = [];
 
         async function loadUsers() {
             try {
                 const res = await fetch('/api/users');
                 const data = await res.json();
-                users = (data.users || data || []).map(u => ({
-                    id: u._id,
-                    name: u.fullName || u.name || '',
-                    email: u.email || '',
-                    phone: u.phone || '',
-                    orders: u.ordersCount || 0,
-                    totalSpent: u.totalSpent || 0,
-                    status: u.status || 'active'
-                }));
+                users = data.users || data || [];
+                filteredUsers = [...users];
                 renderUsersTable();
             } catch (e) {
                 console.error('Failed to load users', e);
             }
         }
 
-        function renderUsersTable(list = users) {
+        function renderUsersTable() {
             const tbody = document.getElementById('usersTableBody');
             tbody.innerHTML = '';
 
-            list.forEach(user => {
-                if (currentFilter === 'all' || user.status === currentFilter) {
-                    const row = document.createElement('tr');
-                    row.className = 'border-t border-t-[#d1e6d9]';
-                    row.innerHTML = `
-                        <td class="h-[72px] px-4 py-2 w-[400px] text-[#0e1a13] text-sm font-normal leading-normal"><button class="underline" onclick="openEditUserModal('${user.id}')">${user.name}</button></td>
-                        <td class="h-[72px] px-4 py-2 w-[400px] text-[#51946c] text-sm font-normal leading-normal">${user.email}</td>
-                        <td class="h-[72px] px-4 py-2 w-[400px] text-[#51946c] text-sm font-normal leading-normal">${user.phone}</td>
-                        <td class="h-[72px] px-4 py-2 w-[400px] text-[#51946c] text-sm font-normal leading-normal">${user.orders}</td>
-                        <td class="h-[72px] px-4 py-2 w-[400px] text-[#51946c] text-sm font-normal leading-normal">LKR ${user.totalSpent}</td>
-                        <td class="h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
-                            <div class="flex gap-2">
-                                <button onclick="updateStatus('${user.id}')" class="flex items-center justify-center rounded-lg h-8 px-3 bg-[#e8f2ec] text-[#0e1a13] text-xs">${user.status}</button>
-                                <button onclick="deleteUser('${user.id}')" class="flex items-center justify-center rounded-lg h-8 px-3 bg-red-50 text-red-700 text-xs">Delete</button>
-                            </div>
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                }
+            filteredUsers.forEach(user => {
+                const row = document.createElement('tr');
+                row.className = 'border-t border-t-[#d1e6d9] hover:bg-gray-50 cursor-pointer';
+                row.onclick = () => showUserDetails(user);
+                row.innerHTML = `
+                    <td class="h-[72px] px-4 py-2 w-[300px] text-[#0e1a13] text-sm font-normal leading-normal">${user.fullName || 'N/A'}</td>
+                    <td class="h-[72px] px-4 py-2 w-[300px] text-[#51946c] text-sm font-normal leading-normal">${user.email || 'N/A'}</td>
+                    <td class="h-[72px] px-4 py-2 w-[200px] text-[#51946c] text-sm font-normal leading-normal">${user.phoneNumber || 'N/A'}</td>
+                    <td class="h-[72px] px-4 py-2 w-[150px] text-sm">
+                        <span class="bg-${user.role === 'admin' ? 'blue' : 'green'}-100 text-${user.role === 'admin' ? 'blue' : 'green'}-800 px-2 py-1 rounded text-xs font-medium">${user.role || 'customer'}</span>
+                    </td>
+                    <td class="h-[72px] px-4 py-2 w-[150px] text-sm">
+                        <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs font-medium">${user.customerType || 'online'}</span>
+                    </td>
+                    <td class="h-[72px] px-4 py-2 w-[120px] text-sm">
+                        <span class="bg-${user.status === 'active' ? 'green' : user.status === 'inactive' ? 'yellow' : 'red'}-100 text-${user.status === 'active' ? 'green' : user.status === 'inactive' ? 'yellow' : 'red'}-800 px-2 py-1 rounded text-xs font-medium">${user.status || 'active'}</span>
+                    </td>
+                    <td class="h-[72px] px-4 py-2 w-[120px] text-sm">
+                        <button onclick="event.stopPropagation(); deleteUser('${user._id}')" class="text-red-600 hover:text-red-800 text-xs">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
             });
-        }
-
-        function filterUsers(status) {
-            currentFilter = status;
-            document.querySelectorAll('.filter-tab').forEach(tab => {
-                tab.classList.remove('border-b-[#38e07b]', 'text-[#0e1a13]');
-                tab.classList.add('border-b-transparent', 'text-[#51946c]');
-                tab.querySelector('p').classList.remove('text-[#0e1a13]');
-                tab.querySelector('p').classList.add('text-[#51946c]');
-            });
-            event.currentTarget.classList.remove('border-b-transparent', 'text-[#51946c]');
-            event.currentTarget.classList.add('border-b-[#38e07b]', 'text-[#0e1a13]');
-            event.currentTarget.querySelector('p').classList.remove('text-[#51946c]');
-            event.currentTarget.querySelector('p').classList.add('text-[#0e1a13]');
-            renderUsersTable();
-        }
-
-        function filterUsersBySearch(searchTerm) {
-            const term = (searchTerm || '').toLowerCase();
-            const filteredUsers = !term ? users : users.filter(user => 
-                (user.name || '').toLowerCase().includes(term) ||
-                (user.email || '').toLowerCase().includes(term) ||
-                (user.phone || '').includes(term)
-            );
-            renderUsersTable(filteredUsers);
         }
 
         function openAddUserModal() {
-            editingUserId = null;
-            document.getElementById('modalTitle').textContent = 'Add New User';
-            document.getElementById('userForm').reset();
-            document.getElementById('userModal').classList.remove('hidden');
+            document.getElementById('addUserModal').classList.remove('hidden');
         }
 
-        function openEditUserModal(userId) {
-            const user = users.find(u => u.id === userId);
-            if (!user) return;
-            editingUserId = userId;
-            document.getElementById('modalTitle').textContent = 'Edit User';
-            document.getElementById('userName').value = user.name || '';
-            document.getElementById('userEmail').value = user.email || '';
-            document.getElementById('userPhone').value = user.phone || '';
-            document.getElementById('userStatus').value = user.status || 'active';
-            document.getElementById('userModal').classList.remove('hidden');
+        function closeAddUserModal() {
+            document.getElementById('addUserModal').classList.add('hidden');
+            document.getElementById('addUserForm').reset();
         }
 
-        function closeUserModal() {
-            document.getElementById('userModal').classList.add('hidden');
-            editingUserId = null;
+        function showUserDetails(user) {
+            selectedUser = user;
+            const content = document.getElementById('userDetailsContent');
+            content.innerHTML = `
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Full Name</label>
+                        <p class="text-sm text-gray-900">${user.fullName || 'N/A'}</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Username</label>
+                        <p class="text-sm text-gray-900">${user.username || 'N/A'}</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Email</label>
+                        <p class="text-sm text-gray-900">${user.email || 'N/A'}</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Phone</label>
+                        <p class="text-sm text-gray-900">${user.phoneNumber || 'N/A'}</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Role</label>
+                        <p class="text-sm text-gray-900">${user.role || 'customer'}</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Customer Type</label>
+                        <p class="text-sm text-gray-900">${user.customerType || 'online'}</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Status</label>
+                        <p class="text-sm text-gray-900">${user.status || 'active'}</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Created</label>
+                        <p class="text-sm text-gray-900">${user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('userDetailsModal').classList.remove('hidden');
         }
 
-        async function saveUser() {
-            const body = {
-                fullName: document.getElementById('userName').value,
-                email: document.getElementById('userEmail').value,
-                phone: document.getElementById('userPhone').value,
-                status: document.getElementById('userStatus').value,
-                username: (document.getElementById('userEmail').value || '').split('@')[0]
+        function closeUserDetailsModal() {
+            document.getElementById('userDetailsModal').classList.add('hidden');
+            selectedUser = null;
+        }
+
+        async function addUser() {
+            const formData = {
+                fullName: document.getElementById('addFullName').value,
+                email: document.getElementById('addEmail').value,
+                username: document.getElementById('addUsername').value,
+                phoneNumber: document.getElementById('addPhone').value,
+                password: document.getElementById('addPassword').value,
+                role: document.getElementById('addRole').value,
+                customerType: document.getElementById('addCustomerType').value,
+                status: document.getElementById('addStatus').value
             };
 
             try {
-                if (editingUserId) {
-                    await fetch(`/api/users/${editingUserId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-                } else {
-                    await fetch('/api/users', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-                }
-                closeUserModal();
-                await loadUsers();
-            } catch (err) {
-                alert('Save failed');
-            }
-        }
+                const res = await fetch('/api/users', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+                    },
+                    body: JSON.stringify(formData)
+                });
 
-        async function updateStatus(userId) {
-            const newStatus = prompt('Enter status (active/inactive/suspended):');
-            if (!newStatus || !['active','inactive','suspended'].includes(newStatus)) return;
-            try {
-                await fetch(`/api/users/${userId}/status`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: newStatus }) });
-                await loadUsers();
+                if (res.ok) {
+                    closeAddUserModal();
+                    await loadUsers();
+                    alert('Customer added successfully!');
+                } else {
+                    const error = await res.json();
+                    alert('Failed to add customer: ' + (error.message || 'Unknown error'));
+                }
             } catch (e) {
-                alert('Failed to update status');
+                alert('Failed to add customer: ' + e.message);
             }
         }
 
         async function deleteUser(userId) {
             if (!confirm('Delete this user?')) return;
             try {
-                await fetch(`/api/users/${userId}`, { method: 'DELETE' });
-                await loadUsers();
+                const res = await fetch(`/api/users/${userId}`, { 
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+                    }
+                });
+                
+                if (res.ok) {
+                    await loadUsers();
+                    alert('User deleted successfully!');
+                } else {
+                    alert('Failed to delete user');
+                }
             } catch (e) {
                 alert('Failed to delete user');
             }
         }
 
-        // Sidebar toggle functionality
-        const sidebar = document.getElementById('sidebar');
-        const sidebarToggle = document.getElementById('sidebarToggle');
-
-        function toggleSidebar() {
-            if (window.innerWidth < 768) {
-                sidebar.classList.toggle('sidebar-hidden');
+        function deleteUserFromModal() {
+            if (selectedUser) {
+                deleteUser(selectedUser._id);
+                closeUserDetailsModal();
             }
         }
 
-        sidebarToggle.addEventListener('click', toggleSidebar);
-
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth < 768 && 
-                !sidebar.contains(e.target) && 
-                !sidebarToggle.contains(e.target)) {
-                sidebar.classList.add('sidebar-hidden');
+        function editUser() {
+            if (selectedUser) {
+                // TODO: Implement edit functionality
+                alert('Edit functionality will be implemented');
             }
-        });
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 768) {
-                sidebar.classList.remove('sidebar-hidden');
-            } else {
-                sidebar.classList.add('sidebar-hidden');
-            }
-        });
-
-        // Initialize sidebar state on load
-        if (window.innerWidth < 768) {
-            sidebar.classList.add('sidebar-hidden');
         }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            filteredUsers = users.filter(user => 
+                (user.fullName && user.fullName.toLowerCase().includes(searchTerm)) ||
+                (user.email && user.email.toLowerCase().includes(searchTerm)) ||
+                (user.username && user.username.toLowerCase().includes(searchTerm)) ||
+                (user.phoneNumber && user.phoneNumber.toLowerCase().includes(searchTerm))
+            );
+            renderUsersTable();
+        });
+
+        // Form submission
+        document.getElementById('addUserForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            addUser();
+        });
 
         // Logout function
         function logout() {
             if (confirm('Are you sure you want to logout?')) {
-                window.location.href = 'admin-login.html';
+                // Clear all authentication data
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userData');
+                localStorage.removeItem('adminMode');
+                // Redirect to main website as new user
+                window.location.href = 'index.html';
             }
         }
     </script>

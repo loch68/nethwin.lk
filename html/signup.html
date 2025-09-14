@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up - NethwinLK</title>
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
     <link
@@ -46,97 +46,178 @@
         border-bottom: none;
       }
     </style>
-</head>
-<body>
-    <div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient">
-        <!-- Background Animation Container -->
-        <div class="particles-container fixed inset-0 pointer-events-none z-0" id="particlesContainer"></div>
-        <div class="layout-container flex flex-col grow h-full relative z-10">
-            <!-- Modern Seamless Navbar -->
-            <nav class="modern-navbar fixed top-0 left-0 right-0 z-30">
-                <div class="navbar-container">
-                    <!-- Logo/Brand -->
-                    <div class="navbar-brand">
-                        <a href="index.html" class="flex items-center">
-                            <img src="../assets/fLogo.png" alt="NethwinLK" class="navbar-logo">
-                        </a>
-                    </div>
-                    
-                    <!-- Navigation Links -->
-                    <div class="navbar-links" id="navbarLinks">
-                        <a href="index.html" class="nav-link">Home</a>
-                        <a href="print.html" class="nav-link">Print Services</a>
-                        <a href="bookshop.html" class="nav-link">Bookshop</a>
-                        <a href="aboutus.html" class="nav-link">About</a>
-                        <a href="contactus.html" class="nav-link">Contact</a>
-                    </div>
-                    
-                    <!-- Desktop Auth Area -->
-                    <div class="navbar-auth" id="navbarAuth">
-                        <a href="cart.html" class="nav-auth-btn">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
-                            </svg>
-                            Cart
-                        </a>
-                        <a href="search.html" class="nav-auth-btn">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                            Search
-                        </a>
-                        <a href="login.html" class="nav-auth-btn">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path>
-                            </svg>
-                            Login
-                        </a>
-                    </div>
-                    
-                    <!-- Mobile Auth Icons (hidden on desktop) -->
-                    <div class="mobile-auth-icons hidden md:hidden">
-                        <a href="cart.html" class="mobile-icon-btn">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
-                            </svg>
-                        </a>
-                        <a href="search.html" class="mobile-icon-btn">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                        </a>
-                        <a href="login.html" class="mobile-icon-btn">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path>
-                            </svg>
-                        </a>
-                        
-                    </div>
-                    
-                    <!-- Mobile Menu Toggle -->
-                    <button class="mobile-menu-toggle" id="mobileToggle">
-                        <span class="hamburger-line"></span>
-                        <span class="hamburger-line"></span>
-                        <span class="hamburger-line"></span>
-                    </button>
-                </div>
-            </nav>
-            
-            <!-- Navbar Spacer -->
-            <div style="height: 4rem;"></div>
+  </head>
+  <body>
+    <div
+      class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient"
+    >
+      <!-- Background Animation Container -->
+      <div
+        class="particles-container fixed inset-0 pointer-events-none z-0"
+        id="particlesContainer"
+      ></div>
+      <div class="layout-container flex flex-col grow h-full relative z-10">
+        <!-- Modern Seamless Navbar -->
+        <nav class="modern-navbar fixed top-0 left-0 right-0 z-30">
+          <div class="navbar-container">
+            <!-- Logo/Brand -->
+            <div class="navbar-brand">
+              <a href="index.html" class="flex items-center">
+                <img
+                  src="../assets/fLogo.png"
+                  alt="NethwinLK"
+                  class="navbar-logo"
+                />
+              </a>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="navbar-links" id="navbarLinks">
+              <a href="index.html" class="nav-link">Home</a>
+              <a href="print.html" class="nav-link">Print Services</a>
+              <a href="bookshop.html" class="nav-link">Bookshop</a>
+              <a href="aboutus.html" class="nav-link">About</a>
+              <a href="contactus.html" class="nav-link">Contact</a>
+            </div>
+
+            <!-- Desktop Auth Area -->
+            <div class="navbar-auth" id="navbarAuth">
+              <a href="cart.html" class="nav-auth-btn">
+                <svg
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
+                  ></path>
+                </svg>
+                Cart
+              </a>
+              <a href="search.html" class="nav-auth-btn">
+                <svg
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  ></path>
+                </svg>
+                Search
+              </a>
+              <a href="login.html" class="nav-auth-btn">
+                <svg
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"
+                  ></path>
+                </svg>
+                Login
+              </a>
+            </div>
+
+            <!-- Mobile Auth Icons (hidden on desktop) -->
+            <div class="mobile-auth-icons hidden md:hidden">
+              <a href="cart.html" class="mobile-icon-btn">
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
+                  ></path>
+                </svg>
+              </a>
+              <a href="search.html" class="mobile-icon-btn">
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  ></path>
+                </svg>
+              </a>
+              <a href="login.html" class="mobile-icon-btn">
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileToggle">
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+            </button>
+          </div>
+        </nav>
+
+        <!-- Navbar Spacer -->
+        <div style="height: 4rem"></div>
         <div class="flex flex-1 justify-center py-5">
-          <div class="flex flex-col items-center w-full max-w-[600px] py-5 px-4">
-            <h2 class="text-[#0e1b0e] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">Create your account</h2>
-            
+          <div
+            class="flex flex-col items-center w-full max-w-[600px] py-5 px-4"
+          >
+            <h2
+              class="text-[#0e1b0e] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5"
+            >
+              Create your account
+            </h2>
+
+            <form id="signupForm">
             <!-- Username -->
             <div class="flex w-full max-w-[500px] justify-center py-3">
               <label class="flex flex-col w-full">
-                <p class="text-[#0e1b0e] text-base font-medium leading-normal pb-2">Username</p>
+                <p
+                  class="text-[#0e1b0e] text-base font-medium leading-normal pb-2"
+                >
+                  Username
+                </p>
                 <input
                   id="username"
+                  name="username"
                   placeholder="Enter your username"
                   class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-[#f8fcf8] focus:border-[#d0e7d0] h-14 placeholder:text-[#4e974e] p-[15px] text-base font-normal leading-normal"
                   value=""
+                  required
                 />
               </label>
             </div>
@@ -144,12 +225,18 @@
             <!-- Full name -->
             <div class="flex w-full max-w-[500px] justify-center py-3">
               <label class="flex flex-col w-full">
-                <p class="text-[#0e1b0e] text-base font-medium leading-normal pb-2">Full name</p>
+                <p
+                  class="text-[#0e1b0e] text-base font-medium leading-normal pb-2"
+                >
+                  Full name
+                </p>
                 <input
                   id="fullName"
+                  name="fullName"
                   placeholder="Enter your full name"
                   class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-[#f8fcf8] focus:border-[#d0e7d0] h-14 placeholder:text-[#4e974e] p-[15px] text-base font-normal leading-normal"
                   value=""
+                  required
                 />
               </label>
             </div>
@@ -157,13 +244,19 @@
             <!-- Email -->
             <div class="flex w-full max-w-[500px] justify-center py-3">
               <label class="flex flex-col w-full">
-                <p class="text-[#0e1b0e] text-base font-medium leading-normal pb-2">Email</p>
+                <p
+                  class="text-[#0e1b0e] text-base font-medium leading-normal pb-2"
+                >
+                  Email
+                </p>
                 <input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="Enter your email"
                   class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-[#f8fcf8] focus:border-[#d0e7d0] h-14 placeholder:text-[#4e974e] p-[15px] text-base font-normal leading-normal"
                   value=""
+                  required
                 />
               </label>
             </div>
@@ -171,13 +264,19 @@
             <!-- Phone Number -->
             <div class="flex w-full max-w-[500px] justify-center py-3">
               <label class="flex flex-col w-full">
-                <p class="text-[#0e1b0e] text-base font-medium leading-normal pb-2">Phone Number</p>
+                <p
+                  class="text-[#0e1b0e] text-base font-medium leading-normal pb-2"
+                >
+                  Phone Number
+                </p>
                 <input
                   id="phone"
+                  name="phone"
                   type="tel"
                   placeholder="Enter your phone number"
                   class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-[#f8fcf8] focus:border-[#d0e7d0] h-14 placeholder:text-[#4e974e] p-[15px] text-base font-normal leading-normal"
                   value=""
+                  required
                 />
               </label>
             </div>
@@ -185,12 +284,18 @@
             <!-- Address -->
             <div class="flex w-full max-w-[500px] justify-center py-3">
               <label class="flex flex-col w-full">
-                <p class="text-[#0e1b0e] text-base font-medium leading-normal pb-2">Address</p>
+                <p
+                  class="text-[#0e1b0e] text-base font-medium leading-normal pb-2"
+                >
+                  Address
+                </p>
                 <textarea
                   id="address"
+                  name="address"
                   placeholder="Enter your address"
                   class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-[#f8fcf8] focus:border-[#d0e7d0] h-20 placeholder:text-[#4e974e] p-[15px] text-base font-normal leading-normal"
                   rows="3"
+                  required
                 ></textarea>
               </label>
             </div>
@@ -198,8 +303,17 @@
             <!-- Province Section -->
             <div class="flex w-full max-w-[500px] justify-center py-3">
               <label class="flex flex-col w-full">
-                <p class="text-[#0e1b0e] text-base font-medium leading-normal pb-2">Province</p>
-                <select id="provinceSelect" class="form-input flex w-full resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-[#f8fcf8] focus:border-[#d0e7d0] h-14 p-[15px] text-base font-normal leading-normal">
+                <p
+                  class="text-[#0e1b0e] text-base font-medium leading-normal pb-2"
+                >
+                  Province
+                </p>
+                <select
+                  id="provinceSelect"
+                  name="province"
+                  class="form-input flex w-full resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-[#f8fcf8] focus:border-[#d0e7d0] h-14 p-[15px] text-base font-normal leading-normal"
+                  required
+                >
                   <option value="">Select Province</option>
                   <option value="western">Western Province</option>
                   <option value="central">Central Province</option>
@@ -214,42 +328,63 @@
               </label>
             </div>
 
-                         <!-- District and City Row -->
-             <div class="flex w-full max-w-[500px] justify-center py-3">
-               <div class="flex w-full gap-4">
-                 <!-- District -->
-                 <label class="flex flex-col flex-1">
-                   <p class="text-[#0e1b0e] text-base font-medium leading-normal pb-2">District</p>
-                   <select id="districtSelect" class="form-input flex w-full resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-[#f8fcf8] focus:border-[#d0e7d0] h-14 p-[15px] text-base font-normal leading-normal">
-                     <option value="">Select District</option>
-                   </select>
-                 </label>
+            <!-- District and City Row -->
+            <div class="flex w-full max-w-[500px] justify-center py-3">
+              <div class="flex w-full gap-4">
+                <!-- District -->
+                <label class="flex flex-col flex-1">
+                  <p
+                    class="text-[#0e1b0e] text-base font-medium leading-normal pb-2"
+                  >
+                    District
+                  </p>
+                  <select
+                    id="districtSelect"
+                    name="district"
+                    class="form-input flex w-full resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-[#f8fcf8] focus:border-[#d0e7d0] h-14 p-[15px] text-base font-normal leading-normal"
+                    required
+                  >
+                    <option value="">Select District</option>
+                  </select>
+                </label>
 
-                 <!-- City with Search -->
-                 <label class="flex flex-col flex-1 city-search-container">
-                   <p class="text-[#0e1b0e] text-base font-medium leading-normal pb-2">City</p>
-                   <input
-                     id="cityInput"
-                     placeholder="Search or enter city"
-                     class="form-input flex w-full resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-[#f8fcf8] focus:border-[#d0e7d0] h-14 placeholder:text-[#4e974e] p-[15px] text-base font-normal leading-normal"
-                     value=""
-                   />
-                   <div id="cityDropdown" class="city-dropdown">
-                     <!-- Cities will be populated by JavaScript -->
-                   </div>
-                 </label>
-               </div>
-             </div>
+                <!-- City with Search -->
+                <label class="flex flex-col flex-1 city-search-container">
+                  <p
+                    class="text-[#0e1b0e] text-base font-medium leading-normal pb-2"
+                  >
+                    City
+                  </p>
+                  <input
+                    id="cityInput"
+                    name="city"
+                    placeholder="Search or enter city"
+                    class="form-input flex w-full resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-[#f8fcf8] focus:border-[#d0e7d0] h-14 placeholder:text-[#4e974e] p-[15px] text-base font-normal leading-normal"
+                    value=""
+                    required
+                  />
+                  <div id="cityDropdown" class="city-dropdown">
+                    <!-- Cities will be populated by JavaScript -->
+                  </div>
+                </label>
+              </div>
+            </div>
 
             <!-- Zipcode -->
             <div class="flex w-full max-w-[500px] justify-center py-3">
               <label class="flex flex-col w-full">
-                <p class="text-[#0e1b0e] text-base font-medium leading-normal pb-2">Zipcode</p>
+                <p
+                  class="text-[#0e1b0e] text-base font-medium leading-normal pb-2"
+                >
+                  Zipcode
+                </p>
                 <input
                   id="zipcode"
+                  name="zipcode"
                   placeholder="Enter zipcode"
                   class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-[#f8fcf8] focus:border-[#d0e7d0] h-14 placeholder:text-[#4e974e] p-[15px] text-base font-normal leading-normal"
                   value=""
+                  required
                 />
               </label>
             </div>
@@ -257,21 +392,52 @@
             <!-- Password -->
             <div class="flex w-full max-w-[500px] justify-center py-3">
               <label class="flex flex-col w-full">
-                <p class="text-[#0e1b0e] text-base font-medium leading-normal pb-2">Password</p>
+                <p
+                  class="text-[#0e1b0e] text-base font-medium leading-normal pb-2"
+                >
+                  Password
+                </p>
                 <div class="relative">
                   <input
                     id="password"
+                    name="password"
                     type="password"
                     placeholder="Enter your password"
                     class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-[#f8fcf8] focus:border-[#d0e7d0] h-14 placeholder:text-[#4e974e] p-[15px] pr-12 text-base font-normal leading-normal"
                     value=""
+                    required
                   />
-                  <button type="button" id="toggleSignupPassword" aria-label="Toggle password visibility" class="absolute right-3 top-1/2 -translate-y-1/2 text-[#4e974e] hover:text-[#0e1b0e] z-10">
-                    <svg id="iconEyeOpenSignup" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
+                  <button
+                    type="button"
+                    id="toggleSignupPassword"
+                    aria-label="Toggle password visibility"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-[#4e974e] hover:text-[#0e1b0e] z-10"
+                  >
+                    <svg
+                      id="iconEyeOpenSignup"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="h-6 w-6"
+                    >
                       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12Z" />
                       <circle cx="12" cy="12" r="3" />
                     </svg>
-                    <svg id="iconEyeOffSignup" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 hidden">
+                    <svg
+                      id="iconEyeOffSignup"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="h-6 w-6 hidden"
+                    >
                       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12Z" />
                       <circle cx="12" cy="12" r="3" />
                       <path d="M3 3l18 18" />
@@ -284,21 +450,52 @@
             <!-- Confirm Password -->
             <div class="flex w-full max-w-[500px] justify-center py-3">
               <label class="flex flex-col w-full">
-                <p class="text-[#0e1b0e] text-base font-medium leading-normal pb-2">Confirm Password</p>
+                <p
+                  class="text-[#0e1b0e] text-base font-medium leading-normal pb-2"
+                >
+                  Confirm Password
+                </p>
                 <div class="relative">
                   <input
                     id="confirmPassword"
+                    name="confirmPassword"
                     type="password"
                     placeholder="Confirm your password"
                     class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-[#f8fcf8] focus:border-[#d0e7d0] h-14 placeholder:text-[#4e974e] p-[15px] pr-12 text-base font-normal leading-normal"
                     value=""
+                    required
                   />
-                  <button type="button" id="toggleSignupConfirm" aria-label="Toggle confirm password visibility" class="absolute right-3 top-1/2 -translate-y-1/2 text-[#4e974e] hover:text-[#0e1b0e] z-10">
-                    <svg id="iconEyeOpenSignupConfirm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
+                  <button
+                    type="button"
+                    id="toggleSignupConfirm"
+                    aria-label="Toggle confirm password visibility"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-[#4e974e] hover:text-[#0e1b0e] z-10"
+                  >
+                    <svg
+                      id="iconEyeOpenSignupConfirm"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="h-6 w-6"
+                    >
                       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12Z" />
                       <circle cx="12" cy="12" r="3" />
                     </svg>
-                    <svg id="iconEyeOffSignupConfirm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 hidden">
+                    <svg
+                      id="iconEyeOffSignupConfirm"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="h-6 w-6 hidden"
+                    >
                       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12Z" />
                       <circle cx="12" cy="12" r="3" />
                       <path d="M3 3l18 18" />
@@ -311,23 +508,37 @@
             <div class="flex w-full max-w-[500px] justify-center py-3">
               <button
                 id="signupBtn"
+                type="submit"
                 class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#19e619] text-[#0e1b0e] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out hover:bg-[#16d116] hover:scale-[1.02] hover:shadow-lg hover:shadow-[#19e619]/30"
               >
                 <span class="truncate">Sign Up</span>
               </button>
             </div>
-            
+            </form>
+
             <!-- Success/Error Messages -->
             <div id="messageContainer" class="w-full max-w-[500px] hidden">
-              <div id="successMessage" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-3 hidden">
+              <div
+                id="successMessage"
+                class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-3 hidden"
+              >
                 <span id="successText"></span>
               </div>
-              <div id="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-3 hidden">
+              <div
+                id="errorMessage"
+                class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-3 hidden"
+              >
                 <span id="errorText"></span>
               </div>
             </div>
-            <p class="text-[#4e974e] text-sm font-normal leading-normal pb-3 pt-1 text-center">
-              Already have an account? <a href="login.html" class="underline">Log in</a>
+            <p class="text-center text-sm text-gray-500">
+              Already have an account?
+              <a
+                href="login.html"
+                class="ml-1 font-semibold text-[#0ad167] hover:text-[#08b85a] underline-offset-4 hover:underline transition-colors duration-200"
+              >
+                Log In
+              </a>
             </p>
           </div>
         </div>
@@ -336,7 +547,7 @@
 
     <script>
       // Password visibility toggles for signup
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener("DOMContentLoaded", function () {
         function wireToggle(inputId, buttonId, openId, offId) {
           const input = document.getElementById(inputId);
           const btn = document.getElementById(buttonId);
@@ -344,85 +555,95 @@
           const offIcon = document.getElementById(offId);
           if (!input || !btn || !openIcon || !offIcon) return;
           function setVisible(isVisible) {
-            input.type = isVisible ? 'text' : 'password';
-            openIcon.classList.toggle('hidden', isVisible);
-            offIcon.classList.toggle('hidden', !isVisible);
+            input.type = isVisible ? "text" : "password";
+            openIcon.classList.toggle("hidden", isVisible);
+            offIcon.classList.toggle("hidden", !isVisible);
           }
-          btn.addEventListener('click', function() {
-            const isPassword = input.type === 'password';
+          btn.addEventListener("click", function () {
+            const isPassword = input.type === "password";
             setVisible(isPassword);
           });
         }
-        wireToggle('password', 'toggleSignupPassword', 'iconEyeOpenSignup', 'iconEyeOffSignup');
-        wireToggle('confirmPassword', 'toggleSignupConfirm', 'iconEyeOpenSignupConfirm', 'iconEyeOffSignupConfirm');
+        wireToggle(
+          "password",
+          "toggleSignupPassword",
+          "iconEyeOpenSignup",
+          "iconEyeOffSignup"
+        );
+        wireToggle(
+          "confirmPassword",
+          "toggleSignupConfirm",
+          "iconEyeOpenSignupConfirm",
+          "iconEyeOffSignupConfirm"
+        );
       });
       // Province-District mapping for Sri Lanka
       const provinceDistricts = {
-        'western': [
-          { value: 'colombo', label: 'Colombo' },
-          { value: 'gampaha', label: 'Gampaha' },
-          { value: 'kalutara', label: 'Kalutara' }
+        western: [
+          { value: "colombo", label: "Colombo" },
+          { value: "gampaha", label: "Gampaha" },
+          { value: "kalutara", label: "Kalutara" },
         ],
-        'central': [
-          { value: 'kandy', label: 'Kandy' },
-          { value: 'matale', label: 'Matale' },
-          { value: 'nuwara-eliya', label: 'Nuwara Eliya' }
+        central: [
+          { value: "kandy", label: "Kandy" },
+          { value: "matale", label: "Matale" },
+          { value: "nuwara-eliya", label: "Nuwara Eliya" },
         ],
-        'southern': [
-          { value: 'galle', label: 'Galle' },
-          { value: 'matara', label: 'Matara' },
-          { value: 'hambantota', label: 'Hambantota' }
+        southern: [
+          { value: "galle", label: "Galle" },
+          { value: "matara", label: "Matara" },
+          { value: "hambantota", label: "Hambantota" },
         ],
-        'sabaragamuwa': [
-          { value: 'ratnapura', label: 'Ratnapura' },
-          { value: 'kegalle', label: 'Kegalle' }
+        sabaragamuwa: [
+          { value: "ratnapura", label: "Ratnapura" },
+          { value: "kegalle", label: "Kegalle" },
         ],
-        'north-western': [
-          { value: 'kurunegala', label: 'Kurunegala' },
-          { value: 'puttalam', label: 'Puttalam' }
+        "north-western": [
+          { value: "kurunegala", label: "Kurunegala" },
+          { value: "puttalam", label: "Puttalam" },
         ],
-        'north-central': [
-          { value: 'anuradhapura', label: 'Anuradhapura' },
-          { value: 'polonnaruwa', label: 'Polonnaruwa' }
+        "north-central": [
+          { value: "anuradhapura", label: "Anuradhapura" },
+          { value: "polonnaruwa", label: "Polonnaruwa" },
         ],
-        'uva': [
-          { value: 'badulla', label: 'Badulla' },
-          { value: 'monaragala', label: 'Monaragala' }
+        uva: [
+          { value: "badulla", label: "Badulla" },
+          { value: "monaragala", label: "Monaragala" },
         ],
-        'eastern': [
-          { value: 'batticaloa', label: 'Batticaloa' },
-          { value: 'ampara', label: 'Ampara' },
-          { value: 'trincomalee', label: 'Trincomalee' }
+        eastern: [
+          { value: "batticaloa", label: "Batticaloa" },
+          { value: "ampara", label: "Ampara" },
+          { value: "trincomalee", label: "Trincomalee" },
         ],
-        'northern': [
-          { value: 'jaffna', label: 'Jaffna' },
-          { value: 'kilinochchi', label: 'Kilinochchi' },
-          { value: 'mullaitivu', label: 'Mullaitivu' },
-          { value: 'vavuniya', label: 'Vavuniya' },
-          { value: 'mannar', label: 'Mannar' }
-        ]
+        northern: [
+          { value: "jaffna", label: "Jaffna" },
+          { value: "kilinochchi", label: "Kilinochchi" },
+          { value: "mullaitivu", label: "Mullaitivu" },
+          { value: "vavuniya", label: "Vavuniya" },
+          { value: "mannar", label: "Mannar" },
+        ],
       };
 
       // Get DOM elements
-      const provinceSelect = document.getElementById('provinceSelect');
-      const districtSelect = document.getElementById('districtSelect');
+      const provinceSelect = document.getElementById("provinceSelect");
+      const districtSelect = document.getElementById("districtSelect");
 
       // Add event listener to province select
-      provinceSelect.addEventListener('change', function() {
+      provinceSelect.addEventListener("change", function () {
         const selectedProvince = this.value;
-        
+
         // Clear district options and city input
         districtSelect.innerHTML = '<option value="">Select District</option>';
-        cityInput.value = '';
-        cityDropdown.style.display = 'none';
-        
+        cityInput.value = "";
+        cityDropdown.style.display = "none";
+
         if (selectedProvince) {
           // Get districts for selected province
           const districts = provinceDistricts[selectedProvince];
-          
+
           // Add district options
-          districts.forEach(district => {
-            const option = document.createElement('option');
+          districts.forEach((district) => {
+            const option = document.createElement("option");
             option.value = district.value;
             option.textContent = district.label;
             districtSelect.appendChild(option);
@@ -431,329 +652,1179 @@
       });
 
       // Add event listener to district select
-      districtSelect.addEventListener('change', function() {
+      districtSelect.addEventListener("change", function () {
         const selectedDistrict = this.value;
-        
+
         // Clear city input when district changes
-        cityInput.value = '';
-        cityDropdown.style.display = 'none';
+        cityInput.value = "";
+        cityDropdown.style.display = "none";
       });
 
       // Function to get cities for a specific district
       function getCitiesForDistrict(district) {
         const districtCityMap = {
-          'colombo': ["Colombo", "Dehiwala-Mount Lavinia", "Moratuwa", "Sri Jayawardenepura Kotte", "Kolonnawa", "Kesbewa", "Maharagama", "Kotikawatta", "Battaramulla", "Pannipitiya", "Nugegoda", "Homagama", "Kaduwela", "Avissawella", "Seethawaka", "Padukka"],
-          'gampaha': ["Gampaha", "Negombo", "Ja-Ela", "Wattala", "Kelaniya", "Ragama", "Katunayake", "Seeduwa", "Biyagama", "Divulapitiya", "Dompe", "Ganemulla", "Katana", "Mahara", "Minuwangoda", "Mirigama", "Veyangoda", "Weliweriya"],
-          'kalutara': ["Kalutara", "Panadura", "Horana", "Bandaragama", "Ingiriya", "Bulathsinhala", "Matugama", "Agalawatta", "Beruwala", "Dodangoda", "Madurawela", "Millaniya", "Walallavita", "Welipenna"],
-          'kandy': ["Kandy", "Peradeniya", "Katugastota", "Gampola", "Nawalapitiya", "Harispattuwa", "Pathadumbara", "Udunuwara", "Yatinuwara", "Akurana", "Aladeniya", "Ambatenna", "Ampitiya", "Asgiriya", "Buwelikada", "Dangolla", "Deltota", "Dodanwela", "Galagedara", "Gangawata Korale", "Hatharaliyadda", "Kundasale", "Madawala Bazaar", "Pilimathalawa", "Poojapitiya", "Thalathuoya", "Udapalatha"],
-          'matale': ["Matale", "Dambulla", "Galewela", "Naula", "Palapathwela", "Rattota", "Yatawatta", "Aluvihare", "Ambanganga Korale", "Laggala-Pallegama", "Thamballegama", "Ukuwela", "Wilgamuwa"],
-          'nuwara-eliya': ["Nuwara Eliya", "Hatton", "Talawakele", "Lindula", "Kotagala", "Maskeliya", "Norwood", "Agarapatana", "Ambagamuwa", "Bogawantalawa", "Dayagama Bazaar", "Ginigathena", "Nanu Oya", "Ramboda", "Rozella", "Udupussellawa", "Watawala"],
-          'galle': ["Galle", "Ambalangoda", "Hikkaduwa", "Bentota", "Karapitiya", "Unawatuna", "Ahangama", "Akmeemana", "Baddegama", "Balapitiya", "Bope-Poddala", "Elpitiya", "Gonapinuwala", "Habaraduwa", "Imaduwa", "Nagoda", "Neluwa", "Niyagama", "Thawalama", "Wanduramba", "Yakkalamulla"],
-          'matara': ["Matara", "Weligama", "Tangalle", "Dikwella", "Kamburupitiya", "Hakmana", "Akuressa", "Athuraliya", "Devinuwara", "Kotapola", "Malimbada", "Mulatiyana", "Pasgoda", "Pitabeddara", "Thihagoda", "Welipitiya"],
-          'hambantota': ["Hambantota", "Tissamaharama", "Ambalantota", "Beliatta", "Weeraketiya", "Angunakolapelessa", "Katuwana", "Lunugamvehera", "Okewela", "Sooriyawewa", "Walasmulla"],
-          'ratnapura': ["Ratnapura", "Embilipitiya", "Balangoda", "Kuruwita", "Eheliyagoda", "Nivithigala", "Ayagama", "Elapatha", "Godakawela", "Imbulpe", "Kahawatta", "Kalawana", "Kiriella", "Opanayaka", "Pelmadulla", "Weligepola"],
-          'kegalle': ["Kegalle", "Mawanella", "Warakapola", "Rambukkana", "Yatiyantota", "Galigamuwa", "Bulathkohupitiya", "Aranayaka", "Dehiowita", "Deraniyagala", "Ruwanwella"],
-          'kurunegala': ["Kurunegala", "Kuliyapitiya", "Polgahawela", "Alawwa", "Mawathagama", "Ganewatta", "Bingiriya", "Ambanpola", "Giribawa", "Ibbagamuwa", "Narammala", "Rasnayakapura", "Udubaddawa", "Wariyapola"],
-          'puttalam': ["Puttalam", "Chilaw", "Wennappuwa", "Nattandiya", "Madampe", "Kalpitiya", "Anamaduwa", "Arachchikattuwa", "Dankotuwa", "Mahawewa", "Noorichcholai", "Vanathavilluwa"],
-          'anuradhapura': ["Anuradhapura", "Medawachchiya", "Tambuttegama", "Kekirawa", "Horowpothana", "Kahatagasdigiliya", "Galenbindunuwewa", "Elahera", "Galnewa", "Ipalogama", "Mihintale", "Nochchiyagama", "Palagala", "Palugaswewa", "Rambewa", "Thirappane", "Thuliyankadawala"],
-          'polonnaruwa': ["Polonnaruwa", "Kaduruwela", "Hingurakgoda", "Medirigiriya", "Lankapura", "Elayapattuwa", "Bakamuna", "Dimbulagala", "Minneriya", "Thamankaduwa", "Welikanda"],
-          'badulla': ["Badulla", "Bandarawela", "Haputale", "Welimada", "Mahiyangana", "Passara", "Meegahakivula", "Kandeketi", "Ella", "Haldummulla", "Lunugala", "Rideemaliyadda", "Soranathota", "Uva-Paranagama"],
-          'monaragala': ["Monaragala", "Wellawaya", "Bibile", "Kataragama", "Siyambalanduwa", "Badalkumbura", "Madulla", "Medagama", "Sevanagala", "Thanamalvila"],
-          'batticaloa': ["Batticaloa", "Eravur", "Kattankudy", "Koralai Pattu", "Koralai Pattu North", "Koralai Pattu South", "Manmunai North", "Manmunai Pattu", "Manmunai South", "Porativu Pattu", "Eravur Pattu", "Eravur Town"],
-          'ampara': ["Ampara", "Kalmunai", "Dehiattakandiya", "Akkaraipattu", "Karaitivu", "Ninthavur", "Sainthamaruthu", "Addalachchenai", "Alayadi Vembu", "Damana", "Eragama", "Lahugala", "Maha Oya", "Navithanveli", "Padiyathalawa", "Pottuvil", "Sammanthurai", "Thirukkovil", "Uhana"],
-          'trincomalee': ["Trincomalee", "Kantale", "Muttur", "Kinniya", "Kuchchaveli", "Lankapatuna", "Padavi Sri Pura", "Seruvila", "Thambalagamuwa", "Verugal"],
-          'jaffna': ["Jaffna", "Point Pedro", "Chavakachcheri", "Valvettithurai", "Delft", "Karainagar", "Nallur", "Vadamarachchi East", "Vadamarachchi North", "Vadamarachchi South West", "Island North", "Island South"],
-          'kilinochchi': ["Kilinochchi", "Poonakary", "Kandavalai", "Karachchi"],
-          'mullaitivu': ["Mullaitivu", "Oddusuddan", "Puthukudiyiruppu", "Thunukkai", "Manthai East", "Manthai West"],
-          'vavuniya': ["Vavuniya", "Vavuniya North", "Vavuniya South", "Vengalacheddikulam"],
-          'mannar': ["Mannar", "Madhu", "Mannar Town", "Nanaddan", "Musali"]
+          colombo: [
+            "Colombo",
+            "Dehiwala-Mount Lavinia",
+            "Moratuwa",
+            "Sri Jayawardenepura Kotte",
+            "Kolonnawa",
+            "Kesbewa",
+            "Maharagama",
+            "Kotikawatta",
+            "Battaramulla",
+            "Pannipitiya",
+            "Nugegoda",
+            "Homagama",
+            "Kaduwela",
+            "Avissawella",
+            "Seethawaka",
+            "Padukka",
+          ],
+          gampaha: [
+            "Gampaha",
+            "Negombo",
+            "Ja-Ela",
+            "Wattala",
+            "Kelaniya",
+            "Ragama",
+            "Katunayake",
+            "Seeduwa",
+            "Biyagama",
+            "Divulapitiya",
+            "Dompe",
+            "Ganemulla",
+            "Katana",
+            "Mahara",
+            "Minuwangoda",
+            "Mirigama",
+            "Veyangoda",
+            "Weliweriya",
+          ],
+          kalutara: [
+            "Kalutara",
+            "Panadura",
+            "Horana",
+            "Bandaragama",
+            "Ingiriya",
+            "Bulathsinhala",
+            "Matugama",
+            "Agalawatta",
+            "Beruwala",
+            "Dodangoda",
+            "Madurawela",
+            "Millaniya",
+            "Walallavita",
+            "Welipenna",
+          ],
+          kandy: [
+            "Kandy",
+            "Peradeniya",
+            "Katugastota",
+            "Gampola",
+            "Nawalapitiya",
+            "Harispattuwa",
+            "Pathadumbara",
+            "Udunuwara",
+            "Yatinuwara",
+            "Akurana",
+            "Aladeniya",
+            "Ambatenna",
+            "Ampitiya",
+            "Asgiriya",
+            "Buwelikada",
+            "Dangolla",
+            "Deltota",
+            "Dodanwela",
+            "Galagedara",
+            "Gangawata Korale",
+            "Hatharaliyadda",
+            "Kundasale",
+            "Madawala Bazaar",
+            "Pilimathalawa",
+            "Poojapitiya",
+            "Thalathuoya",
+            "Udapalatha",
+          ],
+          matale: [
+            "Matale",
+            "Dambulla",
+            "Galewela",
+            "Naula",
+            "Palapathwela",
+            "Rattota",
+            "Yatawatta",
+            "Aluvihare",
+            "Ambanganga Korale",
+            "Laggala-Pallegama",
+            "Thamballegama",
+            "Ukuwela",
+            "Wilgamuwa",
+          ],
+          "nuwara-eliya": [
+            "Nuwara Eliya",
+            "Hatton",
+            "Talawakele",
+            "Lindula",
+            "Kotagala",
+            "Maskeliya",
+            "Norwood",
+            "Agarapatana",
+            "Ambagamuwa",
+            "Bogawantalawa",
+            "Dayagama Bazaar",
+            "Ginigathena",
+            "Nanu Oya",
+            "Ramboda",
+            "Rozella",
+            "Udupussellawa",
+            "Watawala",
+          ],
+          galle: [
+            "Galle",
+            "Ambalangoda",
+            "Hikkaduwa",
+            "Bentota",
+            "Karapitiya",
+            "Unawatuna",
+            "Ahangama",
+            "Akmeemana",
+            "Baddegama",
+            "Balapitiya",
+            "Bope-Poddala",
+            "Elpitiya",
+            "Gonapinuwala",
+            "Habaraduwa",
+            "Imaduwa",
+            "Nagoda",
+            "Neluwa",
+            "Niyagama",
+            "Thawalama",
+            "Wanduramba",
+            "Yakkalamulla",
+          ],
+          matara: [
+            "Matara",
+            "Weligama",
+            "Tangalle",
+            "Dikwella",
+            "Kamburupitiya",
+            "Hakmana",
+            "Akuressa",
+            "Athuraliya",
+            "Devinuwara",
+            "Kotapola",
+            "Malimbada",
+            "Mulatiyana",
+            "Pasgoda",
+            "Pitabeddara",
+            "Thihagoda",
+            "Welipitiya",
+          ],
+          hambantota: [
+            "Hambantota",
+            "Tissamaharama",
+            "Ambalantota",
+            "Beliatta",
+            "Weeraketiya",
+            "Angunakolapelessa",
+            "Katuwana",
+            "Lunugamvehera",
+            "Okewela",
+            "Sooriyawewa",
+            "Walasmulla",
+          ],
+          ratnapura: [
+            "Ratnapura",
+            "Embilipitiya",
+            "Balangoda",
+            "Kuruwita",
+            "Eheliyagoda",
+            "Nivithigala",
+            "Ayagama",
+            "Elapatha",
+            "Godakawela",
+            "Imbulpe",
+            "Kahawatta",
+            "Kalawana",
+            "Kiriella",
+            "Opanayaka",
+            "Pelmadulla",
+            "Weligepola",
+          ],
+          kegalle: [
+            "Kegalle",
+            "Mawanella",
+            "Warakapola",
+            "Rambukkana",
+            "Yatiyantota",
+            "Galigamuwa",
+            "Bulathkohupitiya",
+            "Aranayaka",
+            "Dehiowita",
+            "Deraniyagala",
+            "Ruwanwella",
+          ],
+          kurunegala: [
+            "Kurunegala",
+            "Kuliyapitiya",
+            "Polgahawela",
+            "Alawwa",
+            "Mawathagama",
+            "Ganewatta",
+            "Bingiriya",
+            "Ambanpola",
+            "Giribawa",
+            "Ibbagamuwa",
+            "Narammala",
+            "Rasnayakapura",
+            "Udubaddawa",
+            "Wariyapola",
+          ],
+          puttalam: [
+            "Puttalam",
+            "Chilaw",
+            "Wennappuwa",
+            "Nattandiya",
+            "Madampe",
+            "Kalpitiya",
+            "Anamaduwa",
+            "Arachchikattuwa",
+            "Dankotuwa",
+            "Mahawewa",
+            "Noorichcholai",
+            "Vanathavilluwa",
+          ],
+          anuradhapura: [
+            "Anuradhapura",
+            "Medawachchiya",
+            "Tambuttegama",
+            "Kekirawa",
+            "Horowpothana",
+            "Kahatagasdigiliya",
+            "Galenbindunuwewa",
+            "Elahera",
+            "Galnewa",
+            "Ipalogama",
+            "Mihintale",
+            "Nochchiyagama",
+            "Palagala",
+            "Palugaswewa",
+            "Rambewa",
+            "Thirappane",
+            "Thuliyankadawala",
+          ],
+          polonnaruwa: [
+            "Polonnaruwa",
+            "Kaduruwela",
+            "Hingurakgoda",
+            "Medirigiriya",
+            "Lankapura",
+            "Elayapattuwa",
+            "Bakamuna",
+            "Dimbulagala",
+            "Minneriya",
+            "Thamankaduwa",
+            "Welikanda",
+          ],
+          badulla: [
+            "Badulla",
+            "Bandarawela",
+            "Haputale",
+            "Welimada",
+            "Mahiyangana",
+            "Passara",
+            "Meegahakivula",
+            "Kandeketi",
+            "Ella",
+            "Haldummulla",
+            "Lunugala",
+            "Rideemaliyadda",
+            "Soranathota",
+            "Uva-Paranagama",
+          ],
+          monaragala: [
+            "Monaragala",
+            "Wellawaya",
+            "Bibile",
+            "Kataragama",
+            "Siyambalanduwa",
+            "Badalkumbura",
+            "Madulla",
+            "Medagama",
+            "Sevanagala",
+            "Thanamalvila",
+          ],
+          batticaloa: [
+            "Batticaloa",
+            "Eravur",
+            "Kattankudy",
+            "Koralai Pattu",
+            "Koralai Pattu North",
+            "Koralai Pattu South",
+            "Manmunai North",
+            "Manmunai Pattu",
+            "Manmunai South",
+            "Porativu Pattu",
+            "Eravur Pattu",
+            "Eravur Town",
+          ],
+          ampara: [
+            "Ampara",
+            "Kalmunai",
+            "Dehiattakandiya",
+            "Akkaraipattu",
+            "Karaitivu",
+            "Ninthavur",
+            "Sainthamaruthu",
+            "Addalachchenai",
+            "Alayadi Vembu",
+            "Damana",
+            "Eragama",
+            "Lahugala",
+            "Maha Oya",
+            "Navithanveli",
+            "Padiyathalawa",
+            "Pottuvil",
+            "Sammanthurai",
+            "Thirukkovil",
+            "Uhana",
+          ],
+          trincomalee: [
+            "Trincomalee",
+            "Kantale",
+            "Muttur",
+            "Kinniya",
+            "Kuchchaveli",
+            "Lankapatuna",
+            "Padavi Sri Pura",
+            "Seruvila",
+            "Thambalagamuwa",
+            "Verugal",
+          ],
+          jaffna: [
+            "Jaffna",
+            "Point Pedro",
+            "Chavakachcheri",
+            "Valvettithurai",
+            "Delft",
+            "Karainagar",
+            "Nallur",
+            "Vadamarachchi East",
+            "Vadamarachchi North",
+            "Vadamarachchi South West",
+            "Island North",
+            "Island South",
+          ],
+          kilinochchi: ["Kilinochchi", "Poonakary", "Kandavalai", "Karachchi"],
+          mullaitivu: [
+            "Mullaitivu",
+            "Oddusuddan",
+            "Puthukudiyiruppu",
+            "Thunukkai",
+            "Manthai East",
+            "Manthai West",
+          ],
+          vavuniya: [
+            "Vavuniya",
+            "Vavuniya North",
+            "Vavuniya South",
+            "Vengalacheddikulam",
+          ],
+          mannar: ["Mannar", "Madhu", "Mannar Town", "Nanaddan", "Musali"],
         };
-        
+
         return districtCityMap[district] || [];
       }
 
       // Sri Lankan cities data - Comprehensive list
       const sriLankanCities = [
-         // Western Province - Colombo District
-         "Colombo", "Dehiwala-Mount Lavinia", "Moratuwa", "Sri Jayawardenepura Kotte", "Kolonnawa", "Kesbewa", "Maharagama", "Kotikawatta", "Battaramulla", "Pannipitiya", "Nugegoda", "Homagama", "Kaduwela", "Avissawella", "Seethawaka", "Padukka", "Homagama", "Kesbewa", "Moratuwa", "Dehiwala", "Mount Lavinia", "Kolonnawa", "Battaramulla", "Kotikawatta", "Maharagama", "Pannipitiya", "Nugegoda", "Kaduwela", "Avissawella", "Seethawaka", "Padukka",
-         
-         // Western Province - Gampaha District
-         "Gampaha", "Negombo", "Ja-Ela", "Wattala", "Kelaniya", "Ragama", "Katunayake", "Seeduwa", "Biyagama", "Divulapitiya", "Dompe", "Ganemulla", "Ja-Ela", "Katana", "Kelaniya", "Mahara", "Minuwangoda", "Mirigama", "Negombo", "Ragama", "Seeduwa", "Veyangoda", "Wattala", "Weliweriya",
-         
-         // Western Province - Kalutara District
-         "Kalutara", "Panadura", "Horana", "Bandaragama", "Ingiriya", "Bulathsinhala", "Matugama", "Agalawatta", "Bandaragama", "Beruwala", "Bulathsinhala", "Dodangoda", "Horana", "Ingiriya", "Kalutara", "Madurawela", "Matugama", "Millaniya", "Panadura", "Walallavita", "Welipenna",
-         
-         // Central Province - Kandy District
-         "Kandy", "Peradeniya", "Katugastota", "Gampola", "Nawalapitiya", "Harispattuwa", "Pathadumbara", "Udunuwara", "Yatinuwara", "Akurana", "Aladeniya", "Ambatenna", "Ampitiya", "Asgiriya", "Buwelikada", "Dangolla", "Deltota", "Dodanwela", "Galagedara", "Gampola", "Gangawata Korale", "Harispattuwa", "Hatharaliyadda", "Kandy", "Katugastota", "Kundasale", "Madawala Bazaar", "Mahiyangana", "Mawanella", "Medawachchiya", "Minneriya", "Nawalapitiya", "Pathadumbara", "Peradeniya", "Pilimathalawa", "Poojapitiya", "Thalathuoya", "Udapalatha", "Udunuwara", "Yatinuwara",
-         
-         // Central Province - Matale District
-         "Matale", "Dambulla", "Galewela", "Naula", "Palapathwela", "Rattota", "Yatawatta", "Aluvihare", "Ambanganga Korale", "Dambulla", "Galewela", "Laggala-Pallegama", "Naula", "Palapathwela", "Rattota", "Thamballegama", "Ukuwela", "Wilgamuwa", "Yatawatta",
-         
-         // Central Province - Nuwara Eliya District
-         "Nuwara Eliya", "Hatton", "Talawakele", "Lindula", "Kotagala", "Maskeliya", "Norwood", "Agarapatana", "Ambagamuwa", "Bogawantalawa", "Dayagama Bazaar", "Ginigathena", "Hatton", "Kotagala", "Lindula", "Maskeliya", "Nanu Oya", "Norwood", "Nuwara Eliya", "Ramboda", "Rozella", "Talawakele", "Thalawakele", "Udupussellawa", "Watawala",
-         
-         // Southern Province - Galle District
-         "Galle", "Ambalangoda", "Hikkaduwa", "Bentota", "Karapitiya", "Unawatuna", "Ahangama", "Akmeemana", "Ambalangoda", "Baddegama", "Balapitiya", "Bentota", "Bope-Poddala", "Elpitiya", "Galle", "Gonapinuwala", "Habaraduwa", "Hikkaduwa", "Imaduwa", "Karapitiya", "Nagoda", "Neluwa", "Niyagama", "Thawalama", "Unawatuna", "Wanduramba", "Yakkalamulla",
-         
-         // Southern Province - Matara District
-         "Matara", "Weligama", "Tangalle", "Dikwella", "Kamburupitiya", "Hakmana", "Akuressa", "Athuraliya", "Devinuwara", "Dikwella", "Hakmana", "Kamburupitiya", "Kotapola", "Malimbada", "Matara", "Mulatiyana", "Pasgoda", "Pitabeddara", "Thihagoda", "Weligama", "Welipitiya",
-         
-         // Southern Province - Hambantota District
-         "Hambantota", "Tissamaharama", "Tangalle", "Ambalantota", "Beliatta", "Weeraketiya", "Ambalantota", "Angunakolapelessa", "Beliatta", "Hambantota", "Katuwana", "Lunugamvehera", "Okewela", "Sooriyawewa", "Tangalle", "Thissamaharama", "Walasmulla", "Weeraketiya",
-         
-         // Sabaragamuwa Province - Ratnapura District
-         "Ratnapura", "Embilipitiya", "Balangoda", "Kuruwita", "Eheliyagoda", "Nivithigala", "Ayagama", "Balangoda", "Eheliyagoda", "Elapatha", "Embilipitiya", "Godakawela", "Imbulpe", "Kahawatta", "Kalawana", "Kiriella", "Kuruwita", "Nivithigala", "Opanayaka", "Pelmadulla", "Ratnapura", "Weligepola",
-         
-         // Sabaragamuwa Province - Kegalle District
-         "Kegalle", "Mawanella", "Warakapola", "Rambukkana", "Yatiyantota", "Galigamuwa", "Bulathkohupitiya", "Aranayaka", "Bulathkohupitiya", "Dehiowita", "Deraniyagala", "Galigamuwa", "Kegalle", "Mawanella", "Rambukkana", "Ruwanwella", "Warakapola", "Yatiyantota",
-         
-         // North Western Province - Kurunegala District
-         "Kurunegala", "Kuliyapitiya", "Polgahawela", "Alawwa", "Mawathagama", "Ganewatta", "Bingiriya", "Alawwa", "Ambanpola", "Bingiriya", "Ganewatta", "Giribawa", "Ibbagamuwa", "Kuliyapitiya", "Kurunegala", "Mawathagama", "Narammala", "Polgahawela", "Rasnayakapura", "Udubaddawa", "Wariyapola",
-         
-         // North Western Province - Puttalam District
-         "Puttalam", "Chilaw", "Wennappuwa", "Nattandiya", "Madampe", "Kalpitiya", "Anamaduwa", "Arachchikattuwa", "Chilaw", "Dankotuwa", "Kalpitiya", "Madampe", "Mahawewa", "Nattandiya", "Noorichcholai", "Puttalam", "Vanathavilluwa", "Wennappuwa",
-         
-         // North Central Province - Anuradhapura District
-         "Anuradhapura", "Medawachchiya", "Tambuttegama", "Kekirawa", "Horowpothana", "Kahatagasdigiliya", "Galenbindunuwewa", "Anuradhapura", "Elahera", "Galenbindunuwewa", "Galnewa", "Horowpothana", "Ipalogama", "Kahatagasdigiliya", "Kekirawa", "Medawachchiya", "Mihintale", "Nochchiyagama", "Palagala", "Palugaswewa", "Rambewa", "Tambuttegama", "Thirappane", "Thuliyankadawala",
-         
-         // North Central Province - Polonnaruwa District
-         "Polonnaruwa", "Kaduruwela", "Hingurakgoda", "Medirigiriya", "Lankapura", "Elayapattuwa", "Bakamuna", "Dimbulagala", "Elahera", "Hingurakgoda", "Kaduruwela", "Lankapura", "Medirigiriya", "Minneriya", "Polonnaruwa", "Thamankaduwa", "Welikanda",
-         
-         // Uva Province - Badulla District
-         "Badulla", "Bandarawela", "Haputale", "Welimada", "Mahiyangana", "Passara", "Meegahakivula", "Kandeketi", "Badulla", "Bandarawela", "Ella", "Haldummulla", "Haputale", "Kandeketi", "Lunugala", "Mahiyangana", "Meegahakivula", "Passara", "Rideemaliyadda", "Soranathota", "Uva-Paranagama", "Welimada",
-         
-         // Uva Province - Monaragala District
-         "Monaragala", "Wellawaya", "Bibile", "Kataragama", "Siyambalanduwa", "Bibile", "Badalkumbura", "Bibile", "Kataragama", "Madulla", "Medagama", "Monaragala", "Sevanagala", "Siyambalanduwa", "Thanamalvila", "Wellawaya",
-         
-         // Eastern Province - Batticaloa District
-         "Batticaloa", "Eravur", "Kattankudy", "Kattankudy", "Eravur", "Kattankudy", "Koralai Pattu", "Koralai Pattu North", "Koralai Pattu South", "Manmunai North", "Manmunai Pattu", "Manmunai South", "Porativu Pattu", "Eravur Pattu", "Eravur Town", "Kattankudy", "Koralai Pattu", "Koralai Pattu North", "Koralai Pattu South", "Manmunai North", "Manmunai Pattu", "Manmunai South", "Porativu Pattu",
-         
-         // Eastern Province - Ampara District
-         "Ampara", "Kalmunai", "Dehiattakandiya", "Akkaraipattu", "Kalmunai", "Karaitivu", "Ninthavur", "Sainthamaruthu", "Addalachchenai", "Akkaraipattu", "Alayadi Vembu", "Ampara", "Damana", "Dehiattakandiya", "Eragama", "Kalmunai", "Karaitivu", "Lahugala", "Maha Oya", "Navithanveli", "Ninthavur", "Padiyathalawa", "Pottuvil", "Sainthamaruthu", "Sammanthurai", "Thirukkovil", "Uhana",
-         
-         // Eastern Province - Trincomalee District
-         "Trincomalee", "Kantale", "Muttur", "Kantale", "Kinniya", "Kuchchaveli", "Lankapatuna", "Muttur", "Padavi Sri Pura", "Seruvila", "Thambalagamuwa", "Trincomalee", "Verugal",
-         
-         // Northern Province - Jaffna District
-         "Jaffna", "Point Pedro", "Chavakachcheri", "Valvettithurai", "Chavakachcheri", "Delft", "Karainagar", "Nallur", "Point Pedro", "Valvettithurai", "Vadamarachchi East", "Vadamarachchi North", "Vadamarachchi South West", "Chavakachcheri", "Delft", "Island North", "Island South", "Jaffna", "Karainagar", "Nallur", "Point Pedro", "Valvettithurai", "Vadamarachchi East", "Vadamarachchi North", "Vadamarachchi South West",
-         
-         // Northern Province - Kilinochchi District
-         "Kilinochchi", "Poonakary", "Kandavalai", "Karachchi", "Poonakary", "Karachchi", "Kandavalai", "Poonakary",
-         
-         // Northern Province - Mullaitivu District
-         "Mullaitivu", "Oddusuddan", "Puthukudiyiruppu", "Thunukkai", "Manthai East", "Manthai West", "Oddusuddan", "Puthukudiyiruppu", "Thunukkai",
-         
-         // Northern Province - Vavuniya District
-         "Vavuniya", "Vavuniya North", "Vavuniya South", "Vengalacheddikulam", "Vavuniya North", "Vavuniya South", "Vengalacheddikulam",
-         
-         // Northern Province - Mannar District
-         "Mannar", "Madhu", "Mannar Town", "Nanaddan", "Musali", "Madhu", "Mannar Town", "Nanaddan", "Musali"
-       ];
+        // Western Province - Colombo District
+        "Colombo",
+        "Dehiwala-Mount Lavinia",
+        "Moratuwa",
+        "Sri Jayawardenepura Kotte",
+        "Kolonnawa",
+        "Kesbewa",
+        "Maharagama",
+        "Kotikawatta",
+        "Battaramulla",
+        "Pannipitiya",
+        "Nugegoda",
+        "Homagama",
+        "Kaduwela",
+        "Avissawella",
+        "Seethawaka",
+        "Padukka",
+        "Homagama",
+        "Kesbewa",
+        "Moratuwa",
+        "Dehiwala",
+        "Mount Lavinia",
+        "Kolonnawa",
+        "Battaramulla",
+        "Kotikawatta",
+        "Maharagama",
+        "Pannipitiya",
+        "Nugegoda",
+        "Kaduwela",
+        "Avissawella",
+        "Seethawaka",
+        "Padukka",
 
-      const cityInput = document.getElementById('cityInput');
-      const cityDropdown = document.getElementById('cityDropdown');
+        // Western Province - Gampaha District
+        "Gampaha",
+        "Negombo",
+        "Ja-Ela",
+        "Wattala",
+        "Kelaniya",
+        "Ragama",
+        "Katunayake",
+        "Seeduwa",
+        "Biyagama",
+        "Divulapitiya",
+        "Dompe",
+        "Ganemulla",
+        "Ja-Ela",
+        "Katana",
+        "Kelaniya",
+        "Mahara",
+        "Minuwangoda",
+        "Mirigama",
+        "Negombo",
+        "Ragama",
+        "Seeduwa",
+        "Veyangoda",
+        "Wattala",
+        "Weliweriya",
 
-      cityInput.addEventListener('input', function() {
+        // Western Province - Kalutara District
+        "Kalutara",
+        "Panadura",
+        "Horana",
+        "Bandaragama",
+        "Ingiriya",
+        "Bulathsinhala",
+        "Matugama",
+        "Agalawatta",
+        "Bandaragama",
+        "Beruwala",
+        "Bulathsinhala",
+        "Dodangoda",
+        "Horana",
+        "Ingiriya",
+        "Kalutara",
+        "Madurawela",
+        "Matugama",
+        "Millaniya",
+        "Panadura",
+        "Walallavita",
+        "Welipenna",
+
+        // Central Province - Kandy District
+        "Kandy",
+        "Peradeniya",
+        "Katugastota",
+        "Gampola",
+        "Nawalapitiya",
+        "Harispattuwa",
+        "Pathadumbara",
+        "Udunuwara",
+        "Yatinuwara",
+        "Akurana",
+        "Aladeniya",
+        "Ambatenna",
+        "Ampitiya",
+        "Asgiriya",
+        "Buwelikada",
+        "Dangolla",
+        "Deltota",
+        "Dodanwela",
+        "Galagedara",
+        "Gampola",
+        "Gangawata Korale",
+        "Harispattuwa",
+        "Hatharaliyadda",
+        "Kandy",
+        "Katugastota",
+        "Kundasale",
+        "Madawala Bazaar",
+        "Mahiyangana",
+        "Mawanella",
+        "Medawachchiya",
+        "Minneriya",
+        "Nawalapitiya",
+        "Pathadumbara",
+        "Peradeniya",
+        "Pilimathalawa",
+        "Poojapitiya",
+        "Thalathuoya",
+        "Udapalatha",
+        "Udunuwara",
+        "Yatinuwara",
+
+        // Central Province - Matale District
+        "Matale",
+        "Dambulla",
+        "Galewela",
+        "Naula",
+        "Palapathwela",
+        "Rattota",
+        "Yatawatta",
+        "Aluvihare",
+        "Ambanganga Korale",
+        "Dambulla",
+        "Galewela",
+        "Laggala-Pallegama",
+        "Naula",
+        "Palapathwela",
+        "Rattota",
+        "Thamballegama",
+        "Ukuwela",
+        "Wilgamuwa",
+        "Yatawatta",
+
+        // Central Province - Nuwara Eliya District
+        "Nuwara Eliya",
+        "Hatton",
+        "Talawakele",
+        "Lindula",
+        "Kotagala",
+        "Maskeliya",
+        "Norwood",
+        "Agarapatana",
+        "Ambagamuwa",
+        "Bogawantalawa",
+        "Dayagama Bazaar",
+        "Ginigathena",
+        "Hatton",
+        "Kotagala",
+        "Lindula",
+        "Maskeliya",
+        "Nanu Oya",
+        "Norwood",
+        "Nuwara Eliya",
+        "Ramboda",
+        "Rozella",
+        "Talawakele",
+        "Thalawakele",
+        "Udupussellawa",
+        "Watawala",
+
+        // Southern Province - Galle District
+        "Galle",
+        "Ambalangoda",
+        "Hikkaduwa",
+        "Bentota",
+        "Karapitiya",
+        "Unawatuna",
+        "Ahangama",
+        "Akmeemana",
+        "Ambalangoda",
+        "Baddegama",
+        "Balapitiya",
+        "Bentota",
+        "Bope-Poddala",
+        "Elpitiya",
+        "Galle",
+        "Gonapinuwala",
+        "Habaraduwa",
+        "Hikkaduwa",
+        "Imaduwa",
+        "Karapitiya",
+        "Nagoda",
+        "Neluwa",
+        "Niyagama",
+        "Thawalama",
+        "Unawatuna",
+        "Wanduramba",
+        "Yakkalamulla",
+
+        // Southern Province - Matara District
+        "Matara",
+        "Weligama",
+        "Tangalle",
+        "Dikwella",
+        "Kamburupitiya",
+        "Hakmana",
+        "Akuressa",
+        "Athuraliya",
+        "Devinuwara",
+        "Dikwella",
+        "Hakmana",
+        "Kamburupitiya",
+        "Kotapola",
+        "Malimbada",
+        "Matara",
+        "Mulatiyana",
+        "Pasgoda",
+        "Pitabeddara",
+        "Thihagoda",
+        "Weligama",
+        "Welipitiya",
+
+        // Southern Province - Hambantota District
+        "Hambantota",
+        "Tissamaharama",
+        "Tangalle",
+        "Ambalantota",
+        "Beliatta",
+        "Weeraketiya",
+        "Ambalantota",
+        "Angunakolapelessa",
+        "Beliatta",
+        "Hambantota",
+        "Katuwana",
+        "Lunugamvehera",
+        "Okewela",
+        "Sooriyawewa",
+        "Tangalle",
+        "Thissamaharama",
+        "Walasmulla",
+        "Weeraketiya",
+
+        // Sabaragamuwa Province - Ratnapura District
+        "Ratnapura",
+        "Embilipitiya",
+        "Balangoda",
+        "Kuruwita",
+        "Eheliyagoda",
+        "Nivithigala",
+        "Ayagama",
+        "Balangoda",
+        "Eheliyagoda",
+        "Elapatha",
+        "Embilipitiya",
+        "Godakawela",
+        "Imbulpe",
+        "Kahawatta",
+        "Kalawana",
+        "Kiriella",
+        "Kuruwita",
+        "Nivithigala",
+        "Opanayaka",
+        "Pelmadulla",
+        "Ratnapura",
+        "Weligepola",
+
+        // Sabaragamuwa Province - Kegalle District
+        "Kegalle",
+        "Mawanella",
+        "Warakapola",
+        "Rambukkana",
+        "Yatiyantota",
+        "Galigamuwa",
+        "Bulathkohupitiya",
+        "Aranayaka",
+        "Bulathkohupitiya",
+        "Dehiowita",
+        "Deraniyagala",
+        "Galigamuwa",
+        "Kegalle",
+        "Mawanella",
+        "Rambukkana",
+        "Ruwanwella",
+        "Warakapola",
+        "Yatiyantota",
+
+        // North Western Province - Kurunegala District
+        "Kurunegala",
+        "Kuliyapitiya",
+        "Polgahawela",
+        "Alawwa",
+        "Mawathagama",
+        "Ganewatta",
+        "Bingiriya",
+        "Alawwa",
+        "Ambanpola",
+        "Bingiriya",
+        "Ganewatta",
+        "Giribawa",
+        "Ibbagamuwa",
+        "Kuliyapitiya",
+        "Kurunegala",
+        "Mawathagama",
+        "Narammala",
+        "Polgahawela",
+        "Rasnayakapura",
+        "Udubaddawa",
+        "Wariyapola",
+
+        // North Western Province - Puttalam District
+        "Puttalam",
+        "Chilaw",
+        "Wennappuwa",
+        "Nattandiya",
+        "Madampe",
+        "Kalpitiya",
+        "Anamaduwa",
+        "Arachchikattuwa",
+        "Chilaw",
+        "Dankotuwa",
+        "Kalpitiya",
+        "Madampe",
+        "Mahawewa",
+        "Nattandiya",
+        "Noorichcholai",
+        "Puttalam",
+        "Vanathavilluwa",
+        "Wennappuwa",
+
+        // North Central Province - Anuradhapura District
+        "Anuradhapura",
+        "Medawachchiya",
+        "Tambuttegama",
+        "Kekirawa",
+        "Horowpothana",
+        "Kahatagasdigiliya",
+        "Galenbindunuwewa",
+        "Anuradhapura",
+        "Elahera",
+        "Galenbindunuwewa",
+        "Galnewa",
+        "Horowpothana",
+        "Ipalogama",
+        "Kahatagasdigiliya",
+        "Kekirawa",
+        "Medawachchiya",
+        "Mihintale",
+        "Nochchiyagama",
+        "Palagala",
+        "Palugaswewa",
+        "Rambewa",
+        "Tambuttegama",
+        "Thirappane",
+        "Thuliyankadawala",
+
+        // North Central Province - Polonnaruwa District
+        "Polonnaruwa",
+        "Kaduruwela",
+        "Hingurakgoda",
+        "Medirigiriya",
+        "Lankapura",
+        "Elayapattuwa",
+        "Bakamuna",
+        "Dimbulagala",
+        "Elahera",
+        "Hingurakgoda",
+        "Kaduruwela",
+        "Lankapura",
+        "Medirigiriya",
+        "Minneriya",
+        "Polonnaruwa",
+        "Thamankaduwa",
+        "Welikanda",
+
+        // Uva Province - Badulla District
+        "Badulla",
+        "Bandarawela",
+        "Haputale",
+        "Welimada",
+        "Mahiyangana",
+        "Passara",
+        "Meegahakivula",
+        "Kandeketi",
+        "Badulla",
+        "Bandarawela",
+        "Ella",
+        "Haldummulla",
+        "Haputale",
+        "Kandeketi",
+        "Lunugala",
+        "Mahiyangana",
+        "Meegahakivula",
+        "Passara",
+        "Rideemaliyadda",
+        "Soranathota",
+        "Uva-Paranagama",
+        "Welimada",
+
+        // Uva Province - Monaragala District
+        "Monaragala",
+        "Wellawaya",
+        "Bibile",
+        "Kataragama",
+        "Siyambalanduwa",
+        "Bibile",
+        "Badalkumbura",
+        "Bibile",
+        "Kataragama",
+        "Madulla",
+        "Medagama",
+        "Monaragala",
+        "Sevanagala",
+        "Siyambalanduwa",
+        "Thanamalvila",
+        "Wellawaya",
+
+        // Eastern Province - Batticaloa District
+        "Batticaloa",
+        "Eravur",
+        "Kattankudy",
+        "Kattankudy",
+        "Eravur",
+        "Kattankudy",
+        "Koralai Pattu",
+        "Koralai Pattu North",
+        "Koralai Pattu South",
+        "Manmunai North",
+        "Manmunai Pattu",
+        "Manmunai South",
+        "Porativu Pattu",
+        "Eravur Pattu",
+        "Eravur Town",
+        "Kattankudy",
+        "Koralai Pattu",
+        "Koralai Pattu North",
+        "Koralai Pattu South",
+        "Manmunai North",
+        "Manmunai Pattu",
+        "Manmunai South",
+        "Porativu Pattu",
+
+        // Eastern Province - Ampara District
+        "Ampara",
+        "Kalmunai",
+        "Dehiattakandiya",
+        "Akkaraipattu",
+        "Kalmunai",
+        "Karaitivu",
+        "Ninthavur",
+        "Sainthamaruthu",
+        "Addalachchenai",
+        "Akkaraipattu",
+        "Alayadi Vembu",
+        "Ampara",
+        "Damana",
+        "Dehiattakandiya",
+        "Eragama",
+        "Kalmunai",
+        "Karaitivu",
+        "Lahugala",
+        "Maha Oya",
+        "Navithanveli",
+        "Ninthavur",
+        "Padiyathalawa",
+        "Pottuvil",
+        "Sainthamaruthu",
+        "Sammanthurai",
+        "Thirukkovil",
+        "Uhana",
+
+        // Eastern Province - Trincomalee District
+        "Trincomalee",
+        "Kantale",
+        "Muttur",
+        "Kantale",
+        "Kinniya",
+        "Kuchchaveli",
+        "Lankapatuna",
+        "Muttur",
+        "Padavi Sri Pura",
+        "Seruvila",
+        "Thambalagamuwa",
+        "Trincomalee",
+        "Verugal",
+
+        // Northern Province - Jaffna District
+        "Jaffna",
+        "Point Pedro",
+        "Chavakachcheri",
+        "Valvettithurai",
+        "Chavakachcheri",
+        "Delft",
+        "Karainagar",
+        "Nallur",
+        "Point Pedro",
+        "Valvettithurai",
+        "Vadamarachchi East",
+        "Vadamarachchi North",
+        "Vadamarachchi South West",
+        "Chavakachcheri",
+        "Delft",
+        "Island North",
+        "Island South",
+        "Jaffna",
+        "Karainagar",
+        "Nallur",
+        "Point Pedro",
+        "Valvettithurai",
+        "Vadamarachchi East",
+        "Vadamarachchi North",
+        "Vadamarachchi South West",
+
+        // Northern Province - Kilinochchi District
+        "Kilinochchi",
+        "Poonakary",
+        "Kandavalai",
+        "Karachchi",
+        "Poonakary",
+        "Karachchi",
+        "Kandavalai",
+        "Poonakary",
+
+        // Northern Province - Mullaitivu District
+        "Mullaitivu",
+        "Oddusuddan",
+        "Puthukudiyiruppu",
+        "Thunukkai",
+        "Manthai East",
+        "Manthai West",
+        "Oddusuddan",
+        "Puthukudiyiruppu",
+        "Thunukkai",
+
+        // Northern Province - Vavuniya District
+        "Vavuniya",
+        "Vavuniya North",
+        "Vavuniya South",
+        "Vengalacheddikulam",
+        "Vavuniya North",
+        "Vavuniya South",
+        "Vengalacheddikulam",
+
+        // Northern Province - Mannar District
+        "Mannar",
+        "Madhu",
+        "Mannar Town",
+        "Nanaddan",
+        "Musali",
+        "Madhu",
+        "Mannar Town",
+        "Nanaddan",
+        "Musali",
+      ];
+
+      const cityInput = document.getElementById("cityInput");
+      const cityDropdown = document.getElementById("cityDropdown");
+
+      cityInput.addEventListener("input", function () {
         const searchTerm = this.value.toLowerCase();
         const selectedDistrict = districtSelect.value;
-        
+
         // Filter cities based on selected district
         let filteredCities = [];
-        
+
         if (selectedDistrict) {
           // Get cities for the selected district
           const districtCities = getCitiesForDistrict(selectedDistrict);
-          filteredCities = districtCities.filter(city => 
+          filteredCities = districtCities.filter((city) =>
             city.toLowerCase().includes(searchTerm)
           );
         } else {
           // If no district selected, show all cities
-          filteredCities = sriLankanCities.filter(city => 
+          filteredCities = sriLankanCities.filter((city) =>
             city.toLowerCase().includes(searchTerm)
           );
         }
 
         // Clear previous options
-        cityDropdown.innerHTML = '';
+        cityDropdown.innerHTML = "";
 
         if (searchTerm.length > 0 && filteredCities.length > 0) {
           // Add filtered cities to dropdown
-          filteredCities.slice(0, 10).forEach(city => {
-            const option = document.createElement('div');
-            option.className = 'city-option';
+          filteredCities.slice(0, 10).forEach((city) => {
+            const option = document.createElement("div");
+            option.className = "city-option";
             option.textContent = city;
-            option.addEventListener('click', function() {
+            option.addEventListener("click", function () {
               cityInput.value = city;
-              cityDropdown.style.display = 'none';
+              cityDropdown.style.display = "none";
             });
             cityDropdown.appendChild(option);
           });
-          cityDropdown.style.display = 'block';
+          cityDropdown.style.display = "block";
         } else {
-          cityDropdown.style.display = 'none';
+          cityDropdown.style.display = "none";
         }
       });
 
       // Hide dropdown when clicking outside
-      document.addEventListener('click', function(e) {
+      document.addEventListener("click", function (e) {
         if (!cityInput.contains(e.target) && !cityDropdown.contains(e.target)) {
-          cityDropdown.style.display = 'none';
+          cityDropdown.style.display = "none";
         }
       });
 
       // Show dropdown when focusing on input
-      cityInput.addEventListener('focus', function() {
+      cityInput.addEventListener("focus", function () {
         if (this.value.length > 0) {
-          cityDropdown.style.display = 'block';
+          cityDropdown.style.display = "block";
         }
       });
 
       // Signup Form Handling
-      const signupBtn = document.getElementById('signupBtn');
-      const messageContainer = document.getElementById('messageContainer');
-      const successMessage = document.getElementById('successMessage');
-      const errorMessage = document.getElementById('errorMessage');
-      const successText = document.getElementById('successText');
-      const errorText = document.getElementById('errorText');
+      const signupBtn = document.getElementById("signupBtn");
+      const messageContainer = document.getElementById("messageContainer");
+      const successMessage = document.getElementById("successMessage");
+      const errorMessage = document.getElementById("errorMessage");
+      const successText = document.getElementById("successText");
+      const errorText = document.getElementById("errorText");
 
       // API Base URL
-      const API_BASE_URL = 'http://localhost:3000/api';
+      const API_BASE_URL = "http://localhost:4000/api";
 
       // Show message function
       function showMessage(type, message) {
-        messageContainer.classList.remove('hidden');
-        if (type === 'success') {
+        messageContainer.classList.remove("hidden");
+        if (type === "success") {
           successText.textContent = message;
-          successMessage.classList.remove('hidden');
-          errorMessage.classList.add('hidden');
+          successMessage.classList.remove("hidden");
+          errorMessage.classList.add("hidden");
         } else {
           errorText.textContent = message;
-          errorMessage.classList.remove('hidden');
-          successMessage.classList.add('hidden');
+          errorMessage.classList.remove("hidden");
+          successMessage.classList.add("hidden");
         }
       }
 
       // Hide message function
       function hideMessage() {
-        messageContainer.classList.add('hidden');
-        successMessage.classList.add('hidden');
-        errorMessage.classList.add('hidden');
+        messageContainer.classList.add("hidden");
+        successMessage.classList.add("hidden");
+        errorMessage.classList.add("hidden");
       }
 
       // Form validation
+      // Form validation
       function validateForm() {
-        const username = document.getElementById('username').value.trim();
-        const fullName = document.getElementById('fullName').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-        const address = document.getElementById('address').value.trim();
-        const province = document.getElementById('provinceSelect').value;
-        const district = document.getElementById('districtSelect').value;
-        const city = document.getElementById('cityInput').value.trim();
-        const zipcode = document.getElementById('zipcode').value.trim();
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
+        const username = document.getElementById("username").value.trim();
+        const fullName = document.getElementById("fullName").value.trim();
+        const emailAddress = document.getElementById("email").value.trim();
+        const phoneNumber = document.getElementById("phone").value.trim();
+        const address = document.getElementById("address").value.trim();
+        const province = document.getElementById("provinceSelect").value;
+        const district = document.getElementById("districtSelect").value;
+        const city = document.getElementById("cityInput").value.trim();
+        const zipCode = document.getElementById("zipcode").value.trim();
+        const password = document.getElementById("password").value;
+        const confirmPassword =
+          document.getElementById("confirmPassword").value;
 
         // Check if all fields are filled
-        if (!username || !fullName || !email || !phone || !address || !province || !district || !city || !zipcode || !password || !confirmPassword) {
-          showMessage('error', 'Please fill in all fields');
+        if (
+          !username ||
+          !fullName ||
+          !emailAddress ||
+          !phoneNumber ||
+          !address ||
+          !province ||
+          !district ||
+          !city ||
+          !zipCode ||
+          !password ||
+          !confirmPassword
+        ) {
+          showMessage("error", "Please fill in all fields");
           return false;
         }
 
         // Validate email format
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-          showMessage('error', 'Please enter a valid email address');
+        if (!emailRegex.test(emailAddress)) {
+          showMessage("error", "Please enter a valid email address");
           return false;
         }
 
         // Validate phone number (basic validation)
         const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
-        if (!phoneRegex.test(phone)) {
-          showMessage('error', 'Please enter a valid phone number');
+        if (!phoneRegex.test(phoneNumber)) {
+          showMessage("error", "Please enter a valid phone number");
           return false;
         }
 
         // Validate password length
         if (password.length < 6) {
-          showMessage('error', 'Password must be at least 6 characters long');
+          showMessage("error", "Password must be at least 6 characters long");
           return false;
         }
 
         // Check if passwords match
         if (password !== confirmPassword) {
-          showMessage('error', 'Passwords do not match');
+          showMessage("error", "Passwords do not match");
           return false;
         }
 
+        // ✅ Return data matching backend schema
         return {
-          username,
-          full_name: fullName,
-          email,
-          phone,
-          address,
-          province,
-          district,
-          city,
-          zipcode,
-          password
+          Username: username,
+          FullName: fullName,
+          EmailAddress: emailAddress,
+          PhoneNumber: phoneNumber,
+          Address: address,
+          Province: province,
+          District: district,
+          City: city,
+          ZipCode: zipCode,
+          PasswordHash: password, // will be hashed in backend
         };
       }
 
       // Handle signup form submission
-      signupBtn.addEventListener('click', async function(e) {
+      signupBtn.addEventListener("click", async function (e) {
         e.preventDefault();
-        
+
         // Hide any previous messages
         hideMessage();
-        
+
         // Validate form
         const formData = validateForm();
         if (!formData) {
           return;
         }
 
+        // Debug logging
+        console.log("Form data being sent:", formData);
+
         // Show loading state
         signupBtn.disabled = true;
-        signupBtn.innerHTML = '<span class="truncate">Creating Account...</span>';
+        signupBtn.innerHTML =
+          '<span class="truncate">Creating Account...</span>';
 
         try {
-          const response = await fetch(`${API_BASE_URL}/customers/signup`, {
-            method: 'POST',
+          const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(formData),
           });
 
           const result = await response.json();
 
           if (response.ok) {
-            showMessage('success', 'Account created successfully! You can now login.');
-            
+            showMessage(
+              "success",
+              "Account created successfully! You can now login."
+            );
+
             // Clear form
-            document.getElementById('username').value = '';
-            document.getElementById('fullName').value = '';
-            document.getElementById('email').value = '';
-            document.getElementById('phone').value = '';
-            document.getElementById('address').value = '';
-            document.getElementById('provinceSelect').value = '';
-            document.getElementById('districtSelect').innerHTML = '<option value="">Select District</option>';
-            document.getElementById('cityInput').value = '';
-            document.getElementById('zipcode').value = '';
-            document.getElementById('password').value = '';
-            document.getElementById('confirmPassword').value = '';
-            
+            document.getElementById("username").value = "";
+            document.getElementById("fullName").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("phone").value = "";
+            document.getElementById("address").value = "";
+            document.getElementById("provinceSelect").value = "";
+            document.getElementById("districtSelect").innerHTML =
+              '<option value="">Select District</option>';
+            document.getElementById("cityInput").value = "";
+            document.getElementById("zipcode").value = "";
+            document.getElementById("password").value = "";
+            document.getElementById("confirmPassword").value = "";
+
             // Redirect to login page after 3 seconds
             setTimeout(() => {
-              window.location.href = 'login.html';
+              window.location.href = "login.html";
             }, 3000);
           } else {
-            showMessage('error', result.error || 'Failed to create account');
+            showMessage("error", result.error || "Failed to create account");
           }
         } catch (error) {
-          console.error('Signup error:', error);
-          showMessage('error', 'Network error. Please check your connection and try again.');
+          console.error("Signup error:", error);
+          showMessage(
+            "error",
+            "Network error. Please check your connection and try again."
+          );
         } finally {
           // Reset button state
           signupBtn.disabled = false;
@@ -763,38 +1834,37 @@
 
       // Test customer data for quick testing
       function fillTestData() {
-        document.getElementById('username').value = 'testuser';
-        document.getElementById('fullName').value = 'Test User';
-        document.getElementById('email').value = 'test@example.com';
-        document.getElementById('phone').value = '+94 71 123 4567';
-        document.getElementById('address').value = '123 Test Street, Test Area';
-        document.getElementById('provinceSelect').value = 'western';
-        
+        document.getElementById("username").value = "testuser";
+        document.getElementById("fullName").value = "Test User";
+        document.getElementById("email").value = "test@example.com";
+        document.getElementById("phone").value = "+94 71 123 4567";
+        document.getElementById("address").value = "123 Test Street, Test Area";
+        document.getElementById("provinceSelect").value = "western";
+
         // Trigger province change to populate districts
-        const event = new Event('change');
-        document.getElementById('provinceSelect').dispatchEvent(event);
-        
+        const event = new Event("change");
+        document.getElementById("provinceSelect").dispatchEvent(event);
+
         setTimeout(() => {
-          document.getElementById('districtSelect').value = 'colombo';
-          document.getElementById('cityInput').value = 'Colombo';
-          document.getElementById('zipcode').value = '10000';
-          document.getElementById('password').value = 'Test123';
-          document.getElementById('confirmPassword').value = 'Test123';
+          document.getElementById("districtSelect").value = "colombo";
+          document.getElementById("cityInput").value = "Colombo";
+          document.getElementById("zipcode").value = "10000";
+          document.getElementById("password").value = "Test123";
+          document.getElementById("confirmPassword").value = "Test123";
         }, 100);
       }
 
       // Add test data button (for development only)
-      
     </script>
 
     <script src="../javascript/navbar.js"></script>
     <script src="../javascript/background-animations.js"></script>
     <script>
-        // Initialize auth system
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeAuth();
-            setActiveNavLink('signup.html');
-        });
+      // Initialize auth system
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeAuth();
+        setActiveNavLink("signup.html");
+      });
     </script>
   </body>
 </html>

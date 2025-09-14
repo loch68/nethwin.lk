@@ -9,10 +9,13 @@
       rel="stylesheet"
       as="style"
       onload="this.rel='stylesheet'"
-      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
     />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link rel="stylesheet" href="../css/hover-effects.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/background-animations.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
     <style>
         .sidebar-transition {
             transition: transform 0.3s ease-in-out;
@@ -21,10 +24,10 @@
             transform: translateX(-100%);
         }
     </style>
-  <link rel="stylesheet" href="../css/responsive.css" />
+    <script src="../javascript/auth.js"></script>
 </head>
 <body>
-    <div class="relative flex size-full min-h-screen flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden" style='font-family: Inter, "Noto Sans", sans-serif;'>
+    <div class="relative flex size-full min-h-screen flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden" style="font-family: Inter, 'Noto Sans', sans-serif;">
         <div class="layout-container flex h-full grow flex-col">
             
             <!-- Sidebar -->
@@ -60,11 +63,17 @@
                             </svg>
                             Users
                         </a>
-                        <a href="admin-orders.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                        <a href="admin-bookshop-orders.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                             </svg>
-                            Orders
+                            Bookshop Orders
+                        </a>
+                        <a href="admin-print-orders.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                            </svg>
+                            Print Orders
                         </a>
                         <a href="admin-products.html" class="flex items-center gap-3 px-4 py-3 text-[#19e619] bg-[#e8f2ec] rounded-lg font-medium">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,10 +87,33 @@
                             </svg>
                             Reviews
                         </a>
+                        <a href="admin-messages.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4-.8L3 20l.8-4A8.94 8.94 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                            </svg>
+                            Messages
+                        </a>
+                        <a href="admin-settings.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Settings
+                        </a>
                     </nav>
 
-                    <!-- Logout Section -->
-                    <div class="p-4 border-t border-[#e8f2ec]">
+                    <!-- User Mode & Logout Section -->
+                    <div class="p-4 border-t border-[#e8f2ec] space-y-2">
+                        <button 
+                            id="userModeBtn" 
+                            class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-blue-600 hover:bg-blue-50 rounded-lg font-medium transition-colors w-full text-left"
+                            title="Switch to User Mode for Testing"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                            User Mode
+                        </button>
                         <button onclick="logout()" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-red-600 hover:bg-red-50 rounded-lg font-medium transition-colors w-full">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
@@ -94,23 +126,10 @@
 
             <!-- Main Content -->
             <div class="ml-64 flex-1">
-                <!-- Top Header -->
-                <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f2ec] px-10 py-3">
-                    <div class="flex items-center gap-4 text-[#0e1a13]">
-                        <button id="sidebarToggle" class="size-4 md:hidden">
-                            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
-                                    d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
-                                    fill="currentColor"
-                                ></path>
-                            </svg>
-                        </button>
-                        
-                    </div>
-                   
-                     
+                <header
+                    class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f2ec] px-10 py-3"
+                >
+                    <div class="flex items-center gap-4 text-[#0e1a13]"></div>
                 </header>
 
                 <!-- Main Content Area -->
@@ -119,464 +138,55 @@
                         <!-- Header Section -->
                         <div class="flex flex-wrap justify-between gap-3 p-4">
                             <p class="text-[#0e1a13] tracking-light text-[32px] font-bold leading-tight min-w-72">Products</p>
-                            <button
-                                onclick="openAddProductModal()"
-                                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#e8f2ec] text-[#0e1a13] text-sm font-medium leading-normal"
-                            >
-                                <span class="truncate">Add product</span>
-                            </button>
                         </div>
 
-                        <!-- Search Section -->
+                        <!-- Products Content -->
                         <div class="px-4 py-3">
-                            <label class="flex flex-col min-w-40 h-12 w-full">
-                                <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
-                                    <div
-                                        class="text-[#51946c] flex border-none bg-[#e8f2ec] items-center justify-center pl-4 rounded-l-lg border-r-0"
-                                        data-icon="MagnifyingGlass"
-                                        data-size="24px"
-                                        data-weight="regular"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                                            <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
-                                        </svg>
-                                    </div>
-                                    <input
-                                        id="searchInput"
-                                        placeholder="Search products"
-                                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1a13] focus:outline-0 focus:ring-0 border-none bg-[#e8f2ec] focus:border-none h-full placeholder:text-[#51946c] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
-                                        value=""
-                                    />
-                                </div>
-                            </label>
-                        </div>
-
-                        <!-- Filter Tabs -->
-                        <div class="pb-3">
-                            <div class="flex border-b border-[#d1e6d9] px-4 gap-8">
-                                <button onclick="filterProducts('all')" class="filter-tab active flex flex-col items-center justify-center border-b-[3px] border-b-[#38e07b] text-[#0e1a13] pb-[13px] pt-4">
-                                    <p class="text-[#0e1a13] text-sm font-bold leading-normal tracking-[0.015em]">All products</p>
-                                </button>
-                                <button onclick="filterProducts('active')" class="filter-tab flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#51946c] pb-[13px] pt-4">
-                                    <p class="text-[#51946c] text-sm font-bold leading-normal tracking-[0.015em]">Active</p>
-                                </button>
-                                <button onclick="filterProducts('inactive')" class="filter-tab flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#51946c] pb-[13px] pt-4">
-                                    <p class="text-[#51946c] text-sm font-bold leading-normal tracking-[0.015em]">Inactive</p>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Products Table -->
-                        <div class="px-4 py-3 @container">
-                            <div class="flex overflow-x-auto rounded-lg border border-[#d1e6d9] bg-[#f8fbfa]">
-                                <table class="flex-1 min-w-[1280px]">
-                                    <thead>
-                                        <tr class="bg-[#f8fbfa]">
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[200px] text-sm font-medium leading-normal">Product</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[150px] text-sm font-medium leading-normal">Business Location</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[120px] text-sm font-medium leading-normal">Unit Purchase Price</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[120px] text-sm font-medium leading-normal">Selling Price</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[100px] text-sm font-medium leading-normal">Current Stock</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[100px] text-sm font-medium leading-normal">Product Type</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[100px] text-sm font-medium leading-normal">Category</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[100px] text-sm font-medium leading-normal">Brand</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[80px] text-sm font-medium leading-normal">Tax</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[100px] text-sm font-medium leading-normal">SKU</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[100px] text-sm font-medium leading-normal">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="productsTableBody">
-                                        <!-- Table rows will be populated by JavaScript -->
-                                    </tbody>
-                                </table>
+                            <div class="bg-white rounded-lg p-6 shadow-sm">
+                                <h3 class="text-lg font-semibold text-[#0e1a13] mb-4">Product Management</h3>
+                                <p class="text-[#51946c]">Product management functionality will be implemented here.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add/Edit Product Modal -->
-    <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-lg p-6 w-full max-w-4xl max-h-screen overflow-y-auto">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 id="modalTitle" class="text-lg font-semibold text-[#0e1a13]">Add New Product</h3>
-                    <button onclick="closeProductModal()" class="text-gray-500 hover:text-gray-700">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-                
-                <form id="productForm" class="space-y-4">
-                    <!-- Basic Information -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-[#0e1a13] mb-1">Product Name *</label>
-                            <input type="text" id="productName" required class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-[#0e1a13] mb-1">SKU *</label>
-                            <input type="text" id="productSKU" required class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-[#0e1a13] mb-1">Description</label>
-                        <textarea id="productDescription" rows="3" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent"></textarea>
-                    </div>
-
-                    <!-- Product Image -->
-                    <div>
-                        <label class="block text-sm font-medium text-[#0e1a13] mb-1">Product Image URL</label>
-                        <input type="url" id="productImage" placeholder="https://example.com/image.jpg" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                    </div>
-
-                    <!-- Pricing Information -->
-                    <div class="grid grid-cols-3 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-[#0e1a13] mb-1">Unit Purchase Price *</label>
-                            <input type="number" id="productPurchasePrice" required min="0" step="0.01" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-[#0e1a13] mb-1">Selling Price *</label>
-                            <input type="number" id="productSellingPrice" required min="0" step="0.01" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-[#0e1a13] mb-1">Discount (%)</label>
-                            <input type="number" id="productDiscount" min="0" max="100" step="0.01" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                        </div>
-                    </div>
-
-                    <!-- Stock and Availability -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-[#0e1a13] mb-1">Current Stock *</label>
-                            <input type="number" id="productStock" required min="0" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-[#0e1a13] mb-1">Availability</label>
-                            <select id="productAvailability" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                                <option value="in_stock">In Stock</option>
-                                <option value="low_stock">Low Stock</option>
-                                <option value="out_of_stock">Out of Stock</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Product Classification -->
-                    <div class="grid grid-cols-4 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-[#0e1a13] mb-1">Product Type</label>
-                            <select id="productType" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                                <option value="physical">Physical</option>
-                                <option value="digital">Digital</option>
-                                <option value="service">Service</option>
-                            </select>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-[#0e1a13] mb-1">Category</label>
-                            <select id="productCategory" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                                <option value="books">Books</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="clothing">Clothing</option>
-                                <option value="home">Home & Garden</option>
-                                <option value="sports">Sports</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-[#0e1a13] mb-1">Brand</label>
-                            <input type="text" id="productBrand" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-[#0e1a13] mb-1">Tax Rate (%)</label>
-                            <input type="number" id="productTax" min="0" max="100" step="0.01" value="0" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                        </div>
-                    </div>
-
-                    <!-- Business Location -->
-                    <div>
-                        <label class="block text-sm font-medium text-[#0e1a13] mb-1">Business Location</label>
-                        <input type="text" id="productLocation" placeholder="e.g., Main Store, Warehouse A" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                    </div>
-
-                    <!-- Status -->
-                    <div>
-                        <label class="block text-sm font-medium text-[#0e1a13] mb-1">Status</label>
-                        <select id="productStatus" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                            <option value="draft">Draft</option>
-                        </select>
-                    </div>
-                    
-                    <div class="flex gap-3 pt-4">
-                        <button type="submit" class="flex-1 bg-[#19e619] text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors">
-                            Save Product
-                        </button>
-                        <button type="button" onclick="closeProductModal()" class="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors">
-                            Cancel
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
 
     <script>
-        let products = [];
-        let currentFilter = 'all';
-        let editingProductId = null;
-
+        // Authentication check
         document.addEventListener('DOMContentLoaded', function() {
-            loadProducts();
-            setupEventListeners();
-        });
-
-        function setupEventListeners() {
-            document.getElementById('searchInput').addEventListener('input', function(e) {
-                filterProductsBySearch(e.target.value);
-            });
-            document.getElementById('productForm').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                await saveProduct();
-            });
-        }
-
-        async function loadProducts() {
-            const tbody = document.getElementById('productsTableBody');
-            tbody.innerHTML = '<tr><td class="px-4 py-3" colspan="11">Loading...</td></tr>';
-            try {
-                const res = await fetch('/api/products?limit=500');
-                const payload = await res.json();
-                products = payload.products || [];
-                renderProductsTable();
-            } catch (e) {
-                tbody.innerHTML = '<tr><td class="px-4 py-3 text-red-600" colspan="11">Failed to load</td></tr>';
+            // Check if user is logged in and is admin
+            if (!window.authManager.isLoggedIn()) {
+                window.location.href = 'admin-login.html';
+                return;
             }
-        }
-
-        function renderProductsTable(list = products) {
-            const tbody = document.getElementById('productsTableBody');
-            tbody.innerHTML = '';
-            list.forEach(product => {
-                if (currentFilter === 'all' || (product.status || 'active') === currentFilter) {
-                    const row = document.createElement('tr');
-                    row.className = 'border-t border-t-[#d1e6d9]';
-                    row.setAttribute('data-id', product._id);
-                    row.style.cursor = 'pointer';
-                    row.innerHTML = `
-                        <td class="h-[72px] px-4 py-2 w-[200px] text-[#0e1a13] text-sm font-normal leading-normal">
-                            <div class="flex items-center gap-2">
-                                <img src="${product.image || 'https://via.placeholder.com/40x40?text=No+Image'}" alt="${product.name}" class="w-10 h-10 rounded object-cover">
-                                <div>
-                                    <button type="button" class="font-medium text-left hover:underline" data-action="edit-name">${product.name}</button>
-                                    <div class="text-xs text-[#51946c]">${product.sku || ''}</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="h-[72px] px-4 py-2 w-[150px] text-[#51946c] text-sm font-normal leading-normal">${product.businessLocation || 'N/A'}</td>
-                        <td class="h-[72px] px-4 py-2 w-[120px] text-[#51946c] text-sm font-normal leading-normal">LKR ${(product.unitPurchasePrice||0).toFixed(2)}</td>
-                        <td class="h-[72px] px-4 py-2 w-[120px] text-[#51946c] text-sm font-normal leading-normal">LKR ${(product.sellingPrice||product.price||0).toFixed(2)}</td>
-                        <td class="h-[72px] px-4 py-2 w-[100px] text-[#51946c] text-sm font-normal leading-normal">${product.currentStock || 0}</td>
-                        <td class="h-[72px] px-4 py-2 w-[100px] text-[#51946c] text-sm font-normal leading-normal">${product.productType || 'N/A'}</td>
-                        <td class="h-[72px] px-4 py-2 w-[100px] text-[#51946c] text-sm font-normal leading-normal">${product.category || 'N/A'}</td>
-                        <td class="h-[72px] px-4 py-2 w-[100px] text-[#51946c] text-sm font-normal leading-normal">${product.brand || 'N/A'}</td>
-                        <td class="h-[72px] px-4 py-2 w-[80px] text-[#51946c] text-sm font-normal leading-normal">${product.tax || 0}%</td>
-                        <td class="h-[72px] px-4 py-2 w-[100px] text-[#51946c] text-sm font-normal leading-normal">${product.sku || 'N/A'}</td>
-                        <td class="h-[72px] px-4 py-2 w-[100px] text-sm font-normal leading-normal" data-noclick>
-                            <div class="flex gap-2">
-                                <button onclick="openEditProductModal('${product._id}')" class="px-2 py-1 bg-[#19e619] text-white text-xs rounded hover:bg-green-600">Edit</button>
-                                <button onclick="toggleProductStatus('${product._id}', '${product.status||'active'}')" class="px-2 py-1 bg-[#e8f2ec] text-[#0e1a13] text-xs rounded hover:bg-[#d1e6d9]">${(product.status||'active') === 'active' ? 'Active' : 'Inactive'}</button>
-                                <button onclick="deleteProduct('${product._id}')" class="px-2 py-1 bg-red-100 text-red-700 text-xs rounded hover:bg-red-200">Delete</button>
-                            </div>
-                        </td>
-                    `;
-                    // Row click opens edit, but ignore clicks on the actions cell
-                    row.addEventListener('click', (e) => {
-                        const target = e.target;
-                        // If clicking actions area or buttons, do nothing here
-                        if (target.closest('[data-noclick]') || target.tagName === 'BUTTON') return;
-                        const id = row.getAttribute('data-id');
-                        if (id) openEditProductModal(id);
-                    });
-                    // Clicking the name explicitly opens edit
-                    const editNameBtn = row.querySelector('[data-action="edit-name"]');
-                    editNameBtn?.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        const id = row.getAttribute('data-id');
-                        if (id) openEditProductModal(id);
-                    });
-                    tbody.appendChild(row);
+            
+            if (!window.authManager.isAdmin()) {
+                window.location.href = 'profile.html';
+                return;
+            }
+            
+            // User Mode functionality
+            document.getElementById('userModeBtn').addEventListener('click', function() {
+                if (confirm('Switch to User Mode? You can access the website as a regular customer for testing purposes.')) {
+                    localStorage.setItem('adminMode', 'false');
+                    window.location.href = 'index.html';
                 }
             });
-        }
-
-        function filterProducts(status) {
-            currentFilter = status;
-            document.querySelectorAll('.filter-tab').forEach(tab => {
-                tab.classList.remove('border-b-[#38e07b]', 'text-[#0e1a13]');
-                tab.classList.add('border-b-transparent', 'text-[#51946c]');
-                tab.querySelector('p').classList.remove('text-[#0e1a13]');
-                tab.querySelector('p').classList.add('text-[#51946c]');
-            });
-            event.currentTarget.classList.remove('border-b-transparent', 'text-[#51946c]');
-            event.currentTarget.classList.add('border-b-[#38e07b]', 'text-[#0e1a13]');
-            event.currentTarget.querySelector('p').classList.remove('text-[#51946c]');
-            event.currentTarget.querySelector('p').classList.add('text-[#0e1a13]');
-            renderProductsTable();
-        }
-
-        function filterProductsBySearch(searchTerm) {
-            const term = (searchTerm || '').toLowerCase();
-            const filtered = !term ? products : products.filter(p =>
-                (p.name||'').toLowerCase().includes(term) ||
-                (p.sku||'').toLowerCase().includes(term)
-            );
-            renderProductsTable(filtered);
-        }
-
-        function openAddProductModal() {
-            editingProductId = null;
-            document.getElementById('modalTitle').textContent = 'Add New Product';
-            document.getElementById('productForm').reset();
-            document.getElementById('productModal').classList.remove('hidden');
-        }
-
-        function openEditProductModal(id) {
-            const p = products.find(x => (x._id === id));
-            if (!p) return;
-            editingProductId = id;
-            document.getElementById('modalTitle').textContent = 'Edit Product';
-            document.getElementById('productName').value = p.name || '';
-            document.getElementById('productDescription').value = p.description || '';
-            document.getElementById('productImage').value = p.image || '';
-            document.getElementById('productLocation').value = p.businessLocation || '';
-            document.getElementById('productPurchasePrice').value = p.unitPurchasePrice || 0;
-            document.getElementById('productSellingPrice').value = p.sellingPrice || p.price || 0;
-            document.getElementById('productStock').value = p.currentStock || 0;
-            document.getElementById('productType').value = p.productType || 'physical';
-            document.getElementById('productCategory').value = p.category || 'books';
-            document.getElementById('productBrand').value = p.brand || '';
-            document.getElementById('productTax').value = p.tax || 0;
-            document.getElementById('productSKU').value = p.sku || '';
-            document.getElementById('productAvailability').value = p.availability || 'in_stock';
-            document.getElementById('productStatus').value = p.status || 'active';
-            document.getElementById('productModal').classList.remove('hidden');
-        }
-
-        function closeProductModal() {
-            document.getElementById('productModal').classList.add('hidden');
-            editingProductId = null;
-        }
-
-        async function saveProduct() {
-            const payload = {
-                name: document.getElementById('productName').value,
-                description: document.getElementById('productDescription').value,
-                image: document.getElementById('productImage').value,
-                businessLocation: document.getElementById('productLocation').value,
-                unitPurchasePrice: parseFloat(document.getElementById('productPurchasePrice').value) || 0,
-                sellingPrice: parseFloat(document.getElementById('productSellingPrice').value) || 0,
-                currentStock: parseInt(document.getElementById('productStock').value) || 0,
-                productType: document.getElementById('productType').value,
-                category: document.getElementById('productCategory').value,
-                brand: document.getElementById('productBrand').value,
-                tax: parseFloat(document.getElementById('productTax').value) || 0,
-                sku: document.getElementById('productSKU').value,
-                availability: document.getElementById('productAvailability').value,
-                status: document.getElementById('productStatus').value
-            };
-            try {
-                let res;
-                if (editingProductId) {
-                    res = await fetch(`/api/products/${editingProductId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                } else {
-                    res = await fetch('/api/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                }
-                if (!res.ok) {
-                    const msg = await res.text();
-                    throw new Error(msg || 'Request failed');
-                }
-                closeProductModal();
-                await loadProducts();
-            } catch (e) {
-                alert('Save failed: ' + (e.message || 'Unknown error'));
-            }
-        }
-
-        async function toggleProductStatus(id, current) {
-            const next = current === 'active' ? 'inactive' : 'active';
-            try {
-                await fetch(`/api/products/${id}/status`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: next }) });
-                await loadProducts();
-            } catch (e) {
-                alert('Update failed');
-            }
-        }
-
-        async function deleteProduct(id) {
-            if (!confirm('Delete this product? This cannot be undone.')) return;
-            try {
-                await fetch(`/api/products/${id}`, { method: 'DELETE' });
-                await loadProducts();
-            } catch (e) {
-                alert('Delete failed');
-            }
-        }
-
-        // Sidebar toggle functionality
-        const sidebar = document.getElementById('sidebar');
-        const sidebarToggle = document.getElementById('sidebarToggle');
-
-        function toggleSidebar() {
-            if (window.innerWidth < 768) {
-                sidebar.classList.toggle('sidebar-hidden');
-            }
-        }
-
-        sidebarToggle.addEventListener('click', toggleSidebar);
-
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth < 768 && 
-                !sidebar.contains(e.target) && 
-                !sidebarToggle.contains(e.target)) {
-                sidebar.classList.add('sidebar-hidden');
-            }
         });
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 768) {
-                sidebar.classList.remove('sidebar-hidden');
-            } else {
-                sidebar.classList.add('sidebar-hidden');
-            }
-        });
-
-        // Initialize sidebar state on load
-        if (window.innerWidth < 768) {
-            sidebar.classList.add('sidebar-hidden');
-        }
 
         // Logout function
         function logout() {
             if (confirm('Are you sure you want to logout?')) {
-                window.location.href = 'admin-login.html';
+                // Clear all authentication data
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userData');
+                localStorage.removeItem('adminMode');
+                // Redirect to main website as new user
+                window.location.href = 'index.html';
             }
         }
     </script>
-  </body>
+</body>
 </html>

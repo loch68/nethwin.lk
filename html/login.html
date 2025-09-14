@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - NethwinLK</title>
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
     <link
@@ -16,211 +16,337 @@
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/background-animations.css" />
     <link rel="stylesheet" href="../css/responsive.css" />
-</head>
-<body>
-    <div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient">
-        <!-- Background Animation Container -->
-        <div class="particles-container fixed inset-0 pointer-events-none z-0" id="particlesContainer"></div>
-        <div class="layout-container flex flex-col grow h-full relative z-10">
-            <!-- Modern Seamless Navbar -->
-            <nav class="modern-navbar fixed top-0 left-0 right-0 z-30">
-                <div class="navbar-container">
-                    <!-- Logo/Brand -->
-                    <div class="navbar-brand">
-                        <a href="index.html" class="flex items-center">
-                            <img src="../assets/fLogo.png" alt="NethwinLK" class="navbar-logo">
-                        </a>
-                    </div>
-                    
-                    <!-- Navigation Links -->
-                    <div class="navbar-links" id="navbarLinks">
-                        <a href="index.html" class="nav-link">Home</a>
-                        <a href="print.html" class="nav-link">Print Services</a>
-                        <a href="bookshop.html" class="nav-link">Bookshop</a>
-                        <a href="aboutus.html" class="nav-link">About</a>
-                        <a href="contactus.html" class="nav-link">Contact</a>
-                    </div>
-                    
-                    <!-- Desktop Auth Area -->
-                    <div class="navbar-auth" id="navbarAuth">
-                        <a href="cart.html" class="nav-auth-btn">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
-                            </svg>
-                            Cart
-                        </a>
-                        <a href="search.html" class="nav-auth-btn">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                            Search
-                        </a>
-                      
-                        <a href="signup.html" class="nav-auth-btn">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M12.5 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                            </svg>
-                            Sign Up
-                        </a>
-                    </div>
-                    
-                    <!-- Mobile Auth Icons (hidden on desktop) -->
-                    <div class="mobile-auth-icons hidden md:hidden">
-                        <a href="cart.html" class="mobile-icon-btn">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
-                            </svg>
-                        </a>
-                        <a href="search.html" class="mobile-icon-btn">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                        </a>
-                        
-                        <a href="signup.html" class="mobile-icon-btn">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M12.5 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                            </svg>
-                        </a>
-                    </div>
-                    
-                    <!-- Mobile Menu Toggle -->
-                    <button class="mobile-menu-toggle" id="mobileToggle">
-                        <span class="hamburger-line"></span>
-                        <span class="hamburger-line"></span>
-                        <span class="hamburger-line"></span>
-                    </button>
+  </head>
+  <body>
+    <div
+      class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient"
+    >
+      <!-- Background Animation Container -->
+      <div
+        class="particles-container fixed inset-0 pointer-events-none z-0"
+        id="particlesContainer"
+      ></div>
+      <div class="layout-container flex flex-col grow h-full relative z-10">
+        <!-- Modern Seamless Navbar -->
+        <nav class="modern-navbar fixed top-0 left-0 right-0 z-30">
+          <div class="navbar-container">
+            <!-- Logo/Brand -->
+            <div class="navbar-brand">
+              <a href="index.html" class="flex items-center">
+                <img
+                  src="../assets/fLogo.png"
+                  alt="NethwinLK"
+                  class="navbar-logo"
+                />
+              </a>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="navbar-links" id="navbarLinks">
+              <a href="index.html" class="nav-link">Home</a>
+              <a href="print.html" class="nav-link">Print Services</a>
+              <a href="bookshop.html" class="nav-link">Bookshop</a>
+              <a href="aboutus.html" class="nav-link">About</a>
+              <a href="contactus.html" class="nav-link">Contact</a>
+            </div>
+
+            <!-- Desktop Auth Area -->
+            <div class="navbar-auth" id="navbarAuth">
+              <a href="cart.html" class="nav-auth-btn">
+                <svg
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
+                  ></path>
+                </svg>
+                Cart
+              </a>
+              <a href="search.html" class="nav-auth-btn">
+                <svg
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  ></path>
+                </svg>
+                Search
+              </a>
+
+              <a href="signup.html" class="nav-auth-btn">
+                <svg
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M12.5 7a4 4 0 11-8 0 4 4 0 018 0z"
+                  ></path>
+                </svg>
+                Sign Up
+              </a>
+            </div>
+
+            <!-- Mobile Auth Icons (hidden on desktop) -->
+            <div class="mobile-auth-icons hidden md:hidden">
+              <a href="cart.html" class="mobile-icon-btn">
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
+                  ></path>
+                </svg>
+              </a>
+              <a href="search.html" class="mobile-icon-btn">
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  ></path>
+                </svg>
+              </a>
+
+              <a href="signup.html" class="mobile-icon-btn">
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M12.5 7a4 4 0 11-8 0 4 4 0 018 0z"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileToggle">
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+            </button>
+          </div>
+        </nav>
+
+        <!-- Navbar Spacer -->
+        <div style="height: 4rem"></div>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex items-center justify-center py-12 px-4">
+          <div
+            class="w-full max-w-md bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl p-8 border border-white/20"
+          >
+            <div class="flex justify-center mb-6">
+              <a href="index.html" aria-label="Go to Home">
+                <img
+                  src="../assets/fLogo.png"
+                  alt="NETHWIN Logo"
+                  class="h-12 w-auto"
+                />
+              </a>
+            </div>
+
+            <h2 class="text-[#0e1b0e] text-3xl font-bold text-center mb-8">
+              Welcome Back
+            </h2>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="space-y-6">
+              <!-- Email or Username -->
+              <div>
+                <label
+                  for="email"
+                  class="block text-sm font-medium text-[#0e1b0e] mb-2"
+                  >Email or Username</label
+                >
+                <input
+                  id="email"
+                  name="email"
+                  type="text"
+                  required
+                  placeholder="Enter your email or username"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-[#0ad167] transition duration-300 bg-white/90"
+                />
+              </div>
+
+              <!-- Password -->
+              <div>
+                <label
+                  for="password"
+                  class="block text-sm font-medium text-[#0e1b0e] mb-2"
+                  >Password</label
+                >
+                <div class="relative">
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    required
+                    placeholder="Enter your password"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-[#0ad167] transition duration-300 pr-12 bg-white/90"
+                  />
+                  <button
+                    type="button"
+                    id="togglePassword"
+                    aria-label="Toggle password visibility"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#0ad167] transition-colors"
+                  >
+                    <svg
+                      id="iconEyeOpen"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="h-5 w-5"
+                    >
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12Z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                    <svg
+                      id="iconEyeOff"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="h-5 w-5 hidden"
+                    >
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12Z" />
+                      <circle cx="12" cy="12" r="3" />
+                      <path d="M3 3l18 18" />
+                    </svg>
+                  </button>
                 </div>
-            </nav>
-            
-            <!-- Navbar Spacer -->
-            <div style="height: 4rem;"></div>
+              </div>
 
-            <!-- Main Content -->
-            <main class="flex-1 flex items-center justify-center py-12 px-4">
-                <div class="w-full max-w-md bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl p-8 border border-white/20">
-                    <div class="flex justify-center mb-6">
-                        <a href="index.html" aria-label="Go to Home">
-                            <img src="../assets/fLogo.png" alt="NETHWIN Logo" class="h-12 w-auto" />
-                        </a>
-                    </div>
+              <!-- Login button -->
+              <button
+                type="submit"
+                class="w-full bg-[#0ad167] hover:bg-[#08b85a] text-[#0e1b0e] font-bold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-[#0ad167]/25"
+              >
+                Login
+              </button>
+            </form>
 
-                    <h2 class="text-[#0e1b0e] text-3xl font-bold text-center mb-8">Welcome Back</h2>
-
-                    <!-- Login Form -->
-                    <form id="loginForm" class="space-y-6">
-                        <!-- Username -->
-                        <div>
-                            <label for="username" class="block text-sm font-medium text-[#0e1b0e] mb-2">Username</label>
-                            <input
-                                id="username"
-                                name="username"
-                                type="text"
-                                required
-                                placeholder="Enter your username"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-[#0ad167] transition duration-300 bg-white/90"
-                            />
-                        </div>
-
-                        <!-- Password -->
-                        <div>
-                            <label for="password" class="block text-sm font-medium text-[#0e1b0e] mb-2">Password</label>
-                            <div class="relative">
-                                <input
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    required
-                                    placeholder="Enter your password"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-[#0ad167] transition duration-300 pr-12 bg-white/90"
-                                />
-                                <button type="button" id="togglePassword" aria-label="Toggle password visibility" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#0ad167] transition-colors">
-                                    <svg id="iconEyeOpen" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12Z" />
-                                        <circle cx="12" cy="12" r="3" />
-                                    </svg>
-                                    <svg id="iconEyeOff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 hidden">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12Z" />
-                                        <circle cx="12" cy="12" r="3" />
-                                        <path d="M3 3l18 18" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Login button -->
-                        <button
-                            type="submit"
-                            class="w-full bg-[#0ad167] hover:bg-[#08b85a] text-[#0e1b0e] font-bold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-[#0ad167]/25"
-                        >
-                            Login
-                        </button>
-                    </form>
-
-                    <!-- Sign up link -->
-                    <p class="text-center text-sm text-gray-600 mt-6">
-                        Don't have an account?
-                        <a href="signup.html" class="text-[#0ad167] hover:text-[#08b85a] font-medium underline transition-colors">Sign up</a>
-                    </p>
-                </div>
-            </main>
-        </div>
+            <!-- Sign up link -->
+            <p class="text-center text-sm text-gray-600 mt-6">
+              Don't have an account?
+              <a
+                href="signup.html"
+                class="text-[#0ad167] hover:text-[#08b85a] font-medium underline transition-colors"
+                >Sign up</a
+              >
+            </p>
+          </div>
+        </main>
+      </div>
     </div>
 
     <script src="../javascript/navbar.js"></script>
     <script src="../javascript/background-animations.js"></script>
     <script>
-        // Initialize auth system
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeAuth();
-            setActiveNavLink('login.html');
+      // Initialize auth system
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeAuth();
+        setActiveNavLink("login.html");
+      });
+
+      // Password toggle functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const passwordInput = document.getElementById("password");
+        const toggleBtn = document.getElementById("togglePassword");
+        const iconEyeOpen = document.getElementById("iconEyeOpen");
+        const iconEyeOff = document.getElementById("iconEyeOff");
+
+        function setVisible(isVisible) {
+          passwordInput.type = isVisible ? "text" : "password";
+          iconEyeOpen.classList.toggle("hidden", isVisible);
+          iconEyeOff.classList.toggle("hidden", !isVisible);
+        }
+
+        toggleBtn.addEventListener("click", function () {
+          const isPassword = passwordInput.type === "password";
+          setVisible(isPassword);
         });
+      });
 
-        // Password toggle functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const passwordInput = document.getElementById('password');
-            const toggleBtn = document.getElementById('togglePassword');
-            const iconEyeOpen = document.getElementById('iconEyeOpen');
-            const iconEyeOff = document.getElementById('iconEyeOff');
+      // Login form handling
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
 
-            function setVisible(isVisible) {
-                passwordInput.type = isVisible ? 'text' : 'password';
-                iconEyeOpen.classList.toggle('hidden', isVisible);
-                iconEyeOff.classList.toggle('hidden', !isVisible);
-            }
+          const loginField = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value;
 
-            toggleBtn.addEventListener('click', function() {
-                const isPassword = passwordInput.type === 'password';
-                setVisible(isPassword);
+          try {
+            const res = await fetch("http://localhost:4000/api/auth/login", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ 
+                email: loginField, 
+                username: loginField, 
+                password 
+              }),
             });
-        });
 
-        // Login form handling
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || "Login failed");
+
             try {
-                const res = await fetch('/api/auth/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-                
-                const data = await res.json();
-                if (!res.ok) throw new Error(data.error || 'Login failed');
-                
-                try { 
-                    localStorage.setItem('authToken', data.token); 
-                } catch {}
-                
-                window.location.href = 'profile.html';
-            } catch (err) {
-                alert(err.message);
+              localStorage.setItem("authToken", data.token);
+              localStorage.setItem("userData", JSON.stringify(data.user));
+            } catch {}
+
+            // Redirect based on user role
+            if (data.user.role === 'admin') {
+              window.location.href = "admin-dashboard.html";
+            } else {
+              window.location.href = "profile.html";
             }
+          } catch (err) {
+            alert(err.message);
+          }
         });
     </script>
-</body>
+  </body>
 </html>
