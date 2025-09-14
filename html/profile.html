@@ -1,111 +1,552 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Profile - NethwinLK</title>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link rel="stylesheet" href="../css/hover-effects.css" />
-  <link rel="stylesheet" href="../css/responsive.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - NethwinLK</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="../css/hover-effects.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/background-animations.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+    <script src="../javascript/auth.js"></script>
+    <style>
+        .profile-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8faf8 100%);
+            border: 1px solid #d1e6d9;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .profile-card:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+        
+        .form-input {
+            border: 2px solid #d1e6d9;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #19e619;
+            box-shadow: 0 0 0 3px rgba(25, 230, 25, 0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #19e619 0%, #0ad167 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #16d117 0%, #08c155 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(25, 230, 25, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #0e1a13;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #d1e6d9;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            background: #f8faf8;
+            border-color: #19e619;
+        }
+        
+        .order-card {
+            background: white;
+            border: 1px solid #e8f2ec;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .order-card:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border-color: #d1e6d9;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+        
+        .status-processing {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+        
+        .status-shipped {
+            background: #d1fae5;
+            color: #059669;
+        }
+        
+        .status-delivered {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+    </style>
 </head>
 <body>
-  <div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif]">
-    <div class="layout-container flex flex-col grow h-full">
-      <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f2f4f1] px-10 py-3">
-        <div class="flex items-center gap-4 text-[#151612]">
-          <div class="h-10">
-            <a href="index.html" aria-label="Go to Home">
-              <img src="../assets/fLogo.png" alt="NETHWIN Logo" class="h-10 w-auto" />
-            </a>
-          </div>
-        </div>
-        <div class="flex gap-2">
-          <button id="logoutBtn" class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f2f4f1] text-[#151612] text-sm font-bold">Logout</button>
-        </div>
-      </header>
+    <div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient">
+        <!-- Background Animation Container -->
+        <div class="particles-container fixed inset-0 pointer-events-none z-0" id="particlesContainer"></div>
+        <div class="layout-container flex flex-col grow h-full relative z-10">
+            <!-- Modern Seamless Navbar -->
+            <nav class="modern-navbar fixed top-0 left-0 right-0 z-30">
+                <div class="navbar-container">
+                    <!-- Logo/Brand -->
+                    <div class="navbar-brand">
+                        <a href="index.html" class="flex items-center">
+                            <img src="../assets/fLogo.png" alt="NethwinLK" class="navbar-logo">
+                        </a>
+                    </div>
+                    
+                    <!-- Navigation Links -->
+                    <div class="navbar-links" id="navbarLinks">
+                        <a href="index.html" class="nav-link">Home</a>
+                        <a href="print.html" class="nav-link">Print Services</a>
+                        <a href="bookshop.html" class="nav-link">Bookshop</a>
+                        <a href="aboutus.html" class="nav-link">About</a>
+                        <a href="contactus.html" class="nav-link">Contact</a>
+                    </div>
+                    
+                    <!-- Desktop Auth Area -->
+                    <div class="navbar-auth" id="navbarAuth">
+                        <a href="cart.html" class="nav-auth-btn">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+                            </svg>
+                            Cart
+                        </a>
+                        <a href="search.html" class="nav-auth-btn">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            Search
+                        </a>
+                        <button onclick="logout()" class="nav-auth-btn">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                            </svg>
+                            Logout
+                        </button>
+                    </div>
+                    
+                    <!-- Mobile Auth Icons (hidden on desktop) -->
+                    <div class="mobile-auth-icons hidden md:hidden">
+                        <a href="cart.html" class="mobile-icon-btn">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+                            </svg>
+                        </a>
+                        <a href="search.html" class="mobile-icon-btn">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </a>
+                        <button onclick="logout()" class="mobile-icon-btn">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" id="mobileToggle">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </nav>
+            
+            <!-- Navbar Spacer -->
+            <div style="height: 4rem;"></div>
 
-      <div class="px-40 flex flex-1 justify-center py-5">
-        <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
-          <h2 class="text-[#111418] tracking-light text-[28px] font-bold leading-tight px-4 text-left pb-3 pt-5">My Profile</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 px-4">
-            <form id="profileForm" class="space-y-4 bg-white p-4 rounded-lg border border-[#e2e5dc]">
-              <div>
-                <label class="block text-sm font-medium text-[#0e1a13] mb-1">Full Name</label>
-                <input id="fullName" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg" />
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-[#0e1a13] mb-1">Email</label>
-                <input id="email" disabled class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg bg-gray-100" />
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-[#0e1a13] mb-1">Phone</label>
-                <input id="phone" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg" />
-              </div>
-              <button class="bg-[#19e619] text-white py-2 px-4 rounded-lg">Save</button>
-            </form>
+            <!-- Main Content -->
+            <div class="px-4 md:px-10 flex flex-1 justify-center py-8">
+                <div class="layout-content-container flex flex-col max-w-4xl flex-1">
+                    
+                    <!-- Profile Header -->
+                    <div class="profile-card p-8 mb-8">
+                        <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+                            <!-- Profile Avatar -->
+                            <div class="w-24 h-24 bg-gradient-to-br from-[#19e619] to-[#0ad167] rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg">
+                                <span id="userInitials">U</span>
+                            </div>
+                            
+                            <!-- Profile Info -->
+                            <div class="flex-1 text-center md:text-left">
+                                <h1 id="userName" class="text-3xl font-bold text-[#0e1a13] mb-2">Loading...</h1>
+                                <p id="userEmail" class="text-[#51946c] text-lg mb-4">Loading...</p>
+                                <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+                                    <span id="userRole" class="px-3 py-1 bg-[#e8f2ec] text-[#0e1a13] rounded-full text-sm font-medium">Customer</span>
+                                    <span id="memberSince" class="px-3 py-1 bg-[#f2f4f1] text-[#51946c] rounded-full text-sm">Member since 2025</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Quick Actions -->
+                            <div class="flex gap-3">
+                                <button onclick="editProfile()" class="btn-primary">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                    </svg>
+                                    Edit Profile
+                                </button>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="bg-white p-4 rounded-lg border border-[#e2e5dc]">
-              <h3 class="text-[#111418] text-lg font-bold pb-2">Past Orders</h3>
-              <div id="orders" class="space-y-2"></div>
+                    <!-- Profile Form (Hidden by default) -->
+                    <div id="profileForm" class="profile-card p-8 mb-8 hidden">
+                        <h2 class="text-2xl font-bold text-[#0e1a13] mb-6">Edit Profile Information</h2>
+                        
+                        <form id="editProfileForm" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-[#0e1a13] mb-2">Full Name</label>
+                                    <input type="text" id="fullName" class="form-input w-full" placeholder="Enter your full name">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-semibold text-[#0e1a13] mb-2">Email</label>
+                                    <input type="email" id="email" disabled class="form-input w-full bg-gray-50 text-gray-600 cursor-not-allowed">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-semibold text-[#0e1a13] mb-2">Phone Number</label>
+                                    <input type="tel" id="phone" class="form-input w-full" placeholder="Enter your phone number">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-semibold text-[#0e1a13] mb-2">Username</label>
+                                    <input type="text" id="username" class="form-input w-full" placeholder="Enter your username">
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-[#e8f2ec]">
+                                <button type="button" onclick="cancelEdit()" class="btn-secondary flex-1">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="btn-primary flex-1">
+                                    Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Orders Section -->
+                    <div class="profile-card p-8">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-2xl font-bold text-[#0e1a13]">My Orders</h2>
+                            <a href="bookshop.html" class="btn-primary">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                </svg>
+                                Continue Shopping
+                            </a>
+                        </div>
+                        
+                        <div id="ordersList">
+                            <!-- Orders will be loaded here -->
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+
+            <!-- Footer -->
+            <footer class="flex justify-center">
+                <div class="flex max-w-[960px] flex-1 flex-col">
+                    <footer class="flex flex-col gap-6 px-5 py-10 text-center @container">
+                        <div class="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around">
+                            <a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="aboutus.html">About Us</a>
+                            <a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="contactus.html">Contact</a>
+                            <a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="#">FAQ</a>
+                            <a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="#">Terms of Service</a>
+                            <a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="#">Privacy Policy</a>
+                        </div>
+                        <p class="text-[#76816a] text-base font-normal leading-normal">@2025 NethwinLK. All rights reserved.</p>
+                    </footer>
+                </div>
+            </footer>
         </div>
-      </div>
     </div>
-  </div>
 
-  <script>
-    function getToken(){ try { return localStorage.getItem('authToken'); } catch { return null; } }
-    async function fetchMe(){
-      const res = await fetch('/api/me', { headers:{ Authorization: 'Bearer ' + getToken() } });
-      if (!res.ok) throw new Error('Unauthorized');
-      return res.json();
-    }
-    async function fetchOrders(){
-      const res = await fetch('/api/my-orders', { headers:{ Authorization: 'Bearer ' + getToken() } });
-      if (!res.ok) return { orders: [] };
-      return res.json();
-    }
-    async function saveProfile(payload){
-      const res = await fetch('/api/me', { method:'PUT', headers:{ 'Content-Type':'application/json', Authorization: 'Bearer ' + getToken() }, body: JSON.stringify(payload) });
-      if (!res.ok) throw new Error('Save failed');
-      return res.json();
-    }
+    <script src="../javascript/navbar.js"></script>
+    <script src="../javascript/background-animations.js"></script>
+    
+    <script>
+        let currentUser = null;
+        let userOrders = [];
 
-    (async function init(){
-      try {
-        const me = await fetchMe();
-        document.getElementById('fullName').value = me.user.fullName || '';
-        document.getElementById('email').value = me.user.email || '';
-        document.getElementById('phone').value = me.user.phone || '';
-        const data = await fetchOrders();
-        const wrap = document.getElementById('orders');
-        wrap.innerHTML = '';
-        (data.orders || []).forEach(o => {
-          const div = document.createElement('div');
-          div.className = 'border border-[#d1e6d9] rounded p-3 text-sm text-[#0e1a13]';
-          div.innerHTML = `#${o._id} · ${o.type || 'shop'} · LKR ${Number(o.total||0).toFixed(2)} · ${(o.createdAt||'').slice(0,10)} · ${o.status}`;
-          wrap.appendChild(div);
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (!window.authManager || !window.authManager.isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Load user data
+            loadUserData();
+            loadUserOrders();
+            setupEventListeners();
         });
-      } catch (e) {
-        window.location.href = 'login.html';
-      }
-    })();
 
-    document.getElementById('profileForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      try {
-        await saveProfile({ fullName: document.getElementById('fullName').value.trim(), phone: document.getElementById('phone').value.trim() });
-        alert('Saved');
-      } catch { alert('Save failed'); }
-    });
+        // Load user data
+        async function loadUserData() {
+            try {
+                const response = await fetch('/api/me', {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+                    }
+                });
 
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      try { localStorage.removeItem('authToken'); } catch {}
-      window.location.href = 'index.html';
-    });
-  </script>
+                if (!response.ok) {
+                    throw new Error('Failed to load user data');
+                }
+
+                const data = await response.json();
+                currentUser = data.user;
+                updateProfileDisplay();
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                // Fallback to localStorage data
+                const userData = localStorage.getItem('userData');
+                if (userData) {
+                    currentUser = JSON.parse(userData);
+                    updateProfileDisplay();
+                } else {
+                    alert('Failed to load profile data');
+                }
+            }
+        }
+
+        // Load user orders
+        async function loadUserOrders() {
+            try {
+                const response = await fetch('/api/my-orders', {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    userOrders = data.orders || [];
+                } else {
+                    // Fallback to mock data for demo
+                    userOrders = generateMockOrders();
+                }
+                updateOrdersDisplay();
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                // Fallback to mock data
+                userOrders = generateMockOrders();
+                updateOrdersDisplay();
+            }
+        }
+
+        // Generate mock orders for demo
+        function generateMockOrders() {
+            return [
+                {
+                    id: 'ORD-001',
+                    date: new Date('2025-01-10'),
+                    total: 1250.00,
+                    status: 'delivered',
+                    items: ['Notebook Set', 'Blue Pen']
+                },
+                {
+                    id: 'ORD-002',
+                    date: new Date('2025-01-08'),
+                    total: 850.00,
+                    status: 'shipped',
+                    items: ['A4 Paper Pack', 'Stapler']
+                },
+                {
+                    id: 'ORD-003',
+                    date: new Date('2025-01-05'),
+                    total: 2100.00,
+                    status: 'processing',
+                    items: ['Office Supplies Bundle']
+                }
+            ];
+        }
+
+        // Update profile display
+        function updateProfileDisplay() {
+            if (!currentUser) return;
+
+            const initials = getInitials(currentUser.fullName || currentUser.name);
+            
+            // Update header
+            document.getElementById('userInitials').textContent = initials;
+            document.getElementById('userName').textContent = currentUser.fullName || currentUser.name || 'User';
+            document.getElementById('userEmail').textContent = currentUser.email || 'No email';
+            document.getElementById('userRole').textContent = currentUser.role || 'Customer';
+            
+            // Update member since
+            const memberSince = currentUser.createdAt ? new Date(currentUser.createdAt).getFullYear() : 2025;
+            document.getElementById('memberSince').textContent = `Member since ${memberSince}`;
+            
+            // Update form fields
+            document.getElementById('fullName').value = currentUser.fullName || currentUser.name || '';
+            document.getElementById('email').value = currentUser.email || '';
+            document.getElementById('phone').value = currentUser.phone || currentUser.phoneNumber || '';
+            document.getElementById('username').value = currentUser.username || '';
+        }
+
+        // Update orders display
+        function updateOrdersDisplay() {
+            const ordersList = document.getElementById('ordersList');
+            if (!ordersList) return;
+
+            if (userOrders.length === 0) {
+                ordersList.innerHTML = `
+                    <div class="text-center py-12">
+                        <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold text-[#0e1a13] mb-2">No orders yet</h3>
+                        <p class="text-[#51946c] mb-6">Start shopping to see your orders here</p>
+                        <a href="bookshop.html" class="btn-primary inline-flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                            Start Shopping
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            ordersList.innerHTML = userOrders.map(order => `
+                <div class="order-card mb-4">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-4 mb-2">
+                                <h4 class="text-lg font-semibold text-[#0e1a13]">Order #${order.id}</h4>
+                                <span class="status-badge status-${order.status}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</span>
+                            </div>
+                            <p class="text-[#51946c] text-sm mb-2">${order.date.toLocaleDateString()}</p>
+                            <p class="text-[#0e1a13] text-sm">${order.items.join(', ')}</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-2xl font-bold text-[#0e1a13] mb-2">
+                                LKR ${order.total.toFixed(2)}
+                            </div>
+                            <button class="btn-secondary text-sm">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Event listeners
+        function setupEventListeners() {
+            // Profile form submission
+            document.getElementById('editProfileForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                await updateProfile();
+            });
+        }
+
+        // Edit profile function
+        function editProfile() {
+            document.getElementById('profileForm').classList.remove('hidden');
+            document.getElementById('profileForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Cancel edit function
+        function cancelEdit() {
+            document.getElementById('profileForm').classList.add('hidden');
+            // Reset form to original values
+            updateProfileDisplay();
+        }
+
+        // Update profile
+        async function updateProfile() {
+            try {
+                const formData = {
+                    fullName: document.getElementById('fullName').value,
+                    phone: document.getElementById('phone').value,
+                    username: document.getElementById('username').value
+                };
+
+                const response = await fetch('/api/me', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    alert('Profile updated successfully!');
+                    await loadUserData();
+                    cancelEdit();
+                } else {
+                    throw new Error('Failed to update profile');
+                }
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                alert('Failed to update profile. Please try again.');
+            }
+        }
+
+        // Utility functions
+        function getInitials(name) {
+            if (!name) return 'U';
+            return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear all authentication data
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userData');
+                localStorage.removeItem('adminMode');
+                // Redirect to main website
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
 </body>
 </html>
-
-

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Reviews - NethwinLK</title>
+    <title>Bookshop Orders - NethwinLK Admin</title>
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
     <link
       rel="stylesheet"
@@ -63,7 +63,7 @@
                             </svg>
                             Users
                         </a>
-                        <a href="admin-bookshop-orders.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                        <a href="admin-bookshop-orders.html" class="flex items-center gap-3 px-4 py-3 text-[#19e619] bg-[#e8f2ec] rounded-lg font-medium">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                             </svg>
@@ -81,7 +81,7 @@
                             </svg>
                             Products
                         </a>
-                        <a href="admin-reviews.html" class="flex items-center gap-3 px-4 py-3 text-[#19e619] bg-[#e8f2ec] rounded-lg font-medium">
+                        <a href="admin-reviews.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
                             </svg>
@@ -137,14 +137,29 @@
                     <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
                         <!-- Header Section -->
                         <div class="flex flex-wrap justify-between gap-3 p-4">
-                            <p class="text-[#0e1a13] tracking-light text-[32px] font-bold leading-tight min-w-72">Reviews</p>
+                            <p class="text-[#0e1a13] tracking-light text-[32px] font-bold leading-tight min-w-72">Bookshop Orders</p>
                         </div>
 
-                        <!-- Reviews Content -->
-                        <div class="px-4 py-3">
-                            <div class="bg-white rounded-lg p-6 shadow-sm">
-                                <h3 class="text-lg font-semibold text-[#0e1a13] mb-4">Review Management</h3>
-                                <p class="text-[#51946c]">Review management functionality will be implemented here.</p>
+                        <!-- Orders Table -->
+                        <div class="px-4 py-3 @container">
+                            <div class="flex overflow-hidden rounded-lg border border-[#d1e6d9] bg-[#f8fbfa]">
+                                <table class="flex-1">
+                                    <thead>
+                                        <tr class="bg-[#f8fbfa]">
+                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[200px] text-sm font-medium leading-normal">Order ID</th>
+                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[300px] text-sm font-medium leading-normal">Customer</th>
+                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[200px] text-sm font-medium leading-normal">Items</th>
+                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[150px] text-sm font-medium leading-normal">Total</th>
+                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[150px] text-sm font-medium leading-normal">Status</th>
+                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[200px] text-sm font-medium leading-normal">Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ordersTableBody">
+                                        <tr>
+                                            <td colspan="6" class="px-4 py-8 text-center text-[#51946c]">No bookshop orders found</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

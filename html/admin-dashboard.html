@@ -9,10 +9,13 @@
       rel="stylesheet"
       as="style"
       onload="this.rel='stylesheet'"
-      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
     />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link rel="stylesheet" href="../css/hover-effects.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/background-animations.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .sidebar-transition {
@@ -22,10 +25,11 @@
             transform: translateX(-100%);
         }
     </style>
-  <link rel="stylesheet" href="../css/responsive.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+    <script src="../javascript/auth.js"></script>
 </head>
 <body>
-    <div class="relative flex size-full min-h-screen flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden" style='font-family: Inter, "Noto Sans", sans-serif;'>
+    <div class="relative flex size-full min-h-screen flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden" style="font-family: Inter, 'Noto Sans', sans-serif;">
         <div class="layout-container flex h-full grow flex-col">
             
             <!-- Sidebar -->
@@ -61,23 +65,23 @@
                             </svg>
                             Users
                         </a>
-                        <a href="admin-orders.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                        <a href="admin-bookshop-orders.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                             </svg>
-                            Orders
+                            Bookshop Orders
+                        </a>
+                        <a href="admin-print-orders.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                            </svg>
+                            Print Orders
                         </a>
                         <a href="admin-products.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
                             </svg>
                             Products
-                        </a>
-                        <a href="#" class="hidden items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
-                            </svg>
-                            Import Products
                         </a>
                         <a href="admin-reviews.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -91,10 +95,27 @@
                             </svg>
                             Messages
                         </a>
+                        <a href="admin-settings.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Settings
+                        </a>
                     </nav>
 
-                    <!-- Logout Section -->
-                    <div class="p-4 border-t border-[#e8f2ec]">
+                    <!-- User Mode & Logout Section -->
+                    <div class="p-4 border-t border-[#e8f2ec] space-y-2">
+                        <button 
+                            id="userModeBtn" 
+                            class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-blue-600 hover:bg-blue-50 rounded-lg font-medium transition-colors w-full text-left"
+                            title="Switch to User Mode for Testing"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                            User Mode
+                        </button>
                         <button onclick="logout()" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-red-600 hover:bg-red-50 rounded-lg font-medium transition-colors w-full">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
@@ -107,23 +128,10 @@
 
             <!-- Main Content -->
             <div class="ml-64 flex-1">
-                <!-- Top Header -->
-                <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f2ec] px-10 py-3">
-                    <div class="flex items-center gap-4 text-[#0e1a13]">
-                        <button id="sidebarToggle" class="size-4 md:hidden">
-                            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
-                                    d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
-                                    fill="currentColor"
-                                ></path>
-                            </svg>
-                        </button>
-                        
-                    </div>
-                   
-                     
+                <header
+                    class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e8f2ec] px-10 py-3"
+                >
+                    <div class="flex items-center gap-4 text-[#0e1a13]"></div>
                 </header>
 
                 <!-- Main Content Area -->
@@ -133,7 +141,13 @@
                         <div class="flex flex-wrap justify-between gap-3 p-4">
                             <div class="flex min-w-72 flex-col gap-3">
                                 <p class="text-[#0e1a13] tracking-light text-[32px] font-bold leading-tight">Dashboard</p>
-                                <p class="text-[#51946c] text-sm font-normal leading-normal">Welcome back, Admin</p>
+                                <p class="text-[#51946c] text-sm font-normal leading-normal" id="welcomeMessage">Welcome back, Admin</p>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="text-right">
+                                    <p class="text-[#0e1a13] text-sm font-medium" id="adminName">Admin User</p>
+                                    <p class="text-[#51946c] text-xs">Administrator</p>
+                                </div>
                             </div>
                         </div>
 
@@ -160,8 +174,6 @@
                                 <p class="text-[#078829] text-base font-medium leading-normal">&nbsp;</p>
                             </div>
                         </div>
-
-
 
                         <!-- Recent Orders Table -->
                         <h2 class="text-[#0e1a13] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Recent Orders</h2>
@@ -200,8 +212,6 @@
             }
         }
 
-        sidebarToggle.addEventListener('click', toggleSidebar);
-
         // Close sidebar when clicking outside on mobile
         document.addEventListener('click', (e) => {
             if (window.innerWidth < 768 && 
@@ -228,13 +238,47 @@
         // Logout function
         function logout() {
             if (confirm('Are you sure you want to logout?')) {
-                window.location.href = 'admin-login.html';
+                // Clear all authentication data
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userData');
+                localStorage.removeItem('adminMode');
+                // Redirect to main website as new user
+                window.location.href = 'index.html';
             }
         }
-
-
     </script>
     <script>
+        // Authentication check
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in and is admin
+            if (!window.authManager.isLoggedIn()) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+            
+            if (!window.authManager.isAdmin()) {
+                window.location.href = 'profile.html';
+                return;
+            }
+            
+            // Display user info
+            const userData = window.authManager.getCurrentUser();
+            if (userData) {
+                document.getElementById('welcomeMessage').textContent = `Welcome back, ${userData.fullName}`;
+                document.getElementById('adminName').textContent = userData.fullName;
+            }
+            
+            // User Mode functionality
+            document.getElementById('userModeBtn').addEventListener('click', function() {
+                if (confirm('Switch to User Mode? You can access the website as a regular customer for testing purposes.')) {
+                    // Store admin mode flag
+                    localStorage.setItem('adminMode', 'false');
+                    // Redirect to main website
+                    window.location.href = 'index.html';
+                }
+            });
+        });
+
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const [ordersRes, usersRes] = await Promise.all([
