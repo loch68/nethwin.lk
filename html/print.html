@@ -9,8 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
     <link
       rel="stylesheet"
-      as="style"
-      onload="this.rel='stylesheet'"
       href="https://fonts.googleapis.com/css2?display=swap&family=Inter:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900"
     />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -429,8 +427,6 @@
         <form
           id="printForm"
           class="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-40 flex justify-center py-5 flex-1"
-          method="POST"
-          action="#"
           enctype="multipart/form-data"
         >
           <div class="flex flex-col max-w-[960px] flex-1 w-full">
@@ -438,32 +434,123 @@
               <p
                 class="text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-bold break-words"
               >
-                Upload Your Document
+                Print Order Form
               </p>
             </div>
 
-            <!-- Document Name -->
-            <div
-              class="flex max-w-full sm:max-w-[480px] flex-wrap items-end gap-4 px-2 sm:px-4 py-3"
-            >
-              <label class="flex flex-col w-full">
-                <p class="font-medium pb-2 text-sm sm:text-base">
-                  Document Name
-                </p>
-                <input
-                  type="text"
-                  name="documentName"
-                  placeholder="Enter document name"
-                  required
-                  class="form-input w-full h-12 sm:h-14 p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base"
-                />
-              </label>
+            <!-- Customer Information (only shown when not logged in) -->
+            <div id="customerInfoSection" style="display: none;">
+              <h2
+                class="text-lg sm:text-xl md:text-[22px] font-bold px-2 sm:px-4 pb-3 pt-5"
+              >
+                Customer Information
+              </h2>
+
+              <div
+                class="flex max-w-full sm:max-w-[480px] flex-wrap items-end gap-4 px-2 sm:px-4 py-3"
+              >
+                <label class="flex flex-col w-full">
+                  <p class="font-medium pb-2 text-sm sm:text-base">
+                    Full Name *
+                  </p>
+                  <input
+                    type="text"
+                    name="userName"
+                    placeholder="Enter your full name"
+                    class="form-input w-full h-12 sm:h-14 p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base"
+                  />
+                </label>
+              </div>
+
+              <div
+                class="flex max-w-full sm:max-w-[480px] flex-wrap items-end gap-4 px-2 sm:px-4 py-3"
+              >
+                <label class="flex flex-col w-full">
+                  <p class="font-medium pb-2 text-sm sm:text-base">
+                    Email Address *
+                  </p>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email address"
+                    class="form-input w-full h-12 sm:h-14 p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base"
+                  />
+                </label>
+              </div>
+
+              <div
+                class="flex max-w-full sm:max-w-[480px] flex-wrap items-end gap-4 px-2 sm:px-4 py-3"
+              >
+                <label class="flex flex-col w-full">
+                  <p class="font-medium pb-2 text-sm sm:text-base">
+                    Contact Number *
+                  </p>
+                  <input
+                    type="tel"
+                    name="contactNumber"
+                    placeholder="Enter your contact number"
+                    class="form-input w-full h-12 sm:h-14 p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base"
+                  />
+                </label>
+              </div>
             </div>
 
-            <!-- File Upload -->
+            <!-- Logged in user info display -->
+            <div id="loggedInUserInfo" style="display: none;">
+              <h2
+                class="text-lg sm:text-xl md:text-[22px] font-bold px-2 sm:px-4 pb-3 pt-5"
+              >
+                Account Information
+              </h2>
+              <div class="px-2 sm:px-4 py-3">
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                  <p class="text-sm font-medium text-gray-700 mb-2">Ordering as:</p>
+                  <p class="text-lg font-semibold text-blue-600" id="userDisplayName"></p>
+                  <p class="text-sm text-gray-600" id="userDisplayEmail"></p>
+                  <p class="text-sm text-gray-600" id="userDisplayPhone"></p>
+                </div>
+              </div>
+              
+              <!-- Hidden fields for logged-in users -->
+              <input type="hidden" name="userName" id="hiddenUserName" required>
+              <input type="hidden" name="email" id="hiddenEmail" required>
+              <input type="hidden" name="contactNumber" id="hiddenContactNumber" required>
+            </div>
+
+            <!-- Login prompt for non-logged in users -->
+            <div id="loginPrompt" style="display: none;">
+              <div class="px-2 sm:px-4 py-3">
+                <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="text-sm font-medium text-yellow-800 mb-1">
+                        Have an account?
+                      </p>
+                      <p class="text-xs text-yellow-600">
+                        Login to skip filling customer information
+                      </p>
+                    </div>
+                    <a 
+                      href="login.html" 
+                      class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                    >
+                      Login
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Document Upload -->
+            <h2
+              class="text-lg sm:text-xl md:text-[22px] font-bold px-2 sm:px-4 pb-3 pt-5"
+            >
+              Document Upload
+            </h2>
+
             <div class="flex flex-col p-4 sm:p-6">
               <label
-                for="documentFile"
+                for="document"
                 class="flex flex-col items-center justify-center gap-4 sm:gap-6 rounded-xl border-2 border-dashed border-gray-300 hover:border-green-500 transition-colors duration-300 cursor-pointer bg-gray-50 hover:bg-green-50 px-6 py-10 sm:py-14 text-center"
               >
                 <svg
@@ -482,55 +569,83 @@
                 </svg>
                 <div>
                   <p class="text-base sm:text-lg font-semibold text-gray-700">
-                    Drag & Drop your files here
+                    Drag & Drop your document here
                   </p>
                   <p class="text-xs sm:text-sm text-gray-500 mt-1">
-                    or click to browse (PDF, DOCX, JPG, PNG)
+                    or click to browse (PDF, DOC, DOCX, TXT, JPG, JPEG, PNG, GIF)
+                  </p>
+                  <p class="text-xs text-red-500 mt-1">
+                    Maximum file size: 10MB
                   </p>
                 </div>
                 <input
                   type="file"
-                  id="documentFile"
-                  name="documentFile"
-                  accept=".pdf,.doc,.docx,.jpg,.png"
-                  multiple
+                  id="document"
+                  name="document"
+                  accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.gif"
+                  required
                   class="hidden"
                 />
               </label>
             </div>
 
-            <!-- Document Previews -->
+            <!-- Document Preview -->
             <h2
               class="text-lg sm:text-xl md:text-[22px] font-bold px-2 sm:px-4 pb-3 pt-5"
             >
-              Document Previews
+              Document Preview
             </h2>
             <div
               id="previewContainer"
-              class="p-2 sm:p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4"
-            ></div>
+              class="p-2 sm:p-4"
+            >
+              <div id="noFileMessage" class="text-center text-gray-500 py-8">
+                <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <p>No document selected</p>
+              </div>
+              <div id="filePreview" class="hidden">
+                <div class="bg-white border border-gray-200 rounded-lg p-4">
+                  <div class="flex items-center justify-between mb-2">
+                    <h3 class="font-medium text-gray-900" id="fileName"></h3>
+                    <button 
+                      id="removeFile" 
+                      class="text-red-500 hover:text-red-700 text-sm font-medium"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <div id="filePreviewContent" class="mt-2"></div>
+                  <p class="text-xs text-gray-500 mt-2" id="fileSize"></p>
+                </div>
+              </div>
+            </div>
 
             <!-- Print Options -->
             <h2
               class="text-lg sm:text-xl md:text-[22px] font-bold px-2 sm:px-4 pb-3 pt-5"
             >
-              Customization Options
+              Print Specifications
             </h2>
 
             <div
               class="flex max-w-full sm:max-w-[480px] flex-wrap gap-4 px-2 sm:px-4 py-3"
             >
               <label class="flex flex-col w-full">
-                <p class="pb-2 font-medium text-sm sm:text-base">Paper Size</p>
+                <p class="pb-2 font-medium text-sm sm:text-base">Paper Size *</p>
                 <select
                   name="paperSize"
                   required
                   class="form-input h-12 sm:h-14 p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base"
                 >
-                  <option value="">Select</option>
-                  <option value="A4">A4</option>
-                  <option value="A5">A5</option>
+                  <option value="">Select Paper Size</option>
                   <option value="A6">A6</option>
+                  <option value="A5">A5</option>
+                  <option value="A4">A4</option>
+                  <option value="A3">A3</option>
+                  <option value="A2">A2</option>
+                  <option value="A1">A1</option>
                 </select>
               </label>
             </div>
@@ -539,15 +654,17 @@
               class="flex max-w-full sm:max-w-[480px] flex-wrap gap-4 px-2 sm:px-4 py-3"
             >
               <label class="flex flex-col w-full">
-                <p class="pb-2 font-medium text-sm sm:text-base">Color</p>
+                <p class="pb-2 font-medium text-sm sm:text-base">Color Option *</p>
                 <select
-                  name="color"
+                  name="colorOption"
                   required
                   class="form-input h-12 sm:h-14 p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base"
                 >
-                  <option value="">Select</option>
-                  <option value="Black & White">Black & White</option>
-                  <option value="Color">Color</option>
+                  <option value="">Select Color Option</option>
+                  <option value="normal_color">Normal Color</option>
+                  <option value="laser_color">Laser Color</option>
+                  <option value="bw_single">Black & White (Single-sided)</option>
+                  <option value="bw_double">Black & White (Double-sided)</option>
                 </select>
               </label>
             </div>
@@ -556,15 +673,18 @@
               class="flex max-w-full sm:max-w-[480px] flex-wrap gap-4 px-2 sm:px-4 py-3"
             >
               <label class="flex flex-col w-full">
-                <p class="pb-2 font-medium text-sm sm:text-base">Binding</p>
+                <p class="pb-2 font-medium text-sm sm:text-base">Binding *</p>
                 <select
                   name="binding"
                   required
                   class="form-input h-12 sm:h-14 p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base"
                 >
-                  <option value="">Select</option>
-                  <option value="Spiral">Spiral</option>
-                  <option value="Stapled">Stapled</option>
+                  <option value="">Select Binding</option>
+                  <option value="None">None</option>
+                  <option value="Spiral Binding">Spiral Binding</option>
+                  <option value="Thermal Binding">Thermal Binding</option>
+                  <option value="Hardcover Binding">Hardcover Binding</option>
+                  <option value="Saddle Stitching">Saddle Stitching</option>
                 </select>
               </label>
             </div>
@@ -574,12 +694,13 @@
             >
               <label class="flex flex-col w-full">
                 <p class="pb-2 font-medium text-sm sm:text-base">
-                  Number of Copies
+                  Number of Copies *
                 </p>
                 <input
                   type="number"
                   name="copies"
                   min="1"
+                  value="1"
                   required
                   class="form-input h-12 sm:h-14 p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base"
                 />
@@ -590,17 +711,37 @@
               class="flex max-w-full sm:max-w-[480px] flex-wrap gap-4 px-2 sm:px-4 py-3"
             >
               <label class="flex flex-col w-full">
-                <p class="pb-2 font-medium text-sm sm:text-base">Finishing</p>
+                <p class="pb-2 font-medium text-sm sm:text-base">Finishing *</p>
                 <select
                   name="finishing"
                   required
                   class="form-input h-12 sm:h-14 p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base"
                 >
-                  <option value="">Select</option>
-                  <option value="Matte">None</option>
-                  <option value="Glossy">Glossy</option>
-                  <option value="Matte">Matte</option>
+                  <option value="">Select Finishing</option>
+                  <option value="None">None</option>
+                  <option value="Lamination (Gloss)">Lamination (Gloss)</option>
+                  <option value="Lamination (Matte)">Lamination (Matte)</option>
+                  <option value="Foil Stamping">Foil Stamping</option>
+                  <option value="Embossing/Debossing">Embossing/Debossing</option>
+                  <option value="Die-Cutting">Die-Cutting</option>
+                  <option value="custom">Custom (Specify in notes)</option>
                 </select>
+              </label>
+            </div>
+
+            <div
+              class="flex max-w-full sm:max-w-[480px] flex-wrap gap-4 px-2 sm:px-4 py-3"
+              id="additionalNotesContainer"
+              style="display: none;"
+            >
+              <label class="flex flex-col w-full">
+                <p class="pb-2 font-medium text-sm sm:text-base">Additional Notes *</p>
+                <textarea
+                  name="additionalNotes"
+                  placeholder="Please describe your custom finishing requirements"
+                  rows="3"
+                  class="form-input w-full p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base resize-none"
+                ></textarea>
               </label>
             </div>
 
@@ -616,13 +757,13 @@
               >
                 <input
                   type="radio"
-                  name="delivery"
-                  value="Home"
+                  name="deliveryMethod"
+                  value="Home Delivery"
                   required
                   class="h-4 w-4 sm:h-5 sm:w-5"
                 />
                 <span class="text-xs sm:text-sm font-medium"
-                  >Home Delivery (within 10km)</span
+                  >Home Delivery (Rs. 150)</span
                 >
               </label>
               <label
@@ -630,12 +771,27 @@
               >
                 <input
                   type="radio"
-                  name="delivery"
+                  name="deliveryMethod"
                   value="Pickup"
                   required
                   class="h-4 w-4 sm:h-5 sm:w-5"
                 />
-                <span class="text-xs sm:text-sm font-medium">Store Pickup</span>
+                <span class="text-xs sm:text-sm font-medium">Store Pickup (Free)</span>
+              </label>
+            </div>
+
+            <div
+              class="flex max-w-full sm:max-w-[480px] flex-wrap gap-4 px-2 sm:px-4 py-3"
+            >
+              <label class="flex flex-col w-full">
+                <p class="pb-2 font-medium text-sm sm:text-base">Delivery Address *</p>
+                <textarea
+                  name="deliveryAddress"
+                  placeholder="Enter your delivery address"
+                  rows="3"
+                  required
+                  class="form-input w-full p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base resize-none"
+                ></textarea>
               </label>
             </div>
 
@@ -645,9 +801,19 @@
             >
               Pricing
             </h2>
-            <p class="px-2 sm:px-4 text-sm sm:text-base font-medium">
-              Estimated Price:
-            </p>
+            <div class="px-2 sm:px-4 py-3">
+              <div class="bg-green-50 border border-green-200 rounded-xl p-4">
+                <p class="text-sm sm:text-base font-medium text-gray-700 mb-2">
+                  Estimated Price:
+                </p>
+                <p class="text-2xl sm:text-3xl font-bold text-green-600" id="estimatedPrice">
+                  Rs. 0
+                </p>
+                <p class="text-xs text-gray-500 mt-1">
+                  * Final price may vary based on actual requirements
+                </p>
+              </div>
+            </div>
 
             <!-- Action Buttons -->
             <div
@@ -658,7 +824,7 @@
               </div>
 
               <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                <button type="submit" class="btn-primary w-full sm:w-auto">
+                <button type="button" id="submitPrintOrder" class="btn-primary w-full sm:w-auto">
                   Submit Print Order
                 </button>
               </div>
@@ -668,15 +834,259 @@
       </div>
     </div>
     <script>
-      // Use existing variables
-      //const fileInput = document.getElementById('documentFile');
+      // Pricing data (matches backend)
+      const pricingData = {
+        paperSizes: [
+          { size: "A6", normal_color: 20, laser_color: 65, bw_single: 5, bw_double: 5 },
+          { size: "A5", normal_color: 40, laser_color: 125, bw_single: 5, bw_double: 10 },
+          { size: "A4", normal_color: 75, laser_color: 250, bw_single: 5, bw_double: 10 },
+          { size: "A3", normal_color: 150, laser_color: 500, bw_single: 10, bw_double: 15 },
+          { size: "A2", normal_color: 300, laser_color: 1000, bw_single: 15, bw_double: 30 },
+          { size: "A1", normal_color: 600, laser_color: 2000, bw_single: 30, bw_double: 65 }
+        ],
+        binding: [
+          { type: "Spiral Binding", price: 50 },
+          { type: "Thermal Binding", price: 150 },
+          { type: "Hardcover Binding", price: 500 },
+          { type: "Saddle Stitching", price: 30 }
+        ],
+        finishing: [
+          { type: "Lamination (Gloss)", price: 50 },
+          { type: "Lamination (Matte)", price: 50 },
+          { type: "Foil Stamping", price: 100 },
+          { type: "Embossing/Debossing", price: 150 },
+          { type: "Die-Cutting", price: 200 }
+        ],
+        delivery: [
+          { type: "Home Delivery", price: 150 },
+          { type: "Pickup", price: 0 }
+        ]
+      };
+
+      // Calculate price based on selections
+      function calculatePrice() {
+        const paperSize = document.querySelector('select[name="paperSize"]').value;
+        const colorOption = document.querySelector('select[name="colorOption"]').value;
+        const copies = parseInt(document.querySelector('input[name="copies"]').value) || 1;
+        const binding = document.querySelector('select[name="binding"]').value;
+        const finishing = document.querySelector('select[name="finishing"]').value;
+        const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked')?.value;
+
+        if (!paperSize || !colorOption || !binding || !finishing || !deliveryMethod) {
+          document.getElementById('estimatedPrice').textContent = 'Rs. 0';
+          return 0;
+        }
+
+        let totalPrice = 0;
+
+        // Find paper size pricing
+        const sizeData = pricingData.paperSizes.find(s => s.size === paperSize);
+        if (sizeData) {
+          let printCostPerCopy = 0;
+          switch (colorOption) {
+            case 'normal_color':
+              printCostPerCopy = sizeData.normal_color;
+              break;
+            case 'laser_color':
+              printCostPerCopy = sizeData.laser_color;
+              break;
+            case 'bw_single':
+              printCostPerCopy = sizeData.bw_single;
+              break;
+            case 'bw_double':
+              printCostPerCopy = sizeData.bw_double;
+              break;
+          }
+          totalPrice += printCostPerCopy * copies;
+        }
+
+        // Add binding cost (skip if "None")
+        if (binding && binding !== "None") {
+          const bindingData = pricingData.binding.find(b => b.type === binding);
+          if (bindingData) {
+            totalPrice += bindingData.price;
+          }
+        }
+
+        // Add finishing cost (skip if "None")
+        if (finishing && finishing !== "None") {
+          const finishingData = pricingData.finishing.find(f => f.type === finishing);
+          if (finishingData) {
+            totalPrice += finishingData.price;
+          }
+        }
+
+        // Add delivery cost
+        const deliveryData = pricingData.delivery.find(d => d.type === deliveryMethod);
+        if (deliveryData) {
+          totalPrice += deliveryData.price;
+        }
+
+        document.getElementById('estimatedPrice').textContent = `Rs. ${totalPrice}`;
+        return totalPrice;
+      }
+
+      // Check authentication and setup form
+      async function setupFormForUser() {
+        const token = localStorage.getItem('authToken');
+        const customerInfoSection = document.getElementById('customerInfoSection');
+        const loggedInUserInfo = document.getElementById('loggedInUserInfo');
+        const loginPrompt = document.getElementById('loginPrompt');
+        
+        if (token) {
+          try {
+            // Decode token to get user info
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            const userId = payload.sub;
+            
+            // Fetch user details from API
+            const response = await fetch('/api/me', {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            });
+            
+            if (response.ok) {
+              const data = await response.json();
+              const user = data.user;
+              
+              // Debug: Log user data
+              console.log('User data received:', user);
+              console.log('Available user fields:', Object.keys(user));
+              console.log('Full user object:', JSON.stringify(user, null, 2));
+              
+              // Hide customer info section and login prompt, show logged in user info
+              customerInfoSection.style.display = 'none';
+              loginPrompt.style.display = 'none';
+              loggedInUserInfo.style.display = 'block';
+              
+              // Get contact number from user data - check all possible field names
+              const contactNumber = user.phoneNumber || user.phone || user.contactNumber || user.mobile || '';
+              console.log('Contact number found:', contactNumber);
+              console.log('phoneNumber:', user.phoneNumber);
+              console.log('phone:', user.phone);
+              console.log('contactNumber:', user.contactNumber);
+              
+              // Populate user display with complete profile information
+              document.getElementById('userDisplayName').textContent = user.fullName || 'User';
+              document.getElementById('userDisplayEmail').textContent = user.email || '';
+              document.getElementById('userDisplayPhone').textContent = contactNumber || user.phoneNumber || 'Not provided';
+              
+              // Show additional user details if available
+              const userDetails = document.getElementById('userDisplayPhone');
+              if (user.address) {
+                userDetails.innerHTML += `<br><span class="text-sm text-gray-600">Address: ${user.address}</span>`;
+              }
+              if (user.city) {
+                userDetails.innerHTML += `<br><span class="text-sm text-gray-600">City: ${user.city}</span>`;
+              }
+              
+              // Pre-populate hidden form fields with user data
+              document.getElementById('hiddenUserName').value = user.fullName || '';
+              document.getElementById('hiddenEmail').value = user.email || '';
+              document.getElementById('hiddenContactNumber').value = contactNumber;
+              
+              // For logged-in users, we don't need to show customer info section
+              // They can only change delivery information
+              // All user details are automatically taken from the database
+              
+              // If contact number is still empty, show customer info section as fallback
+              if (!contactNumber) {
+                console.warn('User does not have contact number in profile, showing customer info section');
+                document.getElementById('customerInfoSection').style.display = 'block';
+                document.getElementById('loggedInUserInfo').style.display = 'none';
+                // Make contact number required
+                document.querySelector('input[name="contactNumber"]').required = true;
+              }
+              
+              // Remove required attribute from visible fields since we're using hidden ones
+              document.querySelector('input[name="userName"]').required = false;
+              document.querySelector('input[name="email"]').required = false;
+              document.querySelector('input[name="contactNumber"]').required = false;
+              
+            } else {
+              // Token invalid, show customer info section and login prompt
+              customerInfoSection.style.display = 'block';
+              loggedInUserInfo.style.display = 'none';
+              loginPrompt.style.display = 'block';
+              
+              // Make sure form fields are required for non-logged-in users
+              document.querySelector('input[name="userName"]').required = true;
+              document.querySelector('input[name="email"]').required = true;
+              document.querySelector('input[name="contactNumber"]').required = true;
+            }
+          } catch (error) {
+            console.warn('Could not fetch user data:', error);
+            // Show customer info section and login prompt as fallback
+            customerInfoSection.style.display = 'block';
+            loggedInUserInfo.style.display = 'none';
+            loginPrompt.style.display = 'block';
+            
+            // Make sure form fields are required for non-logged-in users
+            document.querySelector('input[name="userName"]').required = true;
+            document.querySelector('input[name="email"]').required = true;
+            document.querySelector('input[name="contactNumber"]').required = true;
+          }
+        } else {
+          // No token, show customer info section and login prompt
+          customerInfoSection.style.display = 'block';
+          loggedInUserInfo.style.display = 'none';
+          loginPrompt.style.display = 'block';
+          
+          // Make sure form fields are required for non-logged-in users
+          document.querySelector('input[name="userName"]').required = true;
+          document.querySelector('input[name="email"]').required = true;
+          document.querySelector('input[name="contactNumber"]').required = true;
+        }
+      }
+
+      // Add event listeners for price calculation
+      document.addEventListener('DOMContentLoaded', function() {
+        // Setup form based on authentication state
+        setupFormForUser();
+        
+        const priceInputs = [
+          'select[name="paperSize"]',
+          'select[name="colorOption"]',
+          'input[name="copies"]',
+          'select[name="binding"]',
+          'select[name="finishing"]',
+          'input[name="deliveryMethod"]'
+        ];
+
+        priceInputs.forEach(selector => {
+          const elements = document.querySelectorAll(selector);
+          elements.forEach(element => {
+            element.addEventListener('change', calculatePrice);
+            element.addEventListener('input', calculatePrice);
+          });
+        });
+
+        // Show/hide additional notes based on finishing selection
+        const finishingSelect = document.querySelector('select[name="finishing"]');
+        const additionalNotesContainer = document.getElementById('additionalNotesContainer');
+        
+        finishingSelect.addEventListener('change', function() {
+          if (this.value === 'custom') {
+            additionalNotesContainer.style.display = 'block';
+            additionalNotesContainer.querySelector('textarea').required = true;
+          } else {
+            additionalNotesContainer.style.display = 'none';
+            additionalNotesContainer.querySelector('textarea').required = false;
+          }
+        });
+      });
+
+      // File upload handling
+      const fileInput = document.getElementById('document');
+      const dropZone = fileInput.parentElement;
 
       // Prevent default browser behavior for the whole page
       ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
         document.addEventListener(eventName, (e) => e.preventDefault());
       });
 
-      // Optional: add visual feedback when dragging anywhere
+      // Add visual feedback when dragging
       document.addEventListener("dragover", () =>
         dropZone.classList.add("border-green-500", "bg-green-50")
       );
@@ -684,21 +1094,105 @@
         dropZone.classList.remove("border-green-500", "bg-green-50")
       );
 
-      // Handle dropped files anywhere on page
+      // Handle dropped files
       document.addEventListener("drop", (e) => {
         const droppedFiles = Array.from(e.dataTransfer.files);
-        filesArray = filesArray.concat(droppedFiles);
-
-        // Update hidden input
-        const dataTransfer = new DataTransfer();
-        filesArray.forEach((file) => dataTransfer.items.add(file));
-        fileInput.files = dataTransfer.files;
-
-        renderPreviews();
-
-        // Remove highlight from drop zone
+        if (droppedFiles.length > 0) {
+          fileInput.files = droppedFiles[0]; // Only take first file
+        }
         dropZone.classList.remove("border-green-500", "bg-green-50");
       });
+
+      // File input change
+      fileInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+          showFilePreview(this.files[0]);
+        } else {
+          hideFilePreview();
+        }
+      });
+
+      // Show file preview
+      function showFilePreview(file) {
+        const noFileMessage = document.getElementById('noFileMessage');
+        const filePreview = document.getElementById('filePreview');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const filePreviewContent = document.getElementById('filePreviewContent');
+
+        // Hide no file message and show preview
+        noFileMessage.style.display = 'none';
+        filePreview.classList.remove('hidden');
+
+        // Set file name and size
+        fileName.textContent = file.name;
+        fileSize.textContent = `Size: ${(file.size / 1024 / 1024).toFixed(2)} MB`;
+
+        // Create preview based on file type
+        filePreviewContent.innerHTML = '';
+        
+        if (file.type.startsWith('image/')) {
+          const img = document.createElement('img');
+          img.src = URL.createObjectURL(file);
+          img.className = 'w-full h-48 object-cover rounded-lg';
+          img.alt = file.name;
+          filePreviewContent.appendChild(img);
+        } else if (file.type === 'application/pdf') {
+          const pdfIcon = document.createElement('div');
+          pdfIcon.className = 'flex items-center justify-center h-32 bg-red-50 rounded-lg';
+          pdfIcon.innerHTML = `
+            <div class="text-center">
+              <svg class="mx-auto h-12 w-12 text-red-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+              </svg>
+              <p class="text-red-600 font-medium">PDF Document</p>
+            </div>
+          `;
+          filePreviewContent.appendChild(pdfIcon);
+        } else if (file.type.includes('word') || file.type.includes('document')) {
+          const docIcon = document.createElement('div');
+          docIcon.className = 'flex items-center justify-center h-32 bg-blue-50 rounded-lg';
+          docIcon.innerHTML = `
+            <div class="text-center">
+              <svg class="mx-auto h-12 w-12 text-blue-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+              <p class="text-blue-600 font-medium">Word Document</p>
+            </div>
+          `;
+          filePreviewContent.appendChild(docIcon);
+        } else {
+          const genericIcon = document.createElement('div');
+          genericIcon.className = 'flex items-center justify-center h-32 bg-gray-50 rounded-lg';
+          genericIcon.innerHTML = `
+            <div class="text-center">
+              <svg class="mx-auto h-12 w-12 text-gray-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+              <p class="text-gray-600 font-medium">Document</p>
+            </div>
+          `;
+          filePreviewContent.appendChild(genericIcon);
+        }
+
+        // Add remove file functionality
+        const removeFileBtn = document.getElementById('removeFile');
+        if (removeFileBtn) {
+          removeFileBtn.addEventListener('click', function() {
+            fileInput.value = '';
+            hideFilePreview();
+          });
+        }
+      }
+
+      // Hide file preview
+      function hideFilePreview() {
+        const noFileMessage = document.getElementById('noFileMessage');
+        const filePreview = document.getElementById('filePreview');
+        
+        noFileMessage.style.display = 'block';
+        filePreview.classList.add('hidden');
+      }
     </script>
 
     <script>
@@ -770,116 +1264,124 @@
     <script src="../javascript/background-animations.js"></script>
 
     <script>
-      const fileInput = document.getElementById("documentFile");
-      const previewContainer = document.getElementById("previewContainer");
-      let filesArray = [];
-
-      fileInput.addEventListener("change", function (event) {
-        const selectedFiles = Array.from(event.target.files);
-        filesArray = filesArray.concat(selectedFiles);
-        updateFileInput();
-        renderPreviews();
-      });
-
-      function updateFileInput() {
-        const dataTransfer = new DataTransfer();
-        filesArray.forEach((file) => dataTransfer.items.add(file));
-        fileInput.files = dataTransfer.files;
-      }
-
-      // Submit print order to backend as an Order (type: 'print')
-      document
-        .getElementById("printForm")
-        .addEventListener("submit", async function (e) {
-          e.preventDefault();
-          const form = e.target;
-          const payload = {
-            type: "print",
-            items: [],
-            total: 0,
-            status: "to-fulfill",
-            meta: {
-              documentName: form.documentName?.value || "",
-              paperSize: form.paperSize?.value || "",
-              color: form.color?.value || "",
-              binding: form.binding?.value || "",
-              copies: parseInt(form.copies?.value || "1"),
-              finishing: form.finishing?.value || "",
-              delivery: form.delivery?.value || "",
-            },
-          };
-          try {
-            const res = await fetch("/api/orders", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload),
-            });
-            if (!res.ok) throw new Error(await res.text());
-            alert("Print order submitted successfully!");
-            form.reset();
-            filesArray = [];
-            renderPreviews();
-          } catch (err) {
-            alert("Failed to submit print order");
-            console.error(err);
+      // Print order submission handler
+      document.getElementById("submitPrintOrder").addEventListener("click", async function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+          
+          console.log('Print order submission started');
+          
+          const form = document.getElementById("printForm");
+          
+          // Check if form is valid before proceeding
+          if (!form.checkValidity()) {
+            console.log('Form validation failed');
+            // Find the first invalid field and focus on it
+            const firstInvalid = form.querySelector(':invalid');
+            if (firstInvalid) {
+              firstInvalid.focus();
+              firstInvalid.reportValidity();
+            }
+            return;
           }
-        });
-
-      function renderPreviews() {
-        previewContainer.innerHTML = "";
-        filesArray.forEach((file, index) => {
-          const fileType = file.type;
-          const previewBox = document.createElement("div");
-          previewBox.className =
-            "relative border rounded-lg overflow-hidden bg-white shadow";
-
-          // Remove Button
-          const removeBtn = document.createElement("button");
-          removeBtn.innerHTML = "✕";
-          removeBtn.className =
-            "absolute top-1 right-1 bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full hover:bg-red-600";
-          removeBtn.onclick = () => {
-            filesArray.splice(index, 1);
-            updateFileInput();
-            renderPreviews();
-          };
-          previewBox.appendChild(removeBtn);
-
-          // File Preview
-          if (fileType.startsWith("image/")) {
-            const img = document.createElement("img");
-            img.className = "w-full h-32 object-cover";
-            const reader = new FileReader();
-            reader.onload = (e) => (img.src = e.target.result);
-            reader.readAsDataURL(file);
-            previewBox.appendChild(img);
-          } else if (fileType === "application/pdf") {
-            const icon = document.createElement("div");
-            icon.className =
-              "flex items-center justify-center h-32 text-red-600 font-bold";
-            icon.textContent = "PDF";
-            previewBox.appendChild(icon);
-          } else if (
-            fileType === "application/msword" ||
-            fileType ===
-              "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-          ) {
-            const icon = document.createElement("div");
-            icon.className =
-              "flex items-center justify-center h-32 text-blue-600 font-bold";
-            icon.textContent = "DOC";
-            previewBox.appendChild(icon);
+          
+          console.log('Form validation passed, preparing data');
+          const formData = new FormData();
+          
+          // Add all form fields
+          const token = localStorage.getItem('authToken');
+          if (token) {
+            // User is logged in - use their complete profile data from database
+            // But if contact number is empty, use visible field (fallback case)
+            const contactNumber = document.getElementById('hiddenContactNumber').value || form.contactNumber.value;
+            
+            formData.append('userName', document.getElementById('hiddenUserName').value);
+            formData.append('email', document.getElementById('hiddenEmail').value);
+            formData.append('contactNumber', contactNumber);
+            
+            // Add userId for backend reference
+            try {
+              const payload = JSON.parse(atob(token.split('.')[1]));
+              formData.append('userId', payload.sub);
+            } catch (e) {
+              console.warn('Could not extract userId from token');
+            }
           } else {
-            const icon = document.createElement("div");
-            icon.className =
-              "flex items-center justify-center h-32 text-gray-600 font-bold";
-            icon.textContent = "FILE";
-            previewBox.appendChild(icon);
+            // User is not logged in - use visible form fields
+            const userNameField = form.querySelector('input[name="userName"]');
+            const emailField = form.querySelector('input[name="email"]');
+            const contactNumberField = form.querySelector('input[name="contactNumber"]');
+            
+            console.log('Non-logged-in user form fields debug:');
+            console.log('userName field found:', !!userNameField);
+            console.log('email field found:', !!emailField);
+            console.log('contactNumber field found:', !!contactNumberField);
+            
+            if (userNameField) console.log('userName value:', userNameField.value);
+            if (emailField) console.log('email value:', emailField.value);
+            if (contactNumberField) console.log('contactNumber value:', contactNumberField.value);
+            
+            formData.append('userName', userNameField ? userNameField.value : '');
+            formData.append('email', emailField ? emailField.value : '');
+            formData.append('contactNumber', contactNumberField ? contactNumberField.value : '');
+          }
+          formData.append('paperSize', form.querySelector('select[name="paperSize"]').value);
+          formData.append('colorOption', form.querySelector('select[name="colorOption"]').value);
+          formData.append('binding', form.querySelector('select[name="binding"]').value);
+          formData.append('copies', form.querySelector('input[name="copies"]').value);
+          formData.append('finishing', form.querySelector('select[name="finishing"]').value);
+          formData.append('deliveryMethod', form.querySelector('input[name="deliveryMethod"]:checked').value);
+          formData.append('deliveryAddress', form.querySelector('textarea[name="deliveryAddress"]').value);
+          
+          // Add additional notes if custom finishing
+          if (form.querySelector('select[name="finishing"]').value === 'custom' && form.querySelector('textarea[name="additionalNotes"]').value) {
+            formData.append('additionalNotes', form.querySelector('textarea[name="additionalNotes"]').value);
+          }
+          
+          // Add file
+          const documentInput = form.querySelector('input[name="document"]');
+          if (documentInput && documentInput.files.length > 0) {
+            formData.append('document', documentInput.files[0]);
           }
 
-          previewContainer.appendChild(previewBox);
+          // Debug: Log form data being sent
+          console.log('Form data being sent:');
+          for (let [key, value] of formData.entries()) {
+            console.log(key + ':', value);
+          }
+
+          try {
+            console.log('Sending request to /api/print-orders');
+            const response = await fetch("/api/print-orders", {
+              method: "POST",
+              body: formData
+            });
+            
+            console.log('Response received:', response.status, response.statusText);
+            const result = await response.json();
+            console.log('Response data:', result);
+            
+            if (response.ok && result.success) {
+              alert("Print order submitted successfully! Order ID: " + result.data._id);
+              form.reset();
+              document.getElementById('estimatedPrice').textContent = 'Rs. 0';
+              document.getElementById('additionalNotesContainer').style.display = 'none';
+            } else {
+              // Show detailed validation errors
+              let errorMessage = result.error || 'Failed to submit print order';
+              if (result.details && result.details.length > 0) {
+                errorMessage += '\n\nValidation errors:\n';
+                result.details.forEach(error => {
+                  errorMessage += `- ${error.msg} (field: ${error.param})\n`;
+                });
+              }
+              throw new Error(errorMessage);
+            }
+          } catch (err) {
+            console.error('Print order submission error:', err);
+            alert("Failed to submit print order: " + err.message);
+          }
         });
-      }
     </script>
   </body>
 </html>

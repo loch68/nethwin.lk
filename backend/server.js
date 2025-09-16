@@ -2,16 +2,76 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const multer = require('multer');
+const { body, validationResult } = require('express-validator');
+const morgan = require('morgan');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 
 // Middleware
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdn.tailwindcss.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com"],
+      scriptSrcAttr: ["'unsafe-inline'"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "https:", "https://api.qrserver.com", "https://via.placeholder.com"],
+      connectSrc: ["'self'"],
+      objectSrc: ["'none'"],
+      mediaSrc: ["'self'"],
+      frameSrc: ["'none'"],
+    },
+  },
+}));
+app.use(morgan('combined'));
 app.use(cors());
 app.use(express.json());
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
+app.use('/api/', limiter);
+
+// Multer configuration for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/print-orders/');
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'print_' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 10 * 1024 * 1024 // 10MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    // Allow common document formats
+    const allowedTypes = /pdf|doc|docx|txt|jpg|jpeg|png|gif/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedTypes.test(file.mimetype);
+    
+    if (mimetype && extname) {
+      return cb(null, true);
+    } else {
+      cb(new Error('Only PDF, DOC, DOCX, TXT, JPG, JPEG, PNG, and GIF files are allowed'));
+    }
+  }
+});
 
 // Connect to MongoDB
 const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://Cluster28608:nethwinlk@cluster28608.qqqrppl.mongodb.net/bookstore';
@@ -28,6 +88,90 @@ const User = require('./src/models/User');
 const Order = require('./src/models/Order');
 const Review = require('./src/models/Review');
 const Message = require('./src/models/Message');
+const PrintOrder = require('./src/models/PrintOrder');
+
+// Pricing data
+const pricingData = {
+  paperSizes: [
+    { size: "A6", normal_color: 20, laser_color: 65, bw_single: 5, bw_double: 5 },
+    { size: "A5", normal_color: 40, laser_color: 125, bw_single: 5, bw_double: 10 },
+    { size: "A4", normal_color: 75, laser_color: 250, bw_single: 5, bw_double: 10 },
+    { size: "A3", normal_color: 150, laser_color: 500, bw_single: 10, bw_double: 15 },
+    { size: "A2", normal_color: 300, laser_color: 1000, bw_single: 15, bw_double: 30 },
+    { size: "A1", normal_color: 600, laser_color: 2000, bw_single: 30, bw_double: 65 }
+  ],
+  binding: [
+    { type: "Spiral Binding", price: 50 },
+    { type: "Thermal Binding", price: 150 },
+    { type: "Hardcover Binding", price: 500 },
+    { type: "Saddle Stitching", price: 30 }
+  ],
+  finishing: [
+    { type: "Lamination (Gloss)", price: 50 },
+    { type: "Lamination (Matte)", price: 50 },
+    { type: "Foil Stamping", price: 100 },
+    { type: "Embossing/Debossing", price: 150 },
+    { type: "Die-Cutting", price: 200 }
+  ],
+  delivery: [
+    { type: "Home Delivery", price: 150 },
+    { type: "Pickup", price: 0 }
+  ]
+};
+
+// Pricing calculation function
+function calculatePrintPrice(paperSize, colorOption, copies, binding, finishing, deliveryMethod) {
+  let totalPrice = 0;
+  
+  // Find paper size pricing
+  const sizeData = pricingData.paperSizes.find(s => s.size === paperSize);
+  if (!sizeData) return 0;
+  
+  // Calculate base print cost
+  let printCostPerCopy = 0;
+  switch (colorOption) {
+    case 'normal_color':
+      printCostPerCopy = sizeData.normal_color;
+      break;
+    case 'laser_color':
+      printCostPerCopy = sizeData.laser_color;
+      break;
+    case 'bw_single':
+      printCostPerCopy = sizeData.bw_single;
+      break;
+    case 'bw_double':
+      printCostPerCopy = sizeData.bw_double;
+      break;
+    default:
+      printCostPerCopy = sizeData.normal_color;
+  }
+  
+  totalPrice += printCostPerCopy * copies;
+  
+  // Add binding cost (skip if "None")
+  if (binding && binding !== "None") {
+    const bindingData = pricingData.binding.find(b => b.type === binding);
+    if (bindingData) {
+      totalPrice += bindingData.price;
+    }
+  }
+  
+  // Add finishing cost (skip if "None")
+  if (finishing && finishing !== "None") {
+    const finishingData = pricingData.finishing.find(f => f.type === finishing);
+    if (finishingData) {
+      totalPrice += finishingData.price;
+    }
+  }
+  
+  // Add delivery cost
+  const deliveryData = pricingData.delivery.find(d => d.type === deliveryMethod);
+  if (deliveryData) {
+    totalPrice += deliveryData.price;
+  }
+  
+  return totalPrice;
+}
 
 // Routes
 app.get('/api/health', (req, res) => {
@@ -482,7 +626,21 @@ app.get('/api/me', async (req, res) => {
     const payload = require('jsonwebtoken').verify(token, JWT_SECRET);
     const user = await User.findById(payload.sub).lean();
     if (!user) return res.status(404).json({ error: 'Not found' });
-    res.json({ user: { _id: user._id, fullName: user.fullName, email: user.email, phone: user.phone, status: user.status } });
+    res.json({ 
+      user: { 
+        _id: user._id, 
+        fullName: user.fullName, 
+        email: user.email, 
+        phoneNumber: user.phoneNumber, 
+        phone: user.phoneNumber,
+        address: user.address,
+        province: user.province,
+        district: user.district,
+        city: user.city,
+        zipCode: user.zipCode,
+        status: user.status 
+      } 
+    });
   } catch (e) { res.status(401).json({ error: 'Unauthorized' }); }
 });
 
@@ -491,9 +649,40 @@ app.put('/api/me', async (req, res) => {
     const auth = req.headers.authorization || '';
     const token = auth.startsWith('Bearer ') ? auth.slice(7) : '';
     const payload = require('jsonwebtoken').verify(token, JWT_SECRET);
-    const updates = { fullName: req.body?.fullName, phone: req.body?.phone };
+    
+    // Allow updating all user fields except password and email
+    const updates = {
+      fullName: req.body?.fullName,
+      phoneNumber: req.body?.phoneNumber,
+      address: req.body?.address,
+      province: req.body?.province,
+      district: req.body?.district,
+      city: req.body?.city,
+      zipCode: req.body?.zipCode
+    };
+    
+    // Remove undefined values
+    Object.keys(updates).forEach(key => {
+      if (updates[key] === undefined) {
+        delete updates[key];
+      }
+    });
+    
     const updated = await User.findByIdAndUpdate(payload.sub, { $set: updates }, { new: true }).lean();
-    res.json({ user: { _id: updated._id, fullName: updated.fullName, email: updated.email, phone: updated.phone, status: updated.status } });
+    res.json({ 
+      user: { 
+        _id: updated._id, 
+        fullName: updated.fullName, 
+        email: updated.email, 
+        phoneNumber: updated.phoneNumber,
+        address: updated.address,
+        province: updated.province,
+        district: updated.district,
+        city: updated.city,
+        zipCode: updated.zipCode,
+        status: updated.status 
+      } 
+    });
   } catch (e) { res.status(401).json({ error: 'Unauthorized' }); }
 });
 
@@ -506,6 +695,323 @@ app.get('/api/my-orders', async (req, res) => {
     const orders = await Order.find({ customerEmail: user.email }).sort({ createdAt: -1 }).lean();
     res.json({ orders });
   } catch (e) { res.status(401).json({ error: 'Unauthorized' }); }
+});
+
+// Print Order Routes
+
+// POST /api/print-orders - Submit a new print order
+app.post('/api/print-orders', 
+  upload.single('document'),
+  [
+    body('userName').notEmpty().withMessage('User name is required'),
+    body('contactNumber').notEmpty().withMessage('Contact number is required'),
+    body('email').isEmail().withMessage('Valid email is required'),
+    body('paperSize').notEmpty().withMessage('Paper size is required'),
+    body('colorOption').notEmpty().withMessage('Color option is required'),
+    body('binding').notEmpty().withMessage('Binding is required'),
+    body('copies').isInt({ min: 1 }).withMessage('Copies must be at least 1'),
+    body('finishing').notEmpty().withMessage('Finishing is required'),
+    body('deliveryMethod').notEmpty().withMessage('Delivery method is required'),
+    body('deliveryAddress').notEmpty().withMessage('Delivery address is required')
+  ],
+  async (req, res) => {
+    try {
+      // Check validation errors
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          success: false,
+          error: 'Validation failed',
+          details: errors.array()
+        });
+      }
+
+      // Check if file was uploaded
+      if (!req.file) {
+        return res.status(400).json({
+          success: false,
+          error: 'Document file is required'
+        });
+      }
+
+      // Validate additionalNotes if finishing is custom
+      if (req.body.finishing === 'custom' && !req.body.additionalNotes) {
+        return res.status(400).json({
+          success: false,
+          error: 'Additional notes are required for custom finishing'
+        });
+      }
+
+      // Calculate estimated price
+      const estimatedPrice = calculatePrintPrice(
+        req.body.paperSize,
+        req.body.colorOption,
+        parseInt(req.body.copies),
+        req.body.binding,
+        req.body.finishing,
+        req.body.deliveryMethod
+      );
+
+      // Convert delivery method to match schema
+      const deliveryMethod = req.body.deliveryMethod === 'Home Delivery' ? 'delivery' : 'pickup';
+
+      // Create print order
+      const printOrder = await PrintOrder.create({
+        userId: req.body.userId || new mongoose.Types.ObjectId(), // Use provided userId or create new
+        userName: req.body.userName,
+        contactNumber: req.body.contactNumber,
+        email: req.body.email,
+        paperSize: req.body.paperSize,
+        colorOption: req.body.colorOption,
+        binding: req.body.binding,
+        copies: parseInt(req.body.copies),
+        finishing: req.body.finishing,
+        additionalNotes: req.body.additionalNotes || '',
+        documentPath: req.file.path,
+        originalFileName: req.file.originalname,
+        fileSize: req.file.size,
+        status: 'pending',
+        priority: 'normal',
+        estimatedPrice: estimatedPrice,
+        finalPrice: 0,
+        deliveryMethod: deliveryMethod,
+        deliveryAddress: req.body.deliveryAddress,
+        adminNotes: ''
+      });
+
+      res.status(201).json({
+        success: true,
+        data: printOrder,
+        message: 'Print order submitted successfully'
+      });
+
+    } catch (error) {
+      console.error('Print order submission error:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to submit print order'
+      });
+    }
+  }
+);
+
+// GET /api/admin/print-orders - Get all print orders (Admin)
+app.get('/api/admin/print-orders', async (req, res) => {
+  try {
+    const { status, priority, page = 1, limit = 20 } = req.query;
+    
+    const filter = {};
+    if (status) filter.status = status;
+    if (priority) filter.priority = priority;
+
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    
+    const orders = await PrintOrder.find(filter)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(parseInt(limit))
+      .lean();
+
+    const total = await PrintOrder.countDocuments(filter);
+
+    res.json({
+      success: true,
+      data: {
+        orders,
+        pagination: {
+          page: parseInt(page),
+          limit: parseInt(limit),
+          total,
+          pages: Math.ceil(total / parseInt(limit))
+        }
+      }
+    });
+
+  } catch (error) {
+    console.error('Get print orders error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch print orders'
+    });
+  }
+});
+
+// PATCH /api/admin/print-orders/:id - Update print order (Admin)
+app.patch('/api/admin/print-orders/:id', async (req, res) => {
+  try {
+    const { estimatedPrice, finalPrice, status, priority, adminNotes } = req.body;
+    
+    const updateData = {};
+    if (estimatedPrice !== undefined) updateData.estimatedPrice = estimatedPrice;
+    if (finalPrice !== undefined) updateData.finalPrice = finalPrice;
+    if (status) updateData.status = status;
+    if (priority) updateData.priority = priority;
+    if (adminNotes !== undefined) updateData.adminNotes = adminNotes;
+
+    const updatedOrder = await PrintOrder.findByIdAndUpdate(
+      req.params.id,
+      { $set: updateData },
+      { new: true }
+    ).lean();
+
+    if (!updatedOrder) {
+      return res.status(404).json({
+        success: false,
+        error: 'Print order not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      data: updatedOrder,
+      message: 'Print order updated successfully'
+    });
+
+  } catch (error) {
+    console.error('Update print order error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to update print order'
+    });
+  }
+});
+
+// GET /api/users/:userId/print-orders - Get user's print orders
+app.get('/api/users/:userId/print-orders', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { status, page = 1, limit = 20 } = req.query;
+
+    // Validate ObjectId format
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid user ID format'
+      });
+    }
+
+    const filter = { userId: new mongoose.Types.ObjectId(userId) };
+    if (status) filter.status = status;
+
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    
+    const orders = await PrintOrder.find(filter)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(parseInt(limit))
+      .lean();
+
+    const total = await PrintOrder.countDocuments(filter);
+
+    res.json({
+      success: true,
+      data: {
+        orders,
+        pagination: {
+          page: parseInt(page),
+          limit: parseInt(limit),
+          total,
+          pages: Math.ceil(total / parseInt(limit))
+        }
+      }
+    });
+
+  } catch (error) {
+    console.error('Get user print orders error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch user print orders'
+    });
+  }
+});
+
+// GET /api/print-orders/pricing - Get pricing information
+app.get('/api/print-orders/pricing', (req, res) => {
+  res.json({
+    success: true,
+    data: pricingData
+  });
+});
+
+// GET /api/print-orders/:id/document - Get print order document (Admin)
+app.get('/api/print-orders/:id/document', async (req, res) => {
+  try {
+    const order = await PrintOrder.findById(req.params.id).lean();
+    
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        error: 'Print order not found'
+      });
+    }
+
+    if (!order.documentPath) {
+      return res.status(404).json({
+        success: false,
+        error: 'No document found for this order'
+      });
+    }
+
+    const filePath = path.join(__dirname, 'uploads', 'print-orders', path.basename(order.documentPath));
+    
+    // Check if file exists
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({
+        success: false,
+        error: 'Document file not found on server'
+      });
+    }
+
+    // Set appropriate headers for file download
+    res.setHeader('Content-Disposition', `inline; filename="${order.originalFileName}"`);
+    res.setHeader('Content-Type', getContentType(order.originalFileName));
+    
+    // Stream the file
+    const fileStream = fs.createReadStream(filePath);
+    fileStream.pipe(res);
+
+  } catch (error) {
+    console.error('Get document error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to retrieve document'
+    });
+  }
+});
+
+// Helper function to get content type based on file extension
+function getContentType(filename) {
+  const ext = path.extname(filename).toLowerCase();
+  const contentTypes = {
+    '.pdf': 'application/pdf',
+    '.doc': 'application/msword',
+    '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    '.txt': 'text/plain',
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.png': 'image/png',
+    '.gif': 'image/gif'
+  };
+  return contentTypes[ext] || 'application/octet-stream';
+}
+
+// Error handling middleware for multer
+app.use((error, req, res, next) => {
+  if (error instanceof multer.MulterError) {
+    if (error.code === 'LIMIT_FILE_SIZE') {
+      return res.status(400).json({
+        success: false,
+        error: 'File too large. Maximum size is 10MB.'
+      });
+    }
+  }
+  if (error.message.includes('Only PDF, DOC, DOCX, TXT, JPG, JPEG, PNG, and GIF files are allowed')) {
+    return res.status(400).json({
+      success: false,
+      error: error.message
+    });
+  }
+  next(error);
 });
 
 // Static hosting for the existing frontend (open /html/index.html)

@@ -23,6 +23,60 @@
         .sidebar-hidden {
             transform: translateX(-100%);
         }
+        
+        /* Enhanced styling */
+        .admin-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Enhanced button styling */
+        .btn-enhanced {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-enhanced:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-enhanced:active {
+            transform: translateY(0);
+        }
+        
+        /* Enhanced header styling */
+        .dashboard-header {
+            background: linear-gradient(135deg, #f8fbfa 0%, #e8f2ec 100%);
+            border-radius: 16px;
+            border: 1px solid #d1e6d9;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Animation for loading */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
     </style>
     <script src="../javascript/auth.js"></script>
 </head>
@@ -136,15 +190,46 @@
                 <div class="px-40 flex flex-1 justify-center py-5">
                     <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
                         <!-- Header Section -->
-                        <div class="flex flex-wrap justify-between gap-3 p-4">
-                            <p class="text-[#0e1a13] tracking-light text-[32px] font-bold leading-tight min-w-72">Products</p>
+                        <div class="flex flex-wrap justify-between items-center gap-6 p-6 dashboard-header mb-6">
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-[#0e1a13] p-3 rounded-xl">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h1 class="text-[#0e1a13] tracking-light text-3xl font-bold leading-tight">Products</h1>
+                                    <p class="text-[#51946c] text-lg font-medium">Manage your product catalog and inventory</p>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Products Content -->
-                        <div class="px-4 py-3">
-                            <div class="bg-white rounded-lg p-6 shadow-sm">
-                                <h3 class="text-lg font-semibold text-[#0e1a13] mb-4">Product Management</h3>
-                                <p class="text-[#51946c]">Product management functionality will be implemented here.</p>
+                        <div class="px-6 py-6">
+                            <div class="admin-card p-8 fade-in-up">
+                                <div class="flex items-center space-x-3 mb-6">
+                                    <div class="p-2 bg-green-100 rounded-lg">
+                                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-[#0e1a13]">Product Management</h3>
+                                </div>
+                                <div class="text-center py-12">
+                                    <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                    </svg>
+                                    <h4 class="text-lg font-semibold text-[#0e1a13] mb-2">No Products Yet</h4>
+                                    <p class="text-[#51946c] mb-6">Add and manage your product catalog here.</p>
+                                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                                        <button class="bg-gradient-to-r from-[#0ad167] to-[#078829] hover:from-[#078829] hover:to-[#0ad167] text-white py-3 px-6 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced">
+                                            Add New Product
+                                        </button>
+                                        <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-6 rounded-lg font-medium transition-all duration-200 btn-enhanced">
+                                            Import Products
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

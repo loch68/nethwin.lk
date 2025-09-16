@@ -23,6 +23,93 @@
         .sidebar-hidden {
             transform: translateX(-100%);
         }
+        
+        /* Enhanced styling */
+        .admin-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Enhanced button styling */
+        .btn-enhanced {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-enhanced:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-enhanced:active {
+            transform: translateY(0);
+        }
+        
+        /* Enhanced header styling */
+        .dashboard-header {
+            background: linear-gradient(135deg, #f8fbfa 0%, #e8f2ec 100%);
+            border-radius: 16px;
+            border: 1px solid #d1e6d9;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Animation for loading */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        /* Enhanced form styling */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #0ad167;
+            box-shadow: 0 0 0 3px rgba(10, 209, 103, 0.1);
+        }
+        
+        .form-input:hover {
+            border-color: #d1d5db;
+        }
     </style>
     <script src="../javascript/auth.js"></script>
 </head>
@@ -136,47 +223,84 @@
                 <div class="px-40 flex flex-1 justify-center py-5">
                     <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
                         <!-- Header Section -->
-                        <div class="flex flex-wrap justify-between gap-3 p-4">
-                            <p class="text-[#0e1a13] tracking-light text-[32px] font-bold leading-tight min-w-72">Settings</p>
+                        <div class="flex flex-wrap justify-between items-center gap-6 p-6 dashboard-header mb-6">
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-[#0e1a13] p-3 rounded-xl">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h1 class="text-[#0e1a13] tracking-light text-3xl font-bold leading-tight">Admin Settings</h1>
+                                    <p class="text-[#51946c] text-lg font-medium">Manage your account and system preferences</p>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Settings Content -->
-                        <div class="px-4 py-3">
-                            <div class="bg-white rounded-lg p-6 shadow-sm">
-                                <h3 class="text-lg font-semibold text-[#0e1a13] mb-4">Admin Account Settings</h3>
+                        <div class="px-6 py-6">
+                            <div class="admin-card p-8 fade-in-up">
+                                <div class="flex items-center space-x-3 mb-6">
+                                    <div class="p-2 bg-blue-100 rounded-lg">
+                                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-[#0e1a13]">Account Settings</h3>
+                                </div>
                                 
-                                <form id="adminSettingsForm" class="space-y-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-[#0e1a13] mb-1">Username</label>
-                                        <input type="text" id="username" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent" value="">
+                                <form id="adminSettingsForm" class="space-y-6">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Username</label>
+                                            <input type="text" id="username" class="form-input" value="" placeholder="Enter your username">
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="form-label">Email Address</label>
+                                            <input type="email" id="email" class="form-input" value="" placeholder="Enter your email">
+                                        </div>
                                     </div>
                                     
-                                    <div>
-                                        <label class="block text-sm font-medium text-[#0e1a13] mb-1">Email</label>
-                                        <input type="email" id="email" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent" value="">
+                                    <div class="border-t border-gray-200 pt-6">
+                                        <h4 class="text-lg font-semibold text-[#0e1a13] mb-4 flex items-center space-x-2">
+                                            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                            </svg>
+                                            <span>Change Password</span>
+                                        </h4>
+                                        
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Current Password</label>
+                                                <input type="password" id="currentPassword" class="form-input" placeholder="Enter current password">
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label class="form-label">New Password</label>
+                                                <input type="password" id="newPassword" class="form-input" placeholder="Enter new password">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="form-label">Confirm New Password</label>
+                                            <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm new password">
+                                        </div>
                                     </div>
                                     
-                                    <div>
-                                        <label class="block text-sm font-medium text-[#0e1a13] mb-1">Current Password</label>
-                                        <input type="password" id="currentPassword" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                                    </div>
-                                    
-                                    <div>
-                                        <label class="block text-sm font-medium text-[#0e1a13] mb-1">New Password</label>
-                                        <input type="password" id="newPassword" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                                    </div>
-                                    
-                                    <div>
-                                        <label class="block text-sm font-medium text-[#0e1a13] mb-1">Confirm New Password</label>
-                                        <input type="password" id="confirmPassword" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent">
-                                    </div>
-                                    
-                                    <div class="flex gap-3 pt-4">
-                                        <button type="submit" class="bg-[#19e619] text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors">
-                                            Update Settings
+                                    <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
+                                        <button type="submit" class="bg-gradient-to-r from-[#0ad167] to-[#078829] hover:from-[#078829] hover:to-[#0ad167] text-white py-3 px-6 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced flex items-center justify-center space-x-2">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                            </svg>
+                                            <span>Update Settings</span>
                                         </button>
-                                        <button type="button" onclick="resetForm()" class="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors">
-                                            Reset
+                                        <button type="button" onclick="resetForm()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-6 rounded-lg font-medium transition-all duration-200 btn-enhanced flex items-center justify-center space-x-2">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                            </svg>
+                                            <span>Reset Form</span>
                                         </button>
                                     </div>
                                 </form>
