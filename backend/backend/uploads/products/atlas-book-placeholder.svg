@@ -1,0 +1,7 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+<rect width="300" height="300" fill="#f3f4f6"/>
+<circle cx="150" cy="120" r="40" fill="#9ca3af"/>
+<rect x="110" y="180" width="80" height="20" fill="#9ca3af"/>
+<text x="150" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#6b7280">ATLAS A4 BOOK</text>
+<text x="150" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#6b7280">200 Pages - Single Ruled</text>
+</svg>

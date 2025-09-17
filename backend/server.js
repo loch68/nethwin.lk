@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const multer = require('multer');
 const { body, validationResult } = require('express-validator');
+const { cloudinary, upload: cloudinaryUpload } = require('./src/config/cloudinary');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
@@ -24,7 +25,7 @@ app.use(helmet({
       scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com"],
       scriptSrcAttr: ["'unsafe-inline'"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      imgSrc: ["'self'", "data:", "https:", "https://api.qrserver.com", "https://via.placeholder.com"],
+      imgSrc: ["'self'", "data:", "blob:", "https:", "https://api.qrserver.com", "https://via.placeholder.com", "https://res.cloudinary.com"],
       connectSrc: ["'self'"],
       objectSrc: ["'none'"],
       mediaSrc: ["'self'"],
@@ -43,8 +44,8 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// Multer configuration for file uploads
-const storage = multer.diskStorage({
+// Multer configuration for print order file uploads
+const printOrderStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/print-orders/');
   },
@@ -54,8 +55,8 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({
-  storage: storage,
+const printOrderUpload = multer({
+  storage: printOrderStorage,
   limits: {
     fileSize: 10 * 1024 * 1024 // 10MB limit
   },
@@ -73,8 +74,17 @@ const upload = multer({
   }
 });
 
+// Use Cloudinary for product image uploads
+const productImageUpload = cloudinaryUpload;
+
+// Create uploads/products directory if it doesn't exist
+const productsUploadDir = path.join(__dirname, 'uploads', 'products');
+if (!fs.existsSync(productsUploadDir)) {
+  fs.mkdirSync(productsUploadDir, { recursive: true });
+}
+
 // Connect to MongoDB
-const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://Cluster28608:nethwinlk@cluster28608.qqqrppl.mongodb.net/bookstore';
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/bookstore';
 mongoose
   .connect(mongoUri, { 
     serverSelectionTimeoutMS: 5000,
@@ -192,7 +202,7 @@ app.get('/api/products', async (req, res) => {
         { description: { $regex: search, $options: 'i' } },
         { brand: { $regex: search, $options: 'i' } },
         { category: { $regex: search, $options: 'i' } },
-        { sku: { $regex: search, $options: 'i' } },
+        { productId: { $regex: search, $options: 'i' } },
       ];
     }
 
@@ -226,23 +236,35 @@ app.post('/api/products', async (req, res) => {
   try {
     const body = req.body || {};
     console.log('POST /api/products body:', body);
+    
+    // Validation
+    if (!body.productId || !body.name || !body.category || !body.sellingPrice || !body.purchasePrice) {
+      return res.status(400).json({ 
+        error: 'Missing required fields: productId, name, category, sellingPrice, purchasePrice' 
+      });
+    }
+    
+    // Check if productId already exists
+    const existingProduct = await Product.findOne({ productId: body.productId });
+    if (existingProduct) {
+      return res.status(400).json({ error: 'Product ID already exists' });
+    }
+    
     const created = await Product.create({
+      productId: body.productId,
       name: body.name,
-      description: body.description || '',
-      image: body.image || '',
-      price: body.price || body.sellingPrice || 0,
-      sellingPrice: body.sellingPrice || body.price || 0,
-      unitPurchasePrice: body.unitPurchasePrice || 0,
-      discount: body.discount || 0,
-      sku: body.sku || '',
+      category: body.category,
       brand: body.brand || '',
-      category: body.category || '',
-      productType: body.productType || 'Single',
-      tax: body.tax || 0,
-      businessLocation: body.businessLocation || '',
-      availability: body.availability || 'in_stock',
-      currentStock: body.currentStock || 0,
+      sellingPrice: body.sellingPrice,
+      purchasePrice: body.purchasePrice,
+      stock: body.stock || 0,
+      description: body.description || '',
+      images: body.images || [],
+      discountPrice: body.discountPrice,
+      variants: body.variants || [],
       status: body.status || 'active',
+      ratings: body.ratings || 0,
+      reviews: body.reviews || []
     });
     res.status(201).json(created);
   } catch (err) {
@@ -302,21 +324,17 @@ app.post('/api/products/import', async (req, res) => {
     const items = Array.isArray(req.body) ? req.body : [];
     if (items.length === 0) return res.status(400).json({ error: 'No items' });
     const docs = items.map((p) => ({
+      productId: p.productId || p.sku || '',
       name: p.name,
-      description: p.description || '',
-      image: p.image || '',
-      price: p.price || p.sellingPrice || 0,
-      sellingPrice: p.sellingPrice || p.price || 0,
-      unitPurchasePrice: p.unitPurchasePrice || 0,
-      discount: p.discount || 0,
-      sku: p.sku || '',
-      brand: p.brand || '',
       category: p.category || '',
-      productType: p.productType || 'Single',
-      tax: p.tax || 0,
-      businessLocation: p.businessLocation || '',
-      availability: p.availability || 'in_stock',
-      currentStock: p.currentStock || 0,
+      brand: p.brand || '',
+      sellingPrice: p.sellingPrice || p.price || 0,
+      purchasePrice: p.purchasePrice || p.unitPurchasePrice || 0,
+      stock: p.stock || p.currentStock || 0,
+      description: p.description || '',
+      images: p.images || (p.image ? [p.image] : []),
+      discountPrice: p.discountPrice || p.discount,
+      variants: p.variants || [],
       status: p.status || 'active',
     }));
     const created = await Product.insertMany(docs);
@@ -324,6 +342,72 @@ app.post('/api/products/import', async (req, res) => {
   } catch (err) {
     console.error('POST /api/products/import error', err.message);
     res.status(400).json({ error: 'Import failed' });
+  }
+});
+
+// Product image upload endpoint using direct Cloudinary upload
+app.post('/api/products/upload-image', (req, res) => {
+  // Use multer memory storage for direct Cloudinary upload
+  const multer = require('multer');
+  const upload = multer({ storage: multer.memoryStorage() });
+  
+  upload.single('image')(req, res, async (err) => {
+    try {
+      if (err) {
+        console.error('Multer error:', err);
+        return res.status(400).json({ error: 'File upload error: ' + err.message });
+      }
+      
+      if (!req.file) {
+        return res.status(400).json({ error: 'No image file uploaded' });
+      }
+      
+      console.log('Uploading to Cloudinary...');
+      
+      // Upload to Cloudinary directly
+      const result = await cloudinary.uploader.upload_stream(
+        {
+          folder: 'nethwinlk/products',
+          transformation: [
+            { width: 800, height: 800, crop: 'limit', quality: 'auto' },
+            { fetch_format: 'auto' }
+          ]
+        },
+        (error, result) => {
+          if (error) {
+            console.error('Cloudinary upload error:', error);
+            return res.status(500).json({ error: 'Cloudinary upload failed: ' + error.message });
+          }
+          
+          console.log('Cloudinary upload successful:', result.secure_url);
+          res.json({ 
+            success: true, 
+            imageUrl: result.secure_url,
+            publicId: result.public_id,
+            originalName: req.file.originalname,
+            secureUrl: result.secure_url
+          });
+        }
+      );
+      
+      result.end(req.file.buffer);
+      
+    } catch (error) {
+      console.error('Image upload error:', error);
+      res.status(500).json({ error: 'Failed to upload image: ' + error.message });
+    }
+  });
+});
+
+// Serve product images
+app.get('/uploads/products/:filename', (req, res) => {
+  const filename = req.params.filename;
+  const filePath = path.join(__dirname, 'uploads', 'products', filename);
+  
+  if (fs.existsSync(filePath)) {
+    res.sendFile(filePath);
+  } else {
+    res.status(404).json({ error: 'Image not found' });
   }
 });
 
@@ -701,7 +785,7 @@ app.get('/api/my-orders', async (req, res) => {
 
 // POST /api/print-orders - Submit a new print order
 app.post('/api/print-orders', 
-  upload.single('document'),
+  printOrderUpload.single('document'),
   [
     body('userName').notEmpty().withMessage('User name is required'),
     body('contactNumber').notEmpty().withMessage('Contact number is required'),
@@ -1001,11 +1085,17 @@ app.use((error, req, res, next) => {
     if (error.code === 'LIMIT_FILE_SIZE') {
       return res.status(400).json({
         success: false,
-        error: 'File too large. Maximum size is 10MB.'
+        error: 'File too large. Maximum size is 10MB for documents, 5MB for images.'
       });
     }
   }
   if (error.message.includes('Only PDF, DOC, DOCX, TXT, JPG, JPEG, PNG, and GIF files are allowed')) {
+    return res.status(400).json({
+      success: false,
+      error: error.message
+    });
+  }
+  if (error.message.includes('Only JPG, JPEG, PNG, GIF, and WEBP image files are allowed')) {
     return res.status(400).json({
       success: false,
       error: error.message
