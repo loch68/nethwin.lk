@@ -22,7 +22,7 @@ app.use(helmet({
     directives: {
       defaultSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdn.tailwindcss.com"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com", "https://cdn.jsdelivr.net"],
       scriptSrcAttr: ["'unsafe-inline'"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
       imgSrc: ["'self'", "data:", "blob:", "https:", "https://api.qrserver.com", "https://via.placeholder.com", "https://res.cloudinary.com"],
@@ -188,14 +188,26 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-// GET /api/products?search=&page=1&limit=20
+// GET /api/products?search=&page=1&limit=20&status=active&includeInactive=false
 app.get('/api/products', async (req, res) => {
   try {
     const page = Math.max(parseInt(req.query.page) || 1, 1);
     const limit = Math.min(Math.max(parseInt(req.query.limit) || 20, 1), 100);
     const search = (req.query.search || '').trim();
+    const status = req.query.status || 'active'; // Default to active for user-facing requests
+    const includeInactive = req.query.includeInactive === 'true'; // Admin can include inactive products
 
     const filters = {};
+    
+    // Status filtering - by default only show active products unless admin requests all
+    if (!includeInactive) {
+      filters.status = 'active'; // Always show only active products for user-facing requests
+      filters.stock = { $gt: 0 }; // Only show products with stock > 0 for user-facing requests
+    } else if (status !== 'all') {
+      filters.status = status; // Admin can filter by specific status
+    }
+    
+    // Search filtering
     if (search) {
       filters.$or = [
         { name: { $regex: search, $options: 'i' } },
@@ -225,6 +237,13 @@ app.get('/api/products/:id', async (req, res) => {
   try {
     const product = await Product.findById(req.params.id).lean();
     if (!product) return res.status(404).json({ error: 'Not found' });
+    
+    // Check if product is active (for user-facing requests)
+    const includeInactive = req.query.includeInactive === 'true';
+    if (!includeInactive && product.status !== 'active') {
+      return res.status(404).json({ error: 'Product not available' });
+    }
+    
     res.json(product);
   } catch (err) {
     res.status(400).json({ error: 'Invalid id' });
@@ -527,16 +546,222 @@ app.delete('/api/orders/:id', async (req, res) => {
   try { const del = await Order.findByIdAndDelete(req.params.id).lean(); if (!del) return res.status(404).json({ error: 'Not found' }); res.json({ success: true }); } catch (e) { res.status(400).json({ error: e.message }); }
 });
 
-// Reviews CRUD
+// Reviews API endpoints
+console.log('Registering reviews API endpoints...');
+
+// Test endpoint to verify server is working
+app.get('/api/reviews/test', (req, res) => {
+  res.json({ message: 'Reviews API is working', timestamp: new Date().toISOString() });
+});
+
+// Debug endpoint to list all reviews
+app.get('/api/reviews/debug', async (req, res) => {
+  try {
+    const allReviews = await Review.find({}).lean();
+    console.log('All reviews in database:', allReviews);
+    res.json({ reviews: allReviews, count: allReviews.length });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get reviews for a specific product (public)
+app.get('/api/reviews/product/:productId', async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const { page = 1, limit = 10, sort = 'newest' } = req.query;
+    
+    console.log('Getting reviews for productId:', productId);
+    console.log('Is valid ObjectId:', mongoose.Types.ObjectId.isValid(productId));
+    
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    let sortOrder = { createdAt: -1 };
+    
+    if (sort === 'oldest') sortOrder = { createdAt: 1 };
+    if (sort === 'highest') sortOrder = { rating: -1 };
+    if (sort === 'lowest') sortOrder = { rating: 1 };
+    
+    // Handle both ObjectId and string productId
+    let query = {
+      // For debugging, let's also include pending reviews
+      status: { $in: ['approved', 'pending'] },
+      isVisible: true
+    };
+    
+    // Check if productId is a valid ObjectId
+    if (mongoose.Types.ObjectId.isValid(productId)) {
+      query.productId = new mongoose.Types.ObjectId(productId);
+      console.log('Using ObjectId query:', query);
+    } else {
+      // Fallback to string search (for backward compatibility)
+      query.productId = productId;
+      console.log('Using string query:', query);
+    }
+    
+    const reviews = await Review.find(query)
+    .sort(sortOrder)
+    .skip(skip)
+    .limit(parseInt(limit))
+    .lean();
+    
+    console.log('Found reviews:', reviews.length);
+    console.log('Reviews:', reviews);
+    
+    const total = await Review.countDocuments(query);
+    
+    // Calculate average rating
+    const avgRating = await Review.aggregate([
+      { $match: query },
+      { $group: { _id: null, average: { $avg: '$rating' }, count: { $sum: 1 } } }
+    ]);
+    
+    res.json({
+      reviews,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        pages: Math.ceil(total / parseInt(limit))
+      },
+      averageRating: avgRating[0]?.average || 0,
+      totalReviews: avgRating[0]?.count || 0
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Submit a new review
+app.post('/api/reviews', [
+  body('productId').isMongoId().withMessage('Valid product ID is required'),
+  body('userId').notEmpty().withMessage('User ID is required'),
+  body('userName').notEmpty().withMessage('Name is required'),
+  body('userEmail').isEmail().withMessage('Valid email is required'),
+  body('rating').isInt({ min: 1, max: 5 }).withMessage('Rating must be between 1 and 5'),
+  body('title').notEmpty().withMessage('Title is required'),
+  body('comment').notEmpty().withMessage('Comment is required')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    
+    const reviewData = {
+      ...req.body,
+      status: 'pending',
+      isVisible: false
+    };
+    
+    const review = await Review.create(reviewData);
+    res.status(201).json(review);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Get all reviews (admin only)
 app.get('/api/reviews', async (req, res) => {
-  const reviews = await Review.find({}).sort({ createdAt: -1 }).lean();
-  res.json({ reviews });
+  try {
+    const { page = 1, limit = 20, status, productId } = req.query;
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    
+    let filter = {};
+    if (status) filter.status = status;
+    if (productId) filter.productId = productId;
+    
+    const reviews = await Review.find(filter)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(parseInt(limit))
+      .lean();
+    
+    const total = await Review.countDocuments(filter);
+    
+    res.json({
+      reviews,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        pages: Math.ceil(total / parseInt(limit))
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
-app.post('/api/reviews', async (req, res) => {
-  try { const r = await Review.create(req.body || {}); res.status(201).json(r); } catch (e) { res.status(400).json({ error: e.message }); }
+
+// Update review status (admin only)
+app.put('/api/reviews/:id/status', async (req, res) => {
+  console.log('PUT /api/reviews/:id/status route hit');
+  try {
+    const { id } = req.params;
+    const { status, isVisible, adminNotes } = req.body;
+    
+    console.log('Updating review status for ID:', id);
+    console.log('Update data:', { status, isVisible, adminNotes });
+    
+    const updateData = {};
+    if (status) updateData.status = status;
+    if (typeof isVisible === 'boolean') updateData.isVisible = isVisible;
+    if (adminNotes) updateData.adminNotes = adminNotes;
+    
+    console.log('Final update data:', updateData);
+    
+    const review = await Review.findByIdAndUpdate(
+      id,
+      updateData,
+      { new: true }
+    );
+    
+    console.log('Updated review:', review);
+    
+    if (!review) {
+      return res.status(404).json({ error: 'Review not found' });
+    }
+    
+    res.json(review);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 });
+
+console.log('PUT /api/reviews/:id/status route registered');
+
+// Delete review (admin only)
 app.delete('/api/reviews/:id', async (req, res) => {
-  try { const del = await Review.findByIdAndDelete(req.params.id).lean(); if (!del) return res.status(404).json({ error: 'Not found' }); res.json({ success: true }); } catch (e) { res.status(400).json({ error: e.message }); }
+  try {
+    const review = await Review.findByIdAndDelete(req.params.id);
+    if (!review) {
+      return res.status(404).json({ error: 'Review not found' });
+    }
+    res.json({ success: true });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Vote on review helpfulness
+app.post('/api/reviews/:id/vote', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { helpful } = req.body; // true or false
+    
+    const review = await Review.findById(id);
+    if (!review) {
+      return res.status(404).json({ error: 'Review not found' });
+    }
+    
+    if (helpful) {
+      review.helpfulVotes += 1;
+    }
+    
+    await review.save();
+    res.json({ success: true, helpfulVotes: review.helpfulVotes });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 });
 
 // Contact Messages
