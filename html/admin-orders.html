@@ -515,6 +515,8 @@
         try {
           const res = await fetch("/api/orders");
           const data = await res.json();
+          console.log('Admin orders API response:', data);
+          
           orders = (data.orders || data || []).map((o) => ({
             id: o._id,
             customer: o.customer?.name || o.customerName || "Customer",
@@ -523,6 +525,8 @@
             total: o.total || 0,
             type: o.type || "shop",
           }));
+          
+          console.log('All orders loaded:', orders.length);
           renderOrdersTable();
         } catch (e) {
           console.error("Failed to load orders", e);

@@ -13,6 +13,123 @@
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <style>
+      
+      /* Enhanced Card */
+      .about-card {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .about-card:hover {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      }
+      
+      /* Enhanced Image */
+      .about-image {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      /* Enhanced Button */
+      .btn-primary {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .btn-primary:hover {
+        box-shadow: 0 15px 35px rgba(10, 209, 103, 0.4);
+      }
+      
+      /* Enhanced Team Member Cards */
+      .team-card {
+        position: relative;
+        overflow: hidden;
+        background: white;
+        border-radius: 12px;
+        padding: 1rem;
+        border: 1px solid #e2e5dc;
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .team-card:hover {
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+      
+      .team-avatar {
+        position: relative;
+        overflow: hidden;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin-bottom: 0.75rem;
+      }
+      
+      /* Enhanced Value Cards */
+      .value-card {
+        position: relative;
+        overflow: hidden;
+        min-height: 180px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      
+      .value-card:hover {
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+      
+      .value-icon {
+        width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+        margin-bottom: 0.75rem;
+      }
+      
+      .value-card:hover .value-icon {
+        color: #0ad167;
+      }
+      
+      /* Enhanced Section Headers */
+      .section-header {
+        position: relative;
+      }
+      
+      /* Enhanced Footer */
+      .footer-link {
+        position: relative;
+      }
+      
+      .footer-link:hover {
+        color: #0ad167;
+      }
+      
+      
+      /* Mobile Responsive Styles */
+      @media (max-width: 768px) {
+        .team-card {
+          min-height: 160px;
+          padding: 0.75rem;
+        }
+        
+        .team-avatar {
+          width: 60px;
+          height: 60px;
+        }
+        
+        .value-card {
+          min-height: 160px;
+          padding: 0.75rem;
+        }
+      }
+      
+      
+    </style>
   </head>
   <body>
     <!-- Modern Seamless Navbar -->
@@ -40,7 +157,7 @@
 
         <!-- Desktop Auth Area -->
         <div class="navbar-auth" id="navbarAuth">
-          <a href="cart.html" class="nav-auth-btn">
+          <a href="cart.html" class="nav-auth-btn relative">
             <svg
               class="w-4 h-4 mr-2"
               fill="none"
@@ -55,6 +172,7 @@
               ></path>
             </svg>
             Cart
+            <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold hidden">0</span>
           </a>
           <a href="search.html" class="nav-auth-btn">
             <svg
@@ -92,7 +210,7 @@
 
         <!-- Mobile Auth Icons (hidden on desktop) -->
         <div class="mobile-auth-icons hidden md:hidden">
-          <a href="cart.html" class="mobile-icon-btn">
+          <a href="cart.html" class="mobile-icon-btn relative">
             <svg
               class="w-5 h-5"
               fill="none"
@@ -106,6 +224,7 @@
                 d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
               ></path>
             </svg>
+            <span id="mobileCartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold hidden">0</span>
           </a>
           <a href="search.html" class="mobile-icon-btn">
             <svg
@@ -159,19 +278,20 @@
       ></div>
 
       <!-- Main Layout Container -->
-      <div class="layout-container flex flex-col grow h-full relative z-10">
+      <div class="layout-container flex flex-col grow h-full relative z-10 page-transition">
         <div class="responsive-padding flex flex-1 justify-center py-5">
           <div
             class="layout-content-container flex flex-col max-w-[960px] flex-1"
           >
-            <div class="flex flex-wrap justify-between gap-3 p-4">
+            <div class="flex flex-wrap justify-between gap-3 p-4 ">
               <div class="flex min-w-72 flex-col gap-3">
                 <p
-                  class="text-[#151811] tracking-light text-[32px] font-bold leading-tight"
+                  class="text-[#151811] tracking-light text-[32px] font-bold leading-tight  "
                 >
                   About Us
                 </p>
-                <p class="text-[#7c8863] text-sm font-normal leading-normal">
+
+                <p class="text-[#7c8863] text-sm font-normal leading-normal  ">
                   Learn more about our mission, history, values, and the team
                   behind our innovative print-on-demand and bookshop management
                   system.
@@ -179,37 +299,35 @@
               </div>
             </div>
             <h2
-              class="text-[#151811] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5"
+              class="section-header text-[#151811] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5  "
             >
               Our Mission
             </h2>
             <p
-              class="text-[#151811] text-base font-normal leading-normal pb-3 pt-1 px-4"
+              class="text-[#151811] text-base font-normal leading-normal pb-3 pt-1 px-4  "
             >
               Our mission is to empower creators and entrepreneurs by providing
               a seamless and efficient platform for print-on-demand and bookshop
               management. We strive to make it easy for anyone to bring their
               creative ideas to life and reach a wider audience.
             </p>
-            <div class="flex w-full grow bg-white @container py-3">
+            <div class="flex w-full grow bg-white @container py-3  ">
               <div
                 class="w-full gap-1 overflow-hidden bg-white @[480px]:gap-2 aspect-[3/2] flex"
               >
                 <div
-                  class="w-full bg-center bg-no-repeat bg-cover aspect-auto rounded-none flex-1"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA4jECDEK7sxyC3BEfK9nMspRkuZm9bom5kH-2EXMGGoqpFnQGLPP4_PeqdCObcBhwnvoITzSfBQ1b1GK76QdmHXdRamlLnpkF7BcI1GseUtRFR27dV8e-H3nGvzHRjTfAkNoCVlX6BfN9L3-TKqzwPQjPUekrshSEG1z9Jh7XjT6lvsPGg4OlnXIKErjcgRMnWTOnozvEKubEWmI0FyF3iuuqu1NGIPviPvIW28L5HiYS1gIuU1Tg5bawGwqykVNNYj6w3PBUH3390');
-                  "
+                  class="about-image w-full bg-center bg-no-repeat bg-cover aspect-auto rounded-none flex-1"
+                  style="background-image: url('/assets/aboutus.png')"
                 ></div>
               </div>
             </div>
             <h2
-              class="text-[#151811] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5"
+              class="section-header text-[#151811] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5  "
             >
               Our History
             </h2>
             <p
-              class="text-[#151811] text-base font-normal leading-normal pb-3 pt-1 px-4"
+              class="text-[#151811] text-base font-normal leading-normal pb-3 pt-1 px-4  "
             >
               Founded in 2015, Printify began as a small startup with a big
               vision: to revolutionize the print-on-demand industry. Over the
@@ -217,31 +335,29 @@
               creators and businesses worldwide. Our journey has been marked by
               continuous innovation and a commitment to excellence.
             </p>
-            <div class="flex w-full grow bg-white @container py-3">
+            <div class="flex w-full grow bg-white @container py-3  ">
               <div
                 class="w-full gap-1 overflow-hidden bg-white @[480px]:gap-2 aspect-[3/2] flex"
               >
                 <div
-                  class="w-full bg-center bg-no-repeat bg-cover aspect-auto rounded-none flex-1"
-                  style="
-                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCQu6rGqaXbvfNQtool9aPHHHPnwES1p3UrngiKzFOb9tr4uHpZl8WoZJA6HsZgQaFgLPjicCWk1squ6InN1frMKWcMtRzemlLL6TmUgmxN__MO6HvSvUS0EpcKv7FojJt7DSLziJcmVgGBllJRtGaXWwa_Q0DZ4fFH66V0lj8KVCQG8jsscDxZcg6vA0mDGODF36v3L5ib8mwXQS308s-SmEFzgvgOLtzXkG7w_cqfc8KXocGTpSvmRBhi_Ysh-6fFkTOr-bQuwOGY');
-                  "
+                  class="about-image w-full bg-center bg-no-repeat bg-cover aspect-auto rounded-none flex-1"
+                  style="background-image: url('/assets/aboutushero2.jpg')"
                 ></div>
               </div>
             </div>
             <h2
-              class="text-[#151811] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5"
+              class="section-header text-[#151811] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5  "
             >
               Our Values
             </h2>
             <div
-              class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4"
+              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4  "
             >
               <div
-                class="flex flex-1 gap-3 rounded-lg border border-[#e2e5dc] bg-white p-4 flex-col"
+                class="value-card flex flex-1 gap-3 rounded-lg border border-[#e2e5dc] bg-white p-4 flex-col  "
               >
                 <div
-                  class="text-[#151811]"
+                  class="value-icon text-[#151811]"
                   data-icon="Users"
                   data-size="24px"
                   data-weight="regular"
@@ -269,10 +385,10 @@
                 </div>
               </div>
               <div
-                class="flex flex-1 gap-3 rounded-lg border border-[#e2e5dc] bg-white p-4 flex-col"
+                class="value-card flex flex-1 gap-3 rounded-lg border border-[#e2e5dc] bg-white p-4 flex-col  "
               >
                 <div
-                  class="text-[#151811]"
+                  class="value-icon text-[#151811]"
                   data-icon="ShieldCheck"
                   data-size="24px"
                   data-weight="regular"
@@ -300,10 +416,10 @@
                 </div>
               </div>
               <div
-                class="flex flex-1 gap-3 rounded-lg border border-[#e2e5dc] bg-white p-4 flex-col"
+                class="value-card flex flex-1 gap-3 rounded-lg border border-[#e2e5dc] bg-white p-4 flex-col  "
               >
                 <div
-                  class="text-[#151811]"
+                  class="value-icon text-[#151811]"
                   data-icon="Clock"
                   data-size="24px"
                   data-weight="regular"
@@ -332,23 +448,21 @@
               </div>
             </div>
             <h2
-              class="text-[#151811] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5"
+              class="section-header text-[#151811] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5  "
             >
               Meet the Team
             </h2>
             <div
-              class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4"
+              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4  "
             >
-              <div class="flex flex-col gap-3 text-center pb-3">
-                <div class="px-4">
-                  <div
-                    class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-full"
-                    style="
-                      background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB_R2Tlh9NFK_aU5MZQf5VvoQRzQryih-od75-xDlhBjcBRs-s-t21S6b3VoH_7Si4xoglX9e71WYYObhoc4PAw6GTWnQfPt1OPSweRtx4F3npXcJeKLkMfJO8zR6phNi00IHCcpF7J2to0j2R1BcMdCtSITeGtZFZSerVYn4d3uJB3jYXE6JavQoj3pHGvEQN2UdiKpP07p5d8F4lAEm6TbMpIH7VuXyC0GxtGxYeeo2QtmnteTRNBKnKOqyx8YX_lhVZDX0ybFmqB');
-                    "
-                  ></div>
-                </div>
-                <div>
+              <div class="team-card  ">
+                <div
+                  class="team-avatar bg-center bg-no-repeat bg-cover"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB_R2Tlh9NFK_aU5MZQf5VvoQRzQryih-od75-xDlhBjcBRs-s-t21S6b3VoH_7Si4xoglX9e71WYYObhoc4PAw6GTWnQfPt1OPSweRtx4F3npXcJeKLkMfJO8zR6phNi00IHCcpF7J2to0j2R1BcMdCtSITeGtZFZSerVYn4d3uJB3jYXE6JavQoj3pHGvEQN2UdiKpP07p5d8F4lAEm6TbMpIH7VuXyC0GxtGxYeeo2QtmnteTRNBKnKOqyx8YX_lhVZDX0ybFmqB');
+                  "
+                ></div>
+                <div class="text-center">
                   <p
                     class="text-[#151811] text-base font-medium leading-normal"
                   >
@@ -359,16 +473,14 @@
                   </p>
                 </div>
               </div>
-              <div class="flex flex-col gap-3 text-center pb-3">
-                <div class="px-4">
-                  <div
-                    class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-full"
-                    style="
-                      background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBdTcyCPJXIin_4JWuB7cK2ZVDa_lDfZdrKndYEr5nLrOmXr3tpacIkfHbAD8gR5-_b3rr6MBJWpHCybNqR5ipbEs-t64kHxMg05u6hr_h7ghXU1V_SNZQMgD1_s4Q4FGE_Ys6cdXMRL3QzZDGonICtmxvQpUqKTMHF3OU-wg3XvIXLVP3ziybq37ugwYYOGTu6gQ7uH07t9zd9_muOm3sBwLZEydDk5nJDdg8KP1BVJmmuYeYabZAlz5NRtadGDlCkgjl5HDvD4-p2');
-                    "
-                  ></div>
-                </div>
-                <div>
+              <div class="team-card  ">
+                <div
+                  class="team-avatar bg-center bg-no-repeat bg-cover"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBdTcyCPJXIin_4JWuB7cK2ZVDa_lDfZdrKndYEr5nLrOmXr3tpacIkfHbAD8gR5-_b3rr6MBJWpHCybNqR5ipbEs-t64kHxMg05u6hr_h7ghXU1V_SNZQMgD1_s4Q4FGE_Ys6cdXMRL3QzZDGonICtmxvQpUqKTMHF3OU-wg3XvIXLVP3ziybq37ugwYYOGTu6gQ7uH07t9zd9_muOm3sBwLZEydDk5nJDdg8KP1BVJmmuYeYabZAlz5NRtadGDlCkgjl5HDvD4-p2');
+                  "
+                ></div>
+                <div class="text-center">
                   <p
                     class="text-[#151811] text-base font-medium leading-normal"
                   >
@@ -379,16 +491,14 @@
                   </p>
                 </div>
               </div>
-              <div class="flex flex-col gap-3 text-center pb-3">
-                <div class="px-4">
-                  <div
-                    class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-full"
-                    style="
-                      background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDSY7laKqDIVspY1DPvXd5omsYvlTyAXkrpl7kikXMqi9McovHYpGsONm9c2wN7JYEJ9fTvx52LIcbkMQcxySLMJRx9M-aewbKnS8-BDADVrIdcNeWFxWCkm_JCi87a6EbftYnE-Wq8jVVLj-aXzF8ainqMcxPwGCVAfbFZAa-SjI_Puu99lzkLzPSBAWAntFtTEkGWYvOhjbyhxAXqQSwvFjrKecS7lzEPlIVnRllLp68cyavByAOueAJLKK4_IHD4wPgNqPYGCgaC');
-                    "
-                  ></div>
-                </div>
-                <div>
+              <div class="team-card  ">
+                <div
+                  class="team-avatar bg-center bg-no-repeat bg-cover"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDSY7laKqDIVspY1DPvXd5omsYvlTyAXkrpl7kikXMqi9McovHYpGsONm9c2wN7JYEJ9fTvx52LIcbkMQcxySLMJRx9M-aewbKnS8-BDADVrIdcNeWFxWCkm_JCi87a6EbftYnE-Wq8jVVLj-aXzF8ainqMcxPwGCVAfbFZAa-SjI_Puu99lzkLzPSBAWAntFtTEkGWYvOhjbyhxAXqQSwvFjrKecS7lzEPlIVnRllLp68cyavByAOueAJLKK4_IHD4wPgNqPYGCgaC');
+                  "
+                ></div>
+                <div class="text-center">
                   <p
                     class="text-[#151811] text-base font-medium leading-normal"
                   >
@@ -399,16 +509,14 @@
                   </p>
                 </div>
               </div>
-              <div class="flex flex-col gap-3 text-center pb-3">
-                <div class="px-4">
-                  <div
-                    class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-full"
-                    style="
-                      background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCcy_nRPhoiBWdjjICcIggBzhJNBcfa6oQPzTB69Xdc1c68vWRcD0HH8pqHAm2nLhsCkj5K3Fv9pMZV5bZaAaHtMTxEGBADnD9N_caG7PbNoF819SsNh4pN6XVqkCHj9gxPZEFZdv6jLYCV-ssKm1GcGBgBa19YGfQGn1jzBpL3aF-7Chz1Ogjr9sK3GV_cFPs6uFw7NFgdoqJqJo4_1_VnSXvlXO0_W2THM_KySDKLhX-Zg0QMJT3byz2cmgTFsXDddjHWj502Gw6y');
-                    "
-                  ></div>
-                </div>
-                <div>
+              <div class="team-card  ">
+                <div
+                  class="team-avatar bg-center bg-no-repeat bg-cover"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCcy_nRPhoiBWdjjICcIggBzhJNBcfa6oQPzTB69Xdc1c68vWRcD0HH8pqHAm2nLhsCkj5K3Fv9pMZV5bZaAaHtMTxEGBADnD9N_caG7PbNoF819SsNh4pN6XVqkCHj9gxPZEFZdv6jLYCV-ssKm1GcGBgBa19YGfQGn1jzBpL3aF-7Chz1Ogjr9sK3GV_cFPs6uFw7NFgdoqJqJo4_1_VnSXvlXO0_W2THM_KySDKLhX-Zg0QMJT3byz2cmgTFsXDddjHWj502Gw6y');
+                  "
+                ></div>
+                <div class="text-center">
                   <p
                     class="text-[#151811] text-base font-medium leading-normal"
                   >
@@ -420,47 +528,47 @@
                 </div>
               </div>
             </div>
-            <div class="flex justify-center px-4 py-6">
+            <div class="flex justify-center px-4 py-6  ">
               <a href="index.html" class="btn-primary"> Back to Home </a>
             </div>
           </div>
         </div>
         <!-- Footer -->
-        <footer class="flex justify-center">
+        <footer class="flex justify-center ">
           <div class="flex max-w-[960px] flex-1 flex-col">
             <footer
               class="flex flex-col gap-6 px-5 py-10 text-center @container"
             >
               <div
-                class="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around"
+                class="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around  "
               >
                 <a
-                  class="text-[#76816a] text-base font-normal leading-normal min-w-40"
+                  class="footer-link text-[#76816a] text-base font-normal leading-normal min-w-40"
                   href="aboutus.html"
                   >About Us</a
                 >
                 <a
-                  class="text-[#76816a] text-base font-normal leading-normal min-w-40"
+                  class="footer-link text-[#76816a] text-base font-normal leading-normal min-w-40"
                   href="contactus.html"
                   >Contact</a
                 >
                 <a
-                  class="text-[#76816a] text-base font-normal leading-normal min-w-40"
+                  class="footer-link text-[#76816a] text-base font-normal leading-normal min-w-40"
                   href="#"
                   >FAQ</a
                 >
                 <a
-                  class="text-[#76816a] text-base font-normal leading-normal min-w-40"
+                  class="footer-link text-[#76816a] text-base font-normal leading-normal min-w-40"
                   href="#"
                   >Terms of Service</a
                 >
                 <a
-                  class="text-[#76816a] text-base font-normal leading-normal min-w-40"
+                  class="footer-link text-[#76816a] text-base font-normal leading-normal min-w-40"
                   href="#"
                   >Privacy Policy</a
                 >
               </div>
-              <p class="text-[#76816a] text-base font-normal leading-normal">
+              <p class="text-[#76816a] text-base font-normal leading-normal  ">
                 @2025 NethwinLK. All rights reserved.
               </p>
             </footer>
@@ -474,7 +582,74 @@
     <script src="../javascript/background-animations.js"></script>
 
     <script>
+      // Update cart count function
+      function updateCartCount() {
+        try {
+          const cart = JSON.parse(localStorage.getItem("nethwin_cart") || "[]");
+          const totalItems = cart.reduce((sum, item) => sum + (item.qty || item.quantity || 1), 0);
+          
+          const cartCount = document.getElementById('cartCount');
+          const mobileCartCount = document.getElementById('mobileCartCount');
+          
+          if (totalItems > 0) {
+            if (cartCount) {
+              cartCount.textContent = totalItems;
+              cartCount.classList.remove('hidden');
+              animateCartUpdate();
+            }
+            if (mobileCartCount) {
+              mobileCartCount.textContent = totalItems;
+              mobileCartCount.classList.remove('hidden');
+              animateCartUpdate();
+            }
+          } else {
+            if (cartCount) {
+              cartCount.classList.add('hidden');
+            }
+            if (mobileCartCount) {
+              mobileCartCount.classList.add('hidden');
+            }
+          }
+        } catch (e) {
+          console.warn("Could not update cart count:", e);
+        }
+      }
+
+      // Enhanced cart count animation
+      function animateCartUpdate() {
+        const cartCount = document.getElementById('cartCount');
+        const mobileCartCount = document.getElementById('mobileCartCount');
+        
+        if (cartCount) {
+          cartCount.classList.add('updated');
+          setTimeout(() => {
+            cartCount.classList.remove('updated');
+          }, 600);
+        }
+        
+        if (mobileCartCount) {
+          mobileCartCount.classList.add('updated');
+          setTimeout(() => {
+            mobileCartCount.classList.remove('updated');
+          }, 600);
+        }
+      }
+
+
+
+      
+
+
+
+
+
+
+
       document.addEventListener("DOMContentLoaded", function () {
+        
+        // Update cart count on page load
+        updateCartCount();
+        
         // Auth system initialization
         try {
           const token = localStorage.getItem("authToken");

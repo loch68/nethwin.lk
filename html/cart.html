@@ -16,6 +16,189 @@
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/background-animations.css" />
     <link rel="stylesheet" href="../css/responsive.css" />
+    <style>
+        /* Modern Cart Styles */
+        .cart-container {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(10px);
+        }
+        
+        .cart-item {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            border: 1px solid #f1f5f9;
+        }
+        
+        .cart-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .quantity-btn {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+        
+        .quantity-btn:hover {
+            background: linear-gradient(135deg, #19e619 0%, #16d616 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .remove-btn {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            color: #dc2626;
+            border: 1px solid #fecaca;
+            transition: all 0.2s ease;
+        }
+        
+        .remove-btn:hover {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .option-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .option-card:hover {
+            border-color: #19e619;
+            box-shadow: 0 4px 20px rgba(25, 230, 25, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        .option-card.selected {
+            border-color: #19e619;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            box-shadow: 0 4px 20px rgba(25, 230, 25, 0.15);
+        }
+        
+        .delivery-option-card input[type="radio"]:checked + div {
+            border-color: #10b981;
+            background-color: #f0fdf4;
+        }
+        
+        .delivery-option-card input[type="radio"]:checked + div .absolute.top-3.right-3 {
+            border-color: #10b981;
+        }
+        
+        .delivery-option-card input[type="radio"]:checked + div .absolute.top-3.right-3 > div {
+            opacity: 1;
+            background-color: #10b981;
+        }
+        
+        .payment-option-card input[type="radio"]:checked + div {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        
+        .payment-option-card input[type="radio"]:checked + div .absolute.top-3.right-3 {
+            border-color: #3b82f6;
+        }
+        
+        .payment-option-card input[type="radio"]:checked + div .absolute.top-3.right-3 > div {
+            opacity: 1;
+            background-color: #3b82f6;
+        }
+        
+        .summary-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .checkout-btn {
+            background: linear-gradient(135deg, #19e619 0%, #16d616 100%);
+            box-shadow: 0 4px 20px rgba(25, 230, 25, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(25, 230, 25, 0.4);
+        }
+        
+        .continue-btn {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .continue-btn:hover {
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            transform: translateY(-1px);
+        }
+        
+        .empty-cart {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 20px;
+            border: 2px dashed #cbd5e1;
+        }
+        
+        .breadcrumb {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            padding: 12px 20px;
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, #19e619 0%, #16d616 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Force background colors for selected options */
+        .delivery-option-card.selected {
+            background-color: #f0fdf4 !important; /* Light green for Local Delivery */
+        }
+        .delivery-option-card.selected[onclick*="local"] .flex.items-start.gap-4 {
+            background-color: #f0fdf4 !important; /* Light green for Local Delivery inner div */
+        }
+        .delivery-option-card.selected[onclick*="pickup"] {
+            background-color: #eff6ff !important; /* Light blue for Store Pickup */
+        }
+        .delivery-option-card.selected[onclick*="pickup"] .flex.items-start.gap-4 {
+            background-color: #eff6ff !important; /* Light blue for Store Pickup inner div */
+        }
+        .delivery-option-card.selected[onclick*="pickup"] .flex.flex-col.items-center.text-center {
+            background-color: #eff6ff !important; /* Light blue for Store Pickup inner div */
+        }
+        .payment-option-card.selected[onclick*="card"] {
+            background-color: #eff6ff !important; /* Light blue for Card Payment */
+        }
+        .payment-option-card.selected[onclick*="card"] .flex.flex-col.items-center.text-center {
+            background-color: #eff6ff !important; /* Light blue for Card Payment inner div */
+        }
+        .payment-option-card.selected[onclick*="cod"] {
+            background-color: #f0fdf4 !important; /* Light green for Cash on Delivery */
+        }
+        .payment-option-card.selected[onclick*="cod"] .flex.flex-col.items-center.text-center {
+            background-color: #f0fdf4 !important; /* Light green for Cash on Delivery inner div */
+        }
+        .payment-option-card.selected[onclick*="qr"] {
+            background-color: #faf5ff !important; /* Light purple for QR Payment */
+        }
+        .payment-option-card.selected[onclick*="qr"] .flex.flex-col.items-center.text-center {
+            background-color: #faf5ff !important; /* Light purple for QR Payment inner div */
+        }
+        
+        /* Ensure all payment cards have equal sizing */
+        .payment-option-card {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient">
@@ -43,11 +226,12 @@
           
           <!-- Desktop Auth Area -->
           <div class="navbar-auth" id="navbarAuth">
-            <a href="cart.html" class="nav-auth-btn active">
+                        <a href="cart.html" class="nav-auth-btn active relative">
               <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
               </svg>
               Cart
+                            <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold hidden">0</span>
             </a>
             <a href="search.html" class="nav-auth-btn">
               <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -65,10 +249,11 @@
           
           <!-- Mobile Auth Icons (hidden on desktop) -->
           <div class="mobile-auth-icons hidden md:hidden">
-            <a href="cart.html" class="mobile-icon-btn">
+                        <a href="cart.html" class="mobile-icon-btn relative">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
               </svg>
+                            <span id="mobileCartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold hidden">0</span>
             </a>
             <a href="search.html" class="mobile-icon-btn">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -93,94 +278,251 @@
       
       <!-- Navbar Spacer -->
       <div style="height: 4rem;"></div>
-        <div class="px-40 flex flex-1 justify-center py-5">
-          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
-            <div class="flex flex-wrap gap-2 p-4">
-              <a class="text-[#60708a] text-base font-medium leading-normal" href="#">Shop</a>
-              <span class="text-[#60708a] text-base font-medium leading-normal">/</span>
-              <span class="text-[#111418] text-base font-medium leading-normal">Cart</span>
+            
+            <!-- Main Content -->
+            <div class="px-4 md:px-10 flex flex-1 justify-center py-8">
+                <div class="layout-content-container flex flex-col max-w-[1200px] flex-1">
+                    
+                    <!-- Breadcrumb -->
+                    <div class="breadcrumb mb-6">
+                        <div class="flex items-center gap-2 text-sm">
+                            <a href="bookshop.html" class="text-gray-600 hover:text-[#19e619] transition-colors">Shop</a>
+                            <span class="text-gray-400">/</span>
+                            <span class="text-gray-800 font-medium">Cart</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Page Title -->
+                    <div class="text-center mb-8">
+                        <h1 class="text-4xl font-bold text-gray-800 mb-2">Your Shopping Cart</h1>
+                        <p class="text-gray-600">Review your items and proceed to checkout</p>
+                    </div>
+                    
+                    <!-- Cart Content -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        
+                        <!-- Cart Items Section -->
+                        <div class="lg:col-span-2">
+                            <div class="cart-container p-6">
+                                <h2 class="section-title text-2xl font-bold mb-6 flex items-center gap-3">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+                                    </svg>
+                                    Cart Items
+                                </h2>
+                                
+                                <!-- Cart Items Container -->
+                                <div id="cartItems" class="space-y-4">
+                                    <!-- Items will be dynamically inserted here -->
+                                </div>
+                                
+                                <!-- Empty Cart State -->
+                                <div id="emptyCart" class="empty-cart p-12 text-center hidden">
+                                    <div class="mb-6">
+                                        <svg class="w-24 h-24 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Your cart is empty</h3>
+                                    <p class="text-gray-500 mb-6">Looks like you haven't added any items to your cart yet.</p>
+                                    <a href="bookshop.html" class="inline-flex items-center gap-2 px-6 py-3 bg-[#19e619] text-white rounded-xl font-semibold hover:bg-[#16d616] transition-colors">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                        </svg>
+                                        Start Shopping
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <!-- Delivery Options -->
+                            <div class="cart-container p-6 mt-6">
+                                <h3 class="section-title text-xl font-bold mb-6 flex items-center gap-3">
+                                    <div class="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                        </svg>
+                                    </div>
+                                    Delivery Options
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <label class="delivery-option-card group cursor-pointer" onclick="selectDelivery('local')">
+                                        <div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 transition-all duration-300 group-hover:shadow-lg">
+                                            <input type="radio" name="delivery" value="local" class="sr-only" checked>
+                                            <div class="flex items-start gap-4">
+                                                <div class="w-12 h-12 bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg flex items-center justify-center group-hover:from-green-200 group-hover:to-emerald-200 transition-colors">
+                                                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <h4 class="font-bold text-gray-800 text-lg mb-1">Local Delivery</h4>
+                                                    <p class="text-sm text-gray-600 mb-3">Within <span id="deliveryRadius">10</span>km radius from our store</p>
+                                                    <div class="flex items-center justify-between">
+                                                        <div class="flex items-center gap-2">
+                                                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                                            </svg>
+                                                            <span class="text-sm text-green-600 font-medium">Estimated 1-2 days</span>
+                                                        </div>
+                                                        <span id="localDeliveryPrice" class="text-lg font-bold text-green-600">LKR 0.00</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-green-500 transition-colors">
+                                                <div class="w-full h-full rounded-full bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                            </div>
             </div>
-            <h2 class="text-[#111418] tracking-light text-[28px] font-bold leading-tight px-4 text-left pb-3 pt-5">Your Cart</h2>
-            <h3 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Cart Items</h3>
-            <div id="cartItems" class="flex flex-col gap-2"></div>
-            <h3 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Delivery Options</h3>
-            <div class="flex flex-col gap-3 p-4">
-              <label class="flex items-center gap-4 rounded-xl border border-solid border-[#dbdfe6] p-[15px]">
-                <input
-                  type="radio"
-                  class="h-5 w-5 border-2 border-[#dbdfe6] bg-transparent text-transparent checked:border-[#111418] checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#111418]"
-                  name="03efdab5-a2d6-434e-9fd1-9bca7f7cecd7"
-                  checked=""
-                />
-                <div class="flex grow flex-col"><p class="text-[#111418] text-sm font-medium leading-normal">Local Delivery (within 10km)</p></div>
               </label>
-              <label class="flex items-center gap-4 rounded-xl border border-solid border-[#dbdfe6] p-[15px]">
-                <input
-                  type="radio"
-                  class="h-5 w-5 border-2 border-[#dbdfe6] bg-transparent text-transparent checked:border-[#111418] checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#111418]"
-                  name="03efdab5-a2d6-434e-9fd1-9bca7f7cecd7"
-                />
-                <div class="flex grow flex-col"><p class="text-[#111418] text-sm font-medium leading-normal">Store Pickup</p></div>
-              </label>
-            </div>
-            <h3 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Payment Method</h3>
-            <div class="flex flex-col gap-3 p-4">
-              <label class="flex items-center gap-4 rounded-xl border border-solid border-[#dbdfe6] p-[15px]">
-                <input
-                  type="radio"
-                  class="h-5 w-5 border-2 border-[#dbdfe6] bg-transparent text-transparent checked:border-[#111418] checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#111418]"
-                  name="b63d2aa0-54a1-4ffd-95f7-581ed9e2b787"
-                  checked=""
-                />
-                <div class="flex grow flex-col"><p class="text-[#111418] text-sm font-medium leading-normal">Credit/Debit Card</p></div>
-              </label>
-              <label class="flex items-center gap-4 rounded-xl border border-solid border-[#dbdfe6] p-[15px]">
-                <input
-                  type="radio"
-                  class="h-5 w-5 border-2 border-[#dbdfe6] bg-transparent text-transparent checked:border-[#111418] checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#111418]"
-                  name="b63d2aa0-54a1-4ffd-95f7-581ed9e2b787"
-                />
-                <div class="flex grow flex-col"><p class="text-[#111418] text-sm font-medium leading-normal">PayPal</p></div>
-              </label>
-              <label class="flex items-center gap-4 rounded-xl border border-solid border-[#dbdfe6] p-[15px]">
-                <input
-                  type="radio"
-                  class="h-5 w-5 border-2 border-[#dbdfe6] bg-transparent text-transparent checked:border-[#111418] checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#111418]"
-                  name="b63d2aa0-54a1-4ffd-95f7-581ed9e2b787"
-                />
-                <div class="flex grow flex-col"><p class="text-[#111418] text-sm font-medium leading-normal">Cash on Delivery</p></div>
+                                    
+                                    <label class="delivery-option-card group cursor-pointer" onclick="selectDelivery('pickup')">
+                                        <div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-blue-400 transition-all duration-300 group-hover:shadow-lg">
+                                            <input type="radio" name="delivery" value="pickup" class="sr-only">
+                                            <div class="flex items-start gap-4">
+                                                <div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg flex items-center justify-center group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors">
+                                                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <h4 class="font-bold text-gray-800 text-lg mb-1">Store Pickup</h4>
+                                                    <p class="text-sm text-gray-600 mb-3">Collect from our physical store</p>
+                                                    <p class="text-sm text-gray-500 mb-3">Available during store hours</p>
+                                                    <div class="flex items-center justify-between">
+                                                        <div class="flex items-center gap-2">
+                                                            <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                                            </svg>
+                                                            <span class="text-sm text-blue-600 font-medium">Ready in 2-4 hours</span>
+                                                        </div>
+                                                        <span class="text-lg font-bold text-green-600">Free</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-blue-500 transition-colors">
+                                                <div class="w-full h-full rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                            </div>
+                                        </div>
               </label>
             </div>
-            <h3 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Order Summary</h3>
-            <div class="p-4">
-              <div class="flex justify-between gap-x-6 py-2">
-                <p class="text-[#60708a] text-sm font-normal leading-normal">Subtotal</p>
-                <p id="subtotal" class="text-[#111418] text-sm font-normal leading-normal text-right">LKR 0.00</p>
+                            </div>
+                            
+                            <!-- Payment Method -->
+                            <div class="cart-container p-6 mt-6">
+                                <h3 class="section-title text-xl font-bold mb-6 flex items-center gap-3">
+                                    <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                                        </svg>
+                                    </div>
+                                    Payment Method
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <label class="payment-option-card group cursor-pointer" onclick="selectPayment('card')">
+                                        <div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-blue-400 transition-all duration-300 group-hover:shadow-lg">
+                                            <input type="radio" name="payment" value="card" class="sr-only" checked>
+                                            <div class="flex flex-col items-center text-center">
+                                                <div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors">
+                                                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                                                    </svg>
+                                                </div>
+                                                <h4 class="font-bold text-gray-800 text-lg mb-2">Card Payment</h4>
+                                                <p class="text-sm text-gray-600 mb-4">Visa, Mastercard, Amex</p>
+                                                <div class="w-16 h-6 bg-blue-500 rounded text-white text-xs flex items-center justify-center font-bold">CARD</div>
+                                            </div>
+                                            <div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-blue-500 transition-colors">
+                                                <div class="w-full h-full rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                            </div>
+                                        </div>
+                                     </label>
+                                    
+                                    <label class="payment-option-card group cursor-pointer" onclick="selectPayment('cod')">
+                                        <div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 transition-all duration-300 group-hover:shadow-lg">
+                                            <input type="radio" name="payment" value="cod" class="sr-only">
+                                            <div class="flex flex-col items-center text-center">
+                                                <div class="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-green-200 group-hover:to-emerald-200 transition-colors">
+                                                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                                    </svg>
+                                                </div>
+                                                <h4 class="font-bold text-gray-800 text-lg mb-2">Cash on Delivery</h4>
+                                                <p class="text-sm text-gray-600 mb-4">Pay when delivered</p>
+                                                <div class="w-16 h-6 bg-green-500 rounded text-white text-xs flex items-center justify-center font-bold">COD</div>
+                                            </div>
+                                            <div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-green-500 transition-colors">
+                                                <div class="w-full h-full rounded-full bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                            </div>
+                                        </div>
+              </label>
+                                    
+                                    <label class="payment-option-card group cursor-pointer" onclick="selectPayment('qr')">
+                                        <div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-purple-400 transition-all duration-300 group-hover:shadow-lg">
+                                            <input type="radio" name="payment" value="qr" class="sr-only">
+                                            <div class="flex flex-col items-center text-center">
+                                                <div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-violet-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-purple-200 group-hover:to-violet-200 transition-colors">
+                                                    <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path>
+                                                    </svg>
+                                                </div>
+                                                <h4 class="font-bold text-gray-800 text-lg mb-2">QR Payment</h4>
+                                                <p class="text-sm text-gray-600 mb-4">Scan QR code to pay</p>
+                                                <div class="w-16 h-6 bg-purple-500 rounded text-white text-xs flex items-center justify-center font-bold">QR</div>
+                                                
+                                            </div>
+                                            <div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-purple-500 transition-colors">
+                                                <div class="w-full h-full rounded-full bg-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                            </div>
+                                        </div>
+              </label>
+            </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Order Summary -->
+                        <div class="lg:col-span-1">
+                            <div class="summary-card p-6 sticky top-24">
+                                <h3 class="section-title text-xl font-bold mb-6 flex items-center gap-3">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                    </svg>
+                                    Order Summary
+                                </h3>
+                                
+                                <div class="space-y-4 mb-6">
+                                    <div class="flex justify-between items-center py-2">
+                                        <span class="text-gray-600">Subtotal</span>
+                                        <span id="subtotal" class="font-semibold text-gray-800">LKR 0.00</span>
+                                    </div>
+                                    <div class="flex justify-between items-center py-2">
+                                        <span class="text-gray-600">Delivery</span>
+                                        <span id="delivery" class="font-semibold text-gray-800">LKR 0.00</span>
               </div>
-              <div class="flex justify-between gap-x-6 py-2">
-                <p class="text-[#60708a] text-sm font-normal leading-normal">Delivery</p>
-                <p id="delivery" class="text-[#111418] text-sm font-normal leading-normal text-right">LKR 0.00</p>
+                                    <div class="border-t border-gray-200 pt-4">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-lg font-bold text-gray-800">Total</span>
+                                            <span id="total" class="text-xl font-bold text-[#19e619]">LKR 0.00</span>
               </div>
-              <div class="flex justify-between gap-x-6 py-2">
-                <p class="text-[#60708a] text-sm font-normal leading-normal">Total</p>
-                <p id="total" class="text-[#111418] text-sm font-normal leading-normal text-right">LKR 0.00</p>
               </div>
             </div>
-            <div class="flex px-4 py-3 justify-between">
-              <a href="bookshop.html">
-                <button
-                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f2f4f1] text-[#151612] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out hover:bg-[#e8ebe8] hover:scale-105 hover:shadow-md"
-                >
-                  <span class="truncate">Continue Shopping</span>
+                                
+                                <div class="space-y-3">
+                                    <a href="bookshop.html" class="block">
+                                        <button class="continue-btn w-full py-3 px-4 rounded-xl font-semibold text-gray-700 flex items-center justify-center gap-2">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                                            </svg>
+                                            Continue Shopping
                 </button>
               </a>
-              <a href="contactus.html">
-                <button
-                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#0ad167] text-[#151612] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out hover:bg-[#08b85a] hover:scale-105 hover:shadow-lg hover:shadow-[#0ad167]/25"
-                >
-                  <span class="truncate">Proceed to Checkout</span>
-                </button>
-              </a>
+                                    <button id="checkoutBtn" class="checkout-btn w-full py-3 px-4 rounded-xl font-semibold text-white flex items-center justify-center gap-2">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        Proceed to Checkout
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
             </div>
           </div>
         </div>
@@ -189,6 +531,7 @@
 
     <script src="../javascript/navbar.js"></script>
     <script src="../javascript/background-animations.js"></script>
+    <script src="../javascript/auth.js"></script>
     <script>
       // Initialize auth system
       document.addEventListener('DOMContentLoaded', function() {
@@ -201,7 +544,7 @@
         theme: {
           extend: {
             colors: {
-              'nethwin-green': '#0ad167',
+                        'nethwin-green': '#19e619',
               'nethwin-dark': '#0e1b0e',
             },
           },
@@ -211,57 +554,210 @@
       // Cart rendering
       document.addEventListener('DOMContentLoaded', () => {
         renderCart();
+            updateCartCount();
+            loadDeliverySettings();
       });
 
       function getCart() {
         try {
-          return JSON.parse(localStorage.getItem('cart') || '[]');
+                return JSON.parse(localStorage.getItem('nethwin_cart') || '[]');
         } catch { return []; }
       }
 
       function setCart(items) {
-        localStorage.setItem('cart', JSON.stringify(items));
-      }
+            localStorage.setItem('nethwin_cart', JSON.stringify(items));
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            const items = getCart();
+            const totalItems = items.reduce((sum, item) => sum + (item.qty || item.quantity || 1), 0);
+            
+            const cartCount = document.getElementById('cartCount');
+            const mobileCartCount = document.getElementById('mobileCartCount');
+            
+            if (totalItems > 0) {
+                if (cartCount) {
+                    cartCount.textContent = totalItems;
+                    cartCount.classList.remove('hidden');
+                }
+                if (mobileCartCount) {
+                    mobileCartCount.textContent = totalItems;
+                    mobileCartCount.classList.remove('hidden');
+                }
+            } else {
+                if (cartCount) {
+                    cartCount.classList.add('hidden');
+                }
+                if (mobileCartCount) {
+                    mobileCartCount.classList.add('hidden');
+                }
+            }
+        }
+
+        // Delivery pricing management
+        function getDeliveryPrice() {
+            try {
+                const settings = JSON.parse(localStorage.getItem('nethwin_delivery_settings') || '{}');
+                return settings.localDeliveryPrice || 0;
+            } catch {
+                return 0;
+            }
+        }
+
+        function updateDeliveryPrice() {
+            const price = getDeliveryPrice();
+            const priceElement = document.getElementById('localDeliveryPrice');
+            if (priceElement) {
+                if (price > 0) {
+                    priceElement.textContent = `LKR ${price.toFixed(2)}`;
+                } else {
+                    priceElement.textContent = 'Free';
+                }
+            }
+        }
+
+        function loadDeliverySettings() {
+            updateDeliveryPrice();
+            updateDeliveryRadius();
+        }
+
+        function updateDeliveryRadius() {
+            try {
+                const settings = JSON.parse(localStorage.getItem('nethwin_delivery_settings') || '{}');
+                const radius = settings.deliveryRadius || 10;
+                
+                const radiusElement = document.getElementById('deliveryRadius');
+                if (radiusElement) {
+                    radiusElement.textContent = radius;
+                }
+            } catch (e) {
+                console.error('Error updating delivery radius:', e);
+            }
+        }
+
+        // Listen for delivery settings updates from admin panel
+        window.addEventListener('deliverySettingsUpdated', function(event) {
+            console.log('Delivery settings updated, refreshing cart page...');
+            loadDeliverySettings();
+        });
 
       function renderCart() {
         const container = document.getElementById('cartItems');
+            const emptyCart = document.getElementById('emptyCart');
         const items = getCart();
+            
+            if (items.length === 0) {
+                container.innerHTML = '';
+                emptyCart.classList.remove('hidden');
+                updateSummary(0);
+                return;
+            }
+            
+            emptyCart.classList.add('hidden');
         container.innerHTML = '';
         let subtotal = 0;
+            
         items.forEach((item, idx) => {
-          const quantity = Number(item.quantity || 1);
+                const quantity = Number(item.qty || item.quantity || 1);
           const price = Number(item.price || 0);
           const lineTotal = quantity * price;
           subtotal += lineTotal;
-          const row = document.createElement('div');
-          row.className = 'flex items-center gap-4 bg-white/80 backdrop-blur-sm px-4 min-h-[72px] py-2 justify-between rounded-lg border border-white/20 shadow-sm';
-          row.innerHTML = `
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item p-4';
+                cartItem.innerHTML = `
             <div class="flex items-center gap-4">
-              <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-14" style="background-image:url('${item.image || '../assets/fLogo.png'}')"></div>
-              <div class="flex flex-col justify-center">
-                <p class="text-[#111418] text-base font-medium leading-normal line-clamp-1">${item.name || 'Item'}</p>
-                <p class="text-[#60708a] text-sm font-normal leading-normal line-clamp-2">Quantity: ${quantity} · LKR ${price.toFixed(2)}</p>
+                        <div class="w-20 h-20 bg-gray-100 rounded-xl overflow-hidden flex-shrink-0">
+                            <img src="${item.image || (item.images && item.images.length > 0 ? item.images[0] : '../assets/fLogo.png')}" alt="${item.name}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-gray-800 text-lg mb-1 truncate">${item.name || 'Item'}</h4>
+                            <p class="text-gray-600 text-sm mb-2">LKR ${price.toFixed(2)} each</p>
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center gap-2">
+                                    <button onclick="changeQty(${idx}, -1)" class="quantity-btn w-8 h-8 rounded-lg flex items-center justify-center text-sm font-semibold">-</button>
+                                    <span class="w-8 text-center font-semibold text-gray-800">${quantity}</span>
+                                    <button onclick="changeQty(${idx}, 1)" class="quantity-btn w-8 h-8 rounded-lg flex items-center justify-center text-sm font-semibold">+</button>
+                                </div>
+                                <span class="text-[#19e619] font-bold text-lg">LKR ${lineTotal.toFixed(2)}</span>
               </div>
             </div>
-            <div class="shrink-0 flex items-center gap-2">
-              <button onclick="changeQty(${idx}, -1)" class="text-base font-medium leading-normal flex h-7 w-7 items-center justify-center rounded-full bg-[#f0f2f5] cursor-pointer hover:bg-[#e8ebe8] transition-colors">-</button>
-              <span class="w-6 text-center font-medium">${quantity}</span>
-              <button onclick="changeQty(${idx}, 1)" class="text-base font-medium leading-normal flex h-7 w-7 items-center justify-center rounded-full bg-[#f0f2f5] cursor-pointer hover:bg-[#e8ebe8] transition-colors">+</button>
-              <button onclick="removeItem(${idx})" class="ml-3 text-red-600 text-sm hover:text-red-700 transition-colors">Remove</button>
+                        <button onclick="removeItem(${idx})" class="remove-btn px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                            Remove
+                        </button>
             </div>
           `;
-          container.appendChild(row);
+                container.appendChild(cartItem);
         });
+            
+            updateSummary(subtotal);
+        }
+
+        function updateSummary(subtotal) {
         document.getElementById('subtotal').textContent = `LKR ${subtotal.toFixed(2)}`;
-        const delivery = items.length > 0 ? 5 : 0;
-        document.getElementById('delivery').textContent = `LKR ${delivery.toFixed(2)}`;
-        document.getElementById('total').textContent = `LKR ${(subtotal + delivery).toFixed(2)}`;
+            
+            // Calculate delivery cost based on selected delivery method
+            const deliveryCost = getDeliveryCost();
+            document.getElementById('delivery').textContent = `LKR ${deliveryCost.toFixed(2)}`;
+            document.getElementById('total').textContent = `LKR ${(subtotal + deliveryCost).toFixed(2)}`;
+        }
+        
+        function calculateTotal() {
+            const items = getCart();
+            let total = 0;
+            items.forEach(item => {
+                const quantity = Number(item.qty || item.quantity || 1);
+                const price = Number(item.price || 0);
+                total += quantity * price;
+            });
+            return total;
+        }
+
+        function getDeliveryCost() {
+            const selectedDelivery = document.querySelector('input[name="delivery"]:checked');
+            if (!selectedDelivery) return 0;
+            
+            if (selectedDelivery.value === 'local') {
+                // Get delivery price from localStorage
+                try {
+                    const settings = JSON.parse(localStorage.getItem('nethwin_delivery_settings') || '{}');
+                    return settings.localDeliveryPrice || 0;
+                } catch (e) {
+                    return 0;
+                }
+            } else if (selectedDelivery.value === 'pickup') {
+                return 0; // Store pickup is free
+            }
+            
+            return 0;
+        }
+
+        function updateOrderSummary() {
+            // Recalculate subtotal and update summary
+            const items = getCart();
+            let subtotal = 0;
+            items.forEach(item => {
+                const price = parseFloat(item.price) || 0;
+                const qty = item.qty || item.quantity || 1;
+                subtotal += price * qty;
+            });
+            updateSummary(subtotal);
       }
 
       function changeQty(index, delta) {
         const items = getCart();
         if (!items[index]) return;
-        items[index].quantity = Math.max(1, Number(items[index].quantity || 1) + delta);
+            const currentQty = items[index].qty || items[index].quantity || 1;
+            const newQty = Math.max(1, Number(currentQty) + delta);
+            if (items[index].qty !== undefined) {
+                items[index].qty = newQty;
+            } else {
+                items[index].quantity = newQty;
+            }
         setCart(items);
         renderCart();
       }
@@ -272,6 +768,231 @@
         setCart(items);
         renderCart();
       }
+
+        function selectDelivery(type) {
+            document.querySelectorAll('input[name="delivery"]').forEach(radio => {
+                radio.checked = radio.value === type;
+            });
+            document.querySelectorAll('.delivery-option-card').forEach(card => {
+                const deliveryInput = card.querySelector('input[name="delivery"]');
+                if (deliveryInput && deliveryInput.value === type) {
+                    card.classList.add('selected');
+                    const borderElement = card.querySelector('.border-2');
+                    const circleElement = card.querySelector('.absolute.top-3.right-3');
+                    const circleInner = circleElement.querySelector('div');
+                    
+                    // Remove all color classes first
+                    borderElement.classList.remove('border-gray-200', 'border-green-500', 'border-blue-500', 'bg-green-50', 'bg-blue-50');
+                    circleElement.classList.remove('border-gray-300', 'border-green-500', 'border-blue-500');
+                    circleInner.classList.remove('bg-green-500', 'bg-blue-500', 'opacity-0', 'opacity-100');
+                    
+                    // Apply appropriate color based on delivery type
+                    if (type === 'local') {
+                        borderElement.classList.add('border-green-500', 'bg-green-50');
+                        circleElement.classList.add('border-green-500');
+                        circleInner.classList.add('bg-green-500', 'opacity-100');
+                    } else if (type === 'pickup') {
+                        borderElement.classList.add('border-blue-500', 'bg-blue-50');
+                        circleElement.classList.add('border-blue-500');
+                        circleInner.classList.add('bg-blue-500', 'opacity-100');
+                    }
+                } else if (deliveryInput) {
+                    card.classList.remove('selected');
+                    const borderElement = card.querySelector('.border-2');
+                    const circleElement = card.querySelector('.absolute.top-3.right-3');
+                    const circleInner = circleElement.querySelector('div');
+                    
+                    borderElement.classList.remove('border-green-500', 'border-blue-500', 'bg-green-50', 'bg-blue-50');
+                    borderElement.classList.add('border-gray-200');
+                    circleElement.classList.remove('border-green-500', 'border-blue-500');
+                    circleElement.classList.add('border-gray-300');
+                    circleInner.classList.remove('bg-green-500', 'bg-blue-500', 'opacity-100');
+                    circleInner.classList.add('opacity-0');
+                }
+            });
+            
+            // Update order summary with delivery cost
+            updateOrderSummary();
+        }
+
+        function selectPayment(type) {
+            console.log('Selecting payment:', type);
+            document.querySelectorAll('input[name="payment"]').forEach(radio => {
+                radio.checked = radio.value === type;
+            });
+            document.querySelectorAll('.payment-option-card').forEach(card => {
+                const paymentInput = card.querySelector('input[name="payment"]');
+                if (paymentInput && paymentInput.value === type) {
+                    console.log('Found matching payment card for:', type);
+                    card.classList.add('selected');
+                    const borderElement = card.querySelector('.border-2');
+                    const circleElement = card.querySelector('.absolute.top-3.right-3');
+                    const circleInner = circleElement.querySelector('div');
+                    
+                    console.log('Border element:', borderElement);
+                    console.log('Circle element:', circleElement);
+                    
+                    // Remove all color classes first
+                    borderElement.classList.remove('border-gray-200', 'border-blue-500', 'border-yellow-500', 'border-green-500', 'border-purple-500', 'bg-blue-50', 'bg-yellow-50', 'bg-green-50', 'bg-purple-50');
+                    circleElement.classList.remove('border-gray-300', 'border-blue-500', 'border-yellow-500', 'border-green-500', 'border-purple-500');
+                    circleInner.classList.remove('bg-blue-500', 'bg-yellow-500', 'bg-green-500', 'bg-purple-500', 'opacity-0', 'opacity-100');
+                    
+                    // Apply appropriate color based on payment type
+                    if (type === 'card') {
+                        borderElement.classList.add('border-blue-500', 'bg-blue-50');
+                        circleElement.classList.add('border-blue-500');
+                        circleInner.classList.add('bg-blue-500', 'opacity-100');
+                        console.log('Applied blue styling');
+                    } else if (type === 'cod') {
+                        borderElement.classList.add('border-green-500', 'bg-green-50');
+                        circleElement.classList.add('border-green-500');
+                        circleInner.classList.add('bg-green-500', 'opacity-100');
+                        console.log('Applied green styling');
+                    } else if (type === 'qr') {
+                        borderElement.classList.add('border-purple-500', 'bg-purple-50');
+                        circleElement.classList.add('border-purple-500');
+                        circleInner.classList.add('bg-purple-500', 'opacity-100');
+                        console.log('Applied purple styling');
+                    }
+                } else if (paymentInput) {
+                    card.classList.remove('selected');
+                    const borderElement = card.querySelector('.border-2');
+                    const circleElement = card.querySelector('.absolute.top-3.right-3');
+                    const circleInner = circleElement.querySelector('div');
+                    
+                    borderElement.classList.remove('border-blue-500', 'border-yellow-500', 'border-green-500', 'border-purple-500', 'bg-blue-50', 'bg-yellow-50', 'bg-green-50', 'bg-purple-50');
+                    borderElement.classList.add('border-gray-200');
+                    circleElement.classList.remove('border-blue-500', 'border-yellow-500', 'border-green-500', 'border-purple-500');
+                    circleElement.classList.add('border-gray-300');
+                    circleInner.classList.remove('bg-blue-500', 'bg-yellow-500', 'bg-green-500', 'bg-purple-500', 'opacity-100');
+                    circleInner.classList.add('opacity-0');
+                }
+            });
+        }
+
+        // Checkout functionality
+        async function handleCheckout() {
+            const cart = getCart();
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            
+            // Get selected delivery and payment options
+            const selectedDelivery = document.querySelector('input[name="delivery"]:checked');
+            const selectedPayment = document.querySelector('input[name="payment"]:checked');
+            
+            if (!selectedDelivery || !selectedPayment) {
+                alert('Please select both delivery and payment options!');
+                return;
+            }
+            
+            // Check if order is eligible for approval
+            const deliveryMethod = selectedDelivery.value;
+            const paymentMethod = selectedPayment.value;
+            
+            // Only approve orders with Local Delivery or Store Pickup + Cash on Delivery
+            const isEligibleForApproval = (
+                (deliveryMethod === 'local' || deliveryMethod === 'pickup') && 
+                paymentMethod === 'cod'
+            );
+            
+            if (!isEligibleForApproval) {
+                alert('Currently, we only accept Cash on Delivery with Local Delivery or Store Pickup. Please select these options to proceed.');
+                return;
+            }
+            
+            // Get user details (try to fetch from database first, fallback to token)
+            let userDetails = getCurrentUser();
+            if (!userDetails || !userDetails.name) {
+                userDetails = await fetchUserDetails() || getCurrentUser() || {};
+            }
+            
+            // Prepare order data
+            const orderData = {
+                items: cart.map(item => ({
+                    productId: item.id,
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.qty || item.quantity || 1,
+                    image: item.image
+                })),
+                total: calculateTotal(),
+                deliveryMethod: deliveryMethod === 'local' ? 'Local Delivery' : 'Store Pickup',
+                paymentMethod: paymentMethod === 'cod' ? 'Cash on Delivery' : 'Card Payment',
+                deliveryAddress: deliveryMethod === 'local' ? prompt('Please enter your delivery address:') : null,
+                deliveryFee: deliveryMethod === 'local' ? getDeliveryFee() : 0,
+                customerName: userDetails.name || '',
+                customerEmail: userDetails.email || '',
+                customerPhone: userDetails.phone || ''
+            };
+            
+            // Save order data to localStorage
+            localStorage.setItem('pendingOrder', JSON.stringify(orderData));
+            
+            // Redirect to confirmation page
+            window.location.href = 'order-confirmation.html';
+        }
+        
+        // Get current user info
+        function getCurrentUser() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) return null;
+                
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                return {
+                    name: payload.name || '',
+                    email: payload.email || '',
+                    phone: payload.phone || ''
+                };
+            } catch (error) {
+                console.error('Error getting user info:', error);
+                return null;
+            }
+        }
+        
+        // Fetch user details from database
+        async function fetchUserDetails() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) return null;
+                
+                const response = await fetch('/api/profile', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    return result.data;
+                }
+            } catch (error) {
+                console.error('Error fetching user details:', error);
+            }
+            return null;
+        }
+        
+        // Get delivery fee
+        function getDeliveryFee() {
+            const deliverySettings = JSON.parse(localStorage.getItem('deliverySettings') || '{}');
+            return deliverySettings.deliveryFee || 0;
+        }
+        
+        // Add event listener for checkout button
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            if (checkoutBtn) {
+                checkoutBtn.addEventListener('click', handleCheckout);
+            }
+        });
+
+        // Initialize selected states
+        document.addEventListener('DOMContentLoaded', function() {
+            selectDelivery('local');
+            selectPayment('card');
+        });
     </script>
   </body>
 </html>
