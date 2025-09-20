@@ -1455,7 +1455,7 @@ app.post('/api/create-admin', async (req, res) => {
       return res.json({ message: 'Admin already exists' });
     }
 
-    const hashedPassword = await bcrypt.hash('admin123', 10);
+    const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD || 'admin123', 10);
     const admin = await User.create({
       fullName: 'Admin User',
       email: 'admin@nethwin.com',
@@ -1465,7 +1465,7 @@ app.post('/api/create-admin', async (req, res) => {
       status: 'active'
     });
 
-    res.json({ message: 'Admin user created successfully', email: 'admin@nethwin.com', password: 'admin123' });
+    res.json({ message: 'Admin user created successfully', email: process.env.ADMIN_EMAIL || 'admin@nethwin.com', password: 'Check .env file for password' });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -1612,10 +1612,8 @@ app.get('/api/admin/hero-images', async (req, res) => {
   }
 });
 
-// MongoDB Connection
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://Cluster28608:nethwinlk@cluster28608.qqqrppl.mongodb.net/bookstore?retryWrites=true&w=majority';
-
-mongoose.connect(MONGODB_URI, {
+// MongoDB Connection (using the one defined above)
+mongoose.connect(mongoUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
