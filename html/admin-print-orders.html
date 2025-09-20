@@ -23,6 +23,192 @@
         .sidebar-hidden {
             transform: translateX(-100%);
         }
+        
+        /* Enhanced table styling */
+        .admin-table {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .admin-table thead {
+            background: linear-gradient(135deg, #f8fbfa 0%, #e8f2ec 100%);
+        }
+        
+        .admin-table tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .admin-table tbody tr:hover {
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .admin-table tbody tr:last-child {
+            border-bottom: none;
+        }
+        
+        /* Enhanced button styling */
+        .btn-enhanced {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-enhanced:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-enhanced:active {
+            transform: translateY(0);
+        }
+        
+        /* Status select styling */
+        .status-select {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .status-select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        /* Card styling */
+        .admin-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+        }
+        
+        /* Animation for loading */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        /* Horizontal scroll styling */
+        .table-container {
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e0 #f7fafc;
+        }
+        
+        .table-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .table-container::-webkit-scrollbar-track {
+            background: #f7fafc;
+            border-radius: 4px;
+        }
+        
+        .table-container::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 4px;
+        }
+        
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0;
+        }
+        
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: relative;
+        }
+        
+        .scroll-indicator::after {
+            content: '← Scroll horizontally to see more details →';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .scroll-indicator:hover::after {
+            opacity: 1;
+        }
+        
+        /* Scroll shadow indicators */
+        .table-container {
+            position: relative;
+        }
+        
+        .table-container::before,
+        .table-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 20px;
+            pointer-events: none;
+            z-index: 5;
+            transition: opacity 0.3s ease;
+        }
+        
+        .table-container::before {
+            left: 0;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.8), transparent);
+        }
+        
+        .table-container::after {
+            right: 0;
+            background: linear-gradient(to left, rgba(255, 255, 255, 0.8), transparent);
+        }
+        
+        .table-container.scrolled-left::before {
+            opacity: 0;
+        }
+        
+        .table-container.scrolled-right::after {
+            opacity: 0;
+        }
+        
+        /* Mobile touch scroll improvements */
+        @media (max-width: 768px) {
+            .table-container {
+                -webkit-overflow-scrolling: touch;
+                scroll-behavior: smooth;
+            }
+            
+            .table-container table {
+                min-width: 1000px; /* Slightly smaller for mobile */
+            }
+            
+            .scroll-hint {
+                font-size: 11px !important;
+                padding: 4px 8px !important;
+                right: 10px !important;
+            }
+        }
+        
+        /* Smooth scrolling for all devices */
+        .table-container {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
     </style>
     <script src="../javascript/auth.js"></script>
 </head>
@@ -136,27 +322,52 @@
                 <div class="px-40 flex flex-1 justify-center py-5">
                     <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
                         <!-- Header Section -->
-                        <div class="flex flex-wrap justify-between gap-3 p-4">
-                            <p class="text-[#0e1a13] tracking-light text-[32px] font-bold leading-tight min-w-72">Print Orders</p>
+                        <div class="flex flex-wrap justify-between items-center gap-6 p-6 bg-gradient-to-r from-[#f8fbfa] to-[#e8f2ec] rounded-xl border border-[#d1e6d9] mb-6">
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-[#0e1a13] p-3 rounded-xl">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h1 class="text-[#0e1a13] tracking-light text-3xl font-bold leading-tight">Print Orders</h1>
+                                    <p class="text-[#51946c] text-lg font-medium">Manage and track all print orders</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="bg-white px-4 py-2 rounded-lg border border-[#d1e6d9]">
+                                    <span class="text-sm text-gray-600">Total Orders:</span>
+                                    <span class="ml-2 font-bold text-[#0e1a13]" id="totalOrdersCount">0</span>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Orders Table -->
-                        <div class="px-4 py-3 @container">
-                            <div class="flex overflow-hidden rounded-lg border border-[#d1e6d9] bg-[#f8fbfa]">
-                                <table class="flex-1">
+                        <div class="px-6 py-6 @container">
+                            <div class="overflow-x-auto rounded-xl border-2 border-[#d1e6d9] bg-white shadow-lg admin-table table-container scroll-indicator">
+                                <table class="w-full min-w-[1200px]">
                                     <thead>
-                                        <tr class="bg-[#f8fbfa]">
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[200px] text-sm font-medium leading-normal">Order ID</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[300px] text-sm font-medium leading-normal">Customer</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[200px] text-sm font-medium leading-normal">Print Type</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[150px] text-sm font-medium leading-normal">Total</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[150px] text-sm font-medium leading-normal">Status</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[200px] text-sm font-medium leading-normal">Date</th>
+                                        <tr class="bg-gradient-to-r from-[#f8fbfa] to-[#e8f2ec]">
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[180px] text-base font-semibold leading-normal">Order ID</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[220px] text-base font-semibold leading-normal">Customer</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[200px] text-base font-semibold leading-normal">Print Type</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[120px] text-base font-semibold leading-normal">Total</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[140px] text-base font-semibold leading-normal">Status</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[120px] text-base font-semibold leading-normal">Document</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[160px] text-base font-semibold leading-normal">Date</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[120px] text-base font-semibold leading-normal">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="ordersTableBody">
                                         <tr>
-                                            <td colspan="6" class="px-4 py-8 text-center text-[#51946c]">No print orders found</td>
+                                            <td colspan="8" class="px-6 py-12 text-center text-[#51946c]">
+                                                <div class="flex flex-col items-center">
+                                                    <svg class="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                                                    </svg>
+                                                    <p class="text-lg font-medium">No print orders found</p>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -182,6 +393,12 @@
                 return;
             }
             
+            // Load print orders
+            loadPrintOrders();
+            
+            // Update total orders count
+            updateTotalOrdersCount();
+            
             // User Mode functionality
             document.getElementById('userModeBtn').addEventListener('click', function() {
                 if (confirm('Switch to User Mode? You can access the website as a regular customer for testing purposes.')) {
@@ -190,6 +407,284 @@
                 }
             });
         });
+
+        // Load print orders
+        async function loadPrintOrders() {
+            try {
+                console.log('Loading print orders...');
+                const response = await fetch('/api/admin/print-orders');
+                const data = await response.json();
+                
+                console.log('Print orders API response:', data);
+                
+                const orders = data.data?.orders || data.orders || data || [];
+                console.log('Processed print orders:', orders);
+                
+                displayPrintOrders(orders);
+                updateTotalOrdersCount(orders.length);
+                
+                // Setup scroll indicator after a short delay to ensure table is rendered
+                setTimeout(() => {
+                    setupScrollIndicator();
+                    setupScrollShadows();
+                }, 100);
+            } catch (error) {
+                console.error('Error loading print orders:', error);
+                displayPrintOrders([]);
+                updateTotalOrdersCount(0);
+            }
+        }
+
+        // Update total orders count
+        function updateTotalOrdersCount(count = 0) {
+            const totalOrdersElement = document.getElementById('totalOrdersCount');
+            if (totalOrdersElement) {
+                totalOrdersElement.textContent = count;
+            }
+        }
+
+        // Add scroll indicator functionality
+        function setupScrollIndicator() {
+            const tableContainer = document.querySelector('.table-container');
+            if (tableContainer) {
+                // Check if table is scrollable
+                const isScrollable = tableContainer.scrollWidth > tableContainer.clientWidth;
+                
+                if (isScrollable) {
+                    // Add scroll indicator
+                    const indicator = document.createElement('div');
+                    indicator.className = 'scroll-hint';
+                    indicator.innerHTML = '← Scroll horizontally to see all details →';
+                    indicator.style.cssText = `
+                        position: absolute;
+                        top: 10px;
+                        right: 20px;
+                        background: rgba(0, 0, 0, 0.8);
+                        color: white;
+                        padding: 6px 12px;
+                        border-radius: 20px;
+                        font-size: 12px;
+                        font-weight: 500;
+                        z-index: 20;
+                        pointer-events: none;
+                        animation: pulse 2s infinite;
+                    `;
+                    
+                    // Add pulse animation
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        @keyframes pulse {
+                            0%, 100% { opacity: 0.7; }
+                            50% { opacity: 1; }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                    
+                    tableContainer.style.position = 'relative';
+                    tableContainer.appendChild(indicator);
+                    
+                    // Hide indicator after 5 seconds
+                    setTimeout(() => {
+                        if (indicator.parentNode) {
+                            indicator.style.opacity = '0';
+                            indicator.style.transition = 'opacity 0.5s ease';
+                            setTimeout(() => {
+                                if (indicator.parentNode) {
+                                    indicator.remove();
+                                }
+                            }, 500);
+                        }
+                    }, 5000);
+                }
+            }
+        }
+
+        // Setup scroll shadow indicators
+        function setupScrollShadows() {
+            const tableContainer = document.querySelector('.table-container');
+            if (tableContainer) {
+                const updateScrollShadows = () => {
+                    const scrollLeft = tableContainer.scrollLeft;
+                    const maxScrollLeft = tableContainer.scrollWidth - tableContainer.clientWidth;
+                    
+                    // Update shadow classes based on scroll position
+                    if (scrollLeft <= 0) {
+                        tableContainer.classList.remove('scrolled-left');
+                    } else {
+                        tableContainer.classList.add('scrolled-left');
+                    }
+                    
+                    if (scrollLeft >= maxScrollLeft) {
+                        tableContainer.classList.remove('scrolled-right');
+                    } else {
+                        tableContainer.classList.add('scrolled-right');
+                    }
+                };
+                
+                // Initial check
+                updateScrollShadows();
+                
+                // Add scroll event listener
+                tableContainer.addEventListener('scroll', updateScrollShadows);
+            }
+        }
+
+        // Display print orders in table
+        function displayPrintOrders(orders) {
+            const tbody = document.getElementById('ordersTableBody');
+            
+            if (orders.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="px-6 py-12 text-center text-[#51946c]">
+                            <div class="flex flex-col items-center">
+                                <svg class="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                                </svg>
+                                <p class="text-lg font-medium">No print orders found</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = orders.map(order => {
+                const date = new Date(order.createdAt).toLocaleDateString();
+                const printType = `${order.paperSize} - ${order.colorOption.replace('_', ' ')} (${order.copies} copies)`;
+                const shortId = order._id.substring(0, 8) + '...';
+                
+                return `
+                    <tr class="border-t border-t-[#d1e6d9] hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 transition-all duration-200 fade-in-up">
+                        <td class="px-6 py-4 text-[#0e1a13] text-base font-medium" title="${order._id}">
+                            <div class="flex items-center">
+                                <span class="bg-gray-100 px-3 py-1 rounded-full text-sm font-mono">${shortId}</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-[#51946c] text-base">
+                            <div class="flex flex-col">
+                                <span class="font-semibold">${order.userName || 'Customer'}</span>
+                                <span class="text-sm text-gray-500">${order.email || ''}</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-[#51946c] text-base">
+                            <div class="flex flex-col space-y-1">
+                                <span class="font-medium">${order.paperSize}</span>
+                                <span class="text-sm text-gray-600">${order.colorOption.replace('_', ' ')}</span>
+                                <span class="text-sm text-gray-500">${order.copies} copies</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-[#51946c] text-base font-bold">
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">LKR ${(Number(order.estimatedPrice || 0)).toFixed(2)}</span>
+                        </td>
+                        <td class="px-6 py-4 text-base">
+                            <select class="status-select bg-white border-2 border-gray-300 rounded-lg px-3 py-2 text-sm font-medium focus:border-blue-500 focus:outline-none transition-colors" data-order-id="${order._id}" data-current-status="${order.status}">
+                                <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>⏳ Pending</option>
+                                <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>⚙️ Processing</option>
+                                <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>✅ Completed</option>
+                                <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>🚚 Shipped</option>
+                                <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>❌ Cancelled</option>
+                            </select>
+                        </td>
+                        <td class="px-6 py-4 text-base">
+                            <button onclick="viewDocument('${order._id}', '${order.originalFileName}')" 
+                                    class="bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center space-x-2 btn-enhanced">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                                <span>View</span>
+                            </button>
+                        </td>
+                        <td class="px-6 py-4 text-[#51946c] text-base">
+                            <div class="flex flex-col">
+                                <span class="font-medium">${date}</span>
+                                <span class="text-sm text-gray-500">${new Date(order.createdAt).toLocaleTimeString()}</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-base">
+                            <button onclick="updateOrderStatus('${order._id}')" 
+                                    class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-2 btn-enhanced">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Update</span>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            // Add event listeners for status changes
+            document.querySelectorAll('.status-select').forEach(select => {
+                select.addEventListener('change', function() {
+                    const orderId = this.dataset.orderId;
+                    const newStatus = this.value;
+                    const currentStatus = this.dataset.currentStatus;
+                    
+                    if (newStatus !== currentStatus) {
+                        this.style.backgroundColor = '#fef3c7'; // Highlight changed status
+                        this.style.borderColor = '#f59e0b';
+                        this.style.transform = 'scale(1.02)';
+                    } else {
+                        this.style.backgroundColor = 'white';
+                        this.style.borderColor = '#d1d5db';
+                        this.style.transform = 'scale(1)';
+                    }
+                });
+            });
+        }
+
+        // View document function
+        function viewDocument(orderId, fileName) {
+            const documentUrl = `/api/print-orders/${orderId}/document`;
+            window.open(documentUrl, '_blank');
+        }
+
+        // Update order status function
+        async function updateOrderStatus(orderId) {
+            const selectElement = document.querySelector(`[data-order-id="${orderId}"]`);
+            const newStatus = selectElement.value;
+            const currentStatus = selectElement.dataset.currentStatus;
+
+            if (newStatus === currentStatus) {
+                alert('No changes to update');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/admin/print-orders/${orderId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+                    },
+                    body: JSON.stringify({
+                        status: newStatus
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert('Order status updated successfully!');
+                    
+                    // Update the current status
+                    selectElement.dataset.currentStatus = newStatus;
+                    selectElement.style.backgroundColor = 'white';
+                    selectElement.style.borderColor = '#d1d5db';
+                    selectElement.style.transform = 'scale(1)';
+                    
+                    // Reload the orders to reflect changes
+                    loadPrintOrders();
+                } else {
+                    const error = await response.json();
+                    alert('Failed to update status: ' + (error.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Update status error:', error);
+                alert('Failed to update status. Please try again.');
+            }
+        }
 
         // Logout function
         function logout() {

@@ -11,11 +11,193 @@
       onload="this.rel='stylesheet'"
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
     />
+    <script>
+        // Suppress Tailwind CDN warning immediately
+        const originalWarn = console.warn;
+        console.warn = function(message) {
+            if (message && message.includes('cdn.tailwindcss.com should not be used in production')) {
+                return; // Suppress this specific warning
+            }
+            originalWarn.apply(console, arguments);
+        };
+    </script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link rel="stylesheet" href="../css/hover-effects.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/background-animations.css" />
     <link rel="stylesheet" href="../css/responsive.css" />
+    <style>
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .product-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        /* Modern Filter and Sort Design */
+        .modern-filter-container {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+        
+        .filter-header {
+            background: #f8fafc;
+            color: #374151;
+            border-radius: 12px 12px 0 0;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .sort-btn {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            background: white;
+            color: #374151;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sort-btn.active {
+            background: #19e619;
+            color: white;
+            border-color: #19e619;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(25, 230, 25, 0.3);
+        }
+        
+        .view-btn {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            background: white;
+            color: #374151;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .view-btn:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .view-btn.active {
+            background: #19e619;
+            color: white;
+            border-color: #19e619;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(25, 230, 25, 0.3);
+        }
+        
+        .modern-select {
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            transition: all 0.2s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+        
+        .modern-select:focus {
+            outline: none;
+            border-color: #19e619;
+            box-shadow: 0 0 0 3px rgba(25, 230, 25, 0.1);
+        }
+        
+        .modern-select:hover {
+            border-color: #9ca3af;
+        }
+        
+        .filter-chip {
+            background: #f8fafc;
+            border: 1px solid #d1d5db;
+            color: #374151;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .filter-chip:hover {
+            background: #e5e7eb;
+            border-color: #9ca3af;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .filter-chip.active {
+            background: #19e619;
+            color: white;
+            border-color: #19e619;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(25, 230, 25, 0.3);
+        }
+        
+        /* Responsive improvements */
+        @media (max-width: 768px) {
+            .sort-btn {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+            
+            .view-btn {
+                padding: 6px 10px;
+            }
+        }
+        
+        /* Better flex wrapping for sort buttons */
+        .sort-buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
     <div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient">
@@ -43,11 +225,12 @@
                     
                     <!-- Desktop Auth Area -->
                     <div class="navbar-auth" id="navbarAuth">
-                        <a href="cart.html" class="nav-auth-btn">
+                        <a href="cart.html" class="nav-auth-btn relative">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
                             </svg>
                             Cart
+                            <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold hidden">0</span>
                         </a>
                         <a href="search.html" class="nav-auth-btn active">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -65,10 +248,11 @@
                     
                     <!-- Mobile Auth Icons (hidden on desktop) -->
                     <div class="mobile-auth-icons hidden md:hidden">
-                        <a href="cart.html" class="mobile-icon-btn">
+                        <a href="cart.html" class="mobile-icon-btn relative">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
                             </svg>
+                            <span id="mobileCartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold hidden">0</span>
                         </a>
                         <a href="search.html" class="mobile-icon-btn">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -98,25 +282,174 @@
             <div class="px-4 md:px-10 flex flex-1 justify-center py-5">
                 <div class="layout-content-container flex flex-col max-w-[1200px] flex-1">
                     
-                    <!-- Search Bar -->
+                    <!-- Enhanced Search Section -->
                     <div class="mb-8">
                         <div class="px-4">
-                            <div class="flex w-full items-center rounded-xl border border-[#d1e6d9] bg-white shadow-sm focus-within:shadow-md transition-shadow duration-300">
-                                <div class="text-[#7c8863] flex items-center justify-center pl-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                                        <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
-                                    </svg>
+                            <!-- Modern Search Bar -->
+                            <div class="relative mb-6">
+                                <div class="flex w-full items-center rounded-2xl border-2 border-gray-200 bg-white shadow-lg focus-within:border-[#19e619] focus-within:shadow-xl transition-all duration-300 hover:shadow-xl">
+                                    <div class="text-gray-400 flex items-center justify-center pl-5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <input
+                                        id="searchInput"
+                                        class="flex-1 px-4 py-4 text-gray-800 focus:outline-none border-none bg-transparent placeholder:text-gray-400 text-lg font-medium leading-normal"
+                                        placeholder="Search products, brands, categories..."
+                                    />
+                                    <button onclick="clearSearch()" class="flex items-center justify-center p-4 text-gray-400 hover:text-[#19e619] transition-colors duration-200">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg>
+                                    </button>
                                 </div>
-                                <input
-                                    id="searchInput"
-                                    class="flex-1 px-4 py-3 text-[#151811] focus:outline-none border-none bg-transparent placeholder:text-[#7c8863] text-base font-normal leading-normal"
-                                    placeholder="Search products..."
-                                />
-                                <button onclick="clearSearch()" class="flex items-center justify-center p-3 text-[#7c8863] hover:text-[#19e619] transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                                        <path d="M165.66,101.66,139.31,128l26.35,26.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
-                                    </svg>
+                            </div>
+
+                            <!-- Modern Category Buttons -->
+                            <div class="flex flex-wrap gap-3 mb-6">
+                                <button onclick="quickSearch('books')" class="group px-6 py-3 bg-white hover:bg-gray-50 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-200 hover:border-gray-300 hover:shadow-md flex items-center gap-2">
+                                    <span class="text-lg">📚</span>
+                                    Books
                                 </button>
+                                <button onclick="quickSearch('stationery')" class="group px-6 py-3 bg-white hover:bg-gray-50 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-200 hover:border-gray-300 hover:shadow-md flex items-center gap-2">
+                                    <span class="text-lg">✏️</span>
+                                    Stationery
+                                </button>
+                                <button onclick="quickSearch('electronics')" class="group px-6 py-3 bg-white hover:bg-gray-50 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-200 hover:border-gray-300 hover:shadow-md flex items-center gap-2">
+                                    <span class="text-lg">🔌</span>
+                                    Electronics
+                                </button>
+                                <button onclick="quickSearch('accessories')" class="group px-6 py-3 bg-white hover:bg-gray-50 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-200 hover:border-gray-300 hover:shadow-md flex items-center gap-2">
+                                    <span class="text-lg">🎒</span>
+                                    Accessories
+                                </button>
+                                <button onclick="showDiscounted()" class="group px-6 py-3 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white rounded-xl text-sm font-semibold transition-all duration-200 border border-red-500 hover:shadow-lg flex items-center gap-2">
+                                    <span class="text-lg">🔥</span>
+                                    Special Offers
+                                </button>
+                            </div>
+
+                            <!-- Modern Advanced Filters -->
+                            <div class="modern-filter-container">
+                                <div class="filter-header">
+                                    <div class="flex items-center justify-between relative z-10">
+                                        <div class="flex items-center gap-3">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.414A1 1 0 013 6.707V4z"></path>
+                                            </svg>
+                                            <h3 class="text-lg font-bold">Advanced Filters</h3>
+                                        </div>
+                                        <button onclick="toggleFilters()" class="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-all duration-300 backdrop-blur-sm">
+                                            <span id="filterToggleText">Show Filters</span>
+                                            <svg class="w-4 h-4 transition-transform duration-300" id="filterToggleIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div id="filterSection" class="hidden p-6">
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                        <!-- Category Filter -->
+                                        <div class="space-y-3">
+                                            <label class="block text-sm font-semibold text-[#0e1a13] mb-3 flex items-center gap-2">
+                                                <svg class="w-4 h-4 text-[#51946c]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                                </svg>
+                                                Category
+                                            </label>
+                                            <select id="categoryFilter" class="modern-select w-full">
+                                                <option value="">All Categories</option>
+                                                <option value="books">Books</option>
+                                                <option value="stationery">Stationery</option>
+                                                <option value="electronics">Electronics</option>
+                                                <option value="accessories">Accessories</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <!-- Price Range Filter -->
+                                        <div class="space-y-3">
+                                            <label class="block text-sm font-semibold text-[#0e1a13] mb-3 flex items-center gap-2">
+                                                <svg class="w-4 h-4 text-[#51946c]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                                                </svg>
+                                                Price Range
+                                            </label>
+                                            <select id="priceFilter" class="modern-select w-full">
+                                                <option value="">All Prices</option>
+                                                <option value="0-500">Under Rs. 500</option>
+                                                <option value="500-1000">Rs. 500 - 1,000</option>
+                                                <option value="1000-2000">Rs. 1,000 - 2,000</option>
+                                                <option value="2000+">Above Rs. 2,000</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <!-- Brand Filter -->
+                                        <div class="space-y-3">
+                                            <label class="block text-sm font-semibold text-[#0e1a13] mb-3 flex items-center gap-2">
+                                                <svg class="w-4 h-4 text-[#51946c]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                                </svg>
+                                                Brand
+                                            </label>
+                                            <select id="brandFilter" class="modern-select w-full">
+                                                <option value="">All Brands</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Quick Filter Chips -->
+                                    <div class="mt-6">
+                                        <label class="block text-sm font-semibold text-[#0e1a13] mb-3 flex items-center gap-2">
+                                            <svg class="w-4 h-4 text-[#51946c]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                            </svg>
+                                            Quick Filters
+                                        </label>
+                                        <div class="flex flex-wrap gap-3">
+                                            <button onclick="showDiscounted()" class="filter-chip">
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                                </svg>
+                                                On Sale
+                                            </button>
+                                            <button onclick="quickSearch('books')" class="filter-chip">
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                                </svg>
+                                                Books
+                                            </button>
+                                            <button onclick="quickSearch('stationery')" class="filter-chip">
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                                                </svg>
+                                                Stationery
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Filter Actions -->
+                                    <div class="flex justify-between items-center mt-8 pt-6 border-t border-[#e8f2ec]">
+                                        <div class="text-sm text-[#7c8863]">
+                                            <span id="activeFiltersCount">0</span> filters applied
+                                        </div>
+                                        <div class="flex gap-3">
+                                            <button onclick="clearFilters()" class="px-6 py-3 text-[#7c8863] hover:text-[#19e619] text-sm font-semibold transition-colors duration-300 flex items-center gap-2">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                </svg>
+                                                Clear All
+                                            </button>
+                                            <button onclick="applyFilters()" class="px-6 py-3 bg-gradient-to-r from-[#19e619] to-[#078829] hover:from-[#078829] hover:to-[#19e619] text-white rounded-lg text-sm font-semibold transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                                </svg>
+                                                Apply Filters
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -124,68 +457,96 @@
                     <!-- Search Results Title -->
                     <h3 id="searchResultsTitle" class="text-[#151811] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2">Search for products</h3>
                     
-                    <!-- Item Sorter -->
+                    <!-- Modern Sort & View Controls -->
                     <div class="mb-6 px-4">
-                        <div class="flex flex-wrap items-center justify-between gap-4 p-4 bg-gradient-to-r from-[#f8fcf8] to-[#f2f4f1] rounded-xl border border-[#d0e7d0]">
-                            <div class="flex items-center gap-3">
-                                <span class="text-[#0e1a13] text-sm font-medium">Sort by:</span>
-                                <div class="flex flex-wrap gap-2">
-                                    <button 
-                                        onclick="sortProducts('relevance')" 
-                                        id="sort-relevance"
-                                        class="sort-btn active bg-[#19e619] text-white border-[#19e619]">
-                                        Relevance
-                                    </button>
-                                    <button 
-                                        onclick="sortProducts('price-low')" 
-                                        id="sort-price-low"
-                                        class="sort-btn">
-                                        Price: Low to High
-                                    </button>
-                                    <button 
-                                        onclick="sortProducts('price-high')" 
-                                        id="sort-price-high"
-                                        class="sort-btn">
-                                        Price: High to Low
-                                    </button>
-                                    <button 
-                                        onclick="sortProducts('name-asc')" 
-                                        id="sort-name-asc"
-                                        class="sort-btn">
-                                        Name: A to Z
-                                    </button>
-                                    <button 
-                                        onclick="sortProducts('name-desc')" 
-                                        id="sort-name-desc"
-                                        class="sort-btn">
-                                        Name: Z to A
-                                    </button>
-                                    <button 
-                                        onclick="sortProducts('newest')" 
-                                        id="sort-newest"
-                                        class="sort-btn">
-                                        Newest First
-                                    </button>
+                        <div class="modern-filter-container">
+                            <div class="p-6">
+                                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                                    <!-- Sort Controls -->
+                                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                        <div class="flex items-center gap-3">
+                                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.414A1 1 0 013 6.707V4z"></path>
+                                            </svg>
+                                            <span class="text-gray-700 text-sm font-semibold">Sort by:</span>
+                                        </div>
+                                        <div class="sort-buttons-container max-w-full">
+                                            <button 
+                                                onclick="sortProducts('relevance')" 
+                                                id="sort-relevance"
+                                                class="sort-btn active">
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                                </svg>
+                                                Relevance
+                                            </button>
+                                            <button 
+                                                onclick="sortProducts('price-low')" 
+                                                id="sort-price-low"
+                                                class="sort-btn">
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
+                                                </svg>
+                                                Price: Low to High
+                                            </button>
+                                            <button 
+                                                onclick="sortProducts('price-high')" 
+                                                id="sort-price-high"
+                                                class="sort-btn">
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6"></path>
+                                                </svg>
+                                                Price: High to Low
+                                            </button>
+                                            <button 
+                                                onclick="sortProducts('name-asc')" 
+                                                id="sort-name-asc"
+                                                class="sort-btn">
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path>
+                                                </svg>
+                                                Name: A to Z
+                                            </button>
+                                            <button 
+                                                onclick="sortProducts('name-desc')" 
+                                                id="sort-name-desc"
+                                                class="sort-btn">
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4 4m0 0l-4 4m4-4V4"></path>
+                                                </svg>
+                                                Name: Z to A
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- View Controls -->
+                                    <div class="flex items-center gap-4">
+                                        <div class="flex items-center gap-3">
+                                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                                            </svg>
+                                            <span class="text-gray-700 text-sm font-semibold">View:</span>
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button 
+                                                onclick="changeViewMode('grid')" 
+                                                id="view-grid"
+                                                class="view-btn active">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                                                </svg>
+                                            </button>
+                                            <button 
+                                                onclick="changeViewMode('list')" 
+                                                id="view-list"
+                                                class="view-btn">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-[#0e1a13] text-sm font-medium">View:</span>
-                                <button 
-                                    onclick="changeViewMode('grid')" 
-                                    id="view-grid"
-                                    class="view-btn active">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
-                                        <path d="M104,40H40A16,16,0,0,0,24,56v48a16,16,0,0,0,16,16h64a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H40V56h64v48Zm112-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h64a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,64H152V56h64v48ZM104,136H40a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h64a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H40V152h64v48Zm112-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h64a16,16,0,0,0,16-16V152A16,16,0,0,0,216,136Zm0,64H152V152h64v48Z"></path>
-                                    </svg>
-                                </button>
-                                <button 
-                                    onclick="changeViewMode('list')" 
-                                    id="view-list"
-                                    class="view-btn">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
-                                        <path d="M224,120H40a8,8,0,0,1,0-16H224a8,8,0,0,1,0,16ZM40,72H224a8,8,0,0,1,0,16H40a8,8,0,0,1,0-16Zm0,96H224a8,8,0,0,1,0,16H40a8,8,0,0,1,0-16Z"></path>
-                                    </svg>
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -216,10 +577,18 @@
     </div>
 
     <script>
+        console.log('Search script starting...');
         let allProducts = [];
         let filteredProducts = [];
         let currentPage = 1;
         const productsPerPage = 12;
+        let currentFilters = {
+            category: '',
+            priceRange: '',
+            brand: '',
+            searchTerm: ''
+        };
+        console.log('Variables initialized');
 
         // Normalize product from products.json to internal shape
         function normalizeFromDataJson(p, id) {
@@ -239,7 +608,11 @@
         }
 
         function isPlaceholderDataset(list) {
-            if (!Array.isArray(list) || list.length === 0) return true;
+            console.log('Checking if dataset is placeholder...');
+            if (!Array.isArray(list) || list.length === 0) {
+                console.log('Not an array or empty, returning true');
+                return true;
+            }
             let placeholders = 0;
             let zeros = 0;
             for (let i = 0; i < Math.min(25, list.length); i++) {
@@ -247,11 +620,16 @@
                 if (/^Product\s\d+$/i.test(n)) placeholders++;
                 if (!list[i].sellingPrice && !list[i].unitPurchasePrice) zeros++;
             }
-            return placeholders >= 5 || zeros >= 20;
+            console.log('Placeholders found:', placeholders, 'Zeros found:', zeros);
+            const isPlaceholder = placeholders >= 5 || zeros >= 20;
+            console.log('Is placeholder dataset?', isPlaceholder);
+            return isPlaceholder;
         }
 
         // Initialize the page
         function initializePage() {
+            console.log('Initializing page...');
+            
             loadProducts();
             setupEventListeners();
             
@@ -264,44 +642,99 @@
         }
 
         async function loadProducts() {
-            const savedProducts = localStorage.getItem('allProducts');
-            if (savedProducts) {
-                try {
-                    const parsed = JSON.parse(savedProducts);
-                    if (!isPlaceholderDataset(parsed)) {
-                        allProducts = parsed;
-                        filteredProducts = [...allProducts];
-                        displaySearchResults();
-                        hideLoadingMessage();
-                        return;
-                    }
-                } catch {}
-            }
+            console.log('Loading products...');
+            console.log('Current allProducts length:', allProducts.length);
+            console.log('Current filteredProducts length:', filteredProducts.length);
+            
+            // Clear cache to force fresh API load
+            localStorage.removeItem('allProducts');
+            console.log('Cleared cached products to force fresh API load');
+            
+            // Also clear any other potential cache
+            localStorage.removeItem('cachedProducts');
+            localStorage.removeItem('productCache');
+            console.log('Cleared all product caches');
             // Fallback or placeholder detected → fetch and normalize
             try {
+                console.log('Fetching from API...');
+                console.log('About to make fetch request to /api/products?limit=500');
+                
                 const res = await fetch('/api/products?limit=500');
+                console.log('API response status:', res.status);
+                console.log('API response headers:', res.headers);
+                
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                
                 const payload = await res.json();
+                console.log('API payload:', payload);
                 const data = Array.isArray(payload) ? payload : (payload.products || []);
-                allProducts = data.map((p, i) => ({
-                    id: p._id || p.id || i,
-                    name: p.name || '',
-                    description: p.description || '',
-                    image: p.image || '',
-                    sellingPrice: (typeof p.sellingPrice === 'number') ? p.sellingPrice : (typeof p.price === 'number' ? p.price : 0),
-                    unitPurchasePrice: (typeof p.unitPurchasePrice === 'number') ? p.unitPurchasePrice : 0,
-                    discount: p.discount || 0,
-                    sku: p.sku || '',
-                    brand: p.brand || '',
-                    category: p.category || '',
-                    currentStock: (typeof p.currentStock === 'number') ? p.currentStock : 0
-                }));
+                console.log('Products data:', data.length, 'items');
+                console.log('First product from API:', data[0]);
+                allProducts = data.map((p, i) => {
+                    console.log(`Mapping product ${i}:`, p);
+                    console.log(`Product ${i} _id:`, p._id);
+                    console.log(`Product ${i} id:`, p.id);
+                    
+                    const product = {
+                        id: p._id || p.id || `product_${i}`,
+                        name: p.name || '',
+                        description: p.description || '',
+                        image: p.image || (p.images && p.images.length > 0 ? p.images[0] : ''),
+                        images: p.images || [],
+                        sellingPrice: (typeof p.sellingPrice === 'number') ? p.sellingPrice : (typeof p.price === 'number' ? p.price : 0),
+                        unitPurchasePrice: (typeof p.unitPurchasePrice === 'number') ? p.unitPurchasePrice : (typeof p.purchasePrice === 'number' ? p.purchasePrice : 0),
+                        discount: p.discount || 0,
+                        discountPrice: p.discountPrice || 0,
+                        sku: p.sku || p.productId || '',
+                        brand: p.brand || '',
+                        category: p.category || '',
+                        currentStock: (typeof p.currentStock === 'number') ? p.currentStock : (typeof p.stock === 'number' ? p.stock : 0)
+                    };
+                    console.log(`Mapped product ${i}:`, product);
+                    console.log(`Product ${i} final ID:`, product.id);
+                    return product;
+                });
+                console.log('Normalized products:', allProducts.length);
                 try { localStorage.setItem('allProducts', JSON.stringify(allProducts)); } catch {}
                 filteredProducts = [...allProducts];
                 displaySearchResults();
                 hideLoadingMessage();
             } catch (err) {
                 console.error('Failed to load /api/products for search', err);
-                showNoProductsMessage();
+                // Try to load from local data file as fallback
+                try {
+                    console.log('Trying local data file...');
+                    const localRes = await fetch('/data/products.json');
+                    const localData = await localRes.json();
+                    console.log('Local data loaded:', localData.length, 'items');
+                    allProducts = localData.map((p, i) => {
+                        const product = {
+                            id: `local_${i}`,
+                            name: p.name || '',
+                            description: p.description || '',
+                            image: p.image || '',
+                            sellingPrice: (typeof p.price === 'number') ? p.price : 0,
+                            unitPurchasePrice: (typeof p.purchasePrice === 'number') ? p.purchasePrice : 0,
+                            discount: 0,
+                            discountPrice: 0,
+                            sku: p.sku || '',
+                            brand: p.brand || '',
+                            category: p.category || '',
+                            currentStock: (typeof p.stockQty === 'number') ? p.stockQty : 0
+                        };
+                        console.log('Mapped local product:', product);
+                        return product;
+                    });
+                    console.log('Normalized local products:', allProducts.length);
+                    filteredProducts = [...allProducts];
+                    displaySearchResults();
+                    hideLoadingMessage();
+                } catch (localErr) {
+                    console.error('Failed to load local products data', localErr);
+                    showNoProductsMessage();
+                }
             }
         }
 
@@ -309,8 +742,32 @@
         function setupEventListeners() {
             const searchInput = document.getElementById('searchInput');
             if (!searchInput) { console.error('Search input not found'); return; }
-            searchInput.addEventListener('input', function(e) { searchProducts(e.target.value); });
-            searchInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') { searchProducts(e.target.value); } });
+            searchInput.addEventListener('input', function(e) { 
+                currentFilters.searchTerm = e.target.value;
+                searchProducts(e.target.value); 
+            });
+            searchInput.addEventListener('keypress', function(e) { 
+                if (e.key === 'Enter') { 
+                    currentFilters.searchTerm = e.target.value;
+                    searchProducts(e.target.value); 
+                } 
+            });
+
+            // Filter event listeners
+            document.getElementById('categoryFilter').addEventListener('change', function(e) {
+                currentFilters.category = e.target.value;
+                applyFilters();
+            });
+
+            document.getElementById('priceFilter').addEventListener('change', function(e) {
+                currentFilters.priceRange = e.target.value;
+                applyFilters();
+            });
+
+            document.getElementById('brandFilter').addEventListener('change', function(e) {
+                currentFilters.brand = e.target.value;
+                applyFilters();
+            });
         }
 
         function searchProducts(query) {
@@ -336,6 +793,10 @@
         }
 
         function displaySearchResults() {
+            console.log('Displaying search results...');
+            console.log('Filtered products:', filteredProducts.length);
+            console.log('All products:', allProducts.length);
+            
             const resultsContainer = document.getElementById('searchResults');
             const resultsTitle = document.getElementById('searchResultsTitle');
             const paginationContainer = document.getElementById('pagination');
@@ -348,6 +809,7 @@
             if (loadingMessage) loadingMessage.classList.add('hidden');
 
             if (filteredProducts.length === 0) {
+                console.log('No products to display');
                 resultsTitle.textContent = 'No products found';
                 resultsContainer.innerHTML = `
                     <div class="text-center py-8">
@@ -368,14 +830,38 @@
             const endIndex = startIndex + productsPerPage;
             const productsToShow = filteredProducts.slice(startIndex, endIndex);
 
+            console.log('Products to show:', productsToShow.length);
             const productsHTML = productsToShow.map(product => createProductCard(product)).join('');
+            console.log('Generated HTML preview:', productsHTML.substring(0, 500) + '...');
+            console.log('Full products HTML length:', productsHTML.length);
+            console.log('Products HTML contains quantity controls:', productsHTML.includes('Quantity:'));
+            console.log('Products HTML contains Add to Cart:', productsHTML.includes('Add to Cart'));
 
             // Ensure the container has a layout class
             if (!resultsContainer.classList.contains('product-grid') && !resultsContainer.classList.contains('product-list')) {
                 resultsContainer.classList.add('product-grid');
             }
+            
+            // Add CSS to handle variable heights in grid - matching bookshop style
+            resultsContainer.style.gridAutoRows = 'min-content';
+            resultsContainer.style.gap = '1.5rem';
+            resultsContainer.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
             // Render cards directly in the container
             resultsContainer.innerHTML = productsHTML;
+            console.log('Rendered HTML length:', productsHTML.length);
+            console.log('Results container innerHTML length:', resultsContainer.innerHTML.length);
+            
+            // Check if quantity controls are actually in the DOM
+            const quantityElements = resultsContainer.querySelectorAll('[id^="quantity-"]');
+            console.log('Quantity elements found in DOM:', quantityElements.length);
+            
+            // Check if Add to Cart buttons are actually in the DOM
+            const cartButtons = resultsContainer.querySelectorAll('button[onclick*="addToCart"]');
+            console.log('Add to Cart buttons found in DOM:', cartButtons.length);
+            
+            // Check if View Details buttons are actually in the DOM
+            const viewButtons = resultsContainer.querySelectorAll('button[onclick*="viewProduct"]');
+            console.log('View Details buttons found in DOM:', viewButtons.length);
 
             createPagination();
         }
@@ -442,7 +928,6 @@
                 case 'price-high': filteredProducts.sort((a,b) => (b.sellingPrice||0)-(a.sellingPrice||0)); break;
                 case 'name-asc': filteredProducts.sort((a,b)=>a.name.localeCompare(b.name)); break;
                 case 'name-desc': filteredProducts.sort((a,b)=>b.name.localeCompare(a.name)); break;
-                case 'newest': filteredProducts.sort((a,b)=>(b.id||0)-(a.id||0)); break;
             }
             currentPage = 1;
             displaySearchResults();
@@ -466,14 +951,433 @@
             if (gridBtn) gridBtn.classList.add('active');
         }
 
+        // Enhanced search functions
+        function quickSearch(category) {
+            document.getElementById('searchInput').value = '';
+            currentFilters.searchTerm = '';
+            currentFilters.category = category;
+            document.getElementById('categoryFilter').value = category;
+            applyFilters();
+        }
+
+        function showDiscounted() {
+            document.getElementById('searchInput').value = '';
+            currentFilters.searchTerm = '';
+            currentFilters.category = '';
+            document.getElementById('categoryFilter').value = '';
+            
+            filteredProducts = allProducts.filter(product => 
+                (product.discountPrice && product.discountPrice > 0) || 
+                (product.discount && product.discount > 0)
+            );
+            currentPage = 1;
+            displaySearchResults();
+        }
+
+        function toggleFilters() {
+            const filterSection = document.getElementById('filterSection');
+            const toggleText = document.getElementById('filterToggleText');
+            const toggleIcon = document.getElementById('filterToggleIcon');
+            
+            if (filterSection.classList.contains('hidden')) {
+                filterSection.classList.remove('hidden');
+                toggleText.textContent = 'Hide Filters';
+                toggleIcon.style.transform = 'rotate(180deg)';
+            } else {
+                filterSection.classList.add('hidden');
+                toggleText.textContent = 'Show Filters';
+                toggleIcon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function applyFilters() {
+            let filtered = [...allProducts];
+
+            // Apply search term filter
+            if (currentFilters.searchTerm.trim()) {
+                const searchTerm = currentFilters.searchTerm.toLowerCase();
+                filtered = filtered.filter(product => 
+                    (product.name || '').toLowerCase().includes(searchTerm) ||
+                    (product.description || '').toLowerCase().includes(searchTerm) ||
+                    (product.category && product.category.toLowerCase().includes(searchTerm)) ||
+                    (product.brand && product.brand.toLowerCase().includes(searchTerm)) ||
+                    (product.sku && product.sku.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            // Apply category filter
+            if (currentFilters.category) {
+                filtered = filtered.filter(product => 
+                    product.category === currentFilters.category
+                );
+            }
+
+            // Apply price range filter
+            if (currentFilters.priceRange) {
+                const [min, max] = currentFilters.priceRange.split('-').map(Number);
+                filtered = filtered.filter(product => {
+                    const price = product.sellingPrice || 0;
+                    if (currentFilters.priceRange === '2000+') {
+                        return price >= 2000;
+                    }
+                    return price >= min && price <= max;
+                });
+            }
+
+            // Apply brand filter
+            if (currentFilters.brand) {
+                filtered = filtered.filter(product => 
+                    product.brand === currentFilters.brand
+                );
+            }
+
+            filteredProducts = filtered;
+            currentPage = 1;
+            displaySearchResults();
+        }
+
+        function clearFilters() {
+            currentFilters = {
+                category: '',
+                priceRange: '',
+                brand: '',
+                searchTerm: ''
+            };
+            
+            document.getElementById('searchInput').value = '';
+            document.getElementById('categoryFilter').value = '';
+            document.getElementById('priceFilter').value = '';
+            document.getElementById('brandFilter').value = '';
+            
+            filteredProducts = [...allProducts];
+            currentPage = 1;
+            displaySearchResults();
+        }
+
+        function loadBrands() {
+            const brandFilter = document.getElementById('brandFilter');
+            if (!brandFilter) return;
+
+            const brands = [...new Set(allProducts.map(p => p.brand).filter(Boolean))];
+            brandFilter.innerHTML = '<option value="">All Brands</option>';
+            brands.forEach(brand => {
+                const option = document.createElement('option');
+                option.value = brand;
+                option.textContent = brand;
+                brandFilter.appendChild(option);
+            });
+        }
+
+        // Enhanced product card creation - matching bookshop.html style
+        function createProductCard(product) {
+            console.log('Creating product card for:', product.name);
+            
+            // Ensure product has an ID
+            if (!product.id) {
+                product.id = `fallback_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+            }
+            
+            const productId = product.id;
+            const sellingPrice = product.sellingPrice || 0;
+            const hasDiscount = product.discountPrice && product.discountPrice < sellingPrice;
+            const finalPrice = hasDiscount ? product.discountPrice : sellingPrice;
+            const discountPercentage = hasDiscount ? Math.round(((sellingPrice - product.discountPrice) / sellingPrice) * 100) : 0;
+            const stock = product.currentStock || product.stock || 0;
+            const isInStock = stock > 0;
+            const status = product.status || 'active';
+            
+            // Get first image or use placeholder
+            const productImage = (product.images && product.images.length > 0) 
+              ? product.images[0] 
+              : (product.image && product.image !== '') 
+                ? product.image 
+                : "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xNTAgMTAwQzE2NS40NjQgMTAwIDE3NyAxMTEuNTM2IDE3NyAxMjdDMTc3IDE0Mi40NjQgMTY1LjQ2NCAxNTQgMTUwIDE1NEMxMzQuNTM2IDE1NCAxMjMgMTQyLjQ2NCAxMjMgMTI3QzEyMyAxMTEuNTM2IDEzNC41MzYgMTAwIDE1MCAxMDBaIiBmaWxsPSIjOUI5QkE1Ii8+CjxwYXRoIGQ9Ik0xMjMgMTc3SDE3N1YyMDBIMTIzVjE3N1oiIGZpbGw9IiM5QjlCQTUiLz4KPC9zdmc+";
+
+            return `
+              <div class="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden ${hasDiscount ? 'border-2 border-red-200 hover:border-red-300 ring-2 ring-red-100' : 'border border-gray-100 hover:border-green-200'} min-h-[400px] flex flex-col">
+                <!-- Product Image Container -->
+                <div class="relative aspect-square overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 flex-shrink-0">
+                  <img 
+                    src="${productImage}" 
+                    alt="${product.name}" 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    onclick="window.location.href='product-detail.html?id=${productId}'"
+                    loading="lazy"
+                  >
+                  
+                  <!-- Status Badge -->
+                  <div class="absolute top-3 left-3">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
+                      status === 'active' ? 'bg-green-100 text-green-800' : 
+                      status === 'inactive' ? 'bg-gray-100 text-gray-800' : 
+                      'bg-red-100 text-red-800'
+                    }">
+                      ${status.charAt(0).toUpperCase() + status.slice(1)}
+                    </span>
+                  </div>
+                  
+                  <!-- Discount Badge -->
+                  ${hasDiscount ? `
+                    <div class="absolute top-3 right-3">
+                      <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-red-500 text-white shadow-lg">
+                        -${discountPercentage}%
+                      </span>
+                    </div>
+                  ` : ''}
+                  
+                  <!-- Stock Badge -->
+                  <div class="absolute bottom-3 right-3">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
+                      isInStock ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                    }">
+                      ${isInStock ? `${stock} in stock` : 'Out of stock'}
+                    </span>
+                  </div>
+                  
+                  <!-- Hover Overlay -->
+                  <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-5 transition-all duration-300"></div>
+                </div>
+                
+                <!-- Product Content -->
+                <div class="p-5 flex flex-col flex-grow">
+                  <!-- Product ID -->
+                  <div class="mb-2">
+                    <span class="text-xs text-gray-500 font-mono">${product.productId || product.sku || 'N/A'}</span>
+                  </div>
+                  
+                  <!-- Product Name -->
+                  <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-2 cursor-pointer hover:text-green-600 transition-colors duration-200" 
+                      onclick="window.location.href='product-detail.html?id=${productId}'">
+                    ${product.name}
+                  </h3>
+                  
+                  <!-- Description with See More functionality -->
+                  <div class="mb-3 flex-grow">
+                    <p id="description-${productId}" class="text-gray-600 text-sm leading-relaxed line-clamp-2">
+                      ${product.description || "No description available"}
+                    </p>
+                    ${product.description && product.description.length > 100 ? `
+                      <button onclick="window.location.href='product-detail.html?id=${productId}'" 
+                              class="text-green-600 hover:text-green-700 text-sm font-medium mt-1 transition-colors duration-200">
+                        See more...
+                      </button>
+                    ` : ''}
+                  </div>
+                  
+                  <!-- Category & Brand -->
+                  <div class="flex flex-wrap gap-2 mb-3">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      ${product.category || "Uncategorized"}
+                    </span>
+                    ${product.brand ? `
+                      <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                        ${product.brand}
+                      </span>
+                    ` : ''}
+                  </div>
+                  
+                  <!-- Price and Action Section - Fixed at bottom -->
+                  <div class="mt-auto">
+                    <!-- Price Section -->
+                    <div class="mb-3">
+                      <div class="flex items-center gap-2 mb-1">
+                        <span class="text-2xl font-bold text-gray-900">
+                          Rs. ${finalPrice.toFixed(2)}
+                        </span>
+                        ${hasDiscount ? `
+                          <span class="text-lg text-gray-400 line-through">
+                            Rs. ${sellingPrice.toFixed(2)}
+                          </span>
+                        ` : ''}
+                      </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex gap-2 w-full">
+                      <div class="flex items-center bg-gray-100 rounded-lg overflow-hidden">
+                        <button onclick="decreaseQuantity('${String(productId).replace(/'/g, "\\'")}')" 
+                                class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-colors duration-200 disabled:opacity-50" 
+                                ${!isInStock ? 'disabled' : ''}>
+                          −
+                        </button>
+                        <span id="quantity-${String(productId).replace(/[^a-zA-Z0-9]/g, '_')}" class="w-10 text-center font-semibold text-gray-900 text-sm">
+                          1
+                        </span>
+                        <button onclick="increaseQuantity('${String(productId).replace(/'/g, "\\'")}')" 
+                                class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-colors duration-200 disabled:opacity-50" 
+                                ${!isInStock ? 'disabled' : ''}>
+                          +
+                        </button>
+                      </div>
+                      <button onclick="addToCart('${String(productId).replace(/'/g, "\\'")}')" 
+                              class="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-2 px-3 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 text-sm"
+                              ${!isInStock ? 'disabled' : ''}>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+                        </svg>
+                        Add to Cart
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+        }
+
+        // Quantity control functions
+        function increaseQuantity(productId) {
+            console.log('Increasing quantity for product:', productId);
+            const sanitizedId = String(productId).replace(/[^a-zA-Z0-9]/g, '_');
+            const quantityElement = document.getElementById(`quantity-${sanitizedId}`);
+            console.log('Quantity element found:', !!quantityElement);
+            if (quantityElement) {
+                const currentQuantity = parseInt(quantityElement.textContent) || 1;
+                const product = allProducts.find(p => p.id == productId);
+                const maxQuantity = product ? product.currentStock : 999;
+                
+                if (currentQuantity < maxQuantity) {
+                    quantityElement.textContent = currentQuantity + 1;
+                    console.log('Quantity increased to:', currentQuantity + 1);
+                } else {
+                    alert(`Maximum quantity available: ${maxQuantity}`);
+                }
+            }
+        }
+
+        function decreaseQuantity(productId) {
+            console.log('Decreasing quantity for product:', productId);
+            const sanitizedId = String(productId).replace(/[^a-zA-Z0-9]/g, '_');
+            const quantityElement = document.getElementById(`quantity-${sanitizedId}`);
+            console.log('Quantity element found:', !!quantityElement);
+            if (quantityElement) {
+                const currentQuantity = parseInt(quantityElement.textContent) || 1;
+                if (currentQuantity > 1) {
+                    quantityElement.textContent = currentQuantity - 1;
+                    console.log('Quantity decreased to:', currentQuantity - 1);
+                }
+            }
+        }
+
+        function getQuantity(productId) {
+            const sanitizedId = String(productId).replace(/[^a-zA-Z0-9]/g, '_');
+            const quantityElement = document.getElementById(`quantity-${sanitizedId}`);
+            return quantityElement ? parseInt(quantityElement.textContent) || 1 : 1;
+        }
+
+        function addToCart(productId) {
+            console.log('Adding to cart:', productId);
+            const quantity = getQuantity(productId);
+            const product = allProducts.find(p => p.id == productId);
+            console.log('Product found:', product ? product.name : 'Not found');
+            console.log('Quantity:', quantity);
+            
+            if (!product) {
+                console.error('Product not found:', productId);
+                return;
+            }
+
+            // Check stock availability
+            if (quantity > product.currentStock) {
+                alert(`Only ${product.currentStock} items available in stock`);
+                return;
+            }
+
+            // Get existing cart from localStorage
+            let cart = JSON.parse(localStorage.getItem('nethwin_cart') || '[]');
+            
+            // Check if product already exists in cart
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                // Update quantity
+                existingItem.qty += quantity;
+                if (existingItem.qty > product.currentStock) {
+                    alert(`Total quantity cannot exceed ${product.currentStock} items`);
+                    existingItem.qty = product.currentStock;
+                }
+            } else {
+                // Add new item to cart
+                cart.push({
+                    id: productId,
+                    name: product.name,
+                    price: product.discountPrice || product.sellingPrice,
+                    qty: quantity,
+                    image: product.image || (product.images && product.images[0]) || '',
+                    images: product.images || [],
+                    category: product.category,
+                    brand: product.brand
+                });
+            }
+
+            // Save cart to localStorage
+            localStorage.setItem('nethwin_cart', JSON.stringify(cart));
+            
+            // Show success message
+            const finalPrice = product.discountPrice || product.sellingPrice;
+            alert(`Added ${quantity} x ${product.name} to cart for Rs. ${finalPrice * quantity}`);
+            
+            // Update cart count in navbar if it exists
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            try {
+                const cart = JSON.parse(localStorage.getItem('nethwin_cart') || '[]');
+                const totalItems = cart.reduce((sum, item) => sum + (item.qty || item.quantity || 1), 0);
+                
+                const cartCount = document.getElementById('cartCount');
+                const mobileCartCount = document.getElementById('mobileCartCount');
+                
+                if (totalItems > 0) {
+                    if (cartCount) {
+                        cartCount.textContent = totalItems;
+                        cartCount.classList.remove('hidden');
+                    }
+                    if (mobileCartCount) {
+                        mobileCartCount.textContent = totalItems;
+                        mobileCartCount.classList.remove('hidden');
+                    }
+                } else {
+                    if (cartCount) {
+                        cartCount.classList.add('hidden');
+                    }
+                    if (mobileCartCount) {
+                        mobileCartCount.classList.add('hidden');
+                    }
+                }
+            } catch (e) {
+                console.warn("Could not update cart count:", e);
+            }
+        }
+
+        function viewProduct(productId) {
+            console.log('Viewing product:', productId);
+            window.location.href = `product-detail.html?id=${productId}`;
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM Content Loaded - Starting initialization...');
             initializeAuth();
-            setActiveNavLink('search.html');
+            // Wait for navbar.js to load before calling setActiveNavLink
+            if (typeof window.setActiveNavLink === 'function') {
+                setActiveNavLink('search.html');
+            } else {
+                // Fallback: try again after a short delay
+                setTimeout(() => {
+                    if (typeof window.setActiveNavLink === 'function') {
+                        setActiveNavLink('search.html');
+                    }
+                }, 100);
+            }
+            console.log('About to call initializePage...');
             initializePage();
             initializeSortingAndView();
+            loadBrands();
+            updateCartCount(); // Initialize cart count on page load
         });
     </script>
 
+    <script src="../javascript/auth.js"></script>
     <script src="../javascript/navbar.js"></script>
     <script src="../javascript/background-animations.js"></script>
 </body>

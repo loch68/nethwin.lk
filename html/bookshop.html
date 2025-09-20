@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bookshop - NethwinLK</title>
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
     <link
@@ -16,461 +16,1882 @@
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/background-animations.css" />
     <style>
+      .product-grid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+        gap: 1.5rem !important;
+        width: 100% !important;
+      }
+      @media (max-width: 768px) {
         .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
+          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+          gap: 1rem;
         }
-        @media (max-width: 768px) {
-            .product-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                gap: 1rem;
-            }
+      }
+      
+      /* Newsletter Popup Animations */
+      .animate-gradient-x {
+        background-size: 200% 200%;
+        animation: gradient-shift 3s ease infinite;
+      }
+      
+      @keyframes gradient-shift {
+        0% {
+          background-position: 0% 50%;
         }
-
-        .quick-search-btn {
-            background: white;
-            border: 2px solid #d0e7d0;
-            color: #51946c;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      
+      .animation-delay-1000 {
+        animation-delay: 1s;
+      }
+      
+      /* Popup entrance animations */
+      .popup-enter {
+        opacity: 1;
+        transform: scale(1);
+      }
+      
+      .popup-exit {
+        opacity: 0;
+        transform: scale(0.75);
+      }
+      
+      /* Enhanced hover effects */
+      .newsletter-btn-hover {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .newsletter-btn-hover:hover {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+      
+      /* Floating animation for particles */
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+      
+      .animate-float {
+        animation: float 3s ease-in-out infinite;
+      }
+      
+      /* Pulse animation for icon */
+      @keyframes icon-pulse {
+        0%, 100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+      
+      .animate-icon-pulse {
+        animation: icon-pulse 2s ease-in-out infinite;
+      }
+      
+      /* Hero Carousel Styles */
+      .hero-carousel-container {
+        min-height: 480px;
+        position: relative;
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+      
+      .hero-carousel {
+        display: flex;
+        transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        height: 480px;
+      }
+      
+      .hero-slide {
+        min-width: 100%;
+        height: 100%;
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      
+      .hero-slide::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.3) 0%,
+          rgba(0, 0, 0, 0.6) 50%,
+          rgba(0, 0, 0, 0.4) 100%
+        );
+        z-index: 1;
+      }
+      
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        color: white;
+        max-width: 800px;
+        padding: 2rem;
+        animation: heroFadeInUp 1s ease-out;
+      }
+      
+      .hero-title {
+        font-size: 3rem;
+        font-weight: 900;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .hero-description {
+        font-size: 1.25rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        opacity: 0.95;
+      }
+      
+      .hero-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: linear-gradient(135deg, #0ad167 0%, #08b85a 100%);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 8px 25px rgba(10, 209, 103, 0.3);
+        border: none;
+        cursor: pointer;
+      }
+      
+      .hero-button:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 12px 35px rgba(10, 209, 103, 0.4);
+        background: linear-gradient(135deg, #08b85a 0%, #0ad167 100%);
+      }
+      
+      .hero-nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 3;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+      
+      .hero-nav-btn:hover {
+        background: rgba(255, 255, 255, 1);
+        transform: translateY(-50%) scale(1.1);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      }
+      
+      .hero-nav-prev {
+        left: 1rem;
+      }
+      
+      .hero-nav-next {
+        right: 1rem;
+      }
+      
+      .hero-dots-container {
+        position: absolute;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 0.5rem;
+        z-index: 3;
+      }
+      
+      .hero-dot {
+        width: 9px !important;
+        height: 9px !important;
+        min-width: 9px !important;
+        min-height: 9px !important;
+        max-width: 9px !important;
+        max-height: 9px !important;
+        border-radius: 50% !important;
+        background: rgba(255, 255, 255, 0.5) !important;
+        border: none !important;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        padding: 0 !important;
+        margin: 0 !important;
+        display: inline-block !important;
+        flex-shrink: 0 !important;
+      }
+      
+      .hero-dot.active {
+        background: rgba(255, 255, 255, 1);
+        transform: scale(1.2);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      }
+      
+      .hero-dot:hover {
+        background: rgba(255, 255, 255, 0.8);
+        transform: scale(1.1);
+      }
+      
+      .hero-loading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, #0ad167 0%, #08b85a 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+      }
+      
+      .hero-loading-spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 1rem;
+      }
+      
+      @keyframes heroFadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      /* Enhanced Bookshop Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes fadeInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      
+      @keyframes fadeInRight {
+        from {
+          opacity: 0;
+          transform: translateX(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      
+      @keyframes scaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      
+      @keyframes slideInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes pulse {
+        0%, 100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+      
+      @keyframes bounce {
+        0%, 20%, 53%, 80%, 100% {
+          transform: translate3d(0, 0, 0);
+        }
+        40%, 43% {
+          transform: translate3d(0, -8px, 0);
+        }
+        70% {
+          transform: translate3d(0, -4px, 0);
+        }
+        90% {
+          transform: translate3d(0, -2px, 0);
+        }
+      }
+      
+      @keyframes shimmer {
+        0% {
+          background-position: -200px 0;
+        }
+        100% {
+          background-position: calc(200px + 100%) 0;
+        }
+      }
+      
+      @keyframes wiggle {
+        0%, 7% {
+          transform: rotateZ(0);
+        }
+        15% {
+          transform: rotateZ(-15deg);
+        }
+        20% {
+          transform: rotateZ(10deg);
+        }
+        25% {
+          transform: rotateZ(-10deg);
+        }
+        30% {
+          transform: rotateZ(6deg);
+        }
+        35% {
+          transform: rotateZ(-4deg);
+        }
+        40%, 100% {
+          transform: rotateZ(0);
+        }
+      }
+      
+      
+      @keyframes zoomIn {
+        from {
+          opacity: 0;
+          transform: scale(0.3);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+      }
+      
+      /* Animation Classes */
+      .animate-fade-in-up {
+        animation: fadeInUp 0.6s ease-out;
+      }
+      
+      .animate-fade-in-left {
+        animation: fadeInLeft 0.6s ease-out;
+      }
+      
+      .animate-fade-in-right {
+        animation: fadeInRight 0.6s ease-out;
+      }
+      
+      .animate-scale-in {
+        animation: scaleIn 0.5s ease-out;
+      }
+      
+      .animate-slide-in-down {
+        animation: slideInDown 0.5s ease-out;
+      }
+      
+      .animate-slide-in-up {
+        animation: slideInUp 0.6s ease-out;
+      }
+      
+      .animate-pulse {
+        animation: pulse 2s infinite;
+      }
+      
+      .animate-bounce {
+        animation: bounce 1s infinite;
+      }
+      
+      .animate-float {
+        animation: float 3s ease-in-out infinite;
+      }
+      
+      .animate-wiggle {
+        animation: wiggle 1s ease-in-out;
+      }
+      
+      
+      .animate-zoom-in {
+        animation: zoomIn 0.5s ease-out;
+      }
+      
+      .animate-shake {
+        animation: shake 0.5s ease-in-out;
+      }
+      
+      .animate-shimmer {
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        background-size: 200px 100%;
+        animation: shimmer 2s infinite;
+      }
+      
+      /* Staggered Animation Delays */
+      .stagger-1 { animation-delay: 0.1s; }
+      .stagger-2 { animation-delay: 0.2s; }
+      .stagger-3 { animation-delay: 0.3s; }
+      .stagger-4 { animation-delay: 0.4s; }
+      .stagger-5 { animation-delay: 0.5s; }
+      .stagger-6 { animation-delay: 0.6s; }
+      .stagger-7 { animation-delay: 0.7s; }
+      .stagger-8 { animation-delay: 0.8s; }
+      
+      /* Enhanced Product Card Animations */
+      .product-card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .product-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      }
+      
+      .product-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.6s ease;
+        z-index: 1;
+      }
+      
+      .product-card:hover::before {
+        left: 100%;
+      }
+      
+      .product-image {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .product-image:hover {
+        transform: scale(1.1);
+      }
+      
+      .product-image img {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .product-card:hover .product-image img {
+        transform: scale(1.1);
+      }
+      
+      /* Enhanced Button Animations */
+      .btn-primary {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .btn-primary:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 15px 35px rgba(10, 209, 103, 0.4);
+      }
+      
+      .btn-primary:active {
+        transform: translateY(-1px) scale(1.02);
+      }
+      
+      .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.5s ease;
+      }
+      
+      .btn-primary:hover::before {
+        left: 100%;
+      }
+      
+      /* Enhanced Form Animations */
+      .form-input {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+      }
+      
+      .form-input:focus {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(10, 209, 103, 0.15);
+        border-color: #0ad167;
+      }
+      
+      .form-input:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(10, 209, 103, 0.1);
+      }
+      
+      /* Enhanced Filter and Sort Animations */
+      .filter-option, .sort-option {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .filter-option:hover, .sort-option:hover {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 8px 25px rgba(10, 209, 103, 0.15);
+      }
+      
+      .filter-option.active, .sort-option.active {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(10, 209, 103, 0.2);
+      }
+      
+      /* Enhanced Search Bar Animations */
+      .search-bar {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+      }
+      
+      .search-bar:focus-within {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 35px rgba(10, 209, 103, 0.2);
+      }
+      
+      .search-bar input:focus {
+        transform: scale(1.02);
+      }
+      
+      /* Enhanced Category Bar Animations */
+      .category-bar {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .category-btn {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .category-btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 10px 25px rgba(10, 209, 103, 0.2);
+      }
+      
+      .category-btn.active {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(10, 209, 103, 0.3);
+      }
+      
+      .category-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+      }
+      
+      .category-btn:hover::before {
+        left: 100%;
+      }
+      
+      /* Enhanced Newsletter Popup Animations */
+      .newsletter-popup {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .newsletter-popup.show {
+        animation: zoomIn 0.4s ease-out;
+      }
+      
+      .newsletter-popup.hide {
+        animation: zoomIn 0.4s ease-out reverse;
+      }
+      
+      /* Enhanced Loading States */
+      .loading {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .loading::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        animation: shimmer 1.5s infinite;
+      }
+      
+      /* Success and Error States */
+      .success {
+        animation: bounce 0.6s ease-in-out;
+      }
+      
+      .error {
+        animation: shake 0.5s ease-in-out;
+      }
+      
+      /* Intersection Observer Animation Classes */
+      .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .animate-on-scroll.animated {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      /* Mobile Responsiveness */
+      @media (max-width: 768px) {
+        .hero-carousel-container {
+          min-height: 350px;
         }
         
-        .quick-search-btn:hover {
-            background: #19e619;
-            border-color: #19e619;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(25, 230, 25, 0.3);
+        /* Mobile Animation Optimizations */
+        .animate-fade-in-up,
+        .animate-fade-in-left,
+        .animate-fade-in-right {
+          animation-duration: 0.4s;
         }
-    </style>
-  <link rel="stylesheet" href="../css/responsive.css" />
-</head>
-<body>
-    <div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient">
-      <!-- Background Animation Container -->
-      <div class="particles-container fixed inset-0 pointer-events-none z-0" id="particlesContainer"></div>
-      <div class="layout-container flex flex-col grow h-full relative z-10">
-      <!-- Modern Seamless Navbar -->
-      <nav class="modern-navbar fixed top-0 left-0 right-0 z-30">
-        <div class="navbar-container">
-          <!-- Logo/Brand -->
-          <div class="navbar-brand">
-            <a href="index.html" class="flex items-center">
-              <img src="../assets/fLogo.png" alt="NethwinLK" class="navbar-logo">
-            </a>
-          </div>
-          
-          <!-- Navigation Links -->
-          <div class="navbar-links" id="navbarLinks">
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="print.html" class="nav-link">Print Services</a>
-            <a href="bookshop.html" class="nav-link active">Bookshop</a>
-            <a href="aboutus.html" class="nav-link">About</a>
-            <a href="contactus.html" class="nav-link">Contact</a>
-          </div>
-          
-          <!-- Desktop Auth Area -->
-          <div class="navbar-auth" id="navbarAuth">
-            <a href="cart.html" class="nav-auth-btn">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
-              </svg>
-              Cart
-            </a>
-            <a href="search.html" class="nav-auth-btn">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-              </svg>
-              Search
-            </a>
-            <a href="login.html" class="nav-auth-btn">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path>
-              </svg>
-              Login
-            </a>
-          </div>
-          
-          <!-- Mobile Auth Icons (hidden on desktop) -->
-          <div class="mobile-auth-icons hidden md:hidden">
-            <a href="cart.html" class="mobile-icon-btn">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
-              </svg>
-            </a>
-            <a href="search.html" class="mobile-icon-btn">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-              </svg>
-            </a>
-            <a href="login.html" class="mobile-icon-btn">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path>
-              </svg>
-            </a>
-          </div>
-          
-          <!-- Mobile Menu Toggle -->
-          <button class="mobile-menu-toggle" id="mobileToggle">
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-          </button>
-        </div>
-      </nav>
+        
+        .product-card:hover {
+          transform: translateY(-4px) scale(1.01);
+        }
+        
+        .btn-primary:hover {
+          transform: translateY(-2px) scale(1.03);
+        }
+        
+        .category-btn:hover {
+          transform: translateY(-2px) scale(1.03);
+        }
+        
+        .filter-option:hover,
+        .sort-option:hover {
+          transform: translateY(-1px) scale(1.03);
+        }
+        
+        .search-bar:focus-within {
+          transform: translateY(-1px);
+        }
+        
+        .product-card::before {
+          display: none; /* Disable shimmer on mobile for performance */
+        }
+        
+        .btn-primary::before {
+          display: none; /* Disable shimmer on mobile for performance */
+        }
+        
+        .category-btn::before {
+          display: none; /* Disable shimmer on mobile for performance */
+        }
+        
+        .hero-carousel {
+          height: 350px;
+        }
+        
+        .hero-title {
+          font-size: 2rem;
+        }
+        
+        .hero-description {
+          font-size: 1rem;
+        }
+        
+        .hero-button {
+          padding: 0.75rem 1.5rem;
+          font-size: 1rem;
+        }
+        
+        .hero-nav-btn {
+          width: 40px;
+          height: 40px;
+        }
+        
+        .hero-nav-prev {
+          left: 0.5rem;
+        }
+        
+        .hero-nav-next {
+          right: 0.5rem;
+        }
+        
+        .hero-dots-container {
+          bottom: 1rem;
+        }
+        }
       
-      <!-- Navbar Spacer -->
-      <div style="height: 4rem;"></div>
+      @media (max-width: 480px) {
+        .hero-carousel-container {
+          min-height: 300px;
+        }
+        
+        .hero-carousel {
+          height: 300px;
+        }
+        
+        .hero-title {
+          font-size: 1.75rem;
+        }
+        
+        .hero-description {
+          font-size: 0.9rem;
+        }
+        
+        .hero-content {
+          padding: 1rem;
+        }
+      }
+      @media (max-width: 480px) {
+        .product-grid {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+      }
 
+      .quick-search-btn {
+        background: white;
+        border: 2px solid #d0e7d0;
+        color: #51946c;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
 
+      .quick-search-btn:hover {
+        background: #19e619;
+        border-color: #19e619;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(25, 230, 25, 0.3);
+      }
 
-            <!-- Newsletter Subscription Popup -->
-            <div id="newsletterPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-                <div class="bg-white rounded-2xl p-8 max-w-md mx-4 relative transform transition-all duration-300 scale-95 opacity-0" id="popupContent">
-                    <!-- Close Button -->
-                    <button id="closeNewsletterBtn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                    
-                    <!-- Newsletter Content -->
-                    <div class="text-center">
-                        <div class="w-16 h-16 bg-gradient-to-r from-[#19e619] to-[#0ad167] rounded-full flex items-center justify-center mx-auto mb-6">
-                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                            </svg>
-                        </div>
-                        
-                        <h3 class="text-2xl font-bold text-[#0e1a13] mb-2">Stay Updated!</h3>
-                        <p class="text-[#51946c] mb-6">Subscribe to our newsletter for exclusive offers, new products, and stationery tips!</p>
-                        
-                        <form id="newsletterForm" class="space-y-4">
-                            <div>
-                                <input type="email" id="newsletterEmail" placeholder="Enter your email address" 
-                                       class="w-full px-4 py-3 border border-[#d1e6d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#19e619] focus:border-transparent text-[#0e1a13] placeholder-[#51946c]">
-                            </div>
-                            <button type="submit" class="btn-primary w-full">
-                                Subscribe Now
-                            </button>
-                        </form>
-                        
-                        <!-- Action Buttons -->
-                        <div class="flex flex-col gap-2 mt-4">
-                            <button id="remindLaterBtn" class="w-full bg-[#f8fcf8] border border-[#d1e6d9] text-[#51946c] py-2 px-4 rounded-lg font-medium hover:bg-[#e8f2ec] transition-all duration-300">
-                                Remind me in 15 minutes
-                            </button>
-                            <button id="nextTimeBtn" class="w-full bg-[#f8fcf8] border border-[#d1e6d9] text-[#51946c] py-2 px-4 rounded-lg font-medium hover:bg-[#e8f2ec] transition-all duration-300">
-                                Next time
-                            </button>
-                            <button id="dontShowAgainBtn" class="w-full bg-[#f8fcf8] border border-[#d1e6d9] text-[#51946c] py-2 px-4 rounded-lg font-medium hover:bg-[#e8f2ec] transition-all duration-300">
-                                Don't show again
-                            </button>
-                        </div>
-                        
-                        <p class="text-xs text-[#51946c] mt-4">We respect your privacy. Unsubscribe at any time.</p>
-                    </div>
-                </div>
+      /* Line clamp utility for text truncation */
+      .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    </style>
+    <link rel="stylesheet" href="../css/responsive.css" />
+  </head>
+  <body>
+    <div
+      class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient"
+    >
+      <!-- Background Animation Container -->
+      <div
+        class="particles-container fixed inset-0 pointer-events-none z-0"
+        id="particlesContainer"
+      ></div>
+      <div class="layout-container flex flex-col grow h-full relative z-10">
+        <!-- Modern Seamless Navbar -->
+        <nav class="modern-navbar fixed top-0 left-0 right-0 z-30">
+          <div class="navbar-container">
+            <!-- Logo/Brand -->
+            <div class="navbar-brand">
+              <a href="index.html" class="flex items-center">
+                <img
+                  src="../assets/fLogo.png"
+                  alt="NethwinLK"
+                  class="navbar-logo"
+                />
+              </a>
             </div>
 
-            <!-- Main Content -->
-            <div class="px-4 md:px-10 flex flex-1 justify-center py-5">
-                <div class="layout-content-container flex flex-col max-w-[1200px] flex-1">
-                    
-                    <!-- Hero Section -->
-                    <div class="@container mb-8">
-                        <div class="@[480px]:p-4">
-                            <div class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-xl items-center justify-center p-4"
-                                 style='background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("assets/bg3.webp");'>
-                                <div class="flex flex-col gap-2 text-center">
-                                    <h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">
-                                        Our Product Collection
-                                    </h1>
-                                    <h2 class="text-white text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal">
-                                        Discover our amazing collection of products - books, stationery, and more.
-                                    </h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Search Section -->
-                    <div class="mb-8">
-                        <div class="bg-gradient-to-r from-[#f8fcf8] to-[#f2f4f1] rounded-xl p-6 border border-[#d0e7d0]">
-                            <div class="text-center mb-6">
-                                <h2 class="text-[#0e1a13] text-2xl font-bold leading-tight tracking-[-0.015em] mb-2">
-                                    Search Our Bookshop
-                                </h2>
-                                <p class="text-[#51946c] text-base">
-                                    Find books, stationery, and more from our extensive collection
-                                </p>
-                            </div>
-                            
-                            <!-- Search Bar -->
-                            <div class="max-w-4xl mx-auto">
-                                <div class="relative">
-                                    <input 
-                                        type="text" 
-                                        id="searchInput"
-                                        placeholder="Search for books, stationery, authors, categories..." 
-                                        class="w-full px-6 py-4 text-lg border-2 border-[#d0e7d0] rounded-xl focus:outline-none focus:border-[#19e619] focus:ring-2 focus:ring-[#19e619]/20 transition-all duration-300 bg-white text-[#0e1a13] placeholder-[#51946c]"
-                                    />
-                                    <button 
-                                        id="searchButton"
-                                        class="btn-primary absolute right-2 top-2 p-3"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
-                                            <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                                
-                                <!-- Quick Search Suggestions -->
-                                <div class="mt-4 flex flex-wrap justify-center gap-2">
-                                    <button class="quick-search-btn" data-search="books">Books</button>
-                                    <button class="quick-search-btn" data-search="stationery">Stationery</button>
-                                    <button class="quick-search-btn" data-search="pens">Pens</button>
-                                    <button class="quick-search-btn" data-search="notebooks">Notebooks</button>
-                                    <button class="quick-search-btn" data-search="art supplies">Art Supplies</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Popular Stationery Section -->
-                    <div class="mb-12">
-                        <h2 class="text-[#151612] text-2xl font-bold leading-tight tracking-[-0.015em] px-4 pb-6">Popular Stationery</h2>
-                        <div id="bestSellingContainer" class="product-grid">
-                            <!-- Popular stationery products will be loaded here -->
-                        </div>
-                    </div>
-
-                    <!-- Discounted Products Section -->
-                    <div class="mb-12">
-                        <h2 class="text-[#151612] text-2xl font-bold leading-tight tracking-[-0.015em] px-4 pb-6">Discounted Products</h2>
-                        <div id="discountedContainer" class="product-grid">
-                            <!-- Discounted products will be loaded here -->
-                        </div>
-                    </div>
-
-                    <!-- All Products Section -->
-                    <div class="mb-12">
-                        <h2 class="text-[#151612] text-2xl font-bold leading-tight tracking-[-0.015em] px-4 pb-6">All Products</h2>
-                        <div id="allProductsContainer" class="product-grid">
-                            <!-- All products will be loaded here -->
-                        </div>
-                        
-                        <!-- Pagination -->
-                        <div id="pagination" class="flex items-center justify-center p-4 flex-wrap">
-                            <!-- Pagination buttons will be generated here -->
-                        </div>
-                    </div>
-
-                    <!-- Loading Message -->
-                    <div id="loadingMessage" class="text-center py-12">
-                        <div class="text-[#76816a] text-lg">Loading products...</div>
-                    </div>
-
-                    <!-- No Products Message -->
-                    <div id="noProductsMessage" class="hidden text-center py-12">
-                        <div class="text-[#76816a] text-lg mb-4">No products available</div>
-                        <p class="text-[#76816a] text-sm">Please import some products first</p>
-                    </div>
-                </div>
+            <!-- Navigation Links -->
+            <div class="navbar-links" id="navbarLinks">
+              <a href="index.html" class="nav-link">Home</a>
+              <a href="print.html" class="nav-link">Print Services</a>
+              <a href="bookshop.html" class="nav-link active">Bookshop</a>
+              <a href="aboutus.html" class="nav-link">About</a>
+              <a href="contactus.html" class="nav-link">Contact</a>
             </div>
 
-            <!-- Footer -->
-            <footer class="flex justify-center">
-                <div class="flex max-w-[960px] flex-1 flex-col">
-                    <footer class="flex flex-col gap-6 px-5 py-10 text-center @container">
-                        <div class="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around">
-                            <a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="#">About Us</a>
-                            <a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="#">Contact</a>
-                            <a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="#">FAQ</a>
-                            <a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="#">Terms of Service</a>
-                            <a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="#">Privacy Policy</a>
-                        </div>
-                        <p class="text-[#76816a] text-base font-normal leading-normal">@2025 NethwinLK. All rights reserved.</p>
-                    </footer>
+            <!-- Desktop Auth Area -->
+            <div class="navbar-auth" id="navbarAuth">
+              <a href="cart.html" class="nav-auth-btn relative">
+                <svg
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
+                  ></path>
+                </svg>
+                Cart
+                <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold hidden">0</span>
+              </a>
+              <a href="search.html" class="nav-auth-btn">
+                <svg
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  ></path>
+                </svg>
+                Search
+              </a>
+              <a href="login.html" class="nav-auth-btn">
+                <svg
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"
+                  ></path>
+                </svg>
+                Login
+              </a>
+            </div>
+
+            <!-- Mobile Auth Icons (hidden on desktop) -->
+            <div class="mobile-auth-icons hidden md:hidden">
+              <a href="cart.html" class="mobile-icon-btn relative">
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
+                  ></path>
+                </svg>
+                <span id="mobileCartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold hidden">0</span>
+              </a>
+              <a href="search.html" class="mobile-icon-btn">
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  ></path>
+                </svg>
+              </a>
+              <a href="login.html" class="mobile-icon-btn">
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileToggle">
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+            </button>
+          </div>
+        </nav>
+
+        <!-- Navbar Spacer -->
+        <div style="height: 4rem"></div>
+
+        <!-- Newsletter Subscription Popup -->
+        <div
+          id="newsletterPopup"
+          class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden opacity-0 transition-all duration-500 ease-out"
+        >
+          <div
+            class="bg-white/95 backdrop-blur-md rounded-3xl p-8 max-w-lg mx-4 relative transform transition-all duration-700 ease-out scale-75 opacity-0 shadow-2xl border border-white/20"
+            id="popupContent"
+          >
+            <!-- Close Button -->
+            <button
+              id="closeNewsletterBtn"
+              class="absolute -top-3 -right-3 w-12 h-12 bg-white rounded-full shadow-lg border-2 border-gray-200 text-gray-400 hover:text-red-500 hover:border-red-300 hover:bg-red-50 transition-all duration-300 hover:scale-110 hover:rotate-90 group flex items-center justify-center z-10"
+            >
+              <svg
+                class="w-6 h-6 transition-colors duration-300"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                ></path>
+              </svg>
+            </button>
+
+            <!-- Newsletter Content -->
+            <div class="text-center space-y-6">
+              <!-- Animated Icon -->
+              <div class="relative">
+                <div
+                  class="w-20 h-20 bg-gradient-to-r from-[#0ad167] to-[#08b85a] rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg animate-pulse"
+                >
+                  <svg
+                    class="w-10 h-10 text-white animate-bounce"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    ></path>
+                  </svg>
                 </div>
-            </footer>
+                <!-- Floating particles around icon -->
+                <div class="absolute -top-2 -right-2 w-3 h-3 bg-yellow-400 rounded-full animate-ping"></div>
+                <div class="absolute -bottom-1 -left-1 w-2 h-2 bg-blue-400 rounded-full animate-ping animation-delay-1000"></div>
+              </div>
+
+              <!-- Title with gradient animation -->
+              <div class="space-y-3">
+                <h3 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#0e1a13] via-[#0ad167] to-[#08b85a] animate-gradient-x">
+                  Stay Updated!
+                </h3>
+                <p class="text-[#51946c] text-lg leading-relaxed">
+                  Subscribe to our newsletter for exclusive offers, new products,
+                  and stationery tips!
+                </p>
+              </div>
+
+              <!-- Enhanced Form -->
+              <form id="newsletterForm" class="space-y-6">
+                <div class="relative group">
+                  <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-gray-400 group-focus-within:text-[#0ad167] transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                  </div>
+                  <input
+                    type="email"
+                    id="newsletterEmail"
+                    placeholder="Enter your email address"
+                    class="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0ad167] focus:border-[#0ad167] text-[#0e1a13] placeholder-gray-500 transition-all duration-300 hover:border-[#0ad167] hover:shadow-lg focus:scale-105"
+                  />
+                </div>
+                <button 
+                  type="submit" 
+                  class="w-full bg-gradient-to-r from-[#0ad167] to-[#08b85a] hover:from-[#08b85a] hover:to-[#0ad167] text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:shadow-[#0ad167]/25 text-lg group"
+                >
+                  <span class="flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                    Subscribe Now
+                  </span>
+                </button>
+              </form>
+
+              <!-- Enhanced Action Buttons -->
+              <div class="space-y-3">
+                <div class="grid grid-cols-1 gap-3">
+                  <button
+                    id="remindLaterBtn"
+                    class="w-full bg-gradient-to-r from-gray-50 to-gray-100 border border-gray-200 text-gray-700 py-3 px-4 rounded-xl font-medium hover:from-gray-100 hover:to-gray-200 hover:border-gray-300 transition-all duration-300 transform hover:scale-105 hover:shadow-md group"
+                  >
+                    <span class="flex items-center justify-center gap-2">
+                      <svg class="w-4 h-4 group-hover:animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      Remind me in 15 minutes
+                    </span>
+                  </button>
+                  <button
+                    id="nextTimeBtn"
+                    class="w-full bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 text-blue-700 py-3 px-4 rounded-xl font-medium hover:from-blue-100 hover:to-blue-200 hover:border-blue-300 transition-all duration-300 transform hover:scale-105 hover:shadow-md group"
+                  >
+                    <span class="flex items-center justify-center gap-2">
+                      <svg class="w-4 h-4 group-hover:animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                      </svg>
+                      Next time
+                    </span>
+                  </button>
+                  <button
+                    id="dontShowAgainBtn"
+                    class="w-full bg-gradient-to-r from-red-50 to-red-100 border border-red-200 text-red-700 py-3 px-4 rounded-xl font-medium hover:from-red-100 hover:to-red-200 hover:border-red-300 transition-all duration-300 transform hover:scale-105 hover:shadow-md group"
+                  >
+                    <span class="flex items-center justify-center gap-2">
+                      <svg class="w-4 h-4 group-hover:animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                      </svg>
+                      Don't show again
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Privacy Notice -->
+              <p class="text-xs text-gray-500 mt-6 flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+                We respect your privacy. Unsubscribe at any time.
+              </p>
+            </div>
+          </div>
         </div>
+
+        <!-- Main Content -->
+        <div class="px-4 md:px-10 flex flex-1 justify-center py-5">
+          <div
+            class="layout-content-container flex flex-col max-w-[1200px] flex-1"
+          >
+            <!-- Hero Carousel Section -->
+            <div class="@container mb-8 animate-fade-in-up">
+              <div class="@[480px]:p-4">
+                <div class="hero-carousel-container relative overflow-hidden @[480px]:rounded-xl animate-scale-in stagger-1">
+                  <!-- Carousel Wrapper -->
+                  <div id="heroCarousel" class="hero-carousel relative">
+                    <!-- Carousel slides will be dynamically loaded here -->
+                  </div>
+                  
+                  <!-- Navigation Arrows -->
+                  <button id="prevBtn" class="hero-nav-btn hero-nav-prev" aria-label="Previous slide">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                  </button>
+                  
+                  <button id="nextBtn" class="hero-nav-btn hero-nav-next" aria-label="Next slide">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </button>
+                  
+                  <!-- Dots Indicator -->
+                  <div id="heroDots" class="hero-dots-container">
+                    <!-- Dots will be dynamically generated here -->
+                  </div>
+                  
+                  <!-- Loading State -->
+                  <div id="heroLoading" class="hero-loading">
+                    <div class="hero-loading-spinner"></div>
+                    <p class="text-white text-lg">Loading amazing content...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Search Section -->
+            <div class="mb-8 animate-fade-in-up stagger-2">
+              <div
+                class="bg-gradient-to-r from-[#f8fcf8] to-[#f2f4f1] rounded-xl p-6 border border-[#d0e7d0] animate-scale-in"
+              >
+                <div class="text-center mb-6">
+                  <h2
+                    class="text-[#0e1a13] text-2xl font-bold leading-tight tracking-[-0.015em] mb-2"
+                  >
+                    Search Our Bookshop
+                  </h2>
+                  <p class="text-[#51946c] text-base">
+                    Find books, stationery, and more from our extensive
+                    collection
+                  </p>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="max-w-4xl mx-auto">
+                  <div class="relative search-bar animate-fade-in-up stagger-3">
+                    <input
+                      type="text"
+                      id="searchInput"
+                      placeholder="Search for books, stationery, authors, categories..."
+                      class="form-input w-full px-6 py-4 text-lg border-2 border-[#d0e7d0] rounded-xl focus:outline-none focus:border-[#19e619] focus:ring-2 focus:ring-[#19e619]/20 transition-all duration-300 bg-white text-[#0e1a13] placeholder-[#51946c]"
+                    />
+                    <button
+                      id="searchButton"
+                      class="btn-primary absolute right-2 top-2 p-3"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        fill="currentColor"
+                        viewBox="0 0 256 256"
+                      >
+                        <path
+                          d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
+                        ></path>
+                      </svg>
+                    </button>
+                  </div>
+
+                  <!-- Quick Search Suggestions -->
+                  <div class="mt-4 flex flex-wrap justify-center gap-2 animate-fade-in-up stagger-4">
+                    <button class="quick-search-btn category-btn" data-search="books">
+                      Books
+                    </button>
+                    <button class="quick-search-btn category-btn" data-search="stationery">
+                      Stationery
+                    </button>
+                    <button class="quick-search-btn category-btn" data-search="pens">
+                      Pens
+                    </button>
+                    <button class="quick-search-btn category-btn" data-search="notebooks">
+                      Notebooks
+                    </button>
+                    <button class="quick-search-btn category-btn" data-search="art supplies">
+                      Art Supplies
+                    </button>
+                    <button class="quick-search-btn category-btn" data-search="accessories">
+                      Accessories
+                    </button>
+                  </div>
+
+                  <!-- Search Filters -->
+                  <div class="mt-6 flex flex-wrap justify-center gap-4 animate-fade-in-up stagger-5">
+                    <div class="flex items-center gap-2">
+                      <label class="text-sm font-medium text-[#51946c]">Category:</label>
+                      <select id="categoryFilter" class="form-input px-3 py-2 border border-[#d0e7d0] rounded-lg text-sm focus:outline-none focus:border-[#19e619]">
+                        <option value="">All Categories</option>
+                        <option value="books">Books</option>
+                        <option value="stationery">Stationery</option>
+                        <option value="accessories">Accessories</option>
+                        <option value="art supplies">Art Supplies</option>
+                      </select>
+                    </div>
+                    
+                    <div class="flex items-center gap-2">
+                      <label class="text-sm font-medium text-[#51946c]">Sort by:</label>
+                      <select id="sortFilter" class="form-input px-3 py-2 border border-[#d0e7d0] rounded-lg text-sm focus:outline-none focus:border-[#19e619]">
+                        <option value="name">Name A-Z</option>
+                        <option value="price-low">Price Low to High</option>
+                        <option value="price-high">Price High to Low</option>
+                        <option value="newest">Newest First</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Search Results Section -->
+            <div id="searchResultsSection" class="mb-12" style="display: none;">
+              <div id="searchResultsHeader">
+                <!-- Search results header will be populated dynamically -->
+              </div>
+              <div id="searchResultsContainer" class="product-grid">
+                <!-- Search results will be loaded here -->
+              </div>
+            </div>
+
+            <!-- Discounted Products Section -->
+            <div id="specialOffersSection" class="mb-12 animate-fade-in-up stagger-6">
+              <div class="flex items-center gap-3 px-4 pb-6">
+                <div class="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-red-500 to-pink-500 rounded-full animate-bounce">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h2 class="text-[#151612] text-2xl font-bold leading-tight tracking-[-0.015em] animate-slide-in-down">
+                    Special Offers
+                  </h2>
+                  <p class="text-[#76816a] text-sm animate-fade-in-up stagger-1">Limited time discounts on selected items</p>
+                </div>
+              </div>
+              <div id="discountedContainer" class="product-grid animate-fade-in-up stagger-2">
+                <!-- Discounted products will be loaded here -->
+              </div>
+            </div>
+
+            <!-- Featured Stationery Section -->
+            <div id="featuredStationerySection" class="mb-12 animate-fade-in-up stagger-7">
+              <h2
+                class="text-[#151612] text-2xl font-bold leading-tight tracking-[-0.015em] px-4 pb-6 animate-slide-in-down"
+              >
+                Featured Stationery
+              </h2>
+              <div id="bestSellingContainer" class="product-grid animate-fade-in-up stagger-1">
+                <!-- Featured stationery products will be loaded here -->
+              </div>
+            </div>
+
+            <!-- All Products Section -->
+            <div id="allProductsSection" class="mb-12 animate-fade-in-up stagger-8">
+              <h2
+                class="text-[#151612] text-2xl font-bold leading-tight tracking-[-0.015em] px-4 pb-6 animate-slide-in-down"
+              >
+                All Products
+              </h2>
+              <div id="allProductsContainer" class="product-grid animate-fade-in-up stagger-1">
+                <!-- All products will be loaded here -->
+              </div>
+
+              <!-- Pagination -->
+              <div
+                id="pagination"
+                class="flex items-center justify-center p-4 flex-wrap"
+              >
+                <!-- Pagination buttons will be generated here -->
+              </div>
+            </div>
+
+            <!-- Loading Message -->
+            <div id="loadingMessage" class="text-center py-12">
+              <div class="text-[#76816a] text-lg">Loading products...</div>
+            </div>
+
+            <!-- No Products Message -->
+            <div id="noProductsMessage" class="hidden text-center py-12">
+              <div class="text-[#76816a] text-lg mb-4">
+                No products available
+              </div>
+              <p class="text-[#76816a] text-sm">
+                Please import some products first
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="flex justify-center">
+          <div class="flex max-w-[960px] flex-1 flex-col">
+            <footer
+              class="flex flex-col gap-6 px-5 py-10 text-center @container"
+            >
+              <div
+                class="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around"
+              >
+                <a
+                  class="text-[#76816a] text-base font-normal leading-normal min-w-40"
+                  href="aboutus.html"
+                  >About Us</a
+                >
+                <a
+                  class="text-[#76816a] text-base font-normal leading-normal min-w-40"
+                  href="contactus.html"
+                  >Contact</a
+                >
+                <a
+                  class="text-[#76816a] text-base font-normal leading-normal min-w-40"
+                  href="#"
+                  >FAQ</a
+                >
+                <a
+                  class="text-[#76816a] text-base font-normal leading-normal min-w-40"
+                  href="#"
+                  >Terms of Service</a
+                >
+                <a
+                  class="text-[#76816a] text-base font-normal leading-normal min-w-40"
+                  href="#"
+                  >Privacy Policy</a
+                >
+              </div>
+              <p class="text-[#76816a] text-base font-normal leading-normal">
+                @2025 NethwinLK. All rights reserved.
+              </p>
+            </footer>
+          </div>
+        </footer>
+      </div>
     </div>
 
     <script src="../javascript/navbar.js"></script>
     <script src="../javascript/background-animations.js"></script>
 
     <script>
-        let allProducts = [];
-        let currentPage = 1;
-        const productsPerPage = 12;
+      let allProducts = [];
+      let currentPage = 1;
+      const productsPerPage = 12;
 
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            loadProducts();
-            setupNewsletterPopup();
-            
-            // Auth system
-            try {
-              const token = localStorage.getItem('authToken');
-              const navbarAuth = document.getElementById('navbarAuth');
-              
-              if (token && navbarAuth) {
-                const loginBtn = navbarAuth.querySelector('a[href="login.html"]');
-                if (loginBtn) {
-                  loginBtn.innerHTML = `
+      // Scroll-triggered animations
+      function initScrollAnimations() {
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('animated');
+            }
+          });
+        }, observerOptions);
+
+        // Observe all elements with animate-on-scroll class
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+          observer.observe(el);
+        });
+      }
+
+      // Enhanced product card animations
+      function initProductCardAnimations() {
+        // Add hover effects to product cards
+        document.addEventListener('mouseover', function(e) {
+          if (e.target.closest('.product-card')) {
+            const card = e.target.closest('.product-card');
+            card.classList.add('animate-float');
+          }
+        });
+
+        document.addEventListener('mouseout', function(e) {
+          if (e.target.closest('.product-card')) {
+            const card = e.target.closest('.product-card');
+            card.classList.remove('animate-float');
+          }
+        });
+
+        // Add click animations to buttons
+        document.addEventListener('click', function(e) {
+          if (e.target.closest('.btn-primary')) {
+            const button = e.target.closest('.btn-primary');
+            button.classList.add('animate-bounce');
+            setTimeout(() => {
+              button.classList.remove('animate-bounce');
+            }, 600);
+          }
+        });
+      }
+
+      // Enhanced search functionality with animations
+      function initSearchAnimations() {
+        const searchInput = document.getElementById('searchInput');
+        const quickSearchBtns = document.querySelectorAll('.quick-search-btn');
+        
+        // Search input focus animation
+        if (searchInput) {
+          searchInput.addEventListener('focus', function() {
+            // No glow effect
+          });
+          
+          searchInput.addEventListener('blur', function() {
+            // No glow effect
+          });
+        }
+
+        // Quick search button animations
+        quickSearchBtns.forEach(btn => {
+          btn.addEventListener('click', function() {
+            this.classList.add('animate-wiggle');
+            setTimeout(() => {
+              this.classList.remove('animate-wiggle');
+            }, 1000);
+          });
+        });
+      }
+
+      // Enhanced cart count animation
+      function animateCartUpdate() {
+        const cartCount = document.getElementById('cartCount');
+        const mobileCartCount = document.getElementById('mobileCartCount');
+        
+        if (cartCount) {
+          cartCount.classList.add('updated');
+          setTimeout(() => {
+            cartCount.classList.remove('updated');
+          }, 600);
+        }
+        
+        if (mobileCartCount) {
+          mobileCartCount.classList.add('updated');
+          setTimeout(() => {
+            mobileCartCount.classList.remove('updated');
+          }, 600);
+        }
+      }
+
+      // Enhanced product loading with staggered animations
+      function animateProductGrid(container) {
+        const products = container.querySelectorAll('.product-card');
+        products.forEach((product, index) => {
+          product.style.opacity = '0';
+          product.style.transform = 'translateY(30px)';
+          
+          setTimeout(() => {
+            product.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+            product.style.opacity = '1';
+            product.style.transform = 'translateY(0)';
+          }, index * 100);
+        });
+      }
+
+      // Initialize the page
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize animations
+        initScrollAnimations();
+        initProductCardAnimations();
+        initSearchAnimations();
+        
+        loadProducts();
+        setupNewsletterPopup();
+
+        // Auth system
+        try {
+          const token = localStorage.getItem("authToken");
+          const navbarAuth = document.getElementById("navbarAuth");
+
+          if (token && navbarAuth) {
+            const loginBtn = navbarAuth.querySelector('a[href="login.html"]');
+            if (loginBtn) {
+              loginBtn.innerHTML = `
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                     </svg>
                     Profile
                   `;
-                  loginBtn.href = 'profile.html';
-                }
-              }
-            } catch (error) {
-              console.warn('Auth system initialization failed:', error);
+              loginBtn.href = "profile.html";
             }
-        });
+          }
+        } catch (error) {
+          console.warn("Auth system initialization failed:", error);
+        }
+      });
 
-        // Load products from localStorage
-        function loadProducts() {
-            const savedProducts = localStorage.getItem('allProducts');
-            if (savedProducts) {
-                allProducts = JSON.parse(savedProducts);
-                displayAllSections();
-            } else {
-                showNoProductsMessage();
+      // Load products from localStorage
+      function loadProducts() {
+        const savedProducts = localStorage.getItem("allProducts");
+        if (savedProducts) {
+          allProducts = JSON.parse(savedProducts);
+          displayAllSections();
+        } else {
+          showNoProductsMessage();
+        }
+      }
+
+      // Display all sections
+      function displayAllSections() {
+        displayBestSelling();
+        displayDiscounted();
+        displayAllProducts();
+        hideLoadingMessage();
+        
+        // Animate product grids after loading
+        setTimeout(() => {
+          const containers = [
+            'bestSellingContainer',
+            'discountedContainer', 
+            'allProductsContainer'
+          ];
+          
+          containers.forEach(containerId => {
+            const container = document.getElementById(containerId);
+            if (container) {
+              animateProductGrid(container);
             }
+          });
+        }, 100);
+      }
+
+
+      // Display featured products (handpicked quality items)
+      function displayBestSelling() {
+        const container = document.getElementById("bestSellingContainer");
+        
+        // Featured items criteria: has images, in stock, good description, not already discounted
+        const featured = allProducts
+          .filter((product) => {
+            return (
+              product.images && 
+              product.images.length > 0 && 
+              product.stock > 0 && 
+              product.description && 
+              product.description.length > 20 &&
+              (!product.discountPrice || product.discountPrice >= product.sellingPrice) // Not already discounted
+            );
+          })
+          .slice(0, 4); // Show top 4 featured items
+
+        if (featured.length === 0) {
+          container.innerHTML =
+            '<div class="col-span-full text-center text-[#76816a]">No featured products available</div>';
+          return;
         }
 
-        // Display all sections
-        function displayAllSections() {
-            displayBestSelling();
-            displayDiscounted();
-            displayAllProducts();
-            hideLoadingMessage();
+        container.innerHTML = featured
+          .map((product) => createProductCard(product))
+          .join("");
+      }
+
+      // Display discounted products (top 4 with highest discount)
+      function displayDiscounted() {
+        const container = document.getElementById("discountedContainer");
+        
+        const discounted = allProducts
+          .filter((product) => {
+            // Check if product has a discount price that's less than selling price
+            const hasDiscount = product.discountPrice && 
+                   product.discountPrice > 0 && 
+                   product.discountPrice < product.sellingPrice;
+            return hasDiscount;
+          })
+          .sort((a, b) => {
+            // Sort by discount percentage (highest first)
+            const discountA = ((a.sellingPrice - a.discountPrice) / a.sellingPrice) * 100;
+            const discountB = ((b.sellingPrice - b.discountPrice) / b.sellingPrice) * 100;
+            return discountB - discountA;
+          })
+          .slice(0, 6); // Show up to 6 discounted products
+
+        if (discounted.length === 0) {
+          container.innerHTML =
+            '<div class="col-span-full text-center text-[#76816a] py-8">No discounted products available at the moment</div>';
+          return;
         }
 
-        // Display best selling products (top 6 by sales)
-        function displayBestSelling() {
-            const container = document.getElementById('bestSellingContainer');
-            const bestSelling = allProducts
-                .sort((a, b) => (b.sales || 0) - (a.sales || 0))
-                .slice(0, 6);
-            
-            if (bestSelling.length === 0) {
-                container.innerHTML = '<div class="col-span-full text-center text-[#76816a]">No best selling products available</div>';
-                return;
-            }
+        container.innerHTML = discounted
+          .map((product) => createProductCard(product))
+          .join("");
+      }
 
-            container.innerHTML = bestSelling.map(product => createProductCard(product)).join('');
+      // Display all products with pagination
+      function displayAllProducts() {
+        const container = document.getElementById("allProductsContainer");
+        const startIndex = (currentPage - 1) * productsPerPage;
+        const endIndex = startIndex + productsPerPage;
+        const productsToShow = allProducts.slice(startIndex, endIndex);
+
+        if (productsToShow.length === 0) {
+          container.innerHTML =
+            '<div class="col-span-full text-center text-[#76816a]">No products available</div>';
+          return;
         }
 
-        // Display discounted products (top 4 with highest discount)
-        function displayDiscounted() {
-            const container = document.getElementById('discountedContainer');
-            const discounted = allProducts
-                .filter(product => product.discount && product.discount > 0)
-                .sort((a, b) => (b.discount || 0) - (a.discount || 0))
-                .slice(0, 4);
-            
-            if (discounted.length === 0) {
-                container.innerHTML = '<div class="col-span-full text-center text-[#76816a]">No discounted products available</div>';
-                return;
-            }
+        container.innerHTML = productsToShow
+          .map((product) => createProductCard(product))
+          .join("");
+        createPagination();
+      }
 
-            container.innerHTML = discounted.map(product => createProductCard(product)).join('');
-        }
+      // Create modern product card HTML using actual database structure
+      function createProductCard(product) {
+        const productId = product._id;
+        const sellingPrice = product.sellingPrice;
+        const purchasePrice = product.purchasePrice;
+        const hasDiscount = product.discountPrice && product.discountPrice < sellingPrice;
+        const finalPrice = hasDiscount ? product.discountPrice : sellingPrice;
+        const discountPercentage = hasDiscount ? Math.round(((sellingPrice - product.discountPrice) / sellingPrice) * 100) : 0;
+        const stock = product.stock || 0;
+        const isInStock = stock > 0;
+        const status = product.status || 'active';
+        
+        // Get first image or use placeholder
+        const productImage = (product.images && product.images.length > 0) 
+          ? product.images[0] 
+          : "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xNTAgMTAwQzE2NS40NjQgMTAwIDE3NyAxMTEuNTM2IDE3NyAxMjdDMTc3IDE0Mi40NjQgMTY1LjQ2NCAxNTQgMTUwIDE1NEMxMzQuNTM2IDE1NCAxMjMgMTQyLjQ2NCAxMjMgMTI3QzEyMyAxMTEuNTM2IDEzNC41MzYgMTAwIDE1MCAxMDBaIiBmaWxsPSIjOUI5QkE1Ii8+CjxwYXRoIGQ9Ik0xMjMgMTc3SDE3N1YyMDBIMTIzVjE3N1oiIGZpbGw9IiM5QjlCQTUiLz4KPC9zdmc+";
 
-        // Display all products with pagination
-        function displayAllProducts() {
-            const container = document.getElementById('allProductsContainer');
-            const startIndex = (currentPage - 1) * productsPerPage;
-            const endIndex = startIndex + productsPerPage;
-            const productsToShow = allProducts.slice(startIndex, endIndex);
-            
-            if (productsToShow.length === 0) {
-                container.innerHTML = '<div class="col-span-full text-center text-[#76816a]">No products available</div>';
-                return;
-            }
-
-            container.innerHTML = productsToShow.map(product => createProductCard(product)).join('');
-            createPagination();
-        }
-
-                // Create product card HTML
-        function createProductCard(product) {
-            const originalPrice = product.unitPurchasePrice || product.sellingPrice;
-            const discountedPrice = product.sellingPrice;
-            const hasDiscount = product.discount && product.discount > 0;
-            const maxStock = Math.min(product.currentStock || 0, 20); // Limit to 20 for dropdown
-            
-            return `
-                <div class="bg-gradient-to-br from-white to-[#f8faf8] rounded-2xl border border-[#d1e6d9] overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-[1.02] group">
-                    <div class="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 relative cursor-pointer overflow-hidden" onclick="window.location.href='product-detail.html?id=${product.id}'">
-                        <img src="${product.image || 'https://via.placeholder.com/300x300?text=No+Image'}" 
+        return `
+          <div class="product-card group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden ${hasDiscount ? 'border-2 border-red-200 hover:border-red-300 ring-2 ring-red-100' : 'border border-gray-100 hover:border-green-200'} min-h-[400px] flex flex-col">
+            <!-- Product Image Container -->
+            <div class="product-image relative aspect-square overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 flex-shrink-0">
+              <img 
+                src="${productImage}" 
                              alt="${product.name}" 
-                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        ${hasDiscount ? `
-                            <div class="absolute top-3 right-3 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
-                                -${product.discount}%
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                onclick="window.location.href='product-detail.html?id=${productId}'"
+                loading="lazy"
+              >
+              
+              <!-- Status Badge -->
+              <div class="absolute top-3 left-3">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
+                  status === 'active' ? 'bg-green-100 text-green-800' : 
+                  status === 'inactive' ? 'bg-gray-100 text-gray-800' : 
+                  'bg-red-100 text-red-800'
+                }">
+                  ${status.charAt(0).toUpperCase() + status.slice(1)}
+                </span>
                             </div>
-                        ` : ''}
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              <!-- Discount Badge -->
+              ${hasDiscount ? `
+                <div class="absolute top-3 right-3">
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-red-500 text-white shadow-lg">
+                    -${discountPercentage}%
+                  </span>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-[#151612] text-xl mb-3 line-clamp-2 cursor-pointer hover:text-[#19e619] transition-colors duration-300" onclick="window.location.href='product-detail.html?id=${product.id}'">${product.name}</h3>
-                        <p class="text-[#76816a] text-sm mb-4 line-clamp-2 leading-relaxed">${product.description || 'No description available'}</p>
-                        
-                        <div class="flex items-center gap-2 mb-4">
-                            <span class="text-xs bg-gradient-to-r from-[#e8f2ec] to-[#d1e6d9] text-[#4e974e] px-3 py-1.5 rounded-full font-medium">${product.category || 'Uncategorized'}</span>
-                            ${product.brand ? `<span class="text-xs bg-gradient-to-r from-[#f2f4f1] to-[#e8f2ec] text-[#76816a] px-3 py-1.5 rounded-full font-medium">${product.brand}</span>` : ''}
+              ` : ''}
+              
+              <!-- Stock Badge -->
+              <div class="absolute bottom-3 right-3">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
+                  isInStock ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                }">
+                  ${isInStock ? `${stock} in stock` : 'Out of stock'}
+                </span>
                         </div>
                         
-                        <div class="flex justify-between items-center mb-4">
-                            <div class="flex items-center gap-3">
-                                <span class="text-2xl font-bold bg-gradient-to-r from-[#19e619] to-[#0ad167] bg-clip-text text-transparent">LKR ${discountedPrice.toFixed(2)}</span>
-                                ${hasDiscount ? `<span class="text-sm text-[#76816a] line-through">LKR ${originalPrice.toFixed(2)}</span>` : ''}
+              <!-- Hover Overlay -->
+              <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-5 transition-all duration-300"></div>
                             </div>
-                            <span class="text-sm text-[#76816a] bg-[#f8faf8] px-2 py-1 rounded-full">Stock: ${product.currentStock || 0}</span>
+            
+            <!-- Product Content -->
+            <div class="p-5 flex flex-col flex-grow">
+              <!-- Product ID -->
+              <div class="mb-2">
+                <span class="text-xs text-gray-500 font-mono">${product.productId}</span>
                         </div>
                         
-                        <div class="flex gap-2">
-                            <div class="flex items-center bg-gradient-to-r from-[#f8faf8] to-[#f0f4f0] border border-[#d1e6d9] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
-                                <button onclick="changeQuantity(${product.id}, -1)" class="px-2 py-1.5 bg-gradient-to-r from-[#e8f2ec] to-[#d1e6d9] text-[#151612] hover:from-[#19e619] hover:to-[#0ad167] hover:text-white transition-all duration-300 text-sm font-bold flex items-center justify-center min-w-[32px]">−</button>
-                                <span id="quantity-${product.id}" class="flex-1 text-center py-1.5 text-sm font-bold text-[#151612] bg-white min-w-[40px]">1</span>
-                                <button onclick="changeQuantity(${product.id}, 1)" class="px-2 py-1.5 bg-gradient-to-r from-[#e8f2ec] to-[#d1e6d9] text-[#151612] hover:from-[#19e619] hover:to-[#0ad167] hover:text-white transition-all duration-300 text-sm font-bold flex items-center justify-center min-w-[32px]">+</button>
+              <!-- Product Name -->
+              <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-2 cursor-pointer hover:text-green-600 transition-colors duration-200" 
+                  onclick="window.location.href='product-detail.html?id=${productId}'">
+                ${product.name}
+              </h3>
+              
+              <!-- Description with See More functionality -->
+              <div class="mb-3 flex-grow">
+                <p id="description-${productId}" class="text-gray-600 text-sm leading-relaxed line-clamp-2">
+                  ${product.description || "No description available"}
+                </p>
+                ${product.description && product.description.length > 100 ? `
+                  <button onclick="window.location.href='product-detail.html?id=${productId}'" 
+                          class="text-green-600 hover:text-green-700 text-sm font-medium mt-1 transition-colors duration-200">
+                    See more...
+                  </button>
+                ` : ''}
                             </div>
-                            <button onclick="addToCart(${product.id})" 
-                                    class="btn-primary flex-1">
-                               Add to Cart
+              
+              <!-- Category & Brand -->
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                  ${product.category || "Uncategorized"}
+                </span>
+                ${product.brand ? `
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                    ${product.brand}
+                  </span>
+                ` : ''}
+              </div>
+              
+              <!-- Variants -->
+              ${product.variants && product.variants.length > 0 ? `
+                <div class="mb-3">
+                  <div class="flex flex-wrap gap-1">
+                    ${product.variants.slice(0, 2).map(variant => `
+                      <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-50 text-gray-700">
+                        ${variant.size || variant.color || 'Variant'}
+                      </span>
+                    `).join('')}
+                    ${product.variants.length > 2 ? `
+                      <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-50 text-gray-700">
+                        +${product.variants.length - 2} more
+                      </span>
+                    ` : ''}
+                  </div>
+                </div>
+              ` : ''}
+              
+              <!-- Price and Action Section - Fixed at bottom -->
+              <div class="mt-auto">
+                <!-- Price Section -->
+                <div class="mb-3">
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="text-2xl font-bold text-gray-900">
+                      LKR ${finalPrice.toFixed(2)}
+                    </span>
+                    ${hasDiscount ? `
+                      <span class="text-lg text-gray-400 line-through">
+                        LKR ${sellingPrice.toFixed(2)}
+                      </span>
+                    ` : ''}
+                  </div>
+                  ${window.authManager && window.authManager.isAdmin() ? `
+                  <div class="flex items-center justify-between text-sm text-gray-500 bg-yellow-50 px-2 py-1 rounded border-l-2 border-yellow-400">
+                    <span class="text-xs text-yellow-600 font-medium">Admin View:</span>
+                    <div class="flex gap-4">
+                      <span>Cost: LKR ${purchasePrice.toFixed(2)}</span>
+                      <span>Profit: LKR ${(finalPrice - purchasePrice).toFixed(2)}</span>
+                    </div>
+                  </div>
+                  ` : ''}
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex gap-2 w-full">
+                  <div class="flex items-center bg-gray-100 rounded-lg overflow-hidden">
+                    <button onclick="changeQuantity('${productId}', -1)" 
+                            class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-colors duration-200 disabled:opacity-50" 
+                            ${!isInStock ? 'disabled' : ''}>
+                      −
+                    </button>
+                    <span id="quantity-${productId}" class="w-10 text-center font-semibold text-gray-900 text-sm">
+                      1
+                    </span>
+                    <button onclick="changeQuantity('${productId}', 1)" 
+                            class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-colors duration-200 disabled:opacity-50" 
+                            ${!isInStock ? 'disabled' : ''}>
+                      +
                             </button>
                         </div>
+                  <button onclick="addToCart('${productId}')" 
+                          class="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-2 px-3 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 text-sm"
+                          ${!isInStock ? 'disabled' : ''}>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+                    </svg>
+                    ${isInStock ? 'Add to Cart' : 'Out of Stock'}
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Ratings (if available) -->
+              ${product.ratings > 0 ? `
+                <div class="mt-3 flex items-center gap-1">
+                  <div class="flex items-center">
+                    ${Array.from({length: 5}, (_, i) => `
+                      <svg class="w-4 h-4 ${i < Math.floor(product.ratings) ? 'text-yellow-400' : 'text-gray-300'}" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                      </svg>
+                    `).join('')}
+                  </div>
+                  <span class="text-sm text-gray-600">${product.ratings.toFixed(1)} (${product.reviews.length} reviews)</span>
+                </div>
+              ` : ''}
                     </div>
                 </div>
             `;
+      }
+
+      // Create pagination
+      function createPagination() {
+        const totalPages = Math.ceil(allProducts.length / productsPerPage);
+        const paginationContainer = document.getElementById("pagination");
+
+        if (totalPages <= 1) {
+          paginationContainer.innerHTML = "";
+          return;
         }
 
-        // Create pagination
-        function createPagination() {
-            const totalPages = Math.ceil(allProducts.length / productsPerPage);
-            const paginationContainer = document.getElementById('pagination');
-            
-            if (totalPages <= 1) {
-                paginationContainer.innerHTML = '';
-                return;
-            }
+        let paginationHTML = "";
 
-            let paginationHTML = '';
-            
-            // Previous button
-            paginationHTML += `
-                <a href="#" onclick="changePage(${currentPage - 1}); return false;" class="flex size-10 items-center justify-center">
+        // Previous button
+        paginationHTML += `
+                <a href="#" onclick="changePage(${
+                  currentPage - 1
+                }); return false;" class="flex size-10 items-center justify-center">
                     <div class="text-[#151811]">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
                             <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
@@ -478,28 +1899,37 @@
                     </div>
                 </a>
             `;
-            
-            // Page numbers
-            const maxVisiblePages = 5;
-            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-            
-            if (endPage - startPage + 1 < maxVisiblePages) {
-                startPage = Math.max(1, endPage - maxVisiblePages + 1);
-            }
-            
-            for (let i = startPage; i <= endPage; i++) {
-                paginationHTML += `
-                    <a class="text-sm font-${i === currentPage ? 'bold' : 'normal'} leading-normal flex size-10 items-center justify-center text-[#151811] rounded-full ${i === currentPage ? 'bg-[#f3f4f0]' : ''}" 
+
+        // Page numbers
+        const maxVisiblePages = 5;
+        let startPage = Math.max(
+          1,
+          currentPage - Math.floor(maxVisiblePages / 2)
+        );
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+        if (endPage - startPage + 1 < maxVisiblePages) {
+          startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+          paginationHTML += `
+                    <a class="text-sm font-${
+                      i === currentPage ? "bold" : "normal"
+                    } leading-normal flex size-10 items-center justify-center text-[#151811] rounded-full ${
+            i === currentPage ? "bg-[#f3f4f0]" : ""
+          }" 
                        href="#" onclick="changePage(${i}); return false;">
                         ${i}
                     </a>
                 `;
-            }
-            
-            // Next button
-            paginationHTML += `
-                <a href="#" onclick="changePage(${currentPage + 1}); return false;" class="flex size-10 items-center justify-center">
+        }
+
+        // Next button
+        paginationHTML += `
+                <a href="#" onclick="changePage(${
+                  currentPage + 1
+                }); return false;" class="flex size-10 items-center justify-center">
                     <div class="text-[#151811]">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
                             <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
@@ -507,382 +1937,1002 @@
                     </div>
                 </a>
             `;
-            
-            paginationContainer.innerHTML = paginationHTML;
+
+        paginationContainer.innerHTML = paginationHTML;
+      }
+
+      // Change page
+      function changePage(page) {
+        const totalPages = Math.ceil(allProducts.length / productsPerPage);
+        if (page >= 1 && page <= totalPages) {
+          currentPage = page;
+          displayAllProducts();
+          // Scroll to top of all products section
+          document
+            .getElementById("allProductsContainer")
+            .scrollIntoView({ behavior: "smooth" });
+        }
+      }
+
+      // Hide loading message
+      function hideLoadingMessage() {
+        document.getElementById("loadingMessage").classList.add("hidden");
+      }
+
+      // Show no products message
+      function showNoProductsMessage() {
+        document.getElementById("loadingMessage").classList.add("hidden");
+        document.getElementById("noProductsMessage").classList.remove("hidden");
+      }
+
+      // Change quantity function
+      function changeQuantity(productId, change) {
+        const quantitySpan = document.getElementById(`quantity-${productId}`);
+        if (!quantitySpan) {
+          console.log("Quantity span not found for product:", productId);
+          return;
         }
 
-        // Change page
-        function changePage(page) {
-            const totalPages = Math.ceil(allProducts.length / productsPerPage);
-            if (page >= 1 && page <= totalPages) {
-                currentPage = page;
-                displayAllProducts();
-                // Scroll to top of all products section
-                document.getElementById('allProductsContainer').scrollIntoView({ behavior: 'smooth' });
-            }
+        let currentQuantity = parseInt(quantitySpan.textContent) || 1;
+        console.log("Current quantity:", currentQuantity, "Change:", change);
+
+        // Simple approach - just change the quantity with reasonable limits
+        const newQuantity = currentQuantity + change;
+
+        // Set reasonable limits (1 to 20)
+        if (newQuantity >= 1 && newQuantity <= 20) {
+          quantitySpan.textContent = newQuantity;
+          // Add visual feedback
+          quantitySpan.style.transform = "scale(1.1)";
+          setTimeout(() => {
+            quantitySpan.style.transform = "scale(1)";
+          }, 150);
+          console.log("Quantity updated to:", newQuantity);
+        } else {
+          console.log("Quantity out of bounds:", newQuantity);
         }
+      }
 
-        // Hide loading message
-        function hideLoadingMessage() {
-            document.getElementById('loadingMessage').classList.add('hidden');
+      // Add to cart function (placeholder)
+      function addToCart(productId) {
+        const quantitySpan = document.getElementById(`quantity-${productId}`);
+        const quantity = quantitySpan ? parseInt(quantitySpan.textContent) : 1;
+
+        // This would integrate with your cart system
+        alert(
+          `Added ${quantity} item(s) to cart! (Cart functionality to be implemented)`
+        );
+      }
+
+      // Newsletter Popup Functions
+      function setupNewsletterPopup() {
+        // Check if popup should be shown based on user preferences
+        if (shouldShowNewsletterPopup()) {
+          setTimeout(() => {
+            showNewsletterPopup();
+          }, 1000);
         }
+      }
 
-        // Show no products message
-        function showNoProductsMessage() {
-            document.getElementById('loadingMessage').classList.add('hidden');
-            document.getElementById('noProductsMessage').classList.remove('hidden');
-        }
+      function showNewsletterPopup() {
+        const popup = document.getElementById("newsletterPopup");
+        const popupContent = document.getElementById("popupContent");
 
-        // Change quantity function
-        function changeQuantity(productId, change) {
-            const quantitySpan = document.getElementById(`quantity-${productId}`);
-            if (!quantitySpan) {
-                console.log('Quantity span not found for product:', productId);
-                return;
-            }
-            
-            let currentQuantity = parseInt(quantitySpan.textContent) || 1;
-            console.log('Current quantity:', currentQuantity, 'Change:', change);
-            
-            // Simple approach - just change the quantity with reasonable limits
-            const newQuantity = currentQuantity + change;
-            
-            // Set reasonable limits (1 to 20)
-            if (newQuantity >= 1 && newQuantity <= 20) {
-                quantitySpan.textContent = newQuantity;
-                // Add visual feedback
-                quantitySpan.style.transform = 'scale(1.1)';
-                setTimeout(() => {
-                    quantitySpan.style.transform = 'scale(1)';
-                }, 150);
-                console.log('Quantity updated to:', newQuantity);
-            } else {
-                console.log('Quantity out of bounds:', newQuantity);
-            }
-        }
+        popup.classList.remove("hidden");
 
-        // Add to cart function (placeholder)
-        function addToCart(productId) {
-            const quantitySpan = document.getElementById(`quantity-${productId}`);
-            const quantity = quantitySpan ? parseInt(quantitySpan.textContent) : 1;
-            
-            // This would integrate with your cart system
-            alert(`Added ${quantity} item(s) to cart! (Cart functionality to be implemented)`);
-        }
+        // Enhanced animate in with smooth transitions
+        setTimeout(() => {
+          popup.classList.remove("opacity-0");
+          popup.classList.add("opacity-100");
+          popupContent.classList.remove("scale-75", "opacity-0");
+          popupContent.classList.add("scale-100", "opacity-100", "popup-enter");
+        }, 10);
 
-        // Newsletter Popup Functions
-        function setupNewsletterPopup() {
-            // Check if popup should be shown based on user preferences
-            if (shouldShowNewsletterPopup()) {
-                setTimeout(() => {
-                    showNewsletterPopup();
-                }, 1000);
-            }
-        }
+        // Setup event listeners
+        setupNewsletterEventListeners();
+      }
 
-        function showNewsletterPopup() {
-            const popup = document.getElementById('newsletterPopup');
-            const popupContent = document.getElementById('popupContent');
-            
-            popup.classList.remove('hidden');
-            
-            // Animate in
-            setTimeout(() => {
-                popupContent.classList.remove('scale-95', 'opacity-0');
-                popupContent.classList.add('scale-100', 'opacity-100');
-            }, 10);
-            
-            // Setup event listeners
-            setupNewsletterEventListeners();
-        }
+      function hideNewsletterPopup() {
+        const popup = document.getElementById("newsletterPopup");
+        const popupContent = document.getElementById("popupContent");
 
-        function hideNewsletterPopup() {
-            const popup = document.getElementById('newsletterPopup');
-            const popupContent = document.getElementById('popupContent');
-            
-            // Animate out
-            popupContent.classList.remove('scale-100', 'opacity-100');
-            popupContent.classList.add('scale-95', 'opacity-0');
-            
-            setTimeout(() => {
-                popup.classList.add('hidden');
-            }, 300);
-        }
+        // Enhanced animate out with smooth transitions
+        popupContent.classList.remove("scale-100", "opacity-100", "popup-enter");
+        popupContent.classList.add("scale-75", "opacity-0", "popup-exit");
+        popup.classList.remove("opacity-100");
+        popup.classList.add("opacity-0");
 
-        function setupNewsletterEventListeners() {
-            const closeBtn = document.getElementById('closeNewsletterBtn');
-            const popup = document.getElementById('newsletterPopup');
-            const form = document.getElementById('newsletterForm');
-            const remindLaterBtn = document.getElementById('remindLaterBtn');
-            const nextTimeBtn = document.getElementById('nextTimeBtn');
-            const dontShowAgainBtn = document.getElementById('dontShowAgainBtn');
-            
-            // Close button
-            closeBtn.addEventListener('click', hideNewsletterPopup);
-            
-            // Close on background click
-            popup.addEventListener('click', (e) => {
-                if (e.target === popup) {
-                    hideNewsletterPopup();
-                }
-            });
-            
-            // Remind me in 15 minutes
-            remindLaterBtn.addEventListener('click', () => {
-                setNewsletterReminder(15); // 15 minutes
-                hideNewsletterPopup();
-            });
-            
-            // Next time (show on next page visit)
-            nextTimeBtn.addEventListener('click', () => {
-                setNewsletterNextTime();
-                hideNewsletterPopup();
-            });
-            
-            // Don't show again
-            dontShowAgainBtn.addEventListener('click', () => {
-                setNewsletterNeverShow();
-                hideNewsletterPopup();
-            });
-            
-            // Form submission
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const email = document.getElementById('newsletterEmail').value.trim();
-                
-                if (email && isValidEmail(email)) {
-                    // Here you would typically send the email to your backend
-                    alert('Thank you for subscribing to our newsletter!');
-                    setNewsletterSubscribed();
-                    hideNewsletterPopup();
-                } else {
-                    alert('Please enter a valid email address.');
-                }
-            });
-        }
+        setTimeout(() => {
+          popup.classList.add("hidden");
+        }, 500);
+      }
 
-        function isValidEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        }
+      function setupNewsletterEventListeners() {
+        const closeBtn = document.getElementById("closeNewsletterBtn");
+        const popup = document.getElementById("newsletterPopup");
+        const form = document.getElementById("newsletterForm");
+        const remindLaterBtn = document.getElementById("remindLaterBtn");
+        const nextTimeBtn = document.getElementById("nextTimeBtn");
+        const dontShowAgainBtn = document.getElementById("dontShowAgainBtn");
 
-        // Newsletter Popup Preference Management
-        function shouldShowNewsletterPopup() {
-            const preferences = getNewsletterPreferences();
-            
-            // If user chose "don't show again", never show
-            if (preferences.neverShow) {
-                return false;
-            }
-            
-            // If user subscribed, don't show again
-            if (preferences.subscribed) {
-                return false;
-            }
-            
-            // Check if reminder time has passed
-            if (preferences.remindAt && preferences.remindAt > Date.now()) {
-                return false;
-            }
-            
-            // Check if it's time for "next time" (24 hours)
-            if (preferences.nextTimeAt && preferences.nextTimeAt > Date.now()) {
-                return false;
-            }
-            
-            return true;
-        }
+        // Close button
+        closeBtn.addEventListener("click", hideNewsletterPopup);
 
-        function getNewsletterPreferences() {
-            const stored = localStorage.getItem('newsletterPreferences');
-            return stored ? JSON.parse(stored) : {
-                neverShow: false,
-                subscribed: false,
-                remindAt: null,
-                nextTimeAt: null
-            };
-        }
-
-        function setNewsletterPreferences(preferences) {
-            localStorage.setItem('newsletterPreferences', JSON.stringify(preferences));
-        }
-
-        function setNewsletterReminder(minutes) {
-            const preferences = getNewsletterPreferences();
-            preferences.remindAt = Date.now() + (minutes * 60 * 1000);
-            setNewsletterPreferences(preferences);
-        }
-
-        function setNewsletterNextTime() {
-            const preferences = getNewsletterPreferences();
-            preferences.nextTimeAt = Date.now() + (24 * 60 * 60 * 1000); // 24 hours
-            setNewsletterPreferences(preferences);
-        }
-
-        function setNewsletterNeverShow() {
-            const preferences = getNewsletterPreferences();
-            preferences.neverShow = true;
-            setNewsletterPreferences(preferences);
-        }
-
-        function setNewsletterSubscribed() {
-            const preferences = getNewsletterPreferences();
-            preferences.subscribed = true;
-            setNewsletterPreferences(preferences);
-        }
-
-        // Search Functionality
-        function setupSearchFunctionality() {
-            const searchInput = document.getElementById('searchInput');
-            const searchButton = document.getElementById('searchButton');
-            const quickSearchBtns = document.querySelectorAll('.quick-search-btn');
-
-            // Search button click
-            searchButton.addEventListener('click', performSearch);
-
-            // Enter key press in search input
-            searchInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    performSearch();
-                }
-            });
-
-            // Quick search buttons
-            quickSearchBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const searchTerm = btn.getAttribute('data-search');
-                    searchInput.value = searchTerm;
-                    performSearch();
-                });
-            });
-        }
-
-        function performSearch() {
-            const searchInput = document.getElementById('searchInput');
-            const searchTerm = searchInput.value.trim();
-            
-            if (searchTerm) {
-                // Store search term in localStorage for search.html to use
-                localStorage.setItem('bookshopSearchTerm', searchTerm);
-                
-                // Navigate to search.html
-                window.location.href = 'search.html';
-            } else {
-                // Show error or focus the input
-                searchInput.focus();
-                searchInput.style.borderColor = '#ff6b6b';
-                setTimeout(() => {
-                    searchInput.style.borderColor = '#d0e7d0';
-                }, 2000);
-            }
-        }
-
-        // Initialize search functionality when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            setupSearchFunctionality();
-        });
-    </script>
-    <script>
-      (function() {
-        const allEl = document.getElementById('allProductsContainer');
-        const bestEl = document.getElementById('bestSellingContainer');
-        const discEl = document.getElementById('discountedContainer');
-        if (!allEl) return;
-
-        // Basic cart using localStorage
-        function getCart() {
-          try { return JSON.parse(localStorage.getItem('nethwin_cart') || '[]'); } catch { return []; }
-        }
-        function setCart(items) {
-          localStorage.setItem('nethwin_cart', JSON.stringify(items));
-        }
-        function addToCart(product) {
-          const items = getCart();
-          const id = product._id || product.sku || product.name;
-          const idx = items.findIndex(i => i.id === id);
-          if (idx >= 0) {
-            items[idx].qty += 1;
-          } else {
-            items.push({ id, name: product.name, price: product.sellingPrice || product.price || 0, qty: 1 });
+        // Close on background click
+        popup.addEventListener("click", (e) => {
+          if (e.target === popup) {
+            hideNewsletterPopup();
           }
-          setCart(items);
+        });
+
+        // Remind me in 15 minutes
+        remindLaterBtn.addEventListener("click", () => {
+          setNewsletterReminder(15); // 15 minutes
+          hideNewsletterPopup();
+        });
+
+        // Next time (show on next page visit)
+        nextTimeBtn.addEventListener("click", () => {
+          setNewsletterNextTime();
+          hideNewsletterPopup();
+        });
+
+        // Don't show again
+        dontShowAgainBtn.addEventListener("click", () => {
+          setNewsletterNeverShow();
+          hideNewsletterPopup();
+        });
+
+        // Form submission
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const email = document.getElementById("newsletterEmail").value.trim();
+
+          if (email && isValidEmail(email)) {
+            // Here you would typically send the email to your backend
+            alert("Thank you for subscribing to our newsletter!");
+            setNewsletterSubscribed();
+            hideNewsletterPopup();
+          } else {
+            alert("Please enter a valid email address.");
+          }
+        });
+      }
+
+      function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
+
+      // Newsletter Popup Preference Management
+      function shouldShowNewsletterPopup() {
+        const preferences = getNewsletterPreferences();
+
+        // If user chose "don't show again", never show
+        if (preferences.neverShow) {
+          return false;
         }
 
-        function createCard(p) {
-          const priceNum = (typeof p.sellingPrice === 'number' ? p.sellingPrice : (typeof p.price === 'number' ? p.price : 0));
-          const price = priceNum ? `Rs. ${priceNum.toFixed(2)}` : 'Price on request';
-          const stock = (typeof p.currentStock === 'number') ? `${p.currentStock}` : 'N/A';
-          const link = `product-detail.html?id=${p._id}`;
-          const div = document.createElement('div');
-          div.className = 'rounded-xl border border-[#d0e7d0] p-4 hover:shadow-md transition-all duration-300 bg-white flex flex-col';
-          div.innerHTML = `
-            <a href="${link}" class="flex items-start justify-between gap-3">
-              <div>
-                <p class="text-[#0e1a13] font-semibold hover:underline">${p.name || 'Unnamed product'}</p>
-                <p class="text-[#51946c] text-xs mt-1">${p.category || ''}${p.brand ? ' • ' + p.brand : ''}</p>
-                ${p.sku ? `<p class=\"text-[#51946c] text-[11px] mt-1\">SKU: ${p.sku}</p>` : ''}
+        // If user subscribed, don't show again
+        if (preferences.subscribed) {
+          return false;
+        }
+
+        // Check if reminder time has passed
+        if (preferences.remindAt && preferences.remindAt > Date.now()) {
+          return false;
+        }
+
+        // Check if it's time for "next time" (24 hours)
+        if (preferences.nextTimeAt && preferences.nextTimeAt > Date.now()) {
+          return false;
+        }
+
+        return true;
+      }
+
+      function getNewsletterPreferences() {
+        const stored = localStorage.getItem("newsletterPreferences");
+        return stored
+          ? JSON.parse(stored)
+          : {
+              neverShow: false,
+              subscribed: false,
+              remindAt: null,
+              nextTimeAt: null,
+            };
+      }
+
+      function setNewsletterPreferences(preferences) {
+        localStorage.setItem(
+          "newsletterPreferences",
+          JSON.stringify(preferences)
+        );
+      }
+
+      function setNewsletterReminder(minutes) {
+        const preferences = getNewsletterPreferences();
+        preferences.remindAt = Date.now() + minutes * 60 * 1000;
+        setNewsletterPreferences(preferences);
+      }
+
+      function setNewsletterNextTime() {
+        const preferences = getNewsletterPreferences();
+        preferences.nextTimeAt = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
+        setNewsletterPreferences(preferences);
+      }
+
+      function setNewsletterNeverShow() {
+        const preferences = getNewsletterPreferences();
+        preferences.neverShow = true;
+        setNewsletterPreferences(preferences);
+      }
+
+      function setNewsletterSubscribed() {
+        const preferences = getNewsletterPreferences();
+        preferences.subscribed = true;
+        setNewsletterPreferences(preferences);
+      }
+
+      // Search Functionality
+      function setupSearchFunctionality() {
+        const searchInput = document.getElementById("searchInput");
+        const searchButton = document.getElementById("searchButton");
+        const quickSearchBtns = document.querySelectorAll(".quick-search-btn");
+        const categoryFilter = document.getElementById("categoryFilter");
+        const sortFilter = document.getElementById("sortFilter");
+
+        // Search button click
+        searchButton.addEventListener("click", performSearch);
+
+        // Real-time search as user types
+        searchInput.addEventListener("input", (e) => {
+          const searchTerm = e.target.value.trim();
+          if (searchTerm.length >= 2) {
+            performSearch();
+          } else if (searchTerm.length === 0) {
+            // Clear search and show all products
+            clearSearch();
+          }
+        });
+
+        // Enter key press in search input
+        searchInput.addEventListener("keypress", (e) => {
+          if (e.key === "Enter") {
+            performSearch();
+          }
+        });
+
+        // Quick search buttons
+        quickSearchBtns.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const searchTerm = btn.getAttribute("data-search");
+            searchInput.value = searchTerm;
+            performSearch();
+          });
+        });
+
+        // Filter change events
+        if (categoryFilter) {
+          categoryFilter.addEventListener("change", performSearch);
+        }
+        if (sortFilter) {
+          sortFilter.addEventListener("change", performSearch);
+        }
+      }
+
+      function performSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const categoryFilter = document.getElementById("categoryFilter");
+        const sortFilter = document.getElementById("sortFilter");
+        
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        const selectedCategory = categoryFilter ? categoryFilter.value : "";
+        const sortBy = sortFilter ? sortFilter.value : "name";
+
+        // Filter products based on search term and category
+        let filteredProducts = allProducts.filter((product) => {
+          const matchesSearch = searchTerm === "" || (
+            product.name.toLowerCase().includes(searchTerm) ||
+            product.description.toLowerCase().includes(searchTerm) ||
+            product.brand.toLowerCase().includes(searchTerm) ||
+            product.category.toLowerCase().includes(searchTerm) ||
+            product.productId.toLowerCase().includes(searchTerm)
+          );
+          
+          const matchesCategory = selectedCategory === "" || 
+            product.category.toLowerCase() === selectedCategory.toLowerCase();
+          
+          return matchesSearch && matchesCategory;
+        });
+
+        // Sort products
+        filteredProducts = sortProducts(filteredProducts, sortBy);
+
+        if (searchTerm || selectedCategory) {
+          // Display filtered results
+          displaySearchResults(filteredProducts, searchTerm, selectedCategory);
+        } else {
+          // Show error or focus the input
+          searchInput.focus();
+          searchInput.style.borderColor = "#ff6b6b";
+          setTimeout(() => {
+            searchInput.style.borderColor = "#d0e7d0";
+          }, 2000);
+        }
+      }
+
+      function sortProducts(products, sortBy) {
+        return products.sort((a, b) => {
+          switch (sortBy) {
+            case "name":
+              return a.name.localeCompare(b.name);
+            case "price-low":
+              return (a.sellingPrice || 0) - (b.sellingPrice || 0);
+            case "price-high":
+              return (b.sellingPrice || 0) - (a.sellingPrice || 0);
+            case "newest":
+              return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+            default:
+              return 0;
+          }
+        });
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const categoryFilter = document.getElementById("categoryFilter");
+        const sortFilter = document.getElementById("sortFilter");
+        
+        // Reset search input
+        searchInput.value = "";
+        searchInput.style.borderColor = "#d0e7d0";
+        
+        // Reset filters
+        if (categoryFilter) categoryFilter.value = "";
+        if (sortFilter) sortFilter.value = "name";
+        
+        // Hide search results section
+        const searchResultsSection = document.getElementById("searchResultsSection");
+        if (searchResultsSection) {
+          searchResultsSection.style.display = "none";
+        }
+        
+        // Force show all sections first
+        showAllSections();
+        
+        // Ensure all product grid containers have the correct CSS class
+        const gridContainers = [
+          "discountedContainer",
+          "bestSellingContainer", 
+          "allProductsContainer"
+        ];
+        
+        gridContainers.forEach(containerId => {
+          const container = document.getElementById(containerId);
+          if (container) {
+            // Remove any inline styles that might be interfering
+            container.style.display = "";
+            container.style.gridTemplateColumns = "";
+            container.style.gap = "";
+            container.style.width = "";
+            
+            // Ensure the product-grid class is applied
+            container.className = "product-grid";
+            
+            // Force apply grid styles
+            container.style.display = "grid";
+            container.style.gridTemplateColumns = "repeat(auto-fill, minmax(280px, 1fr))";
+            container.style.gap = "1.5rem";
+            container.style.width = "100%";
+          }
+        });
+        
+        // Then reload and display all products
+        if (allProducts && allProducts.length > 0) {
+          displayAllSections();
+        } else {
+          // If no products loaded, reload from API
+          loadProductsFromAPI();
+        }
+      }
+
+      function showAllSections() {
+        // Show all main sections using specific IDs
+        const mainSections = [
+          "specialOffersSection",
+          "featuredStationerySection", 
+          "allProductsSection"
+        ];
+        
+        mainSections.forEach(sectionId => {
+          const section = document.getElementById(sectionId);
+          if (section) {
+            section.style.display = "block";
+          }
+        });
+        
+        // Also ensure the content containers are visible
+        const contentContainers = [
+          "discountedContainer",
+          "bestSellingContainer", 
+          "allProductsContainer"
+        ];
+        
+        contentContainers.forEach(containerId => {
+          const container = document.getElementById(containerId);
+          if (container) {
+            container.style.display = "block";
+          }
+        });
+      }
+
+      function displaySearchResults(products, searchTerm, selectedCategory) {
+        // Hide all existing sections except search results
+        hideAllSections();
+        
+        // Show search results section
+        showSearchResultsSection();
+        
+        // Update search results header
+        updateSearchResultsHeader(products.length, searchTerm, selectedCategory);
+        
+        // Display filtered products
+        const container = document.getElementById("searchResultsContainer");
+        if (products.length === 0) {
+          container.innerHTML = `
+            <div class="text-center py-12">
+              <div class="mb-6">
+                <svg class="w-24 h-24 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <h3 class="text-xl font-semibold text-gray-600 mb-2">No products found</h3>
+                <p class="text-gray-500">Try searching with different keywords or browse our categories</p>
               </div>
-              <span class="text-xs text-[#51946c]">${p.businessLocation || ''}</span>
-            </a>
-            <div class="mt-3 flex items-center justify-between">
-              <span class="text-[#0e1a13] font-bold">${price}</span>
-              <span class="text-xs text-[#51946c]">Stock: ${stock}</span>
-            </div>
-            <div class="mt-4 grid grid-cols-2 gap-2">
-              <button class="px-3 py-2 rounded-lg bg-[#f2f4f1] text-[#0e1a13] text-sm font-medium hover:bg-[#e8ebe8] transition" data-action="add">Add to Cart</button>
-              <a href="${link}" class="px-3 py-2 rounded-lg bg-[#19e619] text-[#0e1a13] text-sm font-bold hover:bg-[#16d116] transition text-center">View & Buy</a>
+              <button onclick="clearSearch()" class="btn-primary">
+                Clear Search
+              </button>
             </div>
           `;
-          const addBtn = div.querySelector('[data-action="add"]');
-          addBtn?.addEventListener('click', (e) => {
-            e.preventDefault();
-            addToCart(p);
-            addBtn.textContent = 'Added!';
-            setTimeout(() => addBtn.textContent = 'Add to Cart', 800);
-          });
-          return div;
+        } else {
+          container.innerHTML = products
+            .map((product) => createProductCard(product))
+            .join("");
+          
+          // Also show discounted items from search results in Special Offers section
+          displaySearchDiscounted(products);
         }
+      }
 
-        function renderProducts(products) {
-          allEl.innerHTML = '';
-          products.slice(0, 60).forEach((p) => allEl.appendChild(createCard(p)));
-          if (bestEl) {
-            bestEl.innerHTML = '';
-            products.filter(p => (p.currentStock||0) > 5).slice(0, 12).forEach((p) => bestEl.appendChild(createCard(p)));
-          }
-          if (discEl) {
-            discEl.innerHTML = '';
-            products.filter(p => (p.sellingPrice||p.price||0) > 0 && (p.unitPurchasePrice||0) > 0 && (p.sellingPrice||p.price) < p.unitPurchasePrice).slice(0, 12).forEach((p) => discEl.appendChild(createCard(p)));
-          }
-        }
-
-        function wireSearch(base) {
-          const q = document.getElementById('searchInput');
-          const btn = document.getElementById('searchButton');
-          function doSearch() {
-            const term = (q?.value || '').trim();
-            if (!term) return renderProducts(base);
-            fetch(`/api/products?search=${encodeURIComponent(term)}&limit=200`)
-              .then(r => r.json())
-              .then(({ products }) => renderProducts(products))
-              .catch(() => renderProducts(base));
-          }
-          btn?.addEventListener('click', doSearch);
-          q?.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
-        }
-
-        fetch('/api/products?limit=200')
-          .then(r => r.json())
-          .then(({ products }) => {
-            try { localStorage.setItem('allProducts', JSON.stringify(products)); } catch {}
-            renderProducts(products);
-            wireSearch(products);
+      function displaySearchDiscounted(searchProducts) {
+        // Filter discounted items from search results
+        const discounted = searchProducts
+          .filter((product) => {
+            return product.discountPrice && 
+                   product.discountPrice > 0 && 
+                   product.discountPrice < product.sellingPrice;
           })
-          .catch(err => {
-            console.error('Failed to load /api/products', err);
-          });
-      })();
-    </script>
-</body>
-</html>
+          .sort((a, b) => {
+            // Sort by discount percentage (highest first)
+            const discountA = ((a.sellingPrice - a.discountPrice) / a.sellingPrice) * 100;
+            const discountB = ((b.sellingPrice - b.discountPrice) / b.sellingPrice) * 100;
+            return discountB - discountA;
+          })
+          .slice(0, 6); // Show up to 6 discounted products
 
+        // Show Special Offers section if there are discounted items
+        if (discounted.length > 0) {
+          // Use the specific ID for Special Offers section
+          const discountedSection = document.getElementById("specialOffersSection");
+          
+          if (discountedSection) {
+            discountedSection.style.display = "block";
+            console.log("Showing Special Offers section for search results");
+            const container = document.getElementById("discountedContainer");
+            if (container) {
+              container.innerHTML = discounted
+                .map((product) => createProductCard(product))
+                .join("");
+              console.log("Updated discounted container with search results");
+            }
+          } else {
+            console.log("Special Offers section not found");
+          }
+        }
+      }
+
+      function hideAllSections() {
+        // Hide the main section containers using specific IDs
+        const mainSections = [
+          "specialOffersSection",
+          "featuredStationerySection", 
+          "allProductsSection"
+        ];
+        
+        mainSections.forEach(sectionId => {
+          const section = document.getElementById(sectionId);
+          if (section) {
+            section.style.display = "none";
+            console.log(`Hid section: ${sectionId}`);
+          }
+        });
+      }
+
+      function showSearchResultsSection() {
+        const searchResultsSection = document.getElementById("searchResultsSection");
+        if (searchResultsSection) {
+          searchResultsSection.style.display = "block";
+        }
+      }
+
+      function hideSearchResults() {
+        const searchResultsSection = document.getElementById("searchResultsSection");
+        if (searchResultsSection) {
+          searchResultsSection.style.display = "none";
+        }
+        
+        // Show all sections again
+        showAllSections();
+        displayAllSections();
+      }
+
+      function updateSearchResultsHeader(count, searchTerm, selectedCategory) {
+        const header = document.getElementById("searchResultsHeader");
+        if (header) {
+          let searchDescription = "";
+          if (searchTerm && selectedCategory) {
+            searchDescription = `Found ${count} product${count !== 1 ? 's' : ''} for "${searchTerm}" in ${selectedCategory}`;
+          } else if (searchTerm) {
+            searchDescription = `Found ${count} product${count !== 1 ? 's' : ''} for "${searchTerm}"`;
+          } else if (selectedCategory) {
+            searchDescription = `Found ${count} product${count !== 1 ? 's' : ''} in ${selectedCategory}`;
+          } else {
+            searchDescription = `Found ${count} product${count !== 1 ? 's' : ''}`;
+          }
+
+          header.innerHTML = `
+            <div class="flex items-center gap-3 px-4 pb-6">
+              <div class="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+              </div>
+              <div>
+                <h2 class="text-[#151612] text-2xl font-bold leading-tight tracking-[-0.015em]">
+                  Search Results
+                </h2>
+                <p class="text-[#76816a] text-sm">
+                  ${searchDescription}
+                </p>
+              </div>
+              <button onclick="clearSearch()" class="ml-auto px-4 py-2 text-sm text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                Clear Search
+              </button>
+            </div>
+          `;
+        }
+      }
+
+      // Initialize search functionality when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        setupSearchFunctionality();
+      });
+
+      // Debug function to test clear search
+      window.testClearSearch = function() {
+        console.log("Testing clear search...");
+        clearSearch();
+      };
+
+      // Debug function to check sections
+      window.checkSections = function() {
+        console.log("Checking sections...");
+        
+        // Check main section containers
+        const mainSections = [
+          "specialOffersSection",
+          "featuredStationerySection", 
+          "allProductsSection"
+        ];
+        
+        mainSections.forEach(sectionId => {
+          const section = document.getElementById(sectionId);
+          console.log(`Main section ${sectionId}:`, section);
+          if (section) {
+            console.log(`${sectionId} display:`, section.style.display);
+          } else {
+            console.log(`${sectionId} not found`);
+          }
+        });
+        
+        // Check content containers
+        const contentContainers = [
+          "discountedContainer",
+          "bestSellingContainer", 
+          "allProductsContainer"
+        ];
+        
+        contentContainers.forEach(containerId => {
+          const container = document.getElementById(containerId);
+          console.log(`Content container ${containerId}:`, container);
+          if (container) {
+            console.log(`${containerId} display:`, container.style.display);
+            console.log(`${containerId} parent:`, container.parentElement);
+            console.log(`${containerId} parent display:`, container.parentElement ? container.parentElement.style.display : "no parent");
+          } else {
+            console.log(`${containerId} not found`);
+          }
+        });
+      };
+      
+      // Hero Carousel System
+      let heroCarousel = {
+        currentSlide: 0,
+        slides: [],
+        autoPlayInterval: null,
+        isTransitioning: false
+      };
+      
+      async function initializeHeroCarousel() {
+        try {
+          // Show loading state
+          showHeroLoading(true);
+          
+          // Fetch hero images from API
+          const response = await fetch('/api/hero-images');
+          const data = await response.json();
+          
+          if (data.success && data.heroImages.length > 0) {
+            heroCarousel.slides = data.heroImages;
+            renderHeroCarousel();
+            setupHeroNavigation();
+            startAutoPlay();
+          } else {
+            // Fallback to default hero if no images
+            renderDefaultHero();
+          }
+          
+          showHeroLoading(false);
+        } catch (error) {
+          console.error('Error loading hero images:', error);
+          renderDefaultHero();
+          showHeroLoading(false);
+        }
+      }
+      
+      function renderHeroCarousel() {
+        const carousel = document.getElementById('heroCarousel');
+        const dotsContainer = document.getElementById('heroDots');
+        
+        if (!carousel || !dotsContainer) return;
+        
+        // Clear existing content
+        carousel.innerHTML = '';
+        dotsContainer.innerHTML = '';
+        
+        // Create slides
+        heroCarousel.slides.forEach((slide, index) => {
+          const slideElement = createHeroSlide(slide, index);
+          carousel.appendChild(slideElement);
+          
+          // Create dot
+          const dot = document.createElement('button');
+          dot.className = `hero-dot ${index === 0 ? 'active' : ''}`;
+          dot.setAttribute('data-slide', index);
+          dot.addEventListener('click', () => goToSlide(index));
+          dotsContainer.appendChild(dot);
+        });
+        
+        // Set initial position
+        updateCarouselPosition();
+      }
+      
+      function createHeroSlide(slideData, index) {
+        const slide = document.createElement('div');
+        slide.className = 'hero-slide';
+        slide.style.backgroundImage = `url('${slideData.imageUrl}')`;
+        
+        const content = document.createElement('div');
+        content.className = 'hero-content';
+        content.innerHTML = `
+          <h1 class="hero-title">${slideData.title}</h1>
+          <p class="hero-description">${slideData.description}</p>
+          <a href="${slideData.buttonLink}" class="hero-button">
+            <span>${slideData.buttonText}</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          </a>
+        `;
+        
+        slide.appendChild(content);
+        return slide;
+      }
+      
+      function renderDefaultHero() {
+        const carousel = document.getElementById('heroCarousel');
+        const dotsContainer = document.getElementById('heroDots');
+        
+        if (!carousel || !dotsContainer) return;
+        
+        carousel.innerHTML = `
+          <div class="hero-slide" style="background-image: url('/assets/hero1.jpg')">
+            <div class="hero-content">
+              <h1 class="hero-title">Our Product Collection</h1>
+              <p class="hero-description">Discover our amazing collection of products - books, stationery, and more.</p>
+              <a href="/html/bookshop.html" class="hero-button">
+                <span>Shop Now</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        `;
+        
+        dotsContainer.innerHTML = '<button class="hero-dot active"></button>';
+      }
+      
+      function setupHeroNavigation() {
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        if (prevBtn) {
+          prevBtn.addEventListener('click', () => previousSlide());
+        }
+        
+        if (nextBtn) {
+          nextBtn.addEventListener('click', () => nextSlide());
+        }
+        
+        // Touch/swipe support for mobile
+        let startX = 0;
+        let startY = 0;
+        const carousel = document.getElementById('heroCarousel');
+        
+        if (carousel) {
+          carousel.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+          });
+          
+          carousel.addEventListener('touchend', (e) => {
+            if (!startX || !startY) return;
+            
+            const endX = e.changedTouches[0].clientX;
+            const endY = e.changedTouches[0].clientY;
+            
+            const diffX = startX - endX;
+            const diffY = startY - endY;
+            
+            // Only trigger if horizontal swipe is greater than vertical
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+              if (diffX > 0) {
+                nextSlide();
+              } else {
+                previousSlide();
+              }
+            }
+            
+            startX = 0;
+            startY = 0;
+          });
+        }
+      }
+      
+      function nextSlide() {
+        if (heroCarousel.isTransitioning || heroCarousel.slides.length <= 1) return;
+        
+        heroCarousel.currentSlide = (heroCarousel.currentSlide + 1) % heroCarousel.slides.length;
+        updateCarouselPosition();
+        updateDots();
+      }
+      
+      function previousSlide() {
+        if (heroCarousel.isTransitioning || heroCarousel.slides.length <= 1) return;
+        
+        heroCarousel.currentSlide = heroCarousel.currentSlide === 0 
+          ? heroCarousel.slides.length - 1 
+          : heroCarousel.currentSlide - 1;
+        updateCarouselPosition();
+        updateDots();
+      }
+      
+      function goToSlide(index) {
+        if (heroCarousel.isTransitioning || index === heroCarousel.currentSlide) return;
+        
+        heroCarousel.currentSlide = index;
+        updateCarouselPosition();
+        updateDots();
+      }
+      
+      function updateCarouselPosition() {
+        const carousel = document.getElementById('heroCarousel');
+        if (!carousel) return;
+        
+        heroCarousel.isTransitioning = true;
+        carousel.style.transform = `translateX(-${heroCarousel.currentSlide * 100}%)`;
+        
+        setTimeout(() => {
+          heroCarousel.isTransitioning = false;
+        }, 800);
+      }
+      
+      function updateDots() {
+        const dots = document.querySelectorAll('.hero-dot');
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('active', index === heroCarousel.currentSlide);
+        });
+      }
+      
+      function startAutoPlay() {
+        if (heroCarousel.slides.length <= 1) return;
+        
+        stopAutoPlay();
+        heroCarousel.autoPlayInterval = setInterval(() => {
+          nextSlide();
+        }, 5000); // Change slide every 5 seconds
+      }
+      
+      function stopAutoPlay() {
+        if (heroCarousel.autoPlayInterval) {
+          clearInterval(heroCarousel.autoPlayInterval);
+          heroCarousel.autoPlayInterval = null;
+        }
+      }
+      
+      function showHeroLoading(show) {
+        const loading = document.getElementById('heroLoading');
+        if (loading) {
+          loading.style.display = show ? 'flex' : 'none';
+        }
+      }
+      
+      // Pause auto-play on hover
+      document.addEventListener('DOMContentLoaded', function() {
+        const carousel = document.getElementById('heroCarousel');
+        if (carousel) {
+          carousel.addEventListener('mouseenter', stopAutoPlay);
+          carousel.addEventListener('mouseleave', startAutoPlay);
+        }
+      });
+    </script>
+    <script>
+      // Enhanced product loading with API integration
+      document.addEventListener("DOMContentLoaded", function() {
+        loadProductsFromAPI();
+        updateCartCount();
+        initializeHeroCarousel();
+      });
+
+      // Load products from API instead of localStorage
+      function loadProductsFromAPI() {
+        fetch("/api/products?limit=200")
+          .then(response => response.json())
+          .then(data => {
+            const products = data.products || data || [];
+            // Backend already filters for active products with stock > 0
+            allProducts = products;
+            
+            // Store in localStorage for compatibility
+            try {
+              localStorage.setItem("allProducts", JSON.stringify(products));
+            } catch (e) {
+              console.warn("Could not save products to localStorage:", e);
+            }
+            
+            displayAllSections();
+          })
+          .catch(error => {
+            console.error("Failed to load products from API:", error);
+            // Fallback to localStorage if API fails
+            loadProducts();
+          });
+      }
+
+      // Update cart count function
+      function updateCartCount() {
+        try {
+          const cart = JSON.parse(localStorage.getItem("nethwin_cart") || "[]");
+          const totalItems = cart.reduce((sum, item) => sum + (item.qty || item.quantity || 1), 0);
+          
+          const cartCount = document.getElementById('cartCount');
+          const mobileCartCount = document.getElementById('mobileCartCount');
+          
+          if (totalItems > 0) {
+            if (cartCount) {
+              cartCount.textContent = totalItems;
+              cartCount.classList.remove('hidden');
+              animateCartUpdate();
+            }
+            if (mobileCartCount) {
+              mobileCartCount.textContent = totalItems;
+              mobileCartCount.classList.remove('hidden');
+              animateCartUpdate();
+            }
+          } else {
+            if (cartCount) {
+              cartCount.classList.add('hidden');
+            }
+            if (mobileCartCount) {
+              mobileCartCount.classList.add('hidden');
+            }
+          }
+        } catch (e) {
+          console.warn("Could not update cart count:", e);
+        }
+      }
+
+      // Enhanced add to cart function with proper cart management
+      function addToCart(productId) {
+        const product = allProducts.find(p => (p._id || p.id) === productId);
+        if (!product) {
+          console.error("Product not found:", productId);
+          return;
+        }
+
+        const quantitySpan = document.getElementById(`quantity-${productId}`);
+        const quantity = quantitySpan ? parseInt(quantitySpan.textContent) : 1;
+
+        // Get existing cart
+        let cart = [];
+        try {
+          cart = JSON.parse(localStorage.getItem("nethwin_cart") || "[]");
+        } catch (e) {
+          console.warn("Could not load cart from localStorage:", e);
+        }
+
+        // Check if product already in cart
+        const existingItem = cart.find(item => item.id === (product._id || product.id));
+        
+        if (existingItem) {
+          existingItem.qty += quantity;
+        } else {
+          // Get the correct product image (same logic as product card)
+          const productImage = (product.images && product.images.length > 0) 
+            ? product.images[0] 
+            : (product.image && product.image !== '') 
+              ? product.image 
+              : "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xNTAgMTAwQzE2NS40NjQgMTAwIDE3NyAxMTEuNTM2IDE3NyAxMjdDMTc3IDE0Mi40NjQgMTY1LjQ2NCAxNTQgMTUwIDE1NEMxMzQuNTM2IDE1NCAxMjMgMTQyLjQ2NCAxMjMgMTI3QzEyMyAxMTEuNTM2IDEzNC41MzYgMTAwIDE1MCAxMDBaIiBmaWxsPSIjOUI5QkE1Ii8+CjxwYXRoIGQ9Ik0xMjMgMTc3SDE3N1YyMDBIMTIzVjE3N1oiIGZpbGw9IiM5QjlCQTUiLz4KPC9zdmc+";
+          
+          cart.push({
+            id: product._id || product.id,
+            name: product.name,
+            price: product.sellingPrice || product.price || 0,
+            qty: quantity,
+            image: productImage,
+            images: product.images || [],
+            category: product.category,
+            brand: product.brand
+          });
+        }
+
+        // Save cart
+        try {
+          localStorage.setItem("nethwin_cart", JSON.stringify(cart));
+          
+          // Update cart count on all pages
+          updateCartCount();
+          
+          // Visual feedback
+          const button = event.target;
+          const originalText = button.textContent;
+          button.textContent = "Added!";
+          button.style.backgroundColor = "#10b981";
+          
+          setTimeout(() => {
+            button.textContent = originalText;
+            button.style.backgroundColor = "";
+          }, 1500);
+          
+          console.log(`Added ${quantity} x ${product.name} to cart`);
+        } catch (e) {
+          console.error("Could not save cart to localStorage:", e);
+          alert("Added to cart! (Cart data may not persist)");
+        }
+      }
+
+      // Toggle description visibility
+    </script>
+  </body>
+</html>

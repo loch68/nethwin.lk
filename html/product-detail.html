@@ -12,7 +12,22 @@
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
     />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        // Suppress Tailwind CDN warning for development
+        window.addEventListener('DOMContentLoaded', function() {
+            // Suppress the CDN warning
+            const originalWarn = console.warn;
+            console.warn = function(message) {
+                if (message && message.includes('cdn.tailwindcss.com should not be used in production')) {
+                    return; // Suppress this specific warning
+                }
+                originalWarn.apply(console, arguments);
+            };
+        });
+    </script>
     <link rel="stylesheet" href="../css/hover-effects.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/background-animations.css" />
     <style>
         .quantity-btn {
             transition: all 0.2s ease-in-out;
@@ -25,49 +40,83 @@
   <link rel="stylesheet" href="../css/responsive.css" />
 </head>
 <body>
-    <div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif]">
-        <div class="layout-container flex flex-col grow h-full">
-        
-        <!-- Header -->
-        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f2f4f1] px-10 py-3">
-            <div class="flex items-center gap-4 text-[#111418]">
-                <div class="h-10">
-                    <a href="index.html" aria-label="Go to Home">
-                        <img src="../assets/fLogo.png" alt="NETHWIN Logo" class="h-10 w-auto" />
+    <div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient">
+      <!-- Background Animation Container -->
+      <div class="particles-container fixed inset-0 pointer-events-none z-0" id="particlesContainer"></div>
+      <div class="layout-container flex flex-col grow h-full relative z-10">
+        <!-- Modern Seamless Navbar -->
+        <nav class="modern-navbar fixed top-0 left-0 right-0 z-30">
+          <div class="navbar-container">
+            <!-- Logo/Brand -->
+            <div class="navbar-brand">
+              <a href="index.html" class="flex items-center">
+                <img src="../assets/fLogo.png" alt="NethwinLK" class="navbar-logo" />
                     </a>
                 </div>
+
+            <!-- Navigation Links -->
+            <div class="navbar-links" id="navbarLinks">
+              <a href="index.html" class="nav-link">Home</a>
+              <a href="print.html" class="nav-link">Print Services</a>
+              <a href="bookshop.html" class="nav-link active">Bookshop</a>
+              <a href="aboutus.html" class="nav-link">About</a>
+              <a href="contactus.html" class="nav-link">Contact</a>
             </div>
-            <div class="flex flex-1 justify-end gap-8">
-                <div class="flex items-center gap-9">
-                    <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="print.html">Print on Demand<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span></a>
-                    <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="agency.html">Advertising Agency<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span></a>
-                    <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="contactus.html">Contact Us<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span></a>
-                    <a class="text-[#151612] text-sm font-medium leading-normal transition-all duration-300 ease-in-out hover:text-[#0ad167] hover:scale-105 hover:drop-shadow-sm relative group" href="aboutus.html">About Us<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0ad167] transition-all duration-300 group-hover:w-full"></span></a>
+
+            <!-- Desktop Auth Area -->
+            <div class="navbar-auth" id="navbarAuth">
+              <a href="cart.html" class="nav-auth-btn relative">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+                </svg>
+                Cart
+                <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold hidden">0</span>
+              </a>
+              <a href="search.html" class="nav-auth-btn">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                Search
+              </a>
+              <a href="login.html" class="nav-auth-btn">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path>
+                </svg>
+                Login
+              </a>
                 </div>
-                <div class="flex gap-2">
-                    <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#0ad167] text-[#151612] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out hover:bg-[#08b85a] hover:scale-105 hover:shadow-lg hover:shadow-[#0ad167]/25">
-                        <a href="login.html"><span class="truncate">Login</span></a>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
                     </button>
-                    <a href="cart.html">
-                        <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f2f4f1] text-[#151612] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out hover:bg-[#e8ebe8] hover:scale-105 hover:shadow-md">
-                            <span class="truncate">Cart</span>
-                        </button>
-                    </a>
-                    <a href="search.html">
-                        <button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[#f2f4f1] text-[#151612] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 transition-all duration-300 ease-in-out hover:bg-[#e8ebe8] hover:scale-105 hover:shadow-md">
-                            <div class="text-[#151612]" data-icon="MagnifyingGlass" data-size="20px" data-weight="regular">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                                    <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+
+            <!-- Mobile Auth Icons -->
+            <div class="mobile-auth-icons">
+              <a href="cart.html" class="mobile-icon-btn relative">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+                </svg>
+                <span id="mobileCartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold hidden">0</span>
+              </a>
+              <a href="search.html" class="mobile-icon-btn">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+              </a>
+              <a href="login.html" class="mobile-icon-btn">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path>
                                 </svg>
-                            </div>
-                        </button>
                     </a>
                 </div>
             </div>
-        </header>
+        </nav>
 
         <!-- Main Content -->
-        <div class="px-4 md:px-10 flex flex-1 justify-center py-5">
+        <div class="px-4 md:px-10 flex flex-1 justify-center py-5 pt-20">
             <div class="layout-content-container flex flex-col max-w-[1200px] flex-1">
                 <!-- Breadcrumb -->
                 <nav class="mb-8">
@@ -80,197 +129,306 @@
                     </ol>
                 </nav>
 
-                <!-- Product Details -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    <!-- Product Image -->
-                    <div class="space-y-4">
-                        <div class="aspect-square bg-white rounded-lg border border-[#d1e6d9] overflow-hidden">
-                            <img id="productImage" src="" alt="Product" class="w-full h-full object-cover">
+                <!-- Product Details - Compact Side by Side Layout -->
+                <div id="productContainer" class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
+                        <!-- Product Image - Compact -->
+                        <div class="bg-gray-50 p-4">
+                            <div class="aspect-square max-w-sm mx-auto bg-white rounded-xl shadow-lg overflow-hidden mb-4 relative group">
+                                <img id="productImage" src="" alt="Product" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
+                                
+                                <!-- Discount Badge -->
+                                <div id="productImageDiscountBadge" class="absolute top-3 right-3 hidden">
+                                    <span class="inline-flex items-center px-3 py-2 rounded-lg text-sm font-bold bg-red-500 text-white shadow-lg">
+                                        <span id="productImageDiscountText">-20%</span>
+                                    </span>
+                                </div>
                         </div>
-                        <div class="flex gap-2">
-                            <button class="w-20 h-20 bg-white border border-[#d1e6d9] rounded-lg overflow-hidden hover:border-[#19e619] transition-colors">
+                            
+                            <!-- Thumbnail Gallery -->
+                            <div class="flex gap-2 justify-center">
+                                <button class="w-12 h-12 bg-white border-2 border-gray-200 rounded-lg overflow-hidden hover:border-green-500 transition-all duration-200">
                                 <img id="productImageThumb1" src="" alt="Thumbnail 1" class="w-full h-full object-cover">
                             </button>
-                            <button class="w-20 h-20 bg-white border border-[#d1e6d9] rounded-lg overflow-hidden hover:border-[#19e619] transition-colors">
+                                <button class="w-12 h-12 bg-white border-2 border-gray-200 rounded-lg overflow-hidden hover:border-green-500 transition-all duration-200">
                                 <img id="productImageThumb2" src="" alt="Thumbnail 2" class="w-full h-full object-cover">
                             </button>
-                            <button class="w-20 h-20 bg-white border border-[#d1e6d9] rounded-lg overflow-hidden hover:border-[#19e619] transition-colors">
+                                <button class="w-12 h-12 bg-white border-2 border-gray-200 rounded-lg overflow-hidden hover:border-green-500 transition-all duration-200">
                                 <img id="productImageThumb3" src="" alt="Thumbnail 3" class="w-full h-full object-cover">
                             </button>
                         </div>
                     </div>
 
-                    <!-- Product Info -->
-                    <div class="space-y-6">
-                        <div>
-                            <h1 id="productTitle" class="text-3xl font-bold text-[#0e1a13] mb-2">Product Title</h1>
-                            <p id="productSKU" class="text-[#51946c] text-sm">SKU: BOOK-001</p>
+                        <!-- Product Info - Compact -->
+                        <div class="p-6 flex flex-col justify-between">
+                            <!-- Product Header -->
+                            <div class="mb-6">
+                                <!-- Special Offer Banner -->
+                                <div id="specialOfferBanner" class="hidden mb-4">
+                                    <div class="inline-flex items-center px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-bold">
+                                        🔥 Special Offer - Limited Time!
+                        </div>
                         </div>
 
-                        <div class="flex items-center gap-4">
-                            <span id="productPrice" class="text-3xl font-bold text-[#19e619]">LKR 12.99</span>
-                            <span id="productOriginalPrice" class="text-xl text-[#51946c] line-through">LKR 15.99</span>
-                            <span id="productDiscount" class="bg-[#19e619] text-white px-2 py-1 rounded text-sm font-medium">-20%</span>
+                                <h1 id="productTitle" class="text-2xl font-bold text-gray-900 mb-2">Product Title</h1>
+                                <p id="productSKU" class="text-gray-500 text-sm font-mono bg-gray-100 px-3 py-1 rounded-lg inline-block">SKU: BOOK-001</p>
                         </div>
 
-                        <div>
-                            <p id="productDescription" class="text-[#0e1a13] leading-relaxed">
-                                Product description will be loaded here...
-                            </p>
-                        </div>
-
-                        <div class="space-y-4">
-                            <div class="flex items-center gap-4">
-                                <span class="text-[#0e1a13] font-medium">Availability:</span>
-                                <span id="productAvailability" class="text-[#19e619] font-medium">In Stock</span>
+                            <!-- Price Section -->
+                            <div class="mb-6 p-4 bg-green-50 rounded-lg border border-green-200">
+                                <div class="flex items-center gap-4 mb-2">
+                                    <span id="productPrice" class="text-3xl font-bold text-green-600">LKR 12.99</span>
+                                    <span id="productOriginalPrice" class="text-xl text-gray-400 line-through hidden">LKR 15.99</span>
+                                    <span id="productDiscount" class="bg-red-500 text-white px-3 py-1 rounded-lg text-sm font-bold hidden">-20%</span>
                             </div>
-                            <div class="flex items-center gap-4">
-                                <span class="text-[#0e1a13] font-medium">Brand:</span>
-                                <span id="productBrand" class="text-[#51946c]">Brand Name</span>
-                            </div>
-                            <div class="flex items-center gap-4">
-                                <span class="text-[#0e1a13] font-medium">Category:</span>
-                                <span id="productCategory" class="text-[#51946c]">Books</span>
+                                <p class="text-gray-600 text-sm">Including all taxes • Free shipping on orders over LKR 500</p>
+                        </div>
+
+                            <!-- Product Details -->
+                            <div class="mb-4">
+                                <div class="flex gap-4 text-sm">
+                                    <span class="text-gray-600">Brand: <span id="productBrand" class="font-semibold text-gray-900">Brand Name</span></span>
+                                    <span class="text-gray-600">Category: <span id="productCategory" class="font-semibold text-gray-900">Books</span></span>
                             </div>
                         </div>
 
+                            <!-- Quantity and Actions -->
+                            <div class="space-y-3">
                         <!-- Quantity Selector -->
-                        <div class="space-y-3">
-                            <label class="text-[#0e1a13] font-medium">Quantity:</label>
-                            <div class="flex items-center gap-2">
-                                <div class="flex items-center bg-gradient-to-r from-[#f8faf8] to-[#f0f4f0] border border-[#d1e6d9] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
-                                    <button onclick="changeQuantityDetail(-1)" class="px-2 py-1.5 bg-gradient-to-r from-[#e8f2ec] to-[#d1e6d9] text-[#151612] hover:from-[#19e619] hover:to-[#0ad167] hover:text-white transition-all duration-300 text-sm font-bold flex items-center justify-center min-w-[32px]">−</button>
-                                    <span id="quantityDetail" class="flex-1 text-center py-1.5 text-sm font-bold text-[#151612] bg-white min-w-[40px]">1</span>
-                                    <button onclick="changeQuantityDetail(1)" class="px-2 py-1.5 bg-gradient-to-r from-[#e8f2ec] to-[#d1e6d9] text-[#151612] hover:from-[#19e619] hover:to-[#0ad167] hover:text-white transition-all duration-300 text-sm font-bold flex items-center justify-center min-w-[32px]">+</button>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-sm font-medium text-gray-900">Quantity:</span>
+                                    <div class="flex items-center bg-gray-100 rounded-lg overflow-hidden">
+                                        <button onclick="changeQuantityDetail(-1)" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-colors duration-200">
+                                            −
+                                        </button>
+                                        <span id="quantityDetail" class="w-10 text-center font-semibold text-gray-900">
+                                            1
+                                        </span>
+                                        <button onclick="changeQuantityDetail(1)" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-colors duration-200">
+                                            +
+                                        </button>
                                 </div>
+                                    <div class="flex items-center gap-1">
+                                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                                        <span id="productAvailability" class="text-green-600 font-medium text-sm">In Stock</span>
                             </div>
                         </div>
 
                         <!-- Action Buttons -->
-                        <div class="flex gap-4">
-                            <button id="addToCartBtn" class="flex-1 bg-[#19e619] text-white py-4 px-6 rounded-lg font-semibold hover:bg-green-600 transition-colors flex items-center justify-center gap-2">
+                                <div class="space-y-2">
+                                    <button id="addToCartBtn" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m6 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
                                 </svg>
                                 Add to Cart
                             </button>
-                            <button id="buyNowBtn" class="flex-1 bg-[#0e1a13] text-white py-4 px-6 rounded-lg font-semibold hover:bg-gray-800 transition-colors">
+                                    <button id="buyNowBtn" class="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                        </svg>
                                 Buy Now
                             </button>
                         </div>
 
                         <!-- Total Price -->
-                        <div class="bg-[#e8f2ec] p-4 rounded-lg">
+                                <div class="bg-green-50 p-3 rounded-lg border border-green-200">
                             <div class="flex justify-between items-center">
-                                <span class="text-[#0e1a13] font-medium">Total Price:</span>
-                                <span id="totalPrice" class="text-2xl font-bold text-[#19e619]">LKR 12.99</span>
+                                        <span class="text-gray-900 font-semibold">Total Price:</span>
+                                        <span id="totalPrice" class="text-xl font-bold text-green-600">LKR 12.99</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Additional Information -->
-                <div class="mt-16">
-                    <div class="border-b border-[#d1e6d9]">
-                        <nav class="flex space-x-8">
-                            <button class="tab-btn active py-4 px-1 border-b-2 border-[#19e619] text-[#19e619] font-medium" data-tab="description">
+
+                <!-- Product Description Section - Compact -->
+                <div class="mt-8 bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-6">
+                        <!-- Description Header -->
+                        <div class="mb-6">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-2">Product Description</h2>
+                        </div>
+
+                        <!-- Description Content -->
+                        <div id="descriptionTab" class="tab-content">
+                            <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                                <p id="fullDescription" class="text-gray-700 leading-relaxed">
+                                    Detailed product description will be loaded here...
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Additional Tabs -->
+                        <div class="mt-6">
+                            <div class="border-b border-gray-200">
+                                <nav class="flex space-x-6">
+                                    <button class="tab-btn active py-3 px-1 border-b-2 border-green-500 text-green-600 font-semibold" data-tab="description">
                                 Description
                             </button>
-                            <button class="tab-btn py-4 px-1 border-b-2 border-transparent text-[#51946c] font-medium" data-tab="specifications">
+                                    <button class="tab-btn py-3 px-1 border-b-2 border-transparent text-gray-500 font-semibold hover:text-gray-700" data-tab="specifications">
                                 Specifications
                             </button>
-                            <button class="tab-btn py-4 px-1 border-b-2 border-transparent text-[#51946c] font-medium" data-tab="reviews">
+                                    <button class="tab-btn py-3 px-1 border-b-2 border-transparent text-gray-500 font-semibold hover:text-gray-700" data-tab="reviews">
                                 Reviews
                             </button>
                         </nav>
                     </div>
 
-                    <div class="py-8">
-                        <!-- Description Tab -->
-                        <div id="descriptionTab" class="tab-content">
-                            <h3 class="text-xl font-semibold text-[#0e1a13] mb-4">Product Description</h3>
-                            <p id="fullDescription" class="text-[#0e1a13] leading-relaxed">
-                                Detailed product description will be loaded here...
-                            </p>
-                        </div>
-
+                            <div class="py-6">
                         <!-- Specifications Tab -->
                         <div id="specificationsTab" class="tab-content hidden">
-                            <h3 class="text-xl font-semibold text-[#0e1a13] mb-4">Product Specifications</h3>
+                                    <h3 class="text-xl font-bold text-gray-900 mb-4">Product Specifications</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="flex justify-between py-2 border-b border-[#e8f2ec]">
-                                    <span class="text-[#51946c]">Product Type:</span>
-                                    <span id="specProductType" class="text-[#0e1a13] font-medium">Physical</span>
+                                        <div class="bg-gray-50 p-4 rounded-lg">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-gray-600 font-medium">Product Type:</span>
+                                                <span id="specProductType" class="text-gray-900 font-semibold">Physical</span>
+                                            </div>
+                                        </div>
+                                        <div class="bg-gray-50 p-4 rounded-lg">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-gray-600 font-medium">SKU:</span>
+                                                <span id="specSKU" class="text-gray-900 font-semibold">BOOK-001</span>
+                                            </div>
+                                        </div>
+                                        <div class="bg-gray-50 p-4 rounded-lg">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-gray-600 font-medium">Brand:</span>
+                                                <span id="specBrand" class="text-gray-900 font-semibold">Brand Name</span>
+                                            </div>
+                                        </div>
+                                        <div class="bg-gray-50 p-4 rounded-lg">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-gray-600 font-medium">Category:</span>
+                                                <span id="specCategory" class="text-gray-900 font-semibold">Books</span>
                                 </div>
-                                <div class="flex justify-between py-2 border-b border-[#e8f2ec]">
-                                    <span class="text-[#51946c]">SKU:</span>
-                                    <span id="specSKU" class="text-[#0e1a13] font-medium">BOOK-001</span>
                                 </div>
-                                <div class="flex justify-between py-2 border-b border-[#e8f2ec]">
-                                    <span class="text-[#51946c]">Brand:</span>
-                                    <span id="specBrand" class="text-[#0e1a13] font-medium">Brand Name</span>
+                                        <div class="bg-gray-50 p-4 rounded-lg">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-gray-600 font-medium">Tax Rate:</span>
+                                                <span id="specTax" class="text-gray-900 font-semibold">5%</span>
                                 </div>
-                                <div class="flex justify-between py-2 border-b border-[#e8f2ec]">
-                                    <span class="text-[#51946c]">Category:</span>
-                                    <span id="specCategory" class="text-[#0e1a13] font-medium">Books</span>
                                 </div>
-                                <div class="flex justify-between py-2 border-b border-[#e8f2ec]">
-                                    <span class="text-[#51946c]">Tax Rate:</span>
-                                    <span id="specTax" class="text-[#0e1a13] font-medium">5%</span>
+                                        <div class="bg-gray-50 p-4 rounded-lg">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-gray-600 font-medium">Business Location:</span>
+                                                <span id="specLocation" class="text-gray-900 font-semibold">Main Store</span>
                                 </div>
-                                <div class="flex justify-between py-2 border-b border-[#e8f2ec]">
-                                    <span class="text-[#51946c]">Business Location:</span>
-                                    <span id="specLocation" class="text-[#0e1a13] font-medium">Main Store</span>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Reviews Tab -->
                         <div id="reviewsTab" class="tab-content hidden">
-                            <h3 class="text-xl font-semibold text-[#0e1a13] mb-4">Customer Reviews</h3>
-                            <div class="space-y-4">
-                                <div class="bg-[#e8f2ec] p-4 rounded-lg">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div class="flex text-yellow-400">
-                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                            </svg>
-                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                            </svg>
-                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                            </svg>
-                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                            </svg>
-                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                            </svg>
+                                    <h3 class="text-xl font-bold text-gray-900 mb-4">Customer Reviews</h3>
+                                    
+                                    <!-- Review Summary -->
+                                    <div id="reviewSummary" class="bg-gray-50 p-4 rounded-lg mb-6">
+                                        <div class="flex items-center gap-4 mb-4">
+                                            <div class="text-center">
+                                                <div id="averageRating" class="text-3xl font-bold text-gray-900">0.0</div>
+                                                <div class="flex justify-center text-yellow-400 mt-1">
+                                                    <div id="starRating"></div>
+                                                </div>
+                                                <div id="totalReviews" class="text-sm text-gray-600">0 reviews</div>
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="space-y-1">
+                                                    <div class="flex items-center gap-2">
+                                                        <span class="text-sm text-gray-600 w-8">5★</span>
+                                                        <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                                            <div id="ratingBar5" class="bg-yellow-400 h-2 rounded-full" style="width: 0%"></div>
+                                                        </div>
+                                                        <span id="ratingCount5" class="text-sm text-gray-600">0</span>
+                                                    </div>
+                                                    <div class="flex items-center gap-2">
+                                                        <span class="text-sm text-gray-600 w-8">4★</span>
+                                                        <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                                            <div id="ratingBar4" class="bg-yellow-400 h-2 rounded-full" style="width: 0%"></div>
+                                                        </div>
+                                                        <span id="ratingCount4" class="text-sm text-gray-600">0</span>
+                                                    </div>
+                                                    <div class="flex items-center gap-2">
+                                                        <span class="text-sm text-gray-600 w-8">3★</span>
+                                                        <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                                            <div id="ratingBar3" class="bg-yellow-400 h-2 rounded-full" style="width: 0%"></div>
+                                                        </div>
+                                                        <span id="ratingCount3" class="text-sm text-gray-600">0</span>
+                                                    </div>
+                                                    <div class="flex items-center gap-2">
+                                                        <span class="text-sm text-gray-600 w-8">2★</span>
+                                                        <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                                            <div id="ratingBar2" class="bg-yellow-400 h-2 rounded-full" style="width: 0%"></div>
+                                                        </div>
+                                                        <span id="ratingCount2" class="text-sm text-gray-600">0</span>
+                                                    </div>
+                                                    <div class="flex items-center gap-2">
+                                                        <span class="text-sm text-gray-600 w-8">1★</span>
+                                                        <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                                            <div id="ratingBar1" class="bg-yellow-400 h-2 rounded-full" style="width: 0%"></div>
+                                                        </div>
+                                                        <span id="ratingCount1" class="text-sm text-gray-600">0</span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <span class="text-[#0e1a13] font-medium">John Doe</span>
                                     </div>
-                                    <p class="text-[#0e1a13]">Great product! Highly recommended.</p>
+
+                                    <!-- Write Review Form -->
+                                    <div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+                                        <h4 class="text-lg font-semibold text-gray-900 mb-4">Write a Review</h4>
+                                        <form id="reviewForm">
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700 mb-2">Your Name</label>
+                                                    <input type="text" id="reviewerName" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                                                    <input type="email" id="reviewerEmail" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="mb-4">
+                                                <label class="block text-sm font-medium text-gray-700 mb-2">Rating</label>
+                                                <div id="ratingInput" class="flex gap-1">
+                                                    <button type="button" class="star-btn text-2xl text-gray-300 hover:text-yellow-400" data-rating="1">★</button>
+                                                    <button type="button" class="star-btn text-2xl text-gray-300 hover:text-yellow-400" data-rating="2">★</button>
+                                                    <button type="button" class="star-btn text-2xl text-gray-300 hover:text-yellow-400" data-rating="3">★</button>
+                                                    <button type="button" class="star-btn text-2xl text-gray-300 hover:text-yellow-400" data-rating="4">★</button>
+                                                    <button type="button" class="star-btn text-2xl text-gray-300 hover:text-yellow-400" data-rating="5">★</button>
+                                                </div>
+                                                <input type="hidden" id="selectedRating" required>
+                                        </div>
+                                            
+                                            <div class="mb-4">
+                                                <label class="block text-sm font-medium text-gray-700 mb-2">Review Title</label>
+                                                <input type="text" id="reviewTitle" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Summarize your experience">
+                                    </div>
+                                            
+                                            <div class="mb-4">
+                                                <label class="block text-sm font-medium text-gray-700 mb-2">Your Review</label>
+                                                <textarea id="reviewComment" required rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Share your experience with this product"></textarea>
                                 </div>
-                                <div class="bg-[#e8f2ec] p-4 rounded-lg">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <div class="flex text-yellow-400">
-                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                            </svg>
-                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                            </svg>
-                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                            </svg>
-                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                            </svg>
+                                            
+                                            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors duration-200">
+                                                Submit Review
+                                            </button>
+                                        </form>
                                         </div>
-                                        <span class="text-[#0e1a13] font-medium">Jane Smith</span>
+
+                                    <!-- Reviews List -->
+                                    <div id="reviewsList" class="space-y-4">
+                                        <!-- Reviews will be loaded here -->
                                     </div>
-                                    <p class="text-[#0e1a13]">Excellent quality and fast delivery!</p>
+
+                                    <!-- Load More Button -->
+                                    <div id="loadMoreContainer" class="text-center mt-6 hidden">
+                                        <button id="loadMoreReviews" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-2 rounded-lg font-semibold transition-colors duration-200">
+                                            Load More Reviews
+                                        </button>
                                 </div>
                             </div>
                         </div>
@@ -282,120 +440,215 @@
     </div>
 
     <script>
-        // Load product data from localStorage or use default
+        // Load product data from API
         let productData = {
-            id: 1,
-            name: 'The Secret Garden',
-            description: 'A classic children\'s novel about a young girl who discovers a magical garden.',
-            fullDescription: 'The Secret Garden is a novel by Frances Hodgson Burnett first published in book form in 1911. The story follows Mary Lennox, a spoiled and sickly 10-year-old girl who is sent to live with her uncle in England after her parents die in a cholera epidemic in India. Mary discovers a hidden garden that has been locked up for years, and with the help of her new friends, she brings it back to life while also healing herself and those around her.',
-            image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600',
-            price: 12.99,
-            originalPrice: 15.99,
-            discount: 20,
-            sku: 'BOOK-001',
-            brand: 'Classic Literature',
-            category: 'Books',
-            productType: 'Physical',
-            tax: 5,
-            businessLocation: 'Main Store',
-            availability: 'In Stock',
-            stock: 150
+            name: 'Loading...',
+            productId: 'Loading...',
+            sellingPrice: 0,
+            images: [],
+            description: 'Loading product details...',
+            brand: 'Loading...',
+            category: 'Loading...',
+            stock: 0
         };
 
-        // Load product data from API or localStorage
+        // Load product data from API
         async function loadProductFromStorage() {
             const urlParams = new URLSearchParams(window.location.search);
             const productId = urlParams.get('id');
-            if (!productId) return;
+            console.log('Product ID from URL:', productId);
+            
+            if (!productId) {
+                console.error('No product ID in URL');
+                return;
+            }
+            
             try {
-                // Try API first
+                console.log('Fetching product from API...');
                 const res = await fetch(`/api/products/${productId}`);
+                console.log('API response status:', res.status);
+                
                 if (res.ok) {
-                    const p = await res.json();
-                    productData = {
-                        id: p._id || p.id,
-                        name: p.name,
-                        description: p.description || '',
-                        fullDescription: p.description || 'No detailed description available.',
-                        image: p.image || 'https://via.placeholder.com/600x600?text=No+Image',
-                        price: (typeof p.sellingPrice === 'number') ? p.sellingPrice : (p.price || 0),
-                        originalPrice: (typeof p.unitPurchasePrice === 'number') ? p.unitPurchasePrice : (p.price || 0),
-                        discount: p.discount || 0,
-                        sku: p.sku || 'N/A',
-                        brand: p.brand || 'N/A',
-                        category: p.category || 'N/A',
-                        productType: p.productType || 'Physical',
-                        tax: p.tax || 0,
-                        businessLocation: p.businessLocation || 'N/A',
-                        availability: p.availability === 'in_stock' ? 'In Stock' : p.availability === 'low_stock' ? 'Low Stock' : 'Out of Stock',
-                        stock: p.currentStock || p.stock || 0
-                    };
+                    const apiData = await res.json();
+                    console.log('Product data from API:', apiData);
+                    
+                    // Check if product is active and in stock
+                    if (apiData.status !== 'active') {
+                        showProductUnavailable('This product is currently unavailable.');
                     return;
                 }
-            } catch {}
-            // Fallback to localStorage mirror
-            const savedProducts = localStorage.getItem('allProducts');
-            if (savedProducts) {
-                try {
-                    const products = JSON.parse(savedProducts);
-                    const product = products.find(p => (p._id || p.id) == productId);
-                    if (product) {
-                        productData = {
-                            id: product._id || product.id,
-                            name: product.name,
-                            description: product.description || '',
-                            fullDescription: product.description || 'No detailed description available.',
-                            image: product.image || 'https://via.placeholder.com/600x600?text=No+Image',
-                            price: product.sellingPrice || product.price || 0,
-                            originalPrice: product.unitPurchasePrice || product.price || 0,
-                            discount: product.discount || 0,
-                            sku: product.sku || 'N/A',
-                            brand: product.brand || 'N/A',
-                            category: product.category || 'N/A',
-                            productType: product.productType || 'Physical',
-                            tax: product.tax || 0,
-                            businessLocation: product.businessLocation || 'N/A',
-                            availability: product.availability === 'in_stock' ? 'In Stock' : product.availability === 'low_stock' ? 'Low Stock' : 'Out of Stock',
-                            stock: product.currentStock || product.stock || 0
-                        };
-                    }
-                } catch {}
+                    
+                    if (apiData.stock <= 0) {
+                        showProductUnavailable('This product is currently out of stock.');
+                    return;
+                }
+                    
+                    productData = apiData;
+                    console.log('Product data updated:', productData);
+                } else if (res.status === 404) {
+                    showProductUnavailable('Product not found or no longer available.');
+                } else {
+                    console.error('API response not ok:', res.status, res.statusText);
+                    showProductUnavailable('Error loading product. Please try again later.');
+                }
+            } catch (error) {
+                console.error('Error loading product from API:', error);
+                showProductUnavailable('Error loading product. Please try again later.');
+            }
+        }
+
+        // Show product unavailable message
+        function showProductUnavailable(message) {
+            const mainContent = document.querySelector('.px-4.md\\:px-10.flex.flex-1.justify-center.py-5.pt-20');
+            if (mainContent) {
+                mainContent.innerHTML = `
+                    <div class="max-w-4xl w-full mx-auto">
+                        <div class="bg-white rounded-lg shadow-lg p-8 text-center">
+                            <div class="mb-6">
+                                <svg class="w-24 h-24 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                </svg>
+                                <h1 class="text-2xl font-bold text-gray-900 mb-2">Product Unavailable</h1>
+                                <p class="text-gray-600 mb-6">${message}</p>
+                            </div>
+                            <div class="space-y-4">
+                                <a href="bookshop.html" class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200">
+                                    Continue Shopping
+                                </a>
+                                <div class="text-sm text-gray-500">
+                                    <a href="index.html" class="text-green-600 hover:text-green-700">← Back to Home</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
             }
         }
 
         // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            loadProductFromStorage();
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('DOM loaded, starting product load...');
+            await loadProductFromStorage();
+            console.log('Product loaded, calling loadProductData...');
             loadProductData();
             setupEventListeners();
             setupTabs();
+            initializeReviewSystem();
         });
 
         // Load product data into the page
         function loadProductData() {
-            document.getElementById('productTitle').textContent = productData.name;
-            document.getElementById('productNameBreadcrumb').textContent = productData.name;
-            document.getElementById('productImage').src = productData.image;
-            document.getElementById('productImageThumb1').src = productData.image;
-            document.getElementById('productImageThumb2').src = productData.image;
-            document.getElementById('productImageThumb3').src = productData.image;
-            document.getElementById('productSKU').textContent = `SKU: ${productData.sku}`;
-            document.getElementById('productPrice').textContent = `LKR ${productData.price.toFixed(2)}`;
-            document.getElementById('productOriginalPrice').textContent = `LKR ${productData.originalPrice.toFixed(2)}`;
-            document.getElementById('productDiscount').textContent = `-${productData.discount}%`;
-            document.getElementById('productDescription').textContent = productData.description;
-            document.getElementById('fullDescription').textContent = productData.fullDescription;
-            document.getElementById('productAvailability').textContent = productData.availability;
-            document.getElementById('productBrand').textContent = productData.brand;
-            document.getElementById('productCategory').textContent = productData.category;
+            console.log('Loading product data into UI:', productData);
             
-            // Specifications
-            document.getElementById('specProductType').textContent = productData.productType;
-            document.getElementById('specSKU').textContent = productData.sku;
-            document.getElementById('specBrand').textContent = productData.brand;
-            document.getElementById('specCategory').textContent = productData.category;
-            document.getElementById('specTax').textContent = `${productData.tax}%`;
-            document.getElementById('specLocation').textContent = productData.businessLocation;
+            if (!productData) {
+                console.error('No product data available');
+                return;
+            }
+            
+            // Use database structure
+            const productImage = (productData.images && productData.images.length > 0) 
+              ? productData.images[0] 
+              : "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xNTAgMTAwQzE2NS40NjQgMTAwIDE3NyAxMTEuNTM2IDE3NyAxMjdDMTc3IDE0Mi40NjQgMTY1LjQ2NCAxNTQgMTUwIDE1NEMxMzQuNTM2IDE1NCAxMjMgMTQyLjQ2NCAxMjMgMTI3QzEyMyAxMTEuNTM2IDEzNC41MzYgMTAwIDE1MCAxMDBaIiBmaWxsPSIjOUI5QkE1Ii8+CjxwYXRoIGQ9Ik0xMjMgMTc3SDE3N1YyMDBIMTIzVjE3N1oiIGZpbGw9IiM5QjlCQTUiLz4KPC9zdmc+";
+            
+            const hasDiscount = productData.discountPrice && productData.discountPrice < productData.sellingPrice;
+            const finalPrice = hasDiscount ? productData.discountPrice : (productData.sellingPrice || 0);
+            const discountPercentage = hasDiscount ? Math.round(((productData.sellingPrice - productData.discountPrice) / productData.sellingPrice) * 100) : 0;
+            const isInStock = (productData.stock || 0) > 0;
+            
+            // Update UI elements
+            const productTitle = document.getElementById('productTitle');
+            const productNameBreadcrumb = document.getElementById('productNameBreadcrumb');
+            const productImageEl = document.getElementById('productImage');
+            const productSKU = document.getElementById('productSKU');
+            const productPriceEl = document.getElementById('productPrice');
+            const productDescriptionEl = document.getElementById('productDescription');
+            const productAvailabilityEl = document.getElementById('productAvailability');
+            const productBrandEl = document.getElementById('productBrand');
+            const productCategoryEl = document.getElementById('productCategory');
+            
+            if (productTitle) productTitle.textContent = productData.name || 'Product Name';
+            if (productNameBreadcrumb) productNameBreadcrumb.textContent = productData.name || 'Product Name';
+            if (productImageEl) productImageEl.src = productImage;
+            if (productSKU) productSKU.textContent = `SKU: ${productData.productId || 'N/A'}`;
+            if (productPriceEl) productPriceEl.textContent = `LKR ${finalPrice.toFixed(2)}`;
+            if (productDescriptionEl) productDescriptionEl.textContent = productData.description || "No description available";
+            if (productAvailabilityEl) productAvailabilityEl.textContent = isInStock ? "In Stock" : "Out of Stock";
+            if (productBrandEl) productBrandEl.textContent = productData.brand || "No brand";
+            if (productCategoryEl) productCategoryEl.textContent = productData.category || "Uncategorized";
+            
+            // Handle discount display
+            const productOriginalPriceEl = document.getElementById('productOriginalPrice');
+            const productDiscountEl = document.getElementById('productDiscount');
+            const productImageDiscountBadge = document.getElementById('productImageDiscountBadge');
+            const productImageDiscountText = document.getElementById('productImageDiscountText');
+            const productContainer = document.getElementById('productContainer');
+            const specialOfferBanner = document.getElementById('specialOfferBanner');
+            
+            if (hasDiscount) {
+                // Show discount elements
+                if (productOriginalPriceEl) {
+                    productOriginalPriceEl.textContent = `LKR ${productData.sellingPrice.toFixed(2)}`;
+                    productOriginalPriceEl.classList.remove('hidden');
+                }
+                if (productDiscountEl) {
+                    productDiscountEl.textContent = `-${discountPercentage}%`;
+                    productDiscountEl.classList.remove('hidden');
+                }
+                if (productImageDiscountBadge) {
+                    productImageDiscountBadge.classList.remove('hidden');
+                }
+                if (productImageDiscountText) {
+                    productImageDiscountText.textContent = `-${discountPercentage}%`;
+                }
+                if (specialOfferBanner) {
+                    specialOfferBanner.classList.remove('hidden');
+                }
+                // Add special styling for discounted products
+                if (productContainer) {
+                    productContainer.classList.add('border-2', 'border-red-200', 'ring-2', 'ring-red-100');
+                }
+            } else {
+                // Hide discount elements
+                if (productOriginalPriceEl) productOriginalPriceEl.classList.add('hidden');
+                if (productDiscountEl) productDiscountEl.classList.add('hidden');
+                if (productImageDiscountBadge) productImageDiscountBadge.classList.add('hidden');
+                if (specialOfferBanner) specialOfferBanner.classList.add('hidden');
+                // Remove special styling
+                if (productContainer) {
+                    productContainer.classList.remove('border-2', 'border-red-200', 'ring-2', 'ring-red-100');
+                }
+            }
+            
+            // Update thumbnails
+            const thumb1 = document.getElementById('productImageThumb1');
+            const thumb2 = document.getElementById('productImageThumb2');
+            const thumb3 = document.getElementById('productImageThumb3');
+            if (thumb1) thumb1.src = productImage;
+            if (thumb2) thumb2.src = productImage;
+            if (thumb3) thumb3.src = productImage;
+            
+            // Update description in the description tab
+            const fullDescriptionEl = document.getElementById('fullDescription');
+            if (fullDescriptionEl) {
+                const description = productData.description || 'No description available';
+                fullDescriptionEl.textContent = description;
+            }
+            
+            console.log('UI updated with product data');
+            
+            // Update specifications with actual data
+            if (document.getElementById('specProductType')) {
+                document.getElementById('specProductType').textContent = productData.category || "Product";
+            }
+            if (document.getElementById('specSKU')) {
+                document.getElementById('specSKU').textContent = productData.productId;
+            }
+            if (document.getElementById('specBrand')) {
+                document.getElementById('specBrand').textContent = productData.brand || "No brand";
+            }
+            if (document.getElementById('specCategory')) {
+                document.getElementById('specCategory').textContent = productData.category || "Uncategorized";
+            }
             
             updateTotalPrice();
         }
@@ -443,8 +696,15 @@
         function updateTotalPrice() {
             const quantitySpan = document.getElementById('quantityDetail');
             const quantity = quantitySpan ? parseInt(quantitySpan.textContent) : 1;
-            const total = productData.price * quantity;
+            
+            // Use actual database pricing
+            const hasDiscount = productData.discountPrice && productData.discountPrice < productData.sellingPrice;
+            const unitPrice = hasDiscount ? productData.discountPrice : productData.sellingPrice;
+            const total = unitPrice * quantity;
+            
+            if (document.getElementById('totalPrice')) {
             document.getElementById('totalPrice').textContent = `LKR ${total.toFixed(2)}`;
+            }
         }
 
         // Setup tab functionality
@@ -480,24 +740,30 @@
             const cartItem = {
                 id: productData.id,
                 name: productData.name,
-                price: productData.price,
-                image: productData.image,
-                quantity: quantity
+                price: productData.discountPrice || productData.sellingPrice || productData.price,
+                qty: quantity,
+                image: productData.image || (productData.images && productData.images[0]) || '',
+                images: productData.images || [],
+                category: productData.category,
+                brand: productData.brand
             };
             
             // Get existing cart from localStorage
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let cart = JSON.parse(localStorage.getItem('nethwin_cart')) || [];
             
             // Check if item already exists in cart
             const existingItemIndex = cart.findIndex(item => item.id === cartItem.id);
             if (existingItemIndex !== -1) {
-                cart[existingItemIndex].quantity += quantity;
+                cart[existingItemIndex].qty += quantity;
             } else {
                 cart.push(cartItem);
             }
             
             // Save to localStorage
-            localStorage.setItem('cart', JSON.stringify(cart));
+            localStorage.setItem('nethwin_cart', JSON.stringify(cart));
+            
+            // Update cart count
+            updateCartCount();
             
             // Show success message
             alert('Product added to cart successfully!');
@@ -522,6 +788,319 @@
             localStorage.setItem('checkout', JSON.stringify(checkoutData));
             window.location.href = 'checkout.html';
         }
+
+        // Review System
+        let currentPage = 1;
+        let reviewsData = { reviews: [], pagination: {} };
+
+        // Load reviews for the current product
+        async function loadReviews() {
+            try {
+                // Use the MongoDB _id instead of productId for the API call
+                const productId = productData._id || productData.productId;
+                console.log('Loading reviews for product ID:', productId);
+                const response = await fetch(`/api/reviews/product/${productId}?page=${currentPage}&limit=5`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                if (currentPage === 1) {
+                    reviewsData = data;
+                    updateReviewSummary(data);
+                } else {
+                    reviewsData.reviews = [...reviewsData.reviews, ...data.reviews];
+                    reviewsData.pagination = data.pagination;
+                }
+                
+                displayReviews();
+                updateLoadMoreButton();
+            } catch (error) {
+                console.error('Error loading reviews:', error);
+                // Show a user-friendly message if reviews fail to load
+                const reviewsContainer = document.getElementById('reviewsList');
+                if (reviewsContainer) {
+                    reviewsContainer.innerHTML = `
+                        <div class="text-center py-8 text-gray-500">
+                            <p>Unable to load reviews at this time. Please try again later.</p>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // Update review summary
+        function updateReviewSummary(data) {
+            const avgRating = data.averageRating || 0;
+            const totalReviews = data.totalReviews || 0;
+            
+            document.getElementById('averageRating').textContent = avgRating.toFixed(1);
+            document.getElementById('totalReviews').textContent = `${totalReviews} review${totalReviews !== 1 ? 's' : ''}`;
+            
+            // Update star display
+            const starContainer = document.getElementById('starRating');
+            starContainer.innerHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                const star = document.createElement('span');
+                star.textContent = '★';
+                star.className = i <= Math.round(avgRating) ? 'text-yellow-400' : 'text-gray-300';
+                starContainer.appendChild(star);
+            }
+            
+            // Update rating distribution
+            const ratingCounts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+            data.reviews.forEach(review => {
+                ratingCounts[review.rating]++;
+            });
+            
+            for (let i = 1; i <= 5; i++) {
+                const count = ratingCounts[i] || 0;
+                const percentage = totalReviews > 0 ? (count / totalReviews) * 100 : 0;
+                
+                document.getElementById(`ratingCount${i}`).textContent = count;
+                document.getElementById(`ratingBar${i}`).style.width = `${percentage}%`;
+            }
+        }
+
+        // Display reviews
+        function displayReviews() {
+            const reviewsList = document.getElementById('reviewsList');
+            reviewsList.innerHTML = '';
+            
+            if (reviewsData.reviews.length === 0) {
+                reviewsList.innerHTML = '<p class="text-gray-500 text-center py-8">No reviews yet. Be the first to review this product!</p>';
+                return;
+            }
+            
+            reviewsData.reviews.forEach(review => {
+                const reviewElement = createReviewElement(review);
+                reviewsList.appendChild(reviewElement);
+            });
+        }
+
+        // Create review element
+        function createReviewElement(review) {
+            const div = document.createElement('div');
+            div.className = 'bg-gray-50 p-4 rounded-lg border border-gray-200';
+            
+            const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+            const date = new Date(review.createdAt).toLocaleDateString();
+            
+            div.innerHTML = `
+                <div class="flex items-start justify-between mb-2">
+                    <div class="flex items-center gap-3">
+                        <div class="text-yellow-400 text-lg">${stars}</div>
+                        <div>
+                            <div class="font-semibold text-gray-900">${review.userName}</div>
+                            <div class="text-sm text-gray-500">${date}</div>
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-500">${review.helpfulVotes} helpful</div>
+                </div>
+                <h5 class="font-semibold text-gray-900 mb-2">${review.title}</h5>
+                <p class="text-gray-700 mb-3">${review.comment}</p>
+                <div class="flex items-center gap-4">
+                    <button class="text-sm text-blue-600 hover:text-blue-800" onclick="voteHelpful('${review._id}')">
+                        Helpful
+                    </button>
+                    <button class="text-sm text-gray-500 hover:text-gray-700" onclick="reportReview('${review._id}')">
+                        Report
+                    </button>
+                </div>
+            `;
+            
+            return div;
+        }
+
+        // Update load more button
+        function updateLoadMoreButton() {
+            const loadMoreContainer = document.getElementById('loadMoreContainer');
+            const hasMore = reviewsData.pagination.page < reviewsData.pagination.pages;
+            
+            if (hasMore) {
+                loadMoreContainer.classList.remove('hidden');
+            } else {
+                loadMoreContainer.classList.add('hidden');
+            }
+        }
+
+        // Load more reviews
+        function loadMoreReviews() {
+            currentPage++;
+            loadReviews();
+        }
+
+        // Vote helpful
+        async function voteHelpful(reviewId) {
+            try {
+                const response = await fetch(`/api/reviews/${reviewId}/vote`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ helpful: true })
+                });
+                
+                if (response.ok) {
+                    // Reload reviews to update vote count
+                    currentPage = 1;
+                    loadReviews();
+                }
+            } catch (error) {
+                console.error('Error voting:', error);
+            }
+        }
+
+        // Report review
+        function reportReview(reviewId) {
+            if (confirm('Are you sure you want to report this review?')) {
+                // In a real app, you'd send a report to the admin
+                alert('Review reported. Thank you for your feedback.');
+            }
+        }
+
+        // Initialize review form
+        function initializeReviewForm() {
+            const form = document.getElementById('reviewForm');
+            const starButtons = document.querySelectorAll('.star-btn');
+            const selectedRatingInput = document.getElementById('selectedRating');
+            
+            // Star rating interaction
+            starButtons.forEach((btn, index) => {
+                btn.addEventListener('click', () => {
+                    const rating = index + 1;
+                    selectedRatingInput.value = rating;
+                    
+                    starButtons.forEach((star, i) => {
+                        if (i < rating) {
+                            star.classList.add('text-yellow-400');
+                            star.classList.remove('text-gray-300');
+                        } else {
+                            star.classList.add('text-gray-300');
+                            star.classList.remove('text-yellow-400');
+                        }
+                    });
+                });
+                
+                btn.addEventListener('mouseenter', () => {
+                    const rating = index + 1;
+                    starButtons.forEach((star, i) => {
+                        if (i < rating) {
+                            star.classList.add('text-yellow-400');
+                            star.classList.remove('text-gray-300');
+                        }
+                    });
+                });
+            });
+            
+            // Reset stars on mouse leave
+            document.getElementById('ratingInput').addEventListener('mouseleave', () => {
+                const currentRating = parseInt(selectedRatingInput.value) || 0;
+                starButtons.forEach((star, i) => {
+                    if (i < currentRating) {
+                        star.classList.add('text-yellow-400');
+                        star.classList.remove('text-gray-300');
+                    } else {
+                        star.classList.add('text-gray-300');
+                        star.classList.remove('text-yellow-400');
+                    }
+                });
+            });
+            
+            // Form submission
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = {
+                    productId: productData._id || productData.productId,
+                    userId: 'guest_' + Date.now(), // In a real app, use actual user ID
+                    userName: document.getElementById('reviewerName').value,
+                    userEmail: document.getElementById('reviewerEmail').value,
+                    rating: parseInt(selectedRatingInput.value),
+                    title: document.getElementById('reviewTitle').value,
+                    comment: document.getElementById('reviewComment').value
+                };
+                
+                try {
+                    const response = await fetch('/api/reviews', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+                    
+                    if (response.ok) {
+                        alert('Review submitted successfully! It will be reviewed before being published.');
+                        form.reset();
+                        selectedRatingInput.value = '';
+                        starButtons.forEach(star => {
+                            star.classList.add('text-gray-300');
+                            star.classList.remove('text-yellow-400');
+                        });
+                        // Reload reviews
+                        currentPage = 1;
+                        loadReviews();
+                    } else {
+                        const error = await response.json();
+                        alert('Error submitting review: ' + (error.error || 'Unknown error'));
+                    }
+                } catch (error) {
+                    console.error('Error submitting review:', error);
+                    alert('Error submitting review. Please try again.');
+                }
+            });
+        }
+
+        // Load more reviews button
+        document.getElementById('loadMoreReviews').addEventListener('click', loadMoreReviews);
+
+        // Initialize review system when product is loaded
+        function initializeReviewSystem() {
+            if (productData && productData.productId) {
+                loadReviews();
+                initializeReviewForm();
+            }
+        }
+
+        // Update cart count function
+        function updateCartCount() {
+            try {
+                const cart = JSON.parse(localStorage.getItem('nethwin_cart') || '[]');
+                const totalItems = cart.reduce((sum, item) => sum + (item.qty || item.quantity || 0), 0);
+                
+                const cartCount = document.getElementById('cartCount');
+                const mobileCartCount = document.getElementById('mobileCartCount');
+                
+                if (cartCount) {
+                    if (totalItems > 0) {
+                        cartCount.textContent = totalItems;
+                        cartCount.classList.remove('hidden');
+                    } else {
+                        cartCount.classList.add('hidden');
+                    }
+                }
+                
+                if (mobileCartCount) {
+                    if (totalItems > 0) {
+                        mobileCartCount.textContent = totalItems;
+                        mobileCartCount.classList.remove('hidden');
+                    } else {
+                        mobileCartCount.classList.add('hidden');
+                    }
+                }
+            } catch (e) {
+                console.error('Error updating cart count:', e);
+            }
+        }
+
+        // Update cart count on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+        });
     </script>
+    
+    <!-- Navbar JavaScript -->
+    <script src="../javascript/navbar.js"></script>
+    <!-- Background Animations JavaScript -->
+    <script src="../javascript/background-animations.js"></script>
 </body>
 </html>
