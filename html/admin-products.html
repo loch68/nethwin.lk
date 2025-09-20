@@ -147,13 +147,14 @@
                             </svg>
                             Messages
                         </a>
-                        <a href="admin-settings.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                            Settings
-                        </a>
+                    <a href="admin-settings.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        Settings
+                    </a>
+                    
                     </nav>
 
                     <!-- User Mode & Logout Section -->
@@ -206,29 +207,93 @@
 
                         <!-- Products Content -->
                         <div class="px-6 py-6">
-                            <div class="admin-card p-8 fade-in-up">
-                                <div class="flex items-center space-x-3 mb-6">
-                                    <div class="p-2 bg-green-100 rounded-lg">
-                                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                                        </svg>
-                                    </div>
-                                    <h3 class="text-2xl font-bold text-[#0e1a13]">Product Management</h3>
-                                </div>
-                                <div class="text-center py-12">
-                                    <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                            <!-- Action Buttons -->
+                            <div class="flex flex-col sm:flex-row gap-4 mb-6">
+                                <button id="addProductBtn" class="bg-gradient-to-r from-[#0ad167] to-[#078829] hover:from-[#078829] hover:to-[#0ad167] text-white py-3 px-6 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced flex items-center space-x-2">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                     </svg>
-                                    <h4 class="text-lg font-semibold text-[#0e1a13] mb-2">No Products Yet</h4>
-                                    <p class="text-[#51946c] mb-6">Add and manage your product catalog here.</p>
-                                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                                        <button class="bg-gradient-to-r from-[#0ad167] to-[#078829] hover:from-[#078829] hover:to-[#0ad167] text-white py-3 px-6 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced">
-                                            Add New Product
-                                        </button>
-                                        <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-6 rounded-lg font-medium transition-all duration-200 btn-enhanced">
-                                            Import Products
-                                        </button>
+                                    <span>Add New Product</span>
+                                </button>
+                                <button id="importProductsBtn" class="bg-blue-100 hover:bg-blue-200 text-blue-700 py-3 px-6 rounded-lg font-medium transition-all duration-200 btn-enhanced flex items-center space-x-2">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                                    </svg>
+                                    <span>Import Products</span>
+                                </button>
+                                <button id="refreshProductsBtn" class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-6 rounded-lg font-medium transition-all duration-200 btn-enhanced flex items-center space-x-2">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                    </svg>
+                                    <span>Refresh</span>
+                                </button>
+                            </div>
+
+                            <!-- Products Table -->
+                            <div class="admin-card fade-in-up">
+                                <div class="p-6 border-b border-gray-200">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="p-2 bg-green-100 rounded-lg">
+                                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <h3 class="text-xl font-bold text-[#0e1a13]">Products</h3>
+                                                <p class="text-[#51946c] text-sm">Manage your product catalog</p>
+                                            </div>
+                                        </div>
+                                        <div class="text-sm text-gray-500">
+                                            Total: <span id="totalProductsCount" class="font-semibold text-[#0e1a13]">0</span>
+                                        </div>
                                     </div>
+                                </div>
+                                
+                                <!-- Search and Filters -->
+                                <div class="p-6 border-b border-gray-200">
+                                    <div class="flex flex-col sm:flex-row gap-4">
+                                        <div class="flex-1">
+                                            <div class="relative">
+                                                <input type="text" id="productSearch" placeholder="Search products..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent">
+                                                <svg class="absolute left-3 top-2.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <select id="categoryFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent">
+                                            <option value="">All Categories</option>
+                                            <option value="books">Books</option>
+                                            <option value="stationery">Stationery</option>
+                                            <option value="electronics">Electronics</option>
+                                            <option value="accessories">Accessories</option>
+                                        </select>
+                                        <select id="statusFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent">
+                                            <option value="">All Status</option>
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inactive</option>
+                                            <option value="discontinued">Discontinued</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Products Table -->
+                                <div class="overflow-x-auto">
+                                    <table class="w-full">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="productsTableBody" class="bg-white divide-y divide-gray-200">
+                                            <!-- Products will be loaded here -->
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -238,7 +303,302 @@
         </div>
     </div>
 
+    <!-- Add Product Modal -->
+    <div id="addProductModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 hidden">
+        <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between pb-4 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-[#0e1a13]">Add New Product</h3>
+                    <button id="closeModalBtn" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <form id="addProductForm" class="mt-6 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Product ID -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Product ID / SKU *</label>
+                            <input type="text" id="productId" name="productId" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent" placeholder="e.g., PROD-001">
+                        </div>
+
+                        <!-- Product Name -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Product Name *</label>
+                            <input type="text" id="productName" name="name" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent" placeholder="Enter product name">
+                        </div>
+
+                        <!-- Category -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
+                            <select id="productCategory" name="category" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent">
+                                <option value="">Select Category</option>
+                                <option value="books">Books</option>
+                                <option value="stationery">Stationery</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="accessories">Accessories</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <!-- Brand -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Brand</label>
+                            <input type="text" id="productBrand" name="brand" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent" placeholder="Enter brand name">
+                        </div>
+
+                        <!-- Selling Price -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Selling Price (Rs.) *</label>
+                            <input type="number" id="sellingPrice" name="sellingPrice" required min="0" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent" placeholder="0.00">
+                        </div>
+
+                        <!-- Purchase Price -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Purchase Price (Rs.) *</label>
+                            <input type="number" id="purchasePrice" name="purchasePrice" required min="0" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent" placeholder="0.00">
+                        </div>
+
+                        <!-- Stock -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Stock Quantity *</label>
+                            <input type="number" id="stock" name="stock" required min="0" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent" placeholder="0">
+                        </div>
+
+                        <!-- Discount Price -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Discount Price (Rs.)</label>
+                            <input type="number" id="discountPrice" name="discountPrice" min="0" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent" placeholder="0.00">
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                        <textarea id="productDescription" name="description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent" placeholder="Enter product description"></textarea>
+                    </div>
+
+                    <!-- Image Upload -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Product Images</label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 transition-colors">
+                            <div class="space-y-1 text-center">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="flex text-sm text-gray-600">
+                                    <label for="productImages" class="relative cursor-pointer bg-white rounded-md font-medium text-[#0ad167] hover:text-[#078829] focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-[#0ad167]">
+                                        <span>Upload images</span>
+                                        <input id="productImages" name="images" type="file" multiple accept="image/*" class="sr-only">
+                                    </label>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-500">PNG, JPG, GIF up to 5MB each</p>
+                            </div>
+                        </div>
+                        <div id="imagePreview" class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4 hidden">
+                            <!-- Image previews will be shown here -->
+                        </div>
+                    </div>
+
+                    <!-- Variants -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Product Variants</label>
+                        <div id="variantsContainer" class="space-y-3">
+                            <div class="flex space-x-3">
+                                <input type="text" placeholder="Size" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent">
+                                <input type="text" placeholder="Color" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent">
+                                <button type="button" id="removeVariantBtn" class="px-3 py-2 text-red-600 hover:text-red-800 hidden">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="button" id="addVariantBtn" class="mt-2 text-sm text-[#0ad167] hover:text-[#078829] font-medium">+ Add Variant</button>
+                    </div>
+
+                    <!-- Status -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                        <select id="productStatus" name="status" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="discontinued">Discontinued</option>
+                        </select>
+                    </div>
+                </form>
+
+                <!-- Modal Footer -->
+                <div class="flex items-center justify-end space-x-3 pt-6 border-t border-gray-200">
+                    <button type="button" id="cancelBtn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        Cancel
+                    </button>
+                    <button type="submit" form="addProductForm" id="saveProductBtn" class="px-4 py-2 text-sm font-medium text-white bg-[#0ad167] border border-transparent rounded-lg hover:bg-[#078829] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0ad167]">
+                        Save Product
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div id="editProductModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 hidden">
+        <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between pb-4 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-[#0e1a13]">Edit Product</h3>
+                    <button id="closeEditModalBtn" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <form id="editProductForm" class="mt-6 space-y-6">
+                    <input type="hidden" id="editProductId" name="productId">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Product ID -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Product ID / SKU *</label>
+                            <input type="text" id="editProductIdField" name="productId" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent" placeholder="e.g., PROD-001">
+                        </div>
+
+                        <!-- Product Name -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Product Name *</label>
+                            <input type="text" id="editProductName" name="name" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent" placeholder="Enter product name">
+                        </div>
+
+                        <!-- Category -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
+                            <select id="editProductCategory" name="category" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent">
+                                <option value="">Select Category</option>
+                                <option value="books">Books</option>
+                                <option value="stationery">Stationery</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="accessories">Accessories</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <!-- Brand -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Brand</label>
+                            <input type="text" id="editProductBrand" name="brand" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent" placeholder="Enter brand name">
+                        </div>
+
+                        <!-- Selling Price -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Selling Price (Rs.) *</label>
+                            <input type="number" id="editSellingPrice" name="sellingPrice" required min="0" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent" placeholder="0.00">
+                        </div>
+
+                        <!-- Purchase Price -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Purchase Price (Rs.) *</label>
+                            <input type="number" id="editPurchasePrice" name="purchasePrice" required min="0" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent" placeholder="0.00">
+                        </div>
+
+                        <!-- Stock -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Stock Quantity *</label>
+                            <input type="number" id="editStock" name="stock" required min="0" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent" placeholder="0">
+                        </div>
+
+                        <!-- Discount Price -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Discount Price (Rs.)</label>
+                            <input type="number" id="editDiscountPrice" name="discountPrice" min="0" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent" placeholder="0.00">
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                        <textarea id="editProductDescription" name="description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent" placeholder="Enter product description"></textarea>
+                    </div>
+
+                    <!-- Current Images -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Current Images</label>
+                        <div id="currentImagesContainer" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <!-- Current images will be shown here -->
+                        </div>
+                    </div>
+
+                    <!-- Image Upload -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Add New Images</label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 transition-colors">
+                            <div class="space-y-1 text-center">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="flex text-sm text-gray-600">
+                                    <label for="editProductImages" class="relative cursor-pointer bg-white rounded-md font-medium text-[#0ad167] hover:text-[#078829] focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-[#0ad167]">
+                                        <span>Upload new images</span>
+                                        <input id="editProductImages" name="images" type="file" multiple accept="image/*" class="sr-only">
+                                    </label>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-500">PNG, JPG, GIF up to 5MB each</p>
+                            </div>
+                        </div>
+                        <div id="editImagePreview" class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4 hidden">
+                            <!-- New image previews will be shown here -->
+                        </div>
+                    </div>
+
+                    <!-- Variants -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Product Variants</label>
+                        <div id="editVariantsContainer" class="space-y-3">
+                            <!-- Variants will be loaded here -->
+                        </div>
+                        <button type="button" id="addEditVariantBtn" class="mt-2 text-sm text-[#0ad167] hover:text-[#078829] font-medium">+ Add Variant</button>
+                    </div>
+
+                    <!-- Status -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                        <select id="editProductStatus" name="status" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="discontinued">Discontinued</option>
+                        </select>
+                    </div>
+                </form>
+
+                <!-- Modal Footer -->
+                <div class="flex items-center justify-end space-x-3 pt-6 border-t border-gray-200">
+                    <button type="button" id="cancelEditBtn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        Cancel
+                    </button>
+                    <button type="submit" form="editProductForm" id="updateProductBtn" class="px-4 py-2 text-sm font-medium text-white bg-[#0ad167] border border-transparent rounded-lg hover:bg-[#078829] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0ad167]">
+                        Update Product
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Global variables
+        let products = [];
+        let filteredProducts = [];
+        let uploadedImages = [];
+        let editUploadedImages = [];
+        let currentEditingProduct = null;
+
         // Authentication check
         document.addEventListener('DOMContentLoaded', function() {
             // Check if user is logged in and is admin
@@ -259,7 +619,618 @@
                     window.location.href = 'index.html';
                 }
             });
+
+            // Initialize product management
+            initializeProductManagement();
         });
+
+        // Initialize product management functionality
+        function initializeProductManagement() {
+            // Load products
+            loadProducts();
+            
+            // Event listeners
+            document.getElementById('addProductBtn').addEventListener('click', showAddProductModal);
+            document.getElementById('closeModalBtn').addEventListener('click', hideAddProductModal);
+            document.getElementById('cancelBtn').addEventListener('click', hideAddProductModal);
+            document.getElementById('refreshProductsBtn').addEventListener('click', loadProducts);
+            document.getElementById('addProductForm').addEventListener('submit', handleAddProduct);
+            document.getElementById('productImages').addEventListener('change', handleImageUpload);
+            document.getElementById('addVariantBtn').addEventListener('click', addVariant);
+            document.getElementById('productSearch').addEventListener('input', filterProducts);
+            document.getElementById('categoryFilter').addEventListener('change', filterProducts);
+            document.getElementById('statusFilter').addEventListener('change', filterProducts);
+            
+            // Edit modal event listeners
+            document.getElementById('closeEditModalBtn').addEventListener('click', hideEditProductModal);
+            document.getElementById('cancelEditBtn').addEventListener('click', hideEditProductModal);
+            document.getElementById('editProductForm').addEventListener('submit', handleEditProduct);
+            document.getElementById('editProductImages').addEventListener('change', handleEditImageUpload);
+            document.getElementById('addEditVariantBtn').addEventListener('click', addEditVariant);
+        }
+
+        // Load products from API
+        async function loadProducts() {
+            try {
+                const response = await fetch('/api/products?includeInactive=true&status=all');
+                const data = await response.json();
+                
+                if (data.products) {
+                    products = data.products;
+                    filteredProducts = [...products];
+                    displayProducts();
+                    updateTotalProductsCount();
+                } else {
+                    console.error('Failed to load products:', data.error);
+                    displayProducts([]);
+                }
+            } catch (error) {
+                console.error('Error loading products:', error);
+                displayProducts([]);
+            }
+        }
+
+        // Display products in table
+        function displayProducts(productsToShow = filteredProducts) {
+            const tbody = document.getElementById('productsTableBody');
+            
+            if (productsToShow.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="px-6 py-12 text-center text-gray-500">
+                            <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                            </svg>
+                            <h4 class="text-lg font-semibold text-gray-900 mb-2">No Products Found</h4>
+                            <p class="text-gray-500">Start by adding your first product to the catalog.</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = productsToShow.map(product => `
+                <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-16 w-16">
+                                ${product.images && product.images.length > 0 ? 
+                                    `<img class="h-16 w-16 rounded-lg object-cover" src="${product.images[0]}" alt="${product.name}">` :
+                                    `<div class="h-16 w-16 rounded-lg bg-gray-200 flex items-center justify-center">
+                                        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </div>`
+                                }
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">${product.name}</div>
+                                <div class="text-sm text-gray-500">ID: ${product.productId}</div>
+                                ${product.brand ? `<div class="text-sm text-gray-500">Brand: ${product.brand}</div>` : ''}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            ${product.category}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <div class="font-medium">Rs. ${product.sellingPrice}</div>
+                        ${product.discountPrice ? `<div class="text-xs text-gray-500 line-through">Rs. ${product.discountPrice}</div>` : ''}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${product.stock > 10 ? 'bg-green-100 text-green-800' : product.stock > 0 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}">
+                            ${product.stock} units
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(product.status)}">
+                            ${product.status}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <div class="flex space-x-2">
+                            <button onclick="editProduct('${product._id}')" class="text-[#0ad167] hover:text-[#078829]">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                </svg>
+                            </button>
+                            <button onclick="deleteProduct('${product._id}')" class="text-red-600 hover:text-red-900">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Get status color class
+        function getStatusColor(status) {
+            const statusColors = {
+                'active': 'bg-green-100 text-green-800',
+                'inactive': 'bg-yellow-100 text-yellow-800',
+                'discontinued': 'bg-red-100 text-red-800'
+            };
+            return statusColors[status] || 'bg-gray-100 text-gray-800';
+        }
+
+        // Update total products count
+        function updateTotalProductsCount() {
+            const countElement = document.getElementById('totalProductsCount');
+            if (countElement) {
+                countElement.textContent = products.length;
+            }
+        }
+
+        // Show add product modal
+        function showAddProductModal() {
+            document.getElementById('addProductModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Hide add product modal
+        function hideAddProductModal() {
+            document.getElementById('addProductModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            resetForm();
+        }
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('addProductForm').reset();
+            uploadedImages = [];
+            document.getElementById('imagePreview').classList.add('hidden');
+            document.getElementById('imagePreview').innerHTML = '';
+        }
+
+        // Handle image upload
+        function handleImageUpload(event) {
+            const files = Array.from(event.target.files);
+            uploadedImages = [...uploadedImages, ...files];
+            displayImagePreviews();
+        }
+
+        // Display image previews
+        function displayImagePreviews() {
+            const previewContainer = document.getElementById('imagePreview');
+            
+            if (uploadedImages.length === 0) {
+                previewContainer.classList.add('hidden');
+                return;
+            }
+
+            previewContainer.classList.remove('hidden');
+            previewContainer.innerHTML = uploadedImages.map((file, index) => `
+                <div class="relative">
+                    <img src="${URL.createObjectURL(file)}" alt="Preview ${index + 1}" class="w-full h-20 object-cover rounded-lg">
+                    <button type="button" onclick="removeImage(${index})" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600">
+                        ×
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Remove image
+        function removeImage(index) {
+            uploadedImages.splice(index, 1);
+            displayImagePreviews();
+        }
+
+        // Add variant
+        function addVariant() {
+            const container = document.getElementById('variantsContainer');
+            const variantDiv = document.createElement('div');
+            variantDiv.className = 'flex space-x-3';
+            variantDiv.innerHTML = `
+                <input type="text" placeholder="Size" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent">
+                <input type="text" placeholder="Color" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent">
+                <button type="button" onclick="removeVariant(this)" class="px-3 py-2 text-red-600 hover:text-red-800">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                </button>
+            `;
+            container.appendChild(variantDiv);
+        }
+
+        // Remove variant
+        function removeVariant(button) {
+            button.parentElement.remove();
+        }
+
+        // Handle add product form submission
+        async function handleAddProduct(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const productData = {
+                productId: formData.get('productId'),
+                name: formData.get('name'),
+                category: formData.get('category'),
+                brand: formData.get('brand'),
+                sellingPrice: parseFloat(formData.get('sellingPrice')),
+                purchasePrice: parseFloat(formData.get('purchasePrice')),
+                stock: parseInt(formData.get('stock')),
+                description: formData.get('description'),
+                discountPrice: formData.get('discountPrice') ? parseFloat(formData.get('discountPrice')) : undefined,
+                status: formData.get('status'),
+                variants: getVariants(),
+                images: []
+            };
+
+            // Upload images first
+            if (uploadedImages.length > 0) {
+                try {
+                    const imageUrls = await uploadImages(uploadedImages);
+                    productData.images = imageUrls;
+                } catch (error) {
+                    console.error('Error uploading images:', error);
+                    alert('Error uploading images. Please try again.');
+                    return;
+                }
+            }
+
+            // Submit product data
+            try {
+                const response = await fetch('/api/products', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(productData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert('Product added successfully!');
+                    hideAddProductModal();
+                    loadProducts();
+                } else {
+                    alert('Error adding product: ' + (result.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error adding product:', error);
+                alert('Error adding product. Please try again.');
+            }
+        }
+
+        // Get variants from form
+        function getVariants() {
+            const container = document.getElementById('variantsContainer');
+            const variants = [];
+            
+            Array.from(container.children).forEach(variantDiv => {
+                const inputs = variantDiv.querySelectorAll('input');
+                if (inputs.length >= 2 && (inputs[0].value || inputs[1].value)) {
+                    variants.push({
+                        size: inputs[0].value,
+                        color: inputs[1].value
+                    });
+                }
+            });
+            
+            return variants;
+        }
+
+        // Upload images
+        async function uploadImages(files) {
+            const uploadPromises = files.map(async (file) => {
+                const formData = new FormData();
+                formData.append('image', file);
+                
+                const response = await fetch('/api/products/upload-image', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                if (response.ok) {
+                    return result.imageUrl;
+                } else {
+                    throw new Error(result.error || 'Upload failed');
+                }
+            });
+            
+            return Promise.all(uploadPromises);
+        }
+
+        // Filter products
+        function filterProducts() {
+            const searchTerm = document.getElementById('productSearch').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            
+            filteredProducts = products.filter(product => {
+                const matchesSearch = !searchTerm || 
+                    product.name.toLowerCase().includes(searchTerm) ||
+                    product.productId.toLowerCase().includes(searchTerm) ||
+                    product.brand?.toLowerCase().includes(searchTerm) ||
+                    product.description?.toLowerCase().includes(searchTerm);
+                
+                const matchesCategory = !categoryFilter || product.category === categoryFilter;
+                const matchesStatus = !statusFilter || product.status === statusFilter;
+                
+                return matchesSearch && matchesCategory && matchesStatus;
+            });
+            
+            displayProducts();
+        }
+
+        // Edit product
+        async function editProduct(productId) {
+            try {
+                // Find the product in the current products array
+                const product = products.find(p => p._id === productId);
+                if (!product) {
+                    alert('Product not found!');
+                    return;
+                }
+
+                currentEditingProduct = product;
+                
+                // Populate the edit form with product data
+                document.getElementById('editProductId').value = product._id;
+                document.getElementById('editProductIdField').value = product.productId;
+                document.getElementById('editProductName').value = product.name;
+                document.getElementById('editProductCategory').value = product.category;
+                document.getElementById('editProductBrand').value = product.brand || '';
+                document.getElementById('editSellingPrice').value = product.sellingPrice;
+                document.getElementById('editPurchasePrice').value = product.purchasePrice;
+                document.getElementById('editStock').value = product.stock;
+                document.getElementById('editDiscountPrice').value = product.discountPrice || '';
+                document.getElementById('editProductDescription').value = product.description || '';
+                document.getElementById('editProductStatus').value = product.status;
+
+                // Load current images
+                loadCurrentImages(product.images || []);
+                
+                // Load variants
+                loadEditVariants(product.variants || []);
+                
+                // Reset new image uploads
+                editUploadedImages = [];
+                document.getElementById('editImagePreview').classList.add('hidden');
+                document.getElementById('editImagePreview').innerHTML = '';
+                
+                // Show the edit modal
+                showEditProductModal();
+                
+            } catch (error) {
+                console.error('Error loading product for edit:', error);
+                alert('Error loading product for editing. Please try again.');
+            }
+        }
+
+        // Delete product
+        async function deleteProduct(productId) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                try {
+                    const response = await fetch(`/api/products/${productId}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    if (response.ok) {
+                        alert('Product deleted successfully!');
+                        loadProducts();
+                    } else {
+                        const result = await response.json();
+                        alert('Error deleting product: ' + (result.error || 'Unknown error'));
+                    }
+                } catch (error) {
+                    console.error('Error deleting product:', error);
+                    alert('Error deleting product. Please try again.');
+                }
+            }
+        }
+
+        // Show edit product modal
+        function showEditProductModal() {
+            document.getElementById('editProductModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Hide edit product modal
+        function hideEditProductModal() {
+            document.getElementById('editProductModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            resetEditForm();
+        }
+
+        // Reset edit form
+        function resetEditForm() {
+            document.getElementById('editProductForm').reset();
+            editUploadedImages = [];
+            currentEditingProduct = null;
+            document.getElementById('editImagePreview').classList.add('hidden');
+            document.getElementById('editImagePreview').innerHTML = '';
+            document.getElementById('currentImagesContainer').innerHTML = '';
+            document.getElementById('editVariantsContainer').innerHTML = '';
+        }
+
+        // Load current images for edit
+        function loadCurrentImages(images) {
+            const container = document.getElementById('currentImagesContainer');
+            
+            if (images.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-sm">No images</p>';
+                return;
+            }
+
+            container.innerHTML = images.map((imageUrl, index) => `
+                <div class="relative">
+                    <img src="${imageUrl}" alt="Current image ${index + 1}" class="w-full h-20 object-cover rounded-lg">
+                    <button type="button" onclick="removeCurrentImage(${index})" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600">
+                        ×
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Remove current image
+        function removeCurrentImage(index) {
+            if (currentEditingProduct && currentEditingProduct.images) {
+                currentEditingProduct.images.splice(index, 1);
+                loadCurrentImages(currentEditingProduct.images);
+            }
+        }
+
+        // Handle edit image upload
+        function handleEditImageUpload(event) {
+            const files = Array.from(event.target.files);
+            editUploadedImages = [...editUploadedImages, ...files];
+            displayEditImagePreviews();
+        }
+
+        // Display edit image previews
+        function displayEditImagePreviews() {
+            const previewContainer = document.getElementById('editImagePreview');
+            
+            if (editUploadedImages.length === 0) {
+                previewContainer.classList.add('hidden');
+                return;
+            }
+
+            previewContainer.classList.remove('hidden');
+            previewContainer.innerHTML = editUploadedImages.map((file, index) => `
+                <div class="relative">
+                    <img src="${URL.createObjectURL(file)}" alt="New preview ${index + 1}" class="w-full h-20 object-cover rounded-lg">
+                    <button type="button" onclick="removeEditImage(${index})" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600">
+                        ×
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Remove edit image
+        function removeEditImage(index) {
+            editUploadedImages.splice(index, 1);
+            displayEditImagePreviews();
+        }
+
+        // Load edit variants
+        function loadEditVariants(variants) {
+            const container = document.getElementById('editVariantsContainer');
+            
+            if (variants.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-sm">No variants</p>';
+                return;
+            }
+
+            container.innerHTML = variants.map((variant, index) => `
+                <div class="flex space-x-3">
+                    <input type="text" placeholder="Size" value="${variant.size || ''}" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent">
+                    <input type="text" placeholder="Color" value="${variant.color || ''}" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent">
+                    <button type="button" onclick="removeEditVariant(this)" class="px-3 py-2 text-red-600 hover:text-red-800">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Add edit variant
+        function addEditVariant() {
+            const container = document.getElementById('editVariantsContainer');
+            const variantDiv = document.createElement('div');
+            variantDiv.className = 'flex space-x-3';
+            variantDiv.innerHTML = `
+                <input type="text" placeholder="Size" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent">
+                <input type="text" placeholder="Color" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent">
+                <button type="button" onclick="removeEditVariant(this)" class="px-3 py-2 text-red-600 hover:text-red-800">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                </button>
+            `;
+            container.appendChild(variantDiv);
+        }
+
+        // Remove edit variant
+        function removeEditVariant(button) {
+            button.parentElement.remove();
+        }
+
+        // Handle edit product form submission
+        async function handleEditProduct(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const productId = document.getElementById('editProductId').value;
+            
+            const productData = {
+                productId: formData.get('productId'),
+                name: formData.get('name'),
+                category: formData.get('category'),
+                brand: formData.get('brand'),
+                sellingPrice: parseFloat(formData.get('sellingPrice')),
+                purchasePrice: parseFloat(formData.get('purchasePrice')),
+                stock: parseInt(formData.get('stock')),
+                description: formData.get('description'),
+                discountPrice: formData.get('discountPrice') ? parseFloat(formData.get('discountPrice')) : undefined,
+                status: formData.get('status'),
+                variants: getEditVariants(),
+                images: currentEditingProduct ? [...(currentEditingProduct.images || [])] : []
+            };
+
+            // Upload new images if any
+            if (editUploadedImages.length > 0) {
+                try {
+                    const imageUrls = await uploadImages(editUploadedImages);
+                    productData.images = [...productData.images, ...imageUrls];
+                } catch (error) {
+                    console.error('Error uploading new images:', error);
+                    alert('Error uploading new images. Please try again.');
+                    return;
+                }
+            }
+
+            // Update product data
+            try {
+                const response = await fetch(`/api/products/${productId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(productData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert('Product updated successfully!');
+                    hideEditProductModal();
+                    loadProducts();
+                } else {
+                    alert('Error updating product: ' + (result.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error updating product:', error);
+                alert('Error updating product. Please try again.');
+            }
+        }
+
+        // Get edit variants from form
+        function getEditVariants() {
+            const container = document.getElementById('editVariantsContainer');
+            const variants = [];
+            
+            Array.from(container.children).forEach(variantDiv => {
+                const inputs = variantDiv.querySelectorAll('input');
+                if (inputs.length >= 2 && (inputs[0].value || inputs[1].value)) {
+                    variants.push({
+                        size: inputs[0].value,
+                        color: inputs[1].value
+                    });
+                }
+            });
+            
+            return variants;
+        }
 
         // Logout function
         function logout() {

@@ -453,6 +453,7 @@
                                 </table>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -523,8 +524,10 @@
             // Display user info
             const userData = window.authManager.getCurrentUser();
             if (userData) {
-                document.getElementById('welcomeMessage').textContent = `Welcome back, ${userData.fullName}`;
-                document.getElementById('adminName').textContent = userData.fullName;
+                const welcomeElement = document.getElementById('welcomeMessage');
+                if (welcomeElement) {
+                    welcomeElement.textContent = `Welcome back, ${userData.fullName}`;
+                }
             }
             
             // User Mode functionality
@@ -544,11 +547,13 @@
 
         document.addEventListener('DOMContentLoaded', async () => {
             await loadDashboardData();
+            loadDeliverySettings();
             
             // Set up auto-refresh every 30 seconds
             refreshInterval = setInterval(async () => {
                 if (!isRefreshing) {
                     await loadDashboardData();
+                    loadDeliverySettings();
                 }
             }, 30000);
         });
@@ -847,6 +852,44 @@
                 lastUpdatedElement.textContent = timeString;
             }
         }
+
+        // Load delivery settings for dashboard display
+        function loadDeliverySettings() {
+            try {
+                const settings = JSON.parse(localStorage.getItem('nethwin_delivery_settings') || '{}');
+                
+                const price = settings.localDeliveryPrice || 0;
+                const radius = settings.deliveryRadius || 10;
+                const lastUpdated = settings.lastUpdated ? new Date(settings.lastUpdated).toLocaleString() : 'Never';
+                
+                // Update delivery price display
+                const priceElement = document.getElementById('currentDeliveryPrice');
+                if (priceElement) {
+                    priceElement.textContent = price > 0 ? `LKR ${price.toFixed(2)}` : 'Free';
+                }
+                
+                // Update delivery radius display
+                const radiusElement = document.getElementById('currentDeliveryRadius');
+                if (radiusElement) {
+                    radiusElement.textContent = `${radius} km`;
+                }
+                
+                // Update last updated display
+                const lastUpdateElement = document.getElementById('lastDeliveryUpdate');
+                if (lastUpdateElement) {
+                    lastUpdateElement.textContent = lastUpdated;
+                }
+                
+            } catch (e) {
+                console.error('Error loading delivery settings:', e);
+            }
+        }
+
+        // Listen for delivery settings updates from admin panel
+        window.addEventListener('deliverySettingsUpdated', function(event) {
+            console.log('Delivery settings updated, refreshing dashboard...');
+            loadDeliverySettings();
+        });
     </script>
 </body>
 </html>

@@ -16,6 +16,102 @@
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/background-animations.css" />
     <link rel="stylesheet" href="../css/responsive.css" />
+    
+    <style>
+      
+      /* Enhanced Contact Form */
+      .contact-form {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #e2e8e0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+      
+      .contact-form:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      }
+      
+      /* Enhanced Form Input */
+      .form-input {
+        position: relative;
+      }
+      
+      .form-input:focus {
+        box-shadow: 0 8px 25px rgba(10, 209, 103, 0.15);
+        border-color: #0ad167;
+      }
+      
+      /* Enhanced Button */
+      .btn-primary {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .btn-primary:hover {
+        box-shadow: 0 15px 35px rgba(10, 209, 103, 0.4);
+      }
+      
+      /* Enhanced Contact Info Cards */
+      .contact-info-card {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #e2e8e0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+      
+      .contact-info-card:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      }
+      
+      .contact-icon {
+        position: relative;
+      }
+      
+      /* QR Code Cards */
+      .qr-card {
+        position: relative;
+        overflow: visible;
+        border: 1px solid #e2e8e0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+      
+      .qr-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+      
+      .qr-image {
+        position: relative;
+      }
+      
+      /* Enhanced Section Headers */
+      .section-header {
+        position: relative;
+        display: inline-block;
+        padding-bottom: 8px;
+        margin-bottom: 4px;
+      }
+      
+      /* Enhanced Footer */
+      .footer-link {
+        position: relative;
+      }
+      
+      .footer-link:hover {
+        color: #0ad167;
+      }
+      
+      
+      /* Mobile Responsive Styles */
+      @media (max-width: 768px) {
+        /* Mobile-specific section header adjustments */
+        .section-header {
+          padding-bottom: 6px;
+          margin-bottom: 2px;
+        }
+      }
+      
+      
+    </style>
   </head>
   <body>
     <div
@@ -52,7 +148,7 @@
 
             <!-- Desktop Auth Area -->
             <div class="navbar-auth" id="navbarAuth">
-              <a href="cart.html" class="nav-auth-btn">
+              <a href="cart.html" class="nav-auth-btn relative">
                 <svg
                   class="w-4 h-4 mr-2"
                   fill="none"
@@ -67,6 +163,7 @@
                   ></path>
                 </svg>
                 Cart
+                <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold hidden">0</span>
               </a>
               <a href="search.html" class="nav-auth-btn">
                 <svg
@@ -104,7 +201,7 @@
 
             <!-- Mobile Auth Icons (hidden on desktop) -->
             <div class="mobile-auth-icons hidden md:hidden">
-              <a href="cart.html" class="mobile-icon-btn">
+              <a href="cart.html" class="mobile-icon-btn relative">
                 <svg
                   class="w-5 h-5"
                   fill="none"
@@ -118,6 +215,7 @@
                     d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
                   ></path>
                 </svg>
+                <span id="mobileCartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold hidden">0</span>
               </a>
               <a href="search.html" class="mobile-icon-btn">
                 <svg
@@ -164,12 +262,12 @@
         <div style="height: 4rem"></div>
 
         <!-- Main Content -->
-        <div class="flex flex-1 justify-center py-5">
+        <div class="flex flex-1 justify-center py-5 page-transition">
           <div
             class="flex flex-col items-center w-full max-w-[1200px] py-5 px-4"
           >
             <h1
-              class="text-[#0e1b0e] tracking-light text-[32px] font-bold leading-tight px-4 text-center pb-3 pt-5"
+              class="section-header text-[#0e1b0e] tracking-light text-[32px] font-bold leading-tight px-4 text-center pb-3 pt-5"
             >
               Contact Us
             </h1>
@@ -180,10 +278,10 @@
             <div class="flex flex-col lg:flex-row gap-8 w-full">
               <!-- Contact Form -->
               <div
-                class="flex-1 bg-[#f8fcf8] rounded-xl p-8 border border-[#d0e7d0]"
+                class="contact-form flex-1 bg-[#f8fcf8] rounded-xl p-8 border border-[#d0e7d0]"
               >
                 <h2
-                  class="text-[#0e1b0e] text-2xl font-bold leading-tight pb-6"
+                  class="section-header text-[#0e1b0e] text-2xl font-bold leading-tight pb-6"
                 >
                   Send us a Message
                 </h2>
@@ -247,29 +345,31 @@
                       class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-white focus:border-[#0ad167] h-32 placeholder:text-[#4e974e] p-[15px] text-base font-normal leading-normal"
                     ></textarea>
                   </div>
-                  <button
-                    type="button"
-                    id="sendContact"
-                    class="btn-primary flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 text-base font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out"
-                  >
-                    <span class="truncate">Send Message</span>
-                  </button>
+                  <div>
+                    <button
+                      type="button"
+                      id="sendContact"
+                      class="btn-primary flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 text-base font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out"
+                    >
+                      <span class="truncate">Send Message</span>
+                    </button>
+                  </div>
                 </form>
               </div>
 
               <!-- Contact Information -->
               <div class="flex-1 space-y-6">
                 <div
-                  class="bg-[#f8fcf8] rounded-xl p-8 border border-[#d0e7d0]"
+                  class="contact-info-card bg-[#f8fcf8] rounded-xl p-8 border border-[#d0e7d0] "
                 >
                   <h2
-                    class="text-[#0e1b0e] text-2xl font-bold leading-tight pb-6"
+                    class="section-header text-[#0e1b0e] text-2xl font-bold leading-tight pb-6 "
                   >
                     Contact Information
                   </h2>
-                  <div class="space-y-6">
-                    <div class="flex items-center gap-4">
-                      <div class="bg-[#19e619] text-[#ffffff] p-3 rounded-full">
+                  <div class="space-y-6 ">
+                    <div class="flex items-center gap-4 ">
+                      <div class="contact-icon bg-[#19e619] text-[#ffffff] p-3 rounded-full">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"
@@ -291,8 +391,8 @@
                         >
                       </div>
                     </div>
-                    <div class="flex items-center gap-4">
-                      <div class="bg-[#19e619] text-[#ffffff] p-3 rounded-full">
+                    <div class="flex items-center gap-4 ">
+                      <div class="contact-icon bg-[#19e619] text-[#ffffff] p-3 rounded-full">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"
@@ -314,8 +414,8 @@
                         >
                       </div>
                     </div>
-                    <div class="flex items-center gap-4">
-                      <div class="bg-[#19e619] text-[#ffffff] p-3 rounded-full">
+                    <div class="flex items-center gap-4 ">
+                      <div class="contact-icon bg-[#19e619] text-[#ffffff] p-3 rounded-full">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"
@@ -344,49 +444,49 @@
                 </div>
 
                 <div
-                  class="bg-[#f8fcf8] rounded-xl p-8 border border-[#d0e7d0]"
+                  class="contact-info-card bg-[#f8fcf8] rounded-xl p-8 border border-[#d0e7d0] "
                 >
                   <h2
-                    class="text-[#0e1b0e] text-2xl font-bold leading-tight pb-2"
+                    class="section-header text-[#0e1b0e] text-2xl font-bold leading-tight pb-2 "
                   >
                     Nethwin Printers (Pvt) Ltd
                   </h2>
                   <h4
-                    class="text-[#0e1b0e] text-1xl font-bold leading-tight pb-2"
+                    class="text-[#0e1b0e] text-1xl font-bold leading-tight pb-2 "
                   >
                     Buisness Hours
                   </h4>
-                  <div class="space-y-3">
-                    <div class="flex justify-between items-center">
+                  <div class="space-y-3 ">
+                    <div class="flex justify-between items-center ">
                       <span class="text-[#4e974e]">Monday - Friday</span>
                       <span class="text-[#0e1b0e] font-semibold"
                         >8:30 AM - 5:00 PM</span
                       >
                     </div>
-                    <div class="flex justify-between items-center">
+                    <div class="flex justify-between items-center ">
                       <span class="text-[#4e974e]">Saturday</span>
                       <span class="text-[#0e1b0e] font-semibold"
                         >8:30 AM - 5:00 PM</span
                       >
                     </div>
-                    <div class="flex justify-between items-center">
+                    <div class="flex justify-between items-center ">
                       <span class="text-[#4e974e]">Sunday</span>
                       <span class="text-[#0e1b0e] font-semibold">Closed</span>
                     </div>
                   </div>
                   <br />
                   <h2
-                    class="text-[#0e1b0e] text-2xl font-bold leading-tight pb-2"
+                    class="section-header text-[#0e1b0e] text-2xl font-bold leading-tight pb-2 "
                   >
                     Nethwin Bookshop (Pvt) Ltd
                   </h2>
                   <h4
-                    class="text-[#0e1b0e] text-1xl font-bold leading-tight pb-2"
+                    class="text-[#0e1b0e] text-1xl font-bold leading-tight pb-2 "
                   >
                     Buisness Hours
                   </h4>
-                  <div class="space-y-3">
-                    <div class="flex justify-between items-center">
+                  <div class="space-y-3 ">
+                    <div class="flex justify-between items-center ">
                       <span class="text-[#4e974e]"
                         >Everyday (Monday - Sunday)</span
                       >
@@ -403,25 +503,25 @@
       </div>
 
       <!-- QR Codes Section -->
-      <div class="flex flex-1 justify-center py-5">
+      <div class="flex flex-1 justify-center py-5 ">
         <div class="flex flex-col items-center w-full max-w-[1200px] py-5 px-4">
           <!-- QR Codes Section CHANGE THIS AFTER GETTING THE CORRECT WHATSAPP NUMBER -->
           <div
-            class="bg-white rounded-xl p-8 border border-[#d0e7d0] w-full shadow-sm"
+            class="contact-info-card bg-white rounded-xl p-8 border border-[#d0e7d0] w-full shadow-sm "
           >
-            <h2 class="text-[#0e1b0e] text-2xl font-bold leading-tight pb-6">
+            <h2 class="section-header text-[#0e1b0e] text-2xl font-bold leading-tight pb-6 ">
               Quick Contact
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 ">
               <!-- WhatsApp QR Code -->
               <div
-                class="bg-white p-6 rounded-lg border border-[#d0e7d0] shadow-sm"
+                class="qr-card bg-white p-6 rounded-lg border border-[#d0e7d0] shadow-sm"
               >
                 <div class="text-center">
                   <img
                     src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wa.me/94778660753"
                     alt="WhatsApp QR Code"
-                    class="mx-auto rounded-lg shadow-sm"
+                    class="qr-image mx-auto rounded-lg shadow-sm"
                   />
 
                   <h3 class="text-[#0e1b0e] font-semibold text-lg mb-2">
@@ -450,13 +550,13 @@
 
               <!-- Contact Info QR Code -->
               <div
-                class="bg-white p-6 rounded-lg border border-[#d0e7d0] shadow-sm"
+                class="qr-card bg-white p-6 rounded-lg border border-[#d0e7d0] shadow-sm"
               >
                 <div class="text-center">
                   <img
                     src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=mailto:nethwin@yahoo.com?subject=Contact%20from%20Website&body=Hello%20NethwinLK%2C%0A%0AI%20would%20like%20to%20get%20in%20touch%20with%20you.%0A%0AThank%20you."
                     alt="Contact Info QR Code"
-                    class="mx-auto rounded-lg shadow-sm"
+                    class="qr-image mx-auto rounded-lg shadow-sm"
                   />
 
                   <h3 class="text-[#0e1b0e] font-semibold text-lg mb-2">
@@ -486,10 +586,10 @@
           </div>
         </div>
       </div>
-      <footer class="flex justify-center">
+      <footer class="flex justify-center ">
         <div class="flex max-w-[960px] flex-1 flex-col">
           <footer class="flex flex-col gap-6 px-5 py-10 text-center @container">
-            <p class="text-[#76816a] text-base font-normal leading-normal">
+            <p class="text-[#76816a] text-base font-normal leading-normal ">
               @2025 NethwinLK. All rights reserved.
             </p>
           </footer>
@@ -499,11 +599,76 @@
 
     <script src="../javascript/navbar.js"></script>
     <script src="../javascript/background-animations.js"></script>
+    <script src="../javascript/auth.js"></script>
     <script>
+      // Update cart count function
+      function updateCartCount() {
+        try {
+          const cart = JSON.parse(localStorage.getItem("nethwin_cart") || "[]");
+          const totalItems = cart.reduce((sum, item) => sum + (item.qty || item.quantity || 1), 0);
+          
+          const cartCount = document.getElementById('cartCount');
+          const mobileCartCount = document.getElementById('mobileCartCount');
+          
+          if (totalItems > 0) {
+            if (cartCount) {
+              cartCount.textContent = totalItems;
+              cartCount.classList.remove('hidden');
+              animateCartUpdate();
+            }
+            if (mobileCartCount) {
+              mobileCartCount.textContent = totalItems;
+              mobileCartCount.classList.remove('hidden');
+              animateCartUpdate();
+            }
+          } else {
+            if (cartCount) {
+              cartCount.classList.add('hidden');
+            }
+            if (mobileCartCount) {
+              mobileCartCount.classList.add('hidden');
+            }
+          }
+        } catch (e) {
+          console.warn("Could not update cart count:", e);
+        }
+      }
+
+      // Enhanced cart count animation
+      function animateCartUpdate() {
+        const cartCount = document.getElementById('cartCount');
+        const mobileCartCount = document.getElementById('mobileCartCount');
+        
+        if (cartCount) {
+          cartCount.classList.add('updated');
+          setTimeout(() => {
+            cartCount.classList.remove('updated');
+          }, 600);
+        }
+        
+        if (mobileCartCount) {
+          mobileCartCount.classList.add('updated');
+          setTimeout(() => {
+            mobileCartCount.classList.remove('updated');
+          }, 600);
+        }
+      }
+
+
+
+
+
+
+
+
+
+
       // Initialize auth system
       document.addEventListener("DOMContentLoaded", function () {
         initializeAuth();
         setActiveNavLink("contactus.html");
+        updateCartCount();
+        
       });
 
       // Contact form functionality

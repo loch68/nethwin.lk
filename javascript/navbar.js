@@ -81,6 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   
+  // Make setActiveNavLink globally accessible
+  window.setActiveNavLink = setActiveNavLink;
+  
   // Set active link on page load
   setActiveNavLink();
   
