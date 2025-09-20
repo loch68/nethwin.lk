@@ -10,6 +10,7 @@ const nodemailer = require('nodemailer');
 const multer = require('multer');
 const { body, validationResult } = require('express-validator');
 const { cloudinary, upload: cloudinaryUpload } = require('./src/config/cloudinary');
+const { heroUpload } = require('./src/config/hero-cloudinary');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
@@ -99,6 +100,7 @@ const Order = require('./src/models/Order');
 const Review = require('./src/models/Review');
 const Message = require('./src/models/Message');
 const PrintOrder = require('./src/models/PrintOrder');
+const HeroImage = require('./src/models/HeroImage');
 
 // Pricing data
 const pricingData = {
@@ -523,15 +525,26 @@ app.post('/api/orders', async (req, res) => {
   try {
     const body = req.body || {};
     console.log('POST /api/orders body:', body);
+    
+    // Generate unique order number
+    const orderNumber = 'ORD-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    
     const toCreate = {
       type: body.type || 'shop',
       items: Array.isArray(body.items) ? body.items : [],
       total: typeof body.total === 'number' ? body.total : 0,
-      status: body.status || 'to-fulfill',
+      status: body.status || 'pending',
       customerName: body.customerName || '',
       customerEmail: body.customerEmail || '',
+      customerPhone: body.customerPhone || '',
+      deliveryMethod: body.deliveryMethod || body.meta?.deliveryMethod || 'Local Delivery',
+      paymentMethod: body.paymentMethod || body.meta?.paymentMethod || 'Cash on Delivery',
+      deliveryAddress: body.deliveryAddress || body.meta?.deliveryAddress || '',
+      deliveryFee: body.deliveryFee || body.meta?.deliveryFee || 0,
+      orderNumber: orderNumber,
       meta: body.meta || {},
     };
+    
     const o = await Order.create(toCreate);
     res.status(201).json(o);
   } catch (e) {
@@ -544,6 +557,41 @@ app.patch('/api/orders/:id/status', async (req, res) => {
 });
 app.delete('/api/orders/:id', async (req, res) => {
   try { const del = await Order.findByIdAndDelete(req.params.id).lean(); if (!del) return res.status(404).json({ error: 'Not found' }); res.json({ success: true }); } catch (e) { res.status(400).json({ error: e.message }); }
+});
+
+// Invoice generation route
+app.get('/api/orders/:id/invoice', async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id).lean();
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    
+    // Generate invoice data
+    const invoiceData = {
+      orderNumber: order.orderNumber,
+      orderDate: order.createdAt,
+      customerName: order.customerName,
+      customerEmail: order.customerEmail,
+      customerPhone: order.customerPhone,
+      deliveryMethod: order.deliveryMethod,
+      paymentMethod: order.paymentMethod,
+      deliveryAddress: order.deliveryAddress,
+      items: order.items,
+      subtotal: order.total - (order.deliveryFee || 0),
+      deliveryFee: order.deliveryFee || 0,
+      total: order.total,
+      status: order.status
+    };
+    
+    res.json({
+      success: true,
+      data: invoiceData
+    });
+  } catch (e) {
+    console.error('Invoice generation error:', e);
+    res.status(500).json({ error: 'Failed to generate invoice' });
+  }
 });
 
 // Reviews API endpoints
@@ -1006,6 +1054,33 @@ app.get('/api/my-orders', async (req, res) => {
   } catch (e) { res.status(401).json({ error: 'Unauthorized' }); }
 });
 
+// GET /api/profile - Get current user profile
+app.get('/api/profile', async (req, res) => {
+  try {
+    const auth = req.headers.authorization || '';
+    const token = auth.startsWith('Bearer ') ? auth.slice(7) : '';
+    const payload = require('jsonwebtoken').verify(token, JWT_SECRET);
+    const user = await User.findById(payload.sub).lean();
+    
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    res.json({
+      success: true,
+      data: {
+        id: user._id,
+        name: user.fullName || user.name || '',
+        email: user.email || '',
+        phone: user.phone || '',
+        username: user.username || ''
+      }
+    });
+  } catch (e) { 
+    res.status(401).json({ error: 'Unauthorized' }); 
+  }
+});
+
 // Print Order Routes
 
 // POST /api/print-orders - Submit a new print order
@@ -1422,6 +1497,134 @@ app.get('/api/admin/stats', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch admin statistics' });
   }
+});
+
+// Hero Images API Routes
+app.get('/api/hero-images', async (req, res) => {
+  try {
+    const heroImages = await HeroImage.find({ isActive: true })
+      .sort({ displayOrder: 1, createdAt: -1 })
+      .lean();
+    
+    res.json({ success: true, heroImages });
+  } catch (error) {
+    console.error('Error fetching hero images:', error);
+    res.status(500).json({ success: false, error: 'Failed to fetch hero images' });
+  }
+});
+
+app.post('/api/hero-images', heroUpload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, error: 'No image file provided' });
+    }
+
+    const { title, description, buttonText, buttonLink } = req.body;
+    
+    // Get the highest display order
+    const lastImage = await HeroImage.findOne().sort({ displayOrder: -1 });
+    const displayOrder = lastImage ? lastImage.displayOrder + 1 : 0;
+
+    const heroImage = new HeroImage({
+      title: title || 'New Hero Image',
+      description: description || 'Amazing products await you',
+      imageUrl: req.file.path,
+      mobileImageUrl: req.file.path.replace('/w_1920,h_1080/', '/w_1200,h_675/'),
+      thumbnailUrl: req.file.path.replace('/w_1920,h_1080/', '/w_800,h_450/'),
+      cloudinaryId: req.file.filename,
+      buttonText: buttonText || 'Shop Now',
+      buttonLink: buttonLink || '/html/bookshop.html',
+      displayOrder
+    });
+
+    await heroImage.save();
+    res.json({ success: true, heroImage });
+  } catch (error) {
+    console.error('Error creating hero image:', error);
+    res.status(500).json({ success: false, error: 'Failed to create hero image' });
+  }
+});
+
+app.put('/api/hero-images/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description, buttonText, buttonLink, isActive, displayOrder } = req.body;
+
+    const heroImage = await HeroImage.findByIdAndUpdate(
+      id,
+      { 
+        title, 
+        description, 
+        buttonText, 
+        buttonLink, 
+        isActive, 
+        displayOrder,
+        updatedAt: new Date()
+      },
+      { new: true }
+    );
+
+    if (!heroImage) {
+      return res.status(404).json({ success: false, error: 'Hero image not found' });
+    }
+
+    res.json({ success: true, heroImage });
+  } catch (error) {
+    console.error('Error updating hero image:', error);
+    res.status(500).json({ success: false, error: 'Failed to update hero image' });
+  }
+});
+
+app.delete('/api/hero-images/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const heroImage = await HeroImage.findById(id);
+
+    if (!heroImage) {
+      return res.status(404).json({ success: false, error: 'Hero image not found' });
+    }
+
+    // Delete from Cloudinary
+    try {
+      await cloudinary.uploader.destroy(heroImage.cloudinaryId);
+    } catch (cloudinaryError) {
+      console.error('Error deleting from Cloudinary:', cloudinaryError);
+    }
+
+    await HeroImage.findByIdAndDelete(id);
+    res.json({ success: true, message: 'Hero image deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting hero image:', error);
+    res.status(500).json({ success: false, error: 'Failed to delete hero image' });
+  }
+});
+
+app.get('/api/admin/hero-images', async (req, res) => {
+  try {
+    const heroImages = await HeroImage.find({})
+      .sort({ displayOrder: 1, createdAt: -1 })
+      .lean();
+    
+    res.json({ success: true, heroImages });
+  } catch (error) {
+    console.error('Error fetching admin hero images:', error);
+    res.status(500).json({ success: false, error: 'Failed to fetch hero images' });
+  }
+});
+
+// MongoDB Connection
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://Cluster28608:nethwinlk@cluster28608.qqqrppl.mongodb.net/bookstore?retryWrites=true&w=majority';
+
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => {
+  console.log('✅ Connected to MongoDB Atlas - bookstore database');
+})
+.catch((error) => {
+  console.error('❌ MongoDB connection error:', error);
+  process.exit(1);
 });
 
 const PORT = process.env.PORT || 4000;
