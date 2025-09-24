@@ -261,6 +261,12 @@
                             </svg>
                             Print Orders
                         </a>
+                        <a href="admin-print-queue.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                            </svg>
+                            Queue Management
+                        </a>
                         <a href="admin-products.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
@@ -581,6 +587,9 @@
                             <select class="status-select bg-white border-2 border-gray-300 rounded-lg px-3 py-2 text-sm font-medium focus:border-blue-500 focus:outline-none transition-colors" data-order-id="${order._id}" data-current-status="${order.status}">
                                 <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>⏳ Pending</option>
                                 <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>⚙️ Processing</option>
+                                <option value="in_queue" ${order.status === 'in_queue' ? 'selected' : ''}>📋 In Queue</option>
+                                <option value="in_progress" ${order.status === 'in_progress' ? 'selected' : ''}>🔄 In Progress</option>
+                                <option value="ready" ${order.status === 'ready' ? 'selected' : ''}>✅ Ready</option>
                                 <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>✅ Completed</option>
                                 <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>🚚 Shipped</option>
                                 <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>❌ Cancelled</option>
@@ -603,13 +612,34 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 text-base">
-                            <button onclick="updateOrderStatus('${order._id}')" 
-                                    class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-2 btn-enhanced">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                                <span>Update</span>
-                            </button>
+                            <div class="flex space-x-2">
+                                <button onclick="updateOrderStatus('${order._id}')" 
+                                        class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-1 btn-enhanced">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span>Update</span>
+                                </button>
+                                ${order.status === 'pending' || order.status === 'processing' ? `
+                                    <button onclick="moveToQueue('${order._id}')" 
+                                            class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-1 btn-enhanced"
+                                            title="Move to Production Queue">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                                        </svg>
+                                        <span>Queue</span>
+                                    </button>
+                                ` : order.status === 'in_queue' || order.status === 'in_progress' || order.status === 'ready' ? `
+                                    <button onclick="window.open('admin-print-queue.html', '_blank')" 
+                                            class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-1 btn-enhanced"
+                                            title="View in Production Queue">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                                        </svg>
+                                        <span>In Queue</span>
+                                    </button>
+                                ` : ''}
+                            </div>
                         </td>
                     </tr>
                 `;
@@ -683,6 +713,38 @@
             } catch (error) {
                 console.error('Update status error:', error);
                 alert('Failed to update status. Please try again.');
+            }
+        }
+
+        // Move order to production queue
+        async function moveToQueue(orderId) {
+            if (confirm('Move this order to the production queue? This will change the status to "in_queue".')) {
+                try {
+                    const response = await fetch(`/api/print-orders/${orderId}/status`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            status: 'in_queue',
+                            progress: 0
+                        })
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        alert('Order moved to production queue successfully!');
+                        
+                        // Reload the orders to reflect changes
+                        loadPrintOrders();
+                    } else {
+                        const error = await response.json();
+                        alert('Failed to move to queue: ' + (error.error || 'Unknown error'));
+                    }
+                } catch (error) {
+                    console.error('Move to queue error:', error);
+                    alert('Failed to move to queue. Please try again.');
+                }
             }
         }
 

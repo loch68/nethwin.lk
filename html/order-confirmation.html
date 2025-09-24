@@ -1,23 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Confirmation - NethwinLK</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
-    <link
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Order Confirmation - NethwinLK</title><link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" /><link
       rel="stylesheet"
       as="style"
       onload="this.rel='stylesheet'"
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
-    />
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link rel="stylesheet" href="../css/hover-effects.css" />
-    <link rel="stylesheet" href="../css/navbar.css" />
-    <link rel="stylesheet" href="../css/background-animations.css" />
-    <link rel="stylesheet" href="../css/responsive.css" />
-    <script src="../javascript/auth.js"></script>
-    <style>
+    /><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link rel="stylesheet" href="../css/hover-effects.css" /><link rel="stylesheet" href="../css/navbar.css" /><link rel="stylesheet" href="../css/cart-styles.css" /><link rel="stylesheet" href="../css/background-animations.css" /><link rel="stylesheet" href="../css/responsive.css" /><script src="../javascript/auth.js"></script><style>
         .confirmation-container {
             background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
             border-radius: 20px;
@@ -60,6 +46,35 @@
             background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
         }
         
+        .step-indicator {
+            position: relative;
+        }
+        
+        .step-indicator::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            width: 100%;
+            height: 2px;
+            background: #e5e7eb;
+            transform: translateY(-50%);
+        }
+        
+        .step-indicator:last-child::after {
+            display: none;
+        }
+        
+        .step-active {
+            background: linear-gradient(135deg, #19e619 0%, #16d616 100%);
+            color: white;
+        }
+        
+        .step-completed {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+        
         .status-badge {
             padding: 0.5rem 1rem;
             border-radius: 50px;
@@ -76,191 +91,22 @@
             background: #d1fae5;
             color: #059669;
         }
-    </style>
-</head>
-<body>
-    <div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient">
-      <!-- Background Animation Container -->
-      <div class="particles-container fixed inset-0 pointer-events-none z-0" id="particlesContainer"></div>
-      <div class="layout-container flex flex-col grow h-full relative z-10">
-      <!-- Modern Seamless Navbar -->
-      <nav class="modern-navbar fixed top-0 left-0 right-0 z-30">
-        <div class="navbar-container">
-          <!-- Logo/Brand -->
-          <div class="navbar-brand">
-            <a href="index.html" class="flex items-center">
-              <img src="../assets/fLogo.png" alt="NethwinLK" class="navbar-logo">
-            </a>
-          </div>
-          
-          <!-- Navigation Links -->
-          <div class="navbar-links" id="navbarLinks">
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="print.html" class="nav-link">Print Services</a>
-            <a href="bookshop.html" class="nav-link">Bookshop</a>
-            <a href="aboutus.html" class="nav-link">About</a>
-            <a href="contactus.html" class="nav-link">Contact</a>
-          </div>
-          
-          <!-- Desktop Auth Area -->
-          <div class="navbar-auth" id="navbarAuth">
-                        <a href="cart.html" class="nav-auth-btn active relative">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
-              </svg>
-              Cart
-                            <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold hidden">0</span>
-            </a>
-            <a href="search.html" class="nav-auth-btn">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-              </svg>
-              Search
-            </a>
-            <a href="login.html" class="nav-auth-btn">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path>
-              </svg>
-              Login
-            </a>
-          </div>
-          
-          <!-- Mobile Auth Icons (hidden on desktop) -->
-          <div class="mobile-auth-icons hidden md:hidden">
-                        <a href="cart.html" class="mobile-icon-btn relative">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
-              </svg>
-                            <span id="mobileCartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold hidden">0</span>
-            </a>
-            <a href="search.html" class="mobile-icon-btn">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-              </svg>
-            </a>
-            <a href="login.html" class="mobile-icon-btn">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path>
-              </svg>
-            </a>
-          </div>
-          
-          <!-- Mobile Menu Toggle -->
-          <button class="mobile-menu-toggle" id="mobileToggle">
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-          </button>
-        </div>
-      </nav>
-      
-      <!-- Navbar Spacer -->
-      <div style="height: 4rem;"></div>
-            
-            <!-- Main Content -->
-            <div class="px-4 md:px-10 flex flex-1 justify-center py-8">
-                <div class="layout-content-container flex flex-col max-w-[1200px] flex-1">
-                    <!-- Breadcrumb -->
-                    <div class="breadcrumb mb-6">
-                        <div class="flex items-center gap-2 text-sm">
-                            <a href="bookshop.html" class="text-gray-600 hover:text-[#19e619] transition-colors">Shop</a>
-                            <span class="text-gray-400">/</span>
-                            <a href="cart.html" class="text-gray-600 hover:text-[#19e619] transition-colors">Cart</a>
-                            <span class="text-gray-400">/</span>
-                            <span class="text-gray-800 font-medium">Order Confirmation</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Page Header -->
-                    <div class="text-center mb-8">
-                        <h1 class="text-4xl font-bold text-gray-800 mb-2">Order Confirmation</h1>
-                        <p class="text-gray-600">Please review your order details and confirm your information</p>
-                    </div>
-                
-                <!-- Order Status -->
-                <div class="confirmation-container p-6 mb-8">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Order Status</h2>
-                            <p class="text-gray-600">Your order is ready for confirmation</p>
-                        </div>
-                        <div class="status-badge status-pending">Pending Confirmation</div>
-                    </div>
-                </div>
-                
-                <!-- Order Details -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <!-- Order Items -->
-                    <div class="confirmation-container p-6">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4">Order Items</h3>
-                        <div id="orderItems" class="space-y-4">
-                            <!-- Order items will be populated here -->
-                        </div>
-                        <div class="border-t pt-4 mt-4">
-                            <div class="flex justify-between text-lg font-semibold">
-                                <span>Total:</span>
-                                <span id="orderTotal">Rs. 0.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Delivery & Payment Info -->
-                    <div class="space-y-6">
-                        <!-- Delivery Information -->
-                        <div class="info-card p-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-4">Delivery Information</h3>
-                            <div id="deliveryInfo">
-                                <!-- Delivery info will be populated here -->
-                            </div>
-                        </div>
-                        
-                        <!-- Payment Information -->
-                        <div class="info-card p-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-4">Payment Information</h3>
-                            <div id="paymentInfo">
-                                <!-- Payment info will be populated here -->
-                            </div>
-                        </div>
-                        
-                        <!-- Customer Information -->
-                        <div class="info-card p-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-4">Customer Information</h3>
-                            <div id="customerInfo">
-                                <!-- Customer info will be populated here -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Action Buttons -->
-                <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-                    <button id="editOrderBtn" class="btn-secondary px-8 py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                        </svg>
+    </style></head><body><div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient"><!-- Background Animation Container --><div class="particles-container fixed inset-0 pointer-events-none z-0" id="particlesContainer"></div><div class="layout-container flex flex-col grow h-full relative z-10"><!-- Modern Seamless Navbar --><nav class="modern-navbar fixed top-0 left-0 right-0 z-30"><div class="navbar-container"><!-- Logo/Brand --><div class="navbar-brand"><a href="index.html" class="flex items-center"><img src="../assets/fLogo.png" alt="NethwinLK" class="navbar-logo"></a></div><!-- Navigation Links --><div class="navbar-links" id="navbarLinks"><a href="index.html" class="nav-link">Home</a><a href="print.html" class="nav-link">Print Services</a><a href="bookshop.html" class="nav-link">Bookshop</a><a href="aboutus.html" class="nav-link">About</a><a href="contactus.html" class="nav-link">Contact</a></div><!-- Desktop Auth Area --><div class="navbar-auth" id="navbarAuth"><a href="cart.html" class="nav-auth-btn cart-container relative"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+        </svg>
+        <span>Cart</span>
+        <span class="cart-count hidden" id="cartCount">0</span></a><a href="search.html" class="nav-auth-btn"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+              Search</a><a href="login.html" class="nav-auth-btn"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path></svg>
+              Login</a></div><!-- Mobile Auth Icons (hidden on desktop) --><div class="mobile-auth-icons hidden md:hidden"><a href="cart.html" class="mobile-icon-btn mobile-cart-container relative"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+        </svg>
+        <span class="mobile-cart-count hidden" id="mobileCartCount">0</span></a><a href="search.html" class="mobile-icon-btn"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></a><a href="login.html" class="mobile-icon-btn"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path></svg></a></div><!-- Mobile Menu Toggle --><button class="mobile-menu-toggle" id="mobileToggle"><span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span></button></div></nav><!-- Navbar Spacer --><div style="height: 4rem;"></div><!-- Main Content --><div class="px-4 md:px-10 flex flex-1 justify-center py-8"><div class="layout-content-container flex flex-col max-w-[1200px] flex-1"><!-- Breadcrumb --><div class="breadcrumb mb-6"><div class="flex items-center gap-2 text-sm"><a href="bookshop.html" class="text-gray-600 hover:text-[#19e619] transition-colors">Shop</a><span class="text-gray-400">/</span><a href="cart.html" class="text-gray-600 hover:text-[#19e619] transition-colors">Cart</a><span class="text-gray-400">/</span><a href="checkout.html" class="text-gray-600 hover:text-[#19e619] transition-colors">Checkout</a><span class="text-gray-400">/</span><span class="text-gray-800 font-medium">Order Confirmation</span></div></div><!-- Progress Steps --><div class="mb-8"><div class="flex items-center justify-center space-x-4"><div class="step-indicator flex items-center"><div class="step-number step-completed w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold">1</div><span class="ml-2 text-sm font-medium text-gray-600">Cart</span></div><div class="step-indicator flex items-center"><div class="step-number step-completed w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold">2</div><span class="ml-2 text-sm font-medium text-gray-600">Checkout</span></div><div class="step-indicator flex items-center"><div class="step-number step-active w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold">3</div><span class="ml-2 text-sm font-medium text-gray-800">Confirmation</span></div></div></div><!-- Page Header --><div class="text-center mb-8"><h1 class="text-4xl font-bold text-gray-800 mb-2">Order Confirmation</h1><p class="text-gray-600">Please review your order details and confirm your information</p></div><!-- Order Status --><div class="confirmation-container p-6 mb-8"><div class="flex items-center justify-between"><div><h2 class="text-2xl font-bold text-gray-800 mb-2">Order Status</h2><p class="text-gray-600">Your order is ready for confirmation</p></div><div class="status-badge status-pending">Pending Confirmation</div></div></div><!-- Order Details --><div class="grid grid-cols-1 lg:grid-cols-2 gap-8"><!-- Order Items --><div class="confirmation-container p-6"><h3 class="text-xl font-bold text-gray-800 mb-4">Order Items</h3><div id="orderItems" class="space-y-4"><!-- Order items will be populated here --></div><div class="border-t pt-4 mt-4"><div class="flex justify-between text-lg font-semibold"><span>Total:</span><span id="orderTotal">Rs. 0.00</span></div></div></div><!-- Delivery & Payment Info --><div class="space-y-6"><!-- Delivery Information --><div class="info-card p-6"><h3 class="text-xl font-bold text-gray-800 mb-4">Delivery Information</h3><div id="deliveryInfo"><!-- Delivery info will be populated here --></div></div><!-- Payment Information --><div class="info-card p-6"><h3 class="text-xl font-bold text-gray-800 mb-4">Payment Information</h3><div id="paymentInfo"><!-- Payment info will be populated here --></div></div><!-- Customer Information --><div class="info-card p-6"><h3 class="text-xl font-bold text-gray-800 mb-4">Customer Information</h3><div id="customerInfo"><!-- Customer info will be populated here --></div></div></div></div><!-- Action Buttons --><div class="flex flex-col sm:flex-row gap-4 justify-center mt-8"><button id="editOrderBtn" class="btn-secondary px-8 py-3 rounded-xl font-semibold flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                         Edit Order
-                    </button>
-                    <button id="downloadInvoiceBtn" class="btn-secondary px-8 py-3 rounded-xl font-semibold flex items-center justify-center gap-2" style="display: none;">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                        </svg>
+                    </button><button id="downloadInvoiceBtn" class="btn-secondary px-8 py-3 rounded-xl font-semibold flex items-center justify-center gap-2" style="display: none;"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                         Download Invoice
-                    </button>
-                    <button id="confirmOrderBtn" class="btn-primary px-8 py-3 rounded-xl font-semibold text-white flex items-center justify-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
+                    </button><button id="confirmOrderBtn" class="btn-primary px-8 py-3 rounded-xl font-semibold text-white flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         Confirm Order
-                    </button>
-                </div>
-            </div>
-        </div>
-      </div>
-    </div>
-    
-    <script src="../javascript/navbar.js"></script>
-    <script src="../javascript/background-animations.js"></script>
-    <script>
+                    </button></div></div></div></div></div><script src="../javascript/navbar.js"></script><script src="../javascript/cart-utils.js"></script><script src="../javascript/background-animations.js"></script><script>
         // Order confirmation functionality
         let orderData = null;
         
@@ -285,8 +131,13 @@
                             // Update order data with user details
                             orderData.customerName = userDetails.data.name || orderData.customerName;
                             orderData.customerEmail = userDetails.data.email || orderData.customerEmail;
-                            orderData.customerPhone = userDetails.data.phone || orderData.customerPhone;
-                            console.log('Updated order data:', orderData);
+                            orderData.customerPhone = userDetails.data.phoneNumber || orderData.customerPhone;
+                            orderData.customerAddress = userDetails.data.address || orderData.customerAddress || '';
+                            orderData.customerProvince = userDetails.data.province || orderData.customerProvince || '';
+                            orderData.customerDistrict = userDetails.data.district || orderData.customerDistrict || '';
+                            orderData.customerCity = userDetails.data.city || orderData.customerCity || '';
+                            orderData.customerZipCode = userDetails.data.zipCode || orderData.customerZipCode || '';
+                            console.log('Updated order data with user details:', orderData);
                         } else {
                             console.log('No user details found or invalid structure:', userDetails);
                         }
@@ -336,42 +187,47 @@
         
         // Display order data
         function displayOrderData() {
-            if (!orderData) return;
+            if (!orderData) {
+                console.error('No order data available for display');
+                return;
+            }
+            
+            console.log('Displaying order data:', orderData);
             
             // Display order items
             const orderItemsContainer = document.getElementById('orderItems');
             orderItemsContainer.innerHTML = '';
             
+            if (!orderData.items || !Array.isArray(orderData.items)) {
+                console.error('No items in order data:', orderData);
+                return;
+            }
+            
             orderData.items.forEach(item => {
                 const itemElement = document.createElement('div');
                 itemElement.className = 'order-item p-4';
+                const itemPrice = item.price || 0;
+                const itemQuantity = item.quantity || 1;
+                const itemTotal = itemPrice * itemQuantity;
+                
                 itemElement.innerHTML = `
-                    <div class="flex items-center gap-4">
-                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-lg">
-                        <div class="flex-1">
-                            <h4 class="font-semibold text-gray-800">${item.name}</h4>
-                            <p class="text-gray-600">Quantity: ${item.quantity}</p>
-                            <p class="text-lg font-semibold text-green-600">Rs. ${(item.price * item.quantity).toFixed(2)}</p>
-                        </div>
-                    </div>
+                    <div class="flex items-center gap-4"><img src="${item.image || ''}" alt="${item.name || 'Product'}" class="w-16 h-16 object-cover rounded-lg"><div class="flex-1"><h4 class="font-semibold text-gray-800">${item.name || 'Unknown Product'}</h4><p class="text-gray-600">Quantity: ${itemQuantity}</p><p class="text-lg font-semibold text-green-600">Rs. ${itemTotal.toFixed(2)}</p></div></div>
                 `;
                 orderItemsContainer.appendChild(itemElement);
             });
             
             // Display total
-            document.getElementById('orderTotal').textContent = `Rs. ${orderData.total.toFixed(2)}`;
+            const total = orderData.total || 0;
+            document.getElementById('orderTotal').textContent = `Rs. ${total.toFixed(2)}`;
             
             // Display delivery info
             const deliveryInfo = document.getElementById('deliveryInfo');
             deliveryInfo.innerHTML = `
-                <div class="space-y-2">
-                    <p><span class="font-semibold">Method:</span> ${orderData.deliveryMethod}</p>
+                <div class="space-y-2"><p><span class="font-semibold">Method:</span> ${orderData.deliveryMethod}</p>
                     ${orderData.deliveryMethod === 'Local Delivery' ? `
-                        <p><span class="font-semibold">Address:</span> ${orderData.deliveryAddress || 'Not provided'}</p>
-                        <p><span class="font-semibold">Delivery Fee:</span> Rs. ${orderData.deliveryFee || 0}</p>
+                        <p><span class="font-semibold">Address:</span> ${orderData.deliveryAddress || 'Not provided'}</p><p><span class="font-semibold">Delivery Fee:</span> Rs. ${orderData.deliveryFee || 0}</p>
                     ` : `
-                        <p><span class="font-semibold">Pickup Location:</span> NethwinLK Store</p>
-                        <p><span class="font-semibold">Pickup Fee:</span> Free</p>
+                        <p><span class="font-semibold">Pickup Location:</span> NethwinLK Store</p><p><span class="font-semibold">Pickup Fee:</span> Free</p>
                     `}
                 </div>
             `;
@@ -379,10 +235,7 @@
             // Display payment info
             const paymentInfo = document.getElementById('paymentInfo');
             paymentInfo.innerHTML = `
-                <div class="space-y-2">
-                    <p><span class="font-semibold">Method:</span> ${orderData.paymentMethod}</p>
-                    <p><span class="font-semibold">Status:</span> <span class="text-orange-600">Pending Payment</span></p>
-                </div>
+                <div class="space-y-2"><p><span class="font-semibold">Method:</span> ${orderData.paymentMethod}</p><p><span class="font-semibold">Status:</span><span class="text-orange-600">Pending Payment</span></p></div>
             `;
             
             // Display customer info
@@ -392,13 +245,24 @@
                 customerName: orderData.customerName,
                 customerEmail: orderData.customerEmail,
                 customerPhone: orderData.customerPhone,
+                customerAddress: orderData.customerAddress,
+                customerProvince: orderData.customerProvince,
+                customerDistrict: orderData.customerDistrict,
+                customerCity: orderData.customerCity,
+                customerZipCode: orderData.customerZipCode,
                 hasUserInfo: hasUserInfo
             });
+            // Build address string
+            const addressParts = [];
+            if (orderData.customerAddress) addressParts.push(orderData.customerAddress);
+            if (orderData.customerCity) addressParts.push(orderData.customerCity);
+            if (orderData.customerDistrict) addressParts.push(orderData.customerDistrict);
+            if (orderData.customerProvince) addressParts.push(orderData.customerProvince);
+            if (orderData.customerZipCode) addressParts.push(orderData.customerZipCode);
+            const fullAddress = addressParts.join(', ') || 'Not provided';
+            
             customerInfo.innerHTML = `
-                <div class="space-y-2">
-                    <p><span class="font-semibold">Name:</span> ${orderData.customerName || 'Not provided'}</p>
-                    <p><span class="font-semibold">Email:</span> ${orderData.customerEmail || 'Not provided'}</p>
-                    <p><span class="font-semibold">Phone:</span> ${orderData.customerPhone || 'Not provided'}</p>
+                <div class="space-y-2"><p><span class="font-semibold">Name:</span> ${orderData.customerName || 'Not provided'}</p><p><span class="font-semibold">Email:</span> ${orderData.customerEmail || 'Not provided'}</p><p><span class="font-semibold">Phone:</span> ${orderData.customerPhone || 'Not provided'}</p><p><span class="font-semibold">Address:</span> ${fullAddress}</p>
                     ${hasUserInfo ? '<p class="text-sm text-green-600 flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Verified from your account</p>' : ''}
                 </div>
             `;
@@ -412,10 +276,7 @@
                 const confirmBtn = document.getElementById('confirmOrderBtn');
                 confirmBtn.disabled = true;
                 confirmBtn.innerHTML = `
-                    <svg class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
+                    <svg class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                     Processing...
                 `;
                 
@@ -423,7 +284,12 @@
                 let customerDetails = {
                     customerName: orderData.customerName || '',
                     customerEmail: orderData.customerEmail || '',
-                    customerPhone: orderData.customerPhone || ''
+                    customerPhone: orderData.customerPhone || '',
+                    customerAddress: orderData.customerAddress || '',
+                    customerProvince: orderData.customerProvince || '',
+                    customerDistrict: orderData.customerDistrict || '',
+                    customerCity: orderData.customerCity || '',
+                    customerZipCode: orderData.customerZipCode || ''
                 };
                 
                 // If user is logged in, try to get fresh details from database
@@ -435,7 +301,12 @@
                             customerDetails = {
                                 customerName: userDetails.data.name || orderData.customerName || '',
                                 customerEmail: userDetails.data.email || orderData.customerEmail || '',
-                                customerPhone: userDetails.data.phone || orderData.customerPhone || ''
+                                customerPhone: userDetails.data.phoneNumber || orderData.customerPhone || '',
+                                customerAddress: userDetails.data.address || orderData.customerAddress || '',
+                                customerProvince: userDetails.data.province || orderData.customerProvince || '',
+                                customerDistrict: userDetails.data.district || orderData.customerDistrict || '',
+                                customerCity: userDetails.data.city || orderData.customerCity || '',
+                                customerZipCode: userDetails.data.zipCode || orderData.customerZipCode || ''
                             };
                         }
                     } catch (error) {
@@ -498,9 +369,7 @@
                     // Update edit button to show completion message
                     const editBtn = document.getElementById('editOrderBtn');
                     editBtn.innerHTML = `
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         Order Complete! 🎉
                     `;
                     editBtn.disabled = true;
@@ -508,9 +377,7 @@
                     
                     // Update confirm button
                     confirmBtn.innerHTML = `
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                         Order Confirmed
                     `;
                     confirmBtn.disabled = true;
@@ -529,9 +396,7 @@
                 const confirmBtn = document.getElementById('confirmOrderBtn');
                 confirmBtn.disabled = false;
                 confirmBtn.innerHTML = `
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     Confirm Order
                 `;
             }
@@ -569,11 +434,7 @@
             const invoiceWindow = window.open('', '_blank');
             
             const invoiceHTML = `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Invoice - ${invoiceData.orderNumber}</title>
-                    <style>
+                <!DOCTYPE html><html><head><title>Invoice - ${invoiceData.orderNumber}</title><style>
                         body { font-family: Arial, sans-serif; margin: 20px; }
                         .header { text-align: center; margin-bottom: 30px; }
                         .invoice-details { margin-bottom: 30px; }
@@ -582,58 +443,15 @@
                         .items-table th { background-color: #f2f2f2; }
                         .total-section { text-align: right; margin-top: 20px; }
                         .footer { margin-top: 40px; text-align: center; color: #666; }
-                    </style>
-                </head>
-                <body>
-                    <div class="header">
-                        <h1>NethwinLK</h1>
-                        <h2>Invoice #${invoiceData.orderNumber}</h2>
-                        <p>Date: ${new Date(invoiceData.orderDate).toLocaleDateString()}</p>
-                    </div>
-                    
-                    <div class="invoice-details">
-                        <h3>Customer Information</h3>
-                        <p><strong>Name:</strong> ${invoiceData.customerName}</p>
-                        <p><strong>Email:</strong> ${invoiceData.customerEmail}</p>
-                        <p><strong>Phone:</strong> ${invoiceData.customerPhone}</p>
-                        <p><strong>Delivery Method:</strong> ${invoiceData.deliveryMethod}</p>
+                    </style></head><body><div class="header"><h1>NethwinLK</h1><h2>Invoice #${invoiceData.orderNumber}</h2><p>Date: ${new Date(invoiceData.orderDate).toLocaleDateString()}</p></div><div class="invoice-details"><h3>Customer Information</h3><p><strong>Name:</strong> ${invoiceData.customerName}</p><p><strong>Email:</strong> ${invoiceData.customerEmail}</p><p><strong>Phone:</strong> ${invoiceData.customerPhone}</p><p><strong>Delivery Method:</strong> ${invoiceData.deliveryMethod}</p>
                         ${invoiceData.deliveryAddress ? `<p><strong>Address:</strong> ${invoiceData.deliveryAddress}</p>` : ''}
-                        <p><strong>Payment Method:</strong> ${invoiceData.paymentMethod}</p>
-                    </div>
-                    
-                    <table class="items-table">
-                        <thead>
-                            <tr>
-                                <th>Item</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                        <p><strong>Payment Method:</strong> ${invoiceData.paymentMethod}</p></div><table class="items-table"><thead><tr><th>Item</th><th>Quantity</th><th>Price</th><th>Total</th></tr></thead><tbody>
                             ${invoiceData.items.map(item => `
-                                <tr>
-                                    <td>${item.name}</td>
-                                    <td>${item.quantity}</td>
-                                    <td>Rs. ${item.price.toFixed(2)}</td>
-                                    <td>Rs. ${(item.price * item.quantity).toFixed(2)}</td>
-                                </tr>
+                                <tr><td>${item.name}</td><td>${item.quantity}</td><td>Rs. ${item.price.toFixed(2)}</td><td>Rs. ${(item.price * item.quantity).toFixed(2)}</td></tr>
                             `).join('')}
-                        </tbody>
-                    </table>
-                    
-                    <div class="total-section">
-                        <p><strong>Subtotal: Rs. ${invoiceData.subtotal.toFixed(2)}</strong></p>
+                        </tbody></table><div class="total-section"><p><strong>Subtotal: Rs. ${invoiceData.subtotal.toFixed(2)}</strong></p>
                         ${invoiceData.deliveryFee > 0 ? `<p>Delivery Fee: Rs. ${invoiceData.deliveryFee.toFixed(2)}</p>` : ''}
-                        <p><strong>Total: Rs. ${invoiceData.total.toFixed(2)}</strong></p>
-                    </div>
-                    
-                    <div class="footer">
-                        <p>Thank you for your business!</p>
-                        <p>Status: ${invoiceData.status}</p>
-                    </div>
-                </body>
-                </html>
+                        <p><strong>Total: Rs. ${invoiceData.total.toFixed(2)}</strong></p></div><div class="footer"><p>Thank you for your business!</p><p>Status: ${invoiceData.status}</p></div></body></html>
             `;
             
             invoiceWindow.document.write(invoiceHTML);
@@ -691,6 +509,4 @@
             loadOrderData();
             updateCartCount();
         });
-    </script>
-</body>
-</html>
+    </script></body></html>

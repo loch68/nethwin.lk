@@ -1,13 +1,19 @@
 // Modern Navbar JavaScript - Shared across all pages
 document.addEventListener('DOMContentLoaded', () => {
-  const mobileToggle = document.getElementById('mobileToggle');
+  const mobileToggle = document.getElementById('mobileToggle') || document.getElementById('mobileMenuBtn');
   const navbarLinks = document.getElementById('navbarLinks');
+  const mobileNav = document.getElementById('mobileNav');
   const navbar = document.querySelector('.modern-navbar');
   
   // Mobile menu toggle
-  if (mobileToggle && navbarLinks) {
+  if (mobileToggle) {
     mobileToggle.addEventListener('click', () => {
-      navbarLinks.classList.toggle('active');
+      if (navbarLinks) {
+        navbarLinks.classList.toggle('active');
+      }
+      if (mobileNav) {
+        mobileNav.classList.toggle('active');
+      }
       mobileToggle.classList.toggle('active');
     });
   }
@@ -89,22 +95,32 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Close mobile menu when clicking outside
   document.addEventListener('click', (e) => {
-    if (navbarLinks && mobileToggle) {
+    if (mobileToggle) {
       const isClickInsideNav = navbar.contains(e.target);
       
-      if (!isClickInsideNav && navbarLinks.classList.contains('active')) {
-        navbarLinks.classList.remove('active');
+      if (!isClickInsideNav) {
+        if (navbarLinks && navbarLinks.classList.contains('active')) {
+          navbarLinks.classList.remove('active');
+        }
+        if (mobileNav && mobileNav.classList.contains('active')) {
+          mobileNav.classList.remove('active');
+        }
         mobileToggle.classList.remove('active');
       }
     }
   });
   
   // Close mobile menu when clicking on a nav link
-  const navLinksElements = document.querySelectorAll('.nav-link');
+  const navLinksElements = document.querySelectorAll('.nav-link, .mobile-nav-link');
   navLinksElements.forEach(link => {
     link.addEventListener('click', () => {
-      if (navbarLinks && mobileToggle) {
-        navbarLinks.classList.remove('active');
+      if (mobileToggle) {
+        if (navbarLinks) {
+          navbarLinks.classList.remove('active');
+        }
+        if (mobileNav) {
+          mobileNav.classList.remove('active');
+        }
         mobileToggle.classList.remove('active');
       }
     });

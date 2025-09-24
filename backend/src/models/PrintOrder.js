@@ -24,14 +24,25 @@ const printOrderSchema = new mongoose.Schema(
     // Order management
     status: { 
       type: String, 
-      enum: ['pending', 'processing', 'ready', 'completed', 'cancelled'], 
+      enum: ['pending', 'in_queue', 'in_progress', 'ready', 'completed', 'cancelled', 'failed'], 
       default: 'pending' 
     },
     priority: { 
       type: String, 
-      enum: ['normal', 'urgent', 'rush'], 
+      enum: ['low', 'normal', 'high', 'urgent'], 
       default: 'normal' 
     },
+    
+    // Queue management
+    queuePosition: { type: Number, default: 0 },
+    estimatedCompletion: { type: Date },
+    actualStartTime: { type: Date },
+    actualEndTime: { type: Date },
+    progress: { type: Number, min: 0, max: 100, default: 0 },
+    
+    // Resource assignment
+    assignedPrinter: { type: String, default: '' },
+    assignedOperator: { type: String, default: '' },
     
     // Pricing (optional for now)
     estimatedPrice: { type: Number, default: 0 },
@@ -52,5 +63,8 @@ const printOrderSchema = new mongoose.Schema(
 printOrderSchema.index({ userId: 1, createdAt: -1 });
 printOrderSchema.index({ status: 1 });
 printOrderSchema.index({ createdAt: -1 });
+printOrderSchema.index({ queuePosition: 1 });
+printOrderSchema.index({ priority: 1, createdAt: 1 });
+printOrderSchema.index({ status: 1, queuePosition: 1 });
 
 module.exports = mongoose.model('PrintOrder', printOrderSchema);

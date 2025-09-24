@@ -1,23 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contact Us - NethwinLK</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
-    <link
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Contact Us - NethwinLK</title><link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" /><link
       rel="stylesheet"
       as="style"
       onload="this.rel='stylesheet'"
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
-    />
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link rel="stylesheet" href="../css/hover-effects.css" />
-    <link rel="stylesheet" href="../css/navbar.css" />
-    <link rel="stylesheet" href="../css/background-animations.css" />
-    <link rel="stylesheet" href="../css/responsive.css" />
-    
-    <style>
+    /><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link rel="stylesheet" href="../css/hover-effects.css" /><link rel="stylesheet" href="../css/navbar.css" /><link rel="stylesheet" href="../css/cart-styles.css" /><link rel="stylesheet" href="../css/background-animations.css" /><link rel="stylesheet" href="../css/responsive.css" /><style>
       
       /* Enhanced Contact Form */
       .contact-form {
@@ -111,496 +97,243 @@
       }
       
       
-    </style>
-  </head>
-  <body>
-    <div
+    </style></head><body><div
       class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient"
-    >
-      <!-- Background Animation Container -->
-      <div
+    ><!-- Background Animation Container --><div
         class="particles-container fixed inset-0 pointer-events-none z-0"
         id="particlesContainer"
-      ></div>
-      <div class="layout-container flex flex-col grow h-full relative z-10">
-        <!-- Modern Seamless Navbar -->
-        <nav class="modern-navbar fixed top-0 left-0 right-0 z-30">
-          <div class="navbar-container">
-            <!-- Logo/Brand -->
-            <div class="navbar-brand">
-              <a href="index.html" class="flex items-center">
-                <img
+      ></div><div class="layout-container flex flex-col grow h-full relative z-10"><!-- Modern Seamless Navbar --><nav class="modern-navbar fixed top-0 left-0 right-0 z-30"><div class="navbar-container"><!-- Logo/Brand --><div class="navbar-brand"><a href="index.html" class="flex items-center"><img
                   src="../assets/fLogo.png"
                   alt="NethwinLK"
                   class="navbar-logo"
-                />
-              </a>
-            </div>
-
-            <!-- Navigation Links -->
-            <div class="navbar-links" id="navbarLinks">
-              <a href="index.html" class="nav-link">Home</a>
-              <a href="print.html" class="nav-link">Print Services</a>
-              <a href="bookshop.html" class="nav-link">Bookshop</a>
-              <a href="aboutus.html" class="nav-link">About</a>
-              <a href="contactus.html" class="nav-link active">Contact</a>
-            </div>
-
-            <!-- Desktop Auth Area -->
-            <div class="navbar-auth" id="navbarAuth">
-              <a href="cart.html" class="nav-auth-btn relative">
-                <svg
+                /></a></div><!-- Navigation Links --><div class="navbar-links" id="navbarLinks"><a href="index.html" class="nav-link">Home</a><a href="print.html" class="nav-link">Print Services</a><a href="bookshop.html" class="nav-link">Bookshop</a><a href="aboutus.html" class="nav-link">About</a><a href="contactus.html" class="nav-link active">Contact</a></div><!-- Desktop Auth Area --><div class="navbar-auth" id="navbarAuth"><a href="cart.html" class="nav-auth-btn cart-container relative"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+        </svg>
+        <span>Cart</span>
+        <span class="cart-count hidden" id="cartCount">0</span></a><a href="search.html" class="nav-auth-btn"><svg
                   class="w-4 h-4 mr-2"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
-                  ></path>
-                </svg>
-                Cart
-                <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold hidden">0</span>
-              </a>
-              <a href="search.html" class="nav-auth-btn">
-                <svg
-                  class="w-4 h-4 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
+                ><path
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  ></path>
-                </svg>
-                Search
-              </a>
-              <a href="login.html" class="nav-auth-btn">
-                <svg
+                  ></path></svg>
+                Search</a><a href="login.html" class="nav-auth-btn"><svg
                   class="w-4 h-4 mr-2"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
-                >
-                  <path
+                ><path
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
                     d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"
-                  ></path>
-                </svg>
-                Login
-              </a>
-            </div>
-
-            <!-- Mobile Auth Icons (hidden on desktop) -->
-            <div class="mobile-auth-icons hidden md:hidden">
-              <a href="cart.html" class="mobile-icon-btn relative">
-                <svg
+                  ></path></svg>
+                Login</a></div><!-- Mobile Auth Icons (hidden on desktop) --><div class="mobile-auth-icons hidden md:hidden"><a href="cart.html" class="mobile-icon-btn mobile-cart-container relative"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+        </svg>
+        <span class="mobile-cart-count hidden" id="mobileCartCount">0</span></a><a href="search.html" class="mobile-icon-btn"><svg
                   class="w-5 h-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
-                  ></path>
-                </svg>
-                <span id="mobileCartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold hidden">0</span>
-              </a>
-              <a href="search.html" class="mobile-icon-btn">
-                <svg
-                  class="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
+                ><path
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  ></path>
-                </svg>
-              </a>
-              <a href="login.html" class="mobile-icon-btn">
-                <svg
+                  ></path></svg></a><a href="login.html" class="mobile-icon-btn"><svg
                   class="w-5 h-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
-                >
-                  <path
+                ><path
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
                     d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"
-                  ></path>
-                </svg>
-              </a>
-            </div>
-
-            <!-- Mobile Menu Toggle -->
-            <button class="mobile-menu-toggle" id="mobileToggle">
-              <span class="hamburger-line"></span>
-              <span class="hamburger-line"></span>
-              <span class="hamburger-line"></span>
-            </button>
-          </div>
-        </nav>
-
-        <!-- Navbar Spacer -->
-        <div style="height: 4rem"></div>
-
-        <!-- Main Content -->
-        <div class="flex flex-1 justify-center py-5 page-transition">
-          <div
+                  ></path></svg></a></div><!-- Mobile Menu Toggle --><button class="mobile-menu-toggle" id="mobileToggle"><span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span></button></div></nav><!-- Navbar Spacer --><div style="height: 4rem"></div><!-- Main Content --><div class="flex flex-1 justify-center py-5 page-transition"><div
             class="flex flex-col items-center w-full max-w-[1200px] py-5 px-4"
-          >
-            <h1
+          ><h1
               class="section-header text-[#0e1b0e] tracking-light text-[32px] font-bold leading-tight px-4 text-center pb-3 pt-5"
             >
               Contact Us
-            </h1>
-            <p class="text-[#4e974e] text-lg leading-normal text-center pb-8">
+            </h1><p class="text-[#4e974e] text-lg leading-normal text-center pb-8">
               Get in touch with us for all your printing and bookshop needs
-            </p>
-
-            <div class="flex flex-col lg:flex-row gap-8 w-full">
-              <!-- Contact Form -->
-              <div
+            </p><div class="flex flex-col lg:flex-row gap-8 w-full"><!-- Contact Form --><div
                 class="contact-form flex-1 bg-[#f8fcf8] rounded-xl p-8 border border-[#d0e7d0]"
-              >
-                <h2
+              ><h2
                   class="section-header text-[#0e1b0e] text-2xl font-bold leading-tight pb-6"
                 >
                   Send us a Message
-                </h2>
-                <form class="space-y-6">
-                  <div>
-                    <label
+                </h2><form class="space-y-6"><div><label
                       for="contactName"
                       class="block text-[#0e1b0e] text-base font-medium leading-normal pb-2"
                       >Full Name</label
-                    >
-                    <input
+                    ><input
                       type="text"
                       id="contactName"
                       name="name"
                       required
                       placeholder="Enter your full name"
                       class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-white focus:border-[#0ad167] h-14 placeholder:text-[#4e974e] p-[15px] text-base font-normal leading-normal"
-                    />
-                  </div>
-                  <div>
-                    <label
+                    /></div><div><label
                       for="contactEmail"
                       class="block text-[#0e1b0e] text-base font-medium leading-normal pb-2"
                       >Email Address</label
-                    >
-                    <input
+                    ><input
                       type="email"
                       id="contactEmail"
                       name="email"
                       required
                       placeholder="Enter your email address"
                       class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-white focus:border-[#0ad167] h-14 placeholder:text-[#4e974e] p-[15px] text-base font-normal leading-normal"
-                    />
-                  </div>
-                  <div>
-                    <label
+                    /></div><div><label
                       for="contactSubject"
                       class="block text-[#0e1b0e] text-base font-medium leading-normal pb-2"
                       >Subject</label
-                    >
-                    <input
+                    ><input
                       type="text"
                       id="contactSubject"
                       name="subject"
                       placeholder="Enter message subject"
                       class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-white focus:border-[#0ad167] h-14 placeholder:text-[#4e974e] p-[15px] text-base font-normal leading-normal"
-                    />
-                  </div>
-                  <div>
-                    <label
+                    /></div><div><label
                       for="contactMessage"
                       class="block text-[#0e1b0e] text-base font-medium leading-normal pb-2"
                       >Message</label
-                    >
-                    <textarea
+                    ><textarea
                       id="contactMessage"
                       name="message"
                       rows="5"
                       required
                       placeholder="Enter your message"
                       class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1b0e] focus:outline-0 focus:ring-0 border border-[#d0e7d0] bg-white focus:border-[#0ad167] h-32 placeholder:text-[#4e974e] p-[15px] text-base font-normal leading-normal"
-                    ></textarea>
-                  </div>
-                  <div>
-                    <button
+                    ></textarea></div><div><button
                       type="button"
                       id="sendContact"
                       class="btn-primary flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 text-base font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out"
-                    >
-                      <span class="truncate">Send Message</span>
-                    </button>
-                  </div>
-                </form>
-              </div>
-
-              <!-- Contact Information -->
-              <div class="flex-1 space-y-6">
-                <div
+                    ><span class="truncate">Send Message</span></button></div></form></div><!-- Contact Information --><div class="flex-1 space-y-6"><div
                   class="contact-info-card bg-[#f8fcf8] rounded-xl p-8 border border-[#d0e7d0] "
-                >
-                  <h2
+                ><h2
                     class="section-header text-[#0e1b0e] text-2xl font-bold leading-tight pb-6 "
                   >
                     Contact Information
-                  </h2>
-                  <div class="space-y-6 ">
-                    <div class="flex items-center gap-4 ">
-                      <div class="contact-icon bg-[#19e619] text-[#ffffff] p-3 rounded-full">
-                        <svg
+                  </h2><div class="space-y-6 "><div class="flex items-center gap-4 "><div class="contact-icon bg-[#19e619] text-[#ffffff] p-3 rounded-full"><svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"
                           height="24"
                           fill="currentColor"
                           viewBox="0 0 256 256"
-                        >
-                          <path
+                        ><path
                             d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z"
-                          ></path>
-                        </svg>
-                      </div>
-                      <div>
-                        <h3 class="text-[#0e1b0e] font-semibold text-lg">
+                          ></path></svg></div><div><h3 class="text-[#0e1b0e] font-semibold text-lg">
                           Email
-                        </h3>
-                        <a href="tel:0812386908" class="text-[#4e974e]"
+                        </h3><a href="tel:0812386908" class="text-[#4e974e]"
                           >nethwin@yahoo.com</a
-                        >
-                      </div>
-                    </div>
-                    <div class="flex items-center gap-4 ">
-                      <div class="contact-icon bg-[#19e619] text-[#ffffff] p-3 rounded-full">
-                        <svg
+                        ></div></div><div class="flex items-center gap-4 "><div class="contact-icon bg-[#19e619] text-[#ffffff] p-3 rounded-full"><svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"
                           height="24"
                           fill="currentColor"
                           viewBox="0 0 256 256"
-                        >
-                          <path
+                        ><path
                             d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"
-                          ></path>
-                        </svg>
-                      </div>
-                      <div>
-                        <h3 class="text-[#0e1b0e] font-semibold text-lg">
+                          ></path></svg></div><div><h3 class="text-[#0e1b0e] font-semibold text-lg">
                           Phone
-                        </h3>
-                        <a href="tel:0812386908" class="text-[#4e974e]"
+                        </h3><a href="tel:0812386908" class="text-[#4e974e]"
                           >081 2386 908</a
-                        >
-                      </div>
-                    </div>
-                    <div class="flex items-center gap-4 ">
-                      <div class="contact-icon bg-[#19e619] text-[#ffffff] p-3 rounded-full">
-                        <svg
+                        ></div></div><div class="flex items-center gap-4 "><div class="contact-icon bg-[#19e619] text-[#ffffff] p-3 rounded-full"><svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"
                           height="24"
                           fill="currentColor"
                           viewBox="0 0 256 256"
-                        >
-                          <path
+                        ><path
                             d="M128,64a40,40,0,1,0,40,40A40,40,0,0,0,128,64Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,128Zm0-112a88.1,88.1,0,0,0-88,88c0,31.4,14.51,64.68,42,96.25a254.19,254.19,0,0,0,41.45,38.3,8,8,0,0,0,9.18,0A254.19,254.19,0,0,0,174,200.25c27.45-31.57,42-64.85,42-96.25A88.1,88.1,0,0,0,128,16Zm0,206c-16.53-13-72-60.75-72-118a72,72,0,0,1,144,0C200,161.23,144.53,209,128,222Z"
-                          ></path>
-                        </svg>
-                      </div>
-                      <div>
-                        <h3 class="text-[#0e1b0e] font-semibold text-lg">
+                          ></path></svg></div><div><h3 class="text-[#0e1b0e] font-semibold text-lg">
                           Address - Nethwin Printers (Pvt) Ltd
-                        </h3>
-                        <a
+                        </h3><a
                           href="https://maps.app.goo.gl/k5FrWWUTYdAUcnZAA"
                           class="text-[#4e974e]"
                           >No. 832, "Dalanda Sevane Api" Foundation, Gatambe
                           Junction, 20000</a
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div
+                        ></div></div></div></div><div
                   class="contact-info-card bg-[#f8fcf8] rounded-xl p-8 border border-[#d0e7d0] "
-                >
-                  <h2
+                ><h2
                     class="section-header text-[#0e1b0e] text-2xl font-bold leading-tight pb-2 "
                   >
                     Nethwin Printers (Pvt) Ltd
-                  </h2>
-                  <h4
+                  </h2><h4
                     class="text-[#0e1b0e] text-1xl font-bold leading-tight pb-2 "
                   >
                     Buisness Hours
-                  </h4>
-                  <div class="space-y-3 ">
-                    <div class="flex justify-between items-center ">
-                      <span class="text-[#4e974e]">Monday - Friday</span>
-                      <span class="text-[#0e1b0e] font-semibold"
+                  </h4><div class="space-y-3 "><div class="flex justify-between items-center "><span class="text-[#4e974e]">Monday - Friday</span><span class="text-[#0e1b0e] font-semibold"
                         >8:30 AM - 5:00 PM</span
-                      >
-                    </div>
-                    <div class="flex justify-between items-center ">
-                      <span class="text-[#4e974e]">Saturday</span>
-                      <span class="text-[#0e1b0e] font-semibold"
+                      ></div><div class="flex justify-between items-center "><span class="text-[#4e974e]">Saturday</span><span class="text-[#0e1b0e] font-semibold"
                         >8:30 AM - 5:00 PM</span
-                      >
-                    </div>
-                    <div class="flex justify-between items-center ">
-                      <span class="text-[#4e974e]">Sunday</span>
-                      <span class="text-[#0e1b0e] font-semibold">Closed</span>
-                    </div>
-                  </div>
-                  <br />
-                  <h2
+                      ></div><div class="flex justify-between items-center "><span class="text-[#4e974e]">Sunday</span><span class="text-[#0e1b0e] font-semibold">Closed</span></div></div><br /><h2
                     class="section-header text-[#0e1b0e] text-2xl font-bold leading-tight pb-2 "
                   >
                     Nethwin Bookshop (Pvt) Ltd
-                  </h2>
-                  <h4
+                  </h2><h4
                     class="text-[#0e1b0e] text-1xl font-bold leading-tight pb-2 "
                   >
                     Buisness Hours
-                  </h4>
-                  <div class="space-y-3 ">
-                    <div class="flex justify-between items-center ">
-                      <span class="text-[#4e974e]"
+                  </h4><div class="space-y-3 "><div class="flex justify-between items-center "><span class="text-[#4e974e]"
                         >Everyday (Monday - Sunday)</span
-                      >
-                      <span class="text-[#0e1b0e] font-semibold"
+                      ><span class="text-[#0e1b0e] font-semibold"
                         >8:30 AM - 5:00 PM</span
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- QR Codes Section -->
-      <div class="flex flex-1 justify-center py-5 ">
-        <div class="flex flex-col items-center w-full max-w-[1200px] py-5 px-4">
-          <!-- QR Codes Section CHANGE THIS AFTER GETTING THE CORRECT WHATSAPP NUMBER -->
-          <div
+                      ></div></div></div></div></div></div></div></div><!-- QR Codes Section --><div class="flex flex-1 justify-center py-5 "><div class="flex flex-col items-center w-full max-w-[1200px] py-5 px-4"><!-- QR Codes Section CHANGE THIS AFTER GETTING THE CORRECT WHATSAPP NUMBER --><div
             class="contact-info-card bg-white rounded-xl p-8 border border-[#d0e7d0] w-full shadow-sm "
-          >
-            <h2 class="section-header text-[#0e1b0e] text-2xl font-bold leading-tight pb-6 ">
+          ><h2 class="section-header text-[#0e1b0e] text-2xl font-bold leading-tight pb-6 ">
               Quick Contact
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 ">
-              <!-- WhatsApp QR Code -->
-              <div
+            </h2><div class="grid grid-cols-1 md:grid-cols-2 gap-6 "><!-- WhatsApp QR Code --><div
                 class="qr-card bg-white p-6 rounded-lg border border-[#d0e7d0] shadow-sm"
-              >
-                <div class="text-center">
-                  <img
+              ><div class="text-center"><img
                     src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wa.me/94778660753"
                     alt="WhatsApp QR Code"
                     class="qr-image mx-auto rounded-lg shadow-sm"
-                  />
-
-                  <h3 class="text-[#0e1b0e] font-semibold text-lg mb-2">
+                  /><h3 class="text-[#0e1b0e] font-semibold text-lg mb-2">
                     WhatsApp Chat
-                  </h3>
-                  <p class="text-[#4e974e] text-sm mb-3">
+                  </h3><p class="text-[#4e974e] text-sm mb-3">
                     Scan to start a conversation
-                  </p>
-                  <a
+                  </p><a
                     href="https://wa.me/94778660753"
                     class="btn-primary inline-flex items-center gap-2"
-                  >
-                    <svg
+                  ><svg
                       class="w-4 h-4"
                       fill="currentColor"
                       viewBox="0 0 24 24"
-                    >
-                      <path
+                    ><path
                         d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"
-                      />
-                    </svg>
-                    Chat Now
-                  </a>
-                </div>
-              </div>
-
-              <!-- Contact Info QR Code -->
-              <div
+                      /></svg>
+                    Chat Now</a></div></div><!-- Contact Info QR Code --><div
                 class="qr-card bg-white p-6 rounded-lg border border-[#d0e7d0] shadow-sm"
-              >
-                <div class="text-center">
-                  <img
+              ><div class="text-center"><img
                     src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=mailto:nethwin@yahoo.com?subject=Contact%20from%20Website&body=Hello%20NethwinLK%2C%0A%0AI%20would%20like%20to%20get%20in%20touch%20with%20you.%0A%0AThank%20you."
                     alt="Contact Info QR Code"
                     class="qr-image mx-auto rounded-lg shadow-sm"
-                  />
-
-                  <h3 class="text-[#0e1b0e] font-semibold text-lg mb-2">
+                  /><h3 class="text-[#0e1b0e] font-semibold text-lg mb-2">
                     Email Inquiry
-                  </h3>
-                  <p class="text-[#4e974e] text-sm mb-3">
+                  </h3><p class="text-[#4e974e] text-sm mb-3">
                     Scan for quick email contact
-                  </p>
-                  <a
+                  </p><a
                     href="mailto:nethwin@yahoo.com?subject=Contact from Website"
                     class="btn-primary inline-flex items-center gap-2"
-                  >
-                    <svg
+                  ><svg
                       class="w-4 h-4"
                       fill="currentColor"
                       viewBox="0 0 24 24"
-                    >
-                      <path
+                    ><path
                         d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
-                      />
-                    </svg>
-                    Email Us
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <footer class="flex justify-center ">
-        <div class="flex max-w-[960px] flex-1 flex-col">
-          <footer class="flex flex-col gap-6 px-5 py-10 text-center @container">
-            <p class="text-[#76816a] text-base font-normal leading-normal ">
+                      /></svg>
+                    Email Us</a></div></div></div></div></div></div><footer class="flex justify-center "><div class="flex max-w-[960px] flex-1 flex-col"><footer class="flex flex-col gap-6 px-5 py-10 text-center @container"><p class="text-[#76816a] text-base font-normal leading-normal ">
               @2025 NethwinLK. All rights reserved.
-            </p>
-          </footer>
-        </div>
-      </footer>
-    </div>
-
-    <script src="../javascript/navbar.js"></script>
-    <script src="../javascript/background-animations.js"></script>
-    <script src="../javascript/auth.js"></script>
-    <script>
+            </p></footer></div></footer></div><script src="../javascript/navbar.js"></script><script src="../javascript/cart-utils.js"></script><script src="../javascript/background-animations.js"></script><script src="../javascript/auth.js"></script><script>
       // Update cart count function
       function updateCartCount() {
         try {
@@ -728,6 +461,4 @@
           button.innerHTML = originalText;
         }
       }
-    </script>
-  </body>
-</html>
+    </script></body></html>

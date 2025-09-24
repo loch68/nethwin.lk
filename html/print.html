@@ -1,22 +1,7 @@
-<!-- Save as: print.html -->
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta charset="UTF-8" />
-    <title>Print on Demand - NethwinLK</title>
-
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
-    <link
+<!-- Save as: print.html --><!DOCTYPE html><html lang="en"><head><meta name="viewport" content="width=device-width, initial-scale=1" /><meta charset="UTF-8" /><title>Print on Demand - NethwinLK</title><link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" /><link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?display=swap&family=Inter:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900"
-    />
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link rel="stylesheet" href="../css/hover-effects.css" />
-    <link rel="stylesheet" href="../css/responsive.css" />
-    <link rel="stylesheet" href="../css/navbar.css" />
-    <link rel="stylesheet" href="../css/background-animations.css" />
-    <style>
+    /><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link rel="stylesheet" href="../css/hover-effects.css" /><link rel="stylesheet" href="../css/responsive.css" /><link rel="stylesheet" href="../css/navbar.css" /><link rel="stylesheet" href="../css/cart-styles.css" /><link rel="stylesheet" href="../css/background-animations.css" /><style>
       :root {
         --primary-green: #0ad167;
         --dark-green: #1b5e20;
@@ -649,567 +634,313 @@
         animation: bounce 0.6s ease-in-out;
         transform: scale(1.2);
       }
-    </style>
-  </head>
-  <body>
-    <div
+    </style></head><body><div
       class="relative flex min-h-screen flex-col overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient"
-    >
-      <!-- Background Animation Container -->
-      <div
+    ><!-- Background Animation Container --><div
         class="particles-container fixed inset-0 pointer-events-none z-0"
         id="particlesContainer"
-      ></div>
-      <!-- Modern Seamless Navbar -->
-      <nav class="modern-navbar fixed top-0 left-0 right-0 z-30">
-        <div class="navbar-container">
-          <!-- Logo/Brand -->
-          <div class="navbar-brand">
-            <a href="index.html" class="flex items-center">
-              <img
+      ></div><!-- Modern Seamless Navbar --><nav class="modern-navbar fixed top-0 left-0 right-0 z-30"><div class="navbar-container"><!-- Logo/Brand --><div class="navbar-brand"><a href="index.html" class="flex items-center"><img
                 src="../assets/fLogo.png"
                 alt="NethwinLK"
                 class="navbar-logo"
-              />
-            </a>
-          </div>
-
-          <!-- Navigation Links -->
-          <div class="navbar-links" id="navbarLinks">
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="print.html" class="nav-link active">Print Services</a>
-            <a href="bookshop.html" class="nav-link">Bookshop</a>
-            <a href="aboutus.html" class="nav-link">About</a>
-            <a href="contactus.html" class="nav-link">Contact</a>
-          </div>
-
-          <!-- Desktop Auth Area -->
-          <div class="navbar-auth" id="navbarAuth">
-            <a href="cart.html" class="nav-auth-btn relative">
-              <svg
+              /></a></div><!-- Navigation Links --><div class="navbar-links" id="navbarLinks"><a href="index.html" class="nav-link">Home</a><a href="print.html" class="nav-link active">Print Services</a><a href="bookshop.html" class="nav-link">Bookshop</a><a href="aboutus.html" class="nav-link">About</a><a href="contactus.html" class="nav-link">Contact</a></div><!-- Desktop Auth Area --><div class="navbar-auth" id="navbarAuth"><a href="cart.html" class="nav-auth-btn cart-container relative"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+        </svg>
+        <span>Cart</span>
+        <span class="cart-count hidden" id="cartCount">0</span></a><a href="search.html" class="nav-auth-btn"><svg
                 class="w-4 h-4 mr-2"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
-                ></path>
-              </svg>
-              Cart
-              <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold hidden">0</span>
-            </a>
-            <a href="search.html" class="nav-auth-btn">
-              <svg
-                class="w-4 h-4 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
+              ><path
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                ></path>
-              </svg>
-              Search
-            </a>
-            <a href="login.html" class="nav-auth-btn">
-              <svg
+                ></path></svg>
+              Search</a><a href="login.html" class="nav-auth-btn"><svg
                 class="w-4 h-4 mr-2"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-              >
-                <path
+              ><path
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
                   d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"
-                ></path>
-              </svg>
-              Login
-            </a>
-          </div>
-
-          <!-- Mobile Auth Icons (hidden on desktop) -->
-          <div class="mobile-auth-icons hidden md:hidden">
-            <a href="cart.html" class="mobile-icon-btn relative">
-              <svg
+                ></path></svg>
+              Login</a></div><!-- Mobile Auth Icons (hidden on desktop) --><div class="mobile-auth-icons hidden md:hidden"><a href="cart.html" class="mobile-icon-btn mobile-cart-container relative"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+        </svg>
+        <span class="mobile-cart-count hidden" id="mobileCartCount">0</span></a><a href="search.html" class="mobile-icon-btn"><svg
                 class="w-5 h-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
-                ></path>
-              </svg>
-              <span id="mobileCartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold hidden">0</span>
-            </a>
-            <a href="search.html" class="mobile-icon-btn">
-              <svg
-                class="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
+              ><path
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                ></path>
-              </svg>
-            </a>
-            <a href="login.html" class="mobile-icon-btn">
-              <svg
+                ></path></svg></a><a href="login.html" class="mobile-icon-btn"><svg
                 class="w-5 h-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-              >
-                <path
+              ><path
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
                   d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"
-                ></path>
-              </svg>
-            </a>
-          </div>
-
-          <!-- Mobile Menu Toggle -->
-          <button class="mobile-menu-toggle" id="mobileToggle">
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-          </button>
-        </div>
-      </nav>
-
-      <!-- Navbar Spacer -->
-      <div style="height: 4rem"></div>
-
-      <div class="layout-container flex flex-col grow h-full relative z-10">
-        <!-- Form Starts Here -->
-        <form
+                ></path></svg></a></div><!-- Mobile Menu Toggle --><button class="mobile-menu-toggle" id="mobileToggle"><span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span></button></div></nav><!-- Navbar Spacer --><div style="height: 4rem"></div><div class="layout-container flex flex-col grow h-full relative z-10"><!-- Form Starts Here --><form
           id="printForm"
           class="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-40 flex justify-center py-5 flex-1 page-transition"
           enctype="multipart/form-data"
-        >
-          <div class="flex flex-col max-w-[960px] flex-1 w-full">
-            <div class="flex flex-wrap justify-between gap-3 p-2 sm:p-4 animate-fade-in-down">
-              <p
+        ><div class="flex flex-col max-w-[960px] flex-1 w-full"><div class="flex flex-wrap justify-between gap-3 p-2 sm:p-4 animate-fade-in-down"><p
                 class="text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-bold break-words animate-float"
               >
                 Print Order Form
-              </p>
-            </div>
-
-            <!-- Customer Information (only shown when not logged in) -->
-            <div id="customerInfoSection" class="animate-fade-in-up stagger-1" style="display: none;">
-              <h2
+              </p></div><!-- Customer Information (only shown when not logged in) --><div id="customerInfoSection" class="animate-fade-in-up stagger-1" style="display: none;"><h2
                 class="text-lg sm:text-xl md:text-[22px] font-bold px-2 sm:px-4 pb-3 pt-5 animate-slide-in-down"
               >
                 Customer Information
-              </h2>
-
-              <div
+              </h2><div
                 class="flex max-w-full sm:max-w-[480px] flex-wrap items-end gap-4 px-2 sm:px-4 py-3"
-              >
-                <label class="flex flex-col w-full">
-                  <p class="font-medium pb-2 text-sm sm:text-base">
+              ><label class="flex flex-col w-full"><p class="font-medium pb-2 text-sm sm:text-base">
                     Full Name *
-                  </p>
-                  <input
+                  </p><input
                     type="text"
                     name="userName"
                     placeholder="Enter your full name"
                     class="form-input w-full h-12 sm:h-14 p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base"
-                  />
-                </label>
-              </div>
-
-              <div
+                  /></label></div><div
                 class="flex max-w-full sm:max-w-[480px] flex-wrap items-end gap-4 px-2 sm:px-4 py-3"
-              >
-                <label class="flex flex-col w-full">
-                  <p class="font-medium pb-2 text-sm sm:text-base">
+              ><label class="flex flex-col w-full"><p class="font-medium pb-2 text-sm sm:text-base">
                     Email Address *
-                  </p>
-                  <input
+                  </p><input
                     type="email"
                     name="email"
                     placeholder="Enter your email address"
                     class="form-input w-full h-12 sm:h-14 p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base"
-                  />
-                </label>
-              </div>
-
-              <div
+                  /></label></div><div
                 class="flex max-w-full sm:max-w-[480px] flex-wrap items-end gap-4 px-2 sm:px-4 py-3"
-              >
-                <label class="flex flex-col w-full">
-                  <p class="font-medium pb-2 text-sm sm:text-base">
+              ><label class="flex flex-col w-full"><p class="font-medium pb-2 text-sm sm:text-base">
                     Contact Number *
-                  </p>
-                  <input
+                  </p><input
                     type="tel"
                     name="contactNumber"
                     placeholder="Enter your contact number"
                     class="form-input w-full h-12 sm:h-14 p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base"
-                  />
-                </label>
-              </div>
-            </div>
-
-            <!-- Logged in user info display -->
-            <div id="loggedInUserInfo" class="animate-fade-in-up stagger-1" style="display: none;">
-              <h2
+                  /></label></div></div><!-- Logged in user info display --><div id="loggedInUserInfo" class="animate-fade-in-up stagger-1" style="display: none;"><h2
                 class="text-lg sm:text-xl md:text-[22px] font-bold px-2 sm:px-4 pb-3 pt-5 animate-slide-in-down"
               >
                 Account Information
-              </h2>
-              <div class="px-2 sm:px-4 py-3">
-                <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 card animate-scale-in">
-                  <p class="text-sm font-medium text-gray-700 mb-2">Ordering as:</p>
-                  <p class="text-lg font-semibold text-blue-600" id="userDisplayName"></p>
-                  <p class="text-sm text-gray-600" id="userDisplayEmail"></p>
-                  <p class="text-sm text-gray-600" id="userDisplayPhone"></p>
-                </div>
-              </div>
-              
-              <!-- Hidden fields for logged-in users -->
-              <input type="hidden" name="userName" id="hiddenUserName" required>
-              <input type="hidden" name="email" id="hiddenEmail" required>
-              <input type="hidden" name="contactNumber" id="hiddenContactNumber" required>
-            </div>
-
-            <!-- Login prompt for non-logged in users -->
-            <div id="loginPrompt" class="animate-fade-in-up stagger-1" style="display: none;">
-              <div class="px-2 sm:px-4 py-3">
-                <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 card animate-scale-in">
-                  <div class="flex items-center justify-between">
-                    <div>
-                      <p class="text-sm font-medium text-yellow-800 mb-1">
+              </h2><div class="px-2 sm:px-4 py-3"><div class="bg-blue-50 border border-blue-200 rounded-xl p-4 card animate-scale-in"><p class="text-sm font-medium text-gray-700 mb-2">Ordering as:</p><p class="text-lg font-semibold text-blue-600" id="userDisplayName"></p><p class="text-sm text-gray-600" id="userDisplayEmail"></p><p class="text-sm text-gray-600" id="userDisplayPhone"></p></div></div><!-- Hidden fields for logged-in users --><input type="hidden" name="userName" id="hiddenUserName" required><input type="hidden" name="email" id="hiddenEmail" required><input type="hidden" name="contactNumber" id="hiddenContactNumber" required></div><!-- Login prompt for non-logged in users --><div id="loginPrompt" class="animate-fade-in-up stagger-1" style="display: none;"><div class="px-2 sm:px-4 py-3"><div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 card animate-scale-in"><div class="flex items-center justify-between"><div><p class="text-sm font-medium text-yellow-800 mb-1">
                         Have an account?
-                      </p>
-                      <p class="text-xs text-yellow-600">
+                      </p><p class="text-xs text-yellow-600">
                         Login to skip filling customer information
-                      </p>
-                    </div>
-                    <a 
+                      </p></div><a 
                       href="login.html" 
                       class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
                     >
-                      Login
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Document Upload -->
-            <h2
+                      Login</a></div></div></div></div><!-- Document Upload --><h2
               class="text-lg sm:text-xl md:text-[22px] font-bold px-2 sm:px-4 pb-3 pt-5 animate-fade-in-up stagger-2"
             >
               Document Upload
-            </h2>
-
-            <div class="flex flex-col p-4 sm:p-6 animate-fade-in-up stagger-3">
-              <label
+            </h2><div class="flex flex-col p-4 sm:p-6 animate-fade-in-up stagger-3"><label
                 for="document"
                 class="file-upload-area flex flex-col items-center justify-center gap-4 sm:gap-6 rounded-xl border-2 border-dashed border-gray-300 hover:border-green-500 transition-colors duration-300 cursor-pointer bg-gray-50 hover:bg-green-50 px-6 py-10 sm:py-14 text-center"
-              >
-                <svg
+              ><svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-12 w-12 text-green-500"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                   stroke-width="2"
-                >
-                  <path
+                ><path
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     d="M4 16v4h16v-4M12 12v8m0-8l4 4m-4-4l-4 4m0-8h.01M20 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2"
-                  />
-                </svg>
-                <div>
-                  <p class="text-base sm:text-lg font-semibold text-gray-700">
+                  /></svg><div><p class="text-base sm:text-lg font-semibold text-gray-700">
                     Drag & Drop your document here
-                  </p>
-                  <p class="text-xs sm:text-sm text-gray-500 mt-1">
+                  </p><p class="text-xs sm:text-sm text-gray-500 mt-1">
                     or click to browse (PDF, DOC, DOCX, TXT, JPG, JPEG, PNG, GIF)
-                  </p>
-                  <p class="text-xs text-red-500 mt-1">
+                  </p><p class="text-xs text-red-500 mt-1">
                     Maximum file size: 10MB
-                  </p>
-                </div>
-                <input
+                  </p></div><input
                   type="file"
                   id="document"
                   name="document"
                   accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.gif"
                   required
                   class="hidden"
-                />
-              </label>
-            </div>
-
-            <!-- Document Preview -->
-            <h2
+                /></label></div><!-- Document Preview --><h2
               class="text-lg sm:text-xl md:text-[22px] font-bold px-2 sm:px-4 pb-3 pt-5 animate-fade-in-up stagger-4"
             >
               Document Preview
-            </h2>
-            <div
+            </h2><div
               id="previewContainer"
               class="p-2 sm:p-4 animate-fade-in-up stagger-5"
-            >
-              <div id="noFileMessage" class="text-center text-gray-500 py-8">
-                <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                </svg>
-                <p>No document selected</p>
-              </div>
-              <div id="filePreview" class="hidden">
-                <div class="bg-white border border-gray-200 rounded-lg p-4">
-                  <div class="flex items-center justify-between mb-2">
-                    <h3 class="font-medium text-gray-900" id="fileName"></h3>
-                    <button 
+            ><div id="noFileMessage" class="text-center text-gray-500 py-8"><svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg><p>No document selected</p></div><div id="filePreview" class="hidden"><div class="bg-white border border-gray-200 rounded-lg p-4"><div class="flex items-center justify-between mb-2"><h3 class="font-medium text-gray-900" id="fileName"></h3><div class="flex gap-2"><button 
+                      id="viewFullscreen" 
+                      class="text-blue-500 hover:text-blue-700 text-sm font-medium hidden"
+                    >
+                      <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>Full Screen
+                    </button><button 
                       id="removeFile" 
                       class="text-red-500 hover:text-red-700 text-sm font-medium"
                     >
-                      Remove
-                    </button>
-                  </div>
-                  <div id="filePreviewContent" class="mt-2"></div>
-                  <p class="text-xs text-gray-500 mt-2" id="fileSize"></p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Print Options -->
-            <h2
+                      <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>Remove
+                    </button></div></div><div id="filePreviewContent" class="mt-2"></div><div id="fileDetails" class="mt-3 p-3 bg-gray-50 rounded-lg text-xs text-gray-600 hidden"><div class="grid grid-cols-2 gap-2"><div><span class="font-medium">Size:</span> <span id="fileSizeText"></span></div><div><span class="font-medium">Type:</span> <span id="fileTypeText"></span></div><div id="imageDimensions" class="hidden"><span class="font-medium">Dimensions:</span> <span id="dimensionsText"></span></div><div id="imageResolution" class="hidden"><span class="font-medium">Resolution:</span> <span id="resolutionText"></span></div></div></div></div></div></div><!-- Print Options --><h2
               class="text-lg sm:text-xl md:text-[22px] font-bold px-2 sm:px-4 pb-3 pt-5 animate-fade-in-up stagger-6"
             >
               Print Specifications
-            </h2>
-
-            <div
+            </h2><div
               class="flex max-w-full sm:max-w-[480px] flex-wrap gap-4 px-2 sm:px-4 py-3 animate-fade-in-left stagger-1"
-            >
-              <label class="flex flex-col w-full">
-                <p class="pb-2 font-medium text-sm sm:text-base">Paper Size *</p>
-                <select
+            ><label class="flex flex-col w-full"><p class="pb-2 font-medium text-sm sm:text-base">Paper Size *</p><select
                   name="paperSize"
+                  id="paperSize"
                   required
                   class="form-input h-12 sm:h-14 p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base"
-                >
-                  <option value="">Select Paper Size</option>
-                  <option value="A6">A6</option>
-                  <option value="A5">A5</option>
-                  <option value="A4">A4</option>
-                  <option value="A3">A3</option>
-                  <option value="A2">A2</option>
-                  <option value="A1">A1</option>
-                </select>
-              </label>
-            </div>
-
-            <div
+                ><option value="">Select Paper Size</option><option value="A6">A6</option><option value="A5">A5</option><option value="A4">A4</option><option value="A3">A3</option><option value="A2">A2</option><option value="A1">A1</option></select></label></div><div
               class="flex max-w-full sm:max-w-[480px] flex-wrap gap-4 px-2 sm:px-4 py-3 animate-fade-in-right stagger-2"
-            >
-              <label class="flex flex-col w-full">
-                <p class="pb-2 font-medium text-sm sm:text-base">Color Option *</p>
-                <select
+            ><label class="flex flex-col w-full"><p class="pb-2 font-medium text-sm sm:text-base">Color Option *</p><select
                   name="colorOption"
+                  id="colorOption"
                   required
                   class="form-input h-12 sm:h-14 p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base"
-                >
-                  <option value="">Select Color Option</option>
-                  <option value="normal_color">Normal Color</option>
-                  <option value="laser_color">Laser Color</option>
-                  <option value="bw_single">Black & White (Single-sided)</option>
-                  <option value="bw_double">Black & White (Double-sided)</option>
-                </select>
-              </label>
-            </div>
-
-            <div
+                ><option value="">Select Color Option</option><option value="normal_color">Normal Color</option><option value="laser_color">Laser Color</option><option value="bw_single">Black & White (Single-sided)</option><option value="bw_double">Black & White (Double-sided)</option></select></label></div><div
               class="flex max-w-full sm:max-w-[480px] flex-wrap gap-4 px-2 sm:px-4 py-3 animate-fade-in-left stagger-3"
-            >
-              <label class="flex flex-col w-full">
-                <p class="pb-2 font-medium text-sm sm:text-base">Binding *</p>
-                <select
+            ><label class="flex flex-col w-full"><p class="pb-2 font-medium text-sm sm:text-base">Binding *</p><select
                   name="binding"
+                  id="binding"
                   required
                   class="form-input h-12 sm:h-14 p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base"
-                >
-                  <option value="">Select Binding</option>
-                  <option value="None">None</option>
-                  <option value="Spiral Binding">Spiral Binding</option>
-                  <option value="Thermal Binding">Thermal Binding</option>
-                  <option value="Hardcover Binding">Hardcover Binding</option>
-                  <option value="Saddle Stitching">Saddle Stitching</option>
-                </select>
-              </label>
-            </div>
-
-            <div
+                ><option value="">Select Binding</option><option value="None">None</option><option value="Spiral Binding">Spiral Binding</option><option value="Thermal Binding">Thermal Binding</option><option value="Hardcover Binding">Hardcover Binding</option><option value="Saddle Stitching">Saddle Stitching</option></select></label></div><div
               class="flex max-w-full sm:max-w-[480px] flex-wrap gap-4 px-2 sm:px-4 py-3 animate-fade-in-right stagger-4"
-            >
-              <label class="flex flex-col w-full">
-                <p class="pb-2 font-medium text-sm sm:text-base">
+            ><label class="flex flex-col w-full"><p class="pb-2 font-medium text-sm sm:text-base">
                   Number of Copies *
-                </p>
-                <input
+                </p><input
                   type="number"
                   name="copies"
+                  id="copies"
                   min="1"
                   value="1"
                   required
                   class="form-input h-12 sm:h-14 p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base"
-                />
-              </label>
-            </div>
-
-            <div
+                /></label></div><div
               class="flex max-w-full sm:max-w-[480px] flex-wrap gap-4 px-2 sm:px-4 py-3 animate-fade-in-left stagger-5"
-            >
-              <label class="flex flex-col w-full">
-                <p class="pb-2 font-medium text-sm sm:text-base">Finishing *</p>
-                <select
+            ><label class="flex flex-col w-full"><p class="pb-2 font-medium text-sm sm:text-base">Finishing *</p><select
                   name="finishing"
+                  id="finishing"
                   required
                   class="form-input h-12 sm:h-14 p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base"
-                >
-                  <option value="">Select Finishing</option>
-                  <option value="None">None</option>
-                  <option value="Lamination (Gloss)">Lamination (Gloss)</option>
-                  <option value="Lamination (Matte)">Lamination (Matte)</option>
-                  <option value="Foil Stamping">Foil Stamping</option>
-                  <option value="Embossing/Debossing">Embossing/Debossing</option>
-                  <option value="Die-Cutting">Die-Cutting</option>
-                  <option value="custom">Custom (Specify in notes)</option>
-                </select>
-              </label>
-            </div>
-
-            <div
+                ><option value="">Select Finishing</option><option value="None">None</option><option value="Lamination (Gloss)">Lamination (Gloss)</option><option value="Lamination (Matte)">Lamination (Matte)</option><option value="Foil Stamping">Foil Stamping</option><option value="Embossing/Debossing">Embossing/Debossing</option><option value="Die-Cutting">Die-Cutting</option><option value="custom">Custom (Specify in notes)</option></select></label></div><div
               class="flex max-w-full sm:max-w-[480px] flex-wrap gap-4 px-2 sm:px-4 py-3 animate-fade-in-right stagger-6"
               id="additionalNotesContainer"
               style="display: none;"
-            >
-              <label class="flex flex-col w-full">
-                <p class="pb-2 font-medium text-sm sm:text-base">Additional Notes *</p>
-                <textarea
+            ><label class="flex flex-col w-full"><p class="pb-2 font-medium text-sm sm:text-base">Additional Notes *</p><textarea
                   name="additionalNotes"
                   placeholder="Please describe your custom finishing requirements"
                   rows="3"
                   class="form-input w-full p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base resize-none"
-                ></textarea>
-              </label>
+                ></textarea></label></div>
+
+            <!-- Dynamic Pricing Calculator -->
+            <div class="px-2 sm:px-4 py-4 animate-fade-in-up stagger-7">
+              <div class="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-4 sm:p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                  <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                  </svg>
+                  Price Calculator
+                </h3>
+                
+                <div id="priceCalculator" class="space-y-3">
+                  <div class="text-center text-gray-500 py-8">
+                    <svg class="mx-auto h-12 w-12 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                    </svg>
+                    <p class="text-sm">Select print options to see pricing</p>
+                  </div>
+                </div>
+                
+                <div id="priceBreakdown" class="hidden space-y-2 text-sm">
+                  <div class="flex justify-between items-center py-1">
+                    <span class="text-gray-600">Paper Size & Color:</span>
+                    <span class="font-medium" id="basePrice">Select paper size</span>
+                  </div>
+                  <div class="flex justify-between items-center py-1">
+                    <span class="text-gray-600">Color Upgrade:</span>
+                    <span class="font-medium" id="colorUpgrade">Select color option</span>
+                  </div>
+                  <div class="flex justify-between items-center py-1">
+                    <span class="text-gray-600">Binding Cost:</span>
+                    <span class="font-medium" id="bindingCost">+Rs. 0 (No binding)</span>
+                  </div>
+                  <div class="flex justify-between items-center py-1">
+                    <span class="text-gray-600">Finishing Cost:</span>
+                    <span class="font-medium" id="finishingCost">+Rs. 0 (No finishing)</span>
+                  </div>
+                  <div class="flex justify-between items-center py-1 border-t border-gray-300 pt-2">
+                    <span class="text-gray-800 font-semibold">Total Cost:</span>
+                    <span class="text-green-600 font-bold text-lg" id="totalPrice">Select options to see price</span>
+                  </div>
+                  <div id="partialWarning" class="hidden text-xs text-amber-600 bg-amber-50 p-2 rounded mt-2">
+                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                    </svg>
+                    Partial pricing - complete all selections for final price
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <!-- Delivery Options -->
-            <h2
+            <!-- Delivery Options --><h2
               class="text-lg sm:text-xl md:text-[22px] font-bold px-2 sm:px-4 pb-3 pt-5 animate-fade-in-up stagger-1"
             >
               Delivery Options
-            </h2>
-            <div class="flex flex-col gap-3 p-2 sm:p-4 animate-fade-in-up stagger-2">
-              <label
+            </h2><div class="flex flex-col gap-3 p-2 sm:p-4 animate-fade-in-up stagger-2"><label
                 class="flex items-center gap-3 sm:gap-4 border p-3 sm:p-[15px] rounded-xl border-[#dbdfe6]"
-              >
-                <input
+              ><input
                   type="radio"
                   name="deliveryMethod"
                   value="Home Delivery"
                   required
                   class="h-4 w-4 sm:h-5 sm:w-5"
-                />
-                <span class="text-xs sm:text-sm font-medium">
+                /><span class="text-xs sm:text-sm font-medium">
                   Home Delivery (<span id="printDeliveryPrice">LKR 0.00</span>) - Within <span id="printDeliveryRadius">10</span>km
-                </span>
-              </label>
-              <label
+                </span></label><label
                 class="flex items-center gap-3 sm:gap-4 border p-3 sm:p-[15px] rounded-xl border-[#dbdfe6]"
-              >
-                <input
+              ><input
                   type="radio"
                   name="deliveryMethod"
                   value="Pickup"
                   required
                   class="h-4 w-4 sm:h-5 sm:w-5"
-                />
-                <span class="text-xs sm:text-sm font-medium">Store Pickup (Free)</span>
-              </label>
-            </div>
-
-            <div
+                /><span class="text-xs sm:text-sm font-medium">Store Pickup (Free)</span></label></div><div
               class="flex max-w-full sm:max-w-[480px] flex-wrap gap-4 px-2 sm:px-4 py-3"
-            >
-              <label class="flex flex-col w-full">
-                <p class="pb-2 font-medium text-sm sm:text-base">Delivery Address *</p>
-                <textarea
+            ><label class="flex flex-col w-full"><p class="pb-2 font-medium text-sm sm:text-base">Delivery Address *</p><textarea
                   name="deliveryAddress"
                   placeholder="Enter your delivery address"
                   rows="3"
                   required
                   class="form-input w-full p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base resize-none"
-                ></textarea>
-              </label>
-            </div>
-
-            <!-- Pricing Info -->
-            <h2
+                ></textarea></label></div><!-- Pricing Info --><h2
               class="text-lg sm:text-xl md:text-[22px] font-bold px-2 sm:px-4 pb-3 pt-5 animate-fade-in-up stagger-3"
             >
               Pricing
-            </h2>
-            <div class="px-2 sm:px-4 py-3 animate-fade-in-up stagger-4">
-              <div class="bg-green-50 border border-green-200 rounded-xl p-4 card animate-pulse">
-                <p class="text-sm sm:text-base font-medium text-gray-700 mb-2">
+            </h2><div class="px-2 sm:px-4 py-3 animate-fade-in-up stagger-4"><div class="bg-green-50 border border-green-200 rounded-xl p-4 card animate-pulse"><p class="text-sm sm:text-base font-medium text-gray-700 mb-2">
                   Estimated Price:
-                </p>
-                <p class="text-2xl sm:text-3xl font-bold text-green-600" id="estimatedPrice">
+                </p><p class="text-2xl sm:text-3xl font-bold text-green-600" id="estimatedPrice">
                   Rs. 0
-                </p>
-                <p class="text-xs text-gray-500 mt-1">
+                </p><p class="text-xs text-gray-500 mt-1">
                   * Final price may vary based on actual requirements
-                </p>
-              </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div
+                </p></div></div><!-- Action Buttons --><div
               class="flex flex-col sm:flex-row justify-between gap-3 px-2 sm:px-4 py-3 animate-fade-in-up stagger-5"
-            >
-              <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                <a href="index.html" class="btn-primary"> Back to Home </a>
-              </div>
-
-              <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                <button type="button" id="submitPrintOrder" class="btn-primary w-full sm:w-auto">
+            ><div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto"><a href="index.html" class="btn-primary"> Back to Home</a></div><div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto"><button type="button" id="submitPrintOrder" class="btn-primary w-full sm:w-auto">
                   Submit Print Order
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-    <script>
+                </button></div></div></div></form></div></div><script>
       // Pricing data (matches backend)
       const pricingData = {
         paperSizes: [
@@ -1239,68 +970,11 @@
         ]
       };
 
-      // Calculate price based on selections
+      // Calculate price based on selections (legacy function - now handled by pricing calculator)
       function calculatePrice() {
-        const paperSize = document.querySelector('select[name="paperSize"]').value;
-        const colorOption = document.querySelector('select[name="colorOption"]').value;
-        const copies = parseInt(document.querySelector('input[name="copies"]').value) || 1;
-        const binding = document.querySelector('select[name="binding"]').value;
-        const finishing = document.querySelector('select[name="finishing"]').value;
-        const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked')?.value;
-
-        if (!paperSize || !colorOption || !binding || !finishing || !deliveryMethod) {
-          document.getElementById('estimatedPrice').textContent = 'Rs. 0';
+        // This function is now handled by the pricing calculator
+        // The pricing calculator will update the estimated price automatically
           return 0;
-        }
-
-        let totalPrice = 0;
-
-        // Find paper size pricing
-        const sizeData = pricingData.paperSizes.find(s => s.size === paperSize);
-        if (sizeData) {
-          let printCostPerCopy = 0;
-          switch (colorOption) {
-            case 'normal_color':
-              printCostPerCopy = sizeData.normal_color;
-              break;
-            case 'laser_color':
-              printCostPerCopy = sizeData.laser_color;
-              break;
-            case 'bw_single':
-              printCostPerCopy = sizeData.bw_single;
-              break;
-            case 'bw_double':
-              printCostPerCopy = sizeData.bw_double;
-              break;
-          }
-          totalPrice += printCostPerCopy * copies;
-        }
-
-        // Add binding cost (skip if "None")
-        if (binding && binding !== "None") {
-          const bindingData = pricingData.binding.find(b => b.type === binding);
-          if (bindingData) {
-            totalPrice += bindingData.price;
-          }
-        }
-
-        // Add finishing cost (skip if "None")
-        if (finishing && finishing !== "None") {
-          const finishingData = pricingData.finishing.find(f => f.type === finishing);
-          if (finishingData) {
-            totalPrice += finishingData.price;
-          }
-        }
-
-        // Add delivery cost
-        const deliveryData = pricingData.delivery.find(d => d.type === deliveryMethod);
-        if (deliveryData) {
-          totalPrice += deliveryData.price;
-        }
-
-        document.getElementById('estimatedPrice').textContent = `Rs. ${totalPrice}`;
-        animatePriceChange();
-        return totalPrice;
       }
 
       // Check authentication and setup form
@@ -1626,58 +1300,146 @@
         const filePreviewContent = document.getElementById('filePreviewContent');
 
         // Hide no file message and show preview
-        noFileMessage.style.display = 'none';
-        filePreview.classList.remove('hidden');
+        if (noFileMessage) noFileMessage.style.display = 'none';
+        if (filePreview) filePreview.classList.remove('hidden');
 
         // Set file name and size
-        fileName.textContent = file.name;
-        fileSize.textContent = `Size: ${(file.size / 1024 / 1024).toFixed(2)} MB`;
+        if (fileName) fileName.textContent = file.name;
+        if (fileSize) fileSize.textContent = `Size: ${(file.size / 1024 / 1024).toFixed(2)} MB`;
+        
+        // Show file details
+        const fileDetails = document.getElementById('fileDetails');
+        const fileSizeText = document.getElementById('fileSizeText');
+        const fileTypeText = document.getElementById('fileTypeText');
+        
+        if (fileDetails) fileDetails.classList.remove('hidden');
+        if (fileSizeText) fileSizeText.textContent = `${(file.size / 1024 / 1024).toFixed(2)} MB`;
+        if (fileTypeText) fileTypeText.textContent = file.type;
 
         // Create preview based on file type
-        filePreviewContent.innerHTML = '';
+        if (filePreviewContent) filePreviewContent.innerHTML = '';
         
         if (file.type.startsWith('image/')) {
           const img = document.createElement('img');
           img.src = URL.createObjectURL(file);
-          img.className = 'w-full h-48 object-cover rounded-lg';
+          img.className = 'w-full h-48 object-contain rounded-lg cursor-pointer hover:opacity-90 transition-opacity';
           img.alt = file.name;
-          filePreviewContent.appendChild(img);
+          img.onclick = () => openFullscreenModal(file);
+          if (filePreviewContent) filePreviewContent.appendChild(img);
+          
+          // Show fullscreen button for images
+          const viewFullscreenBtn = document.getElementById('viewFullscreen');
+          if (viewFullscreenBtn) {
+            viewFullscreenBtn.classList.remove('hidden');
+          }
+          
+          // Get image dimensions
+          img.onload = function() {
+            const fileDetails = document.getElementById('fileDetails');
+            const dimensionsText = document.getElementById('dimensionsText');
+            const resolutionText = document.getElementById('resolutionText');
+            const imageDimensions = document.getElementById('imageDimensions');
+            const imageResolution = document.getElementById('imageResolution');
+            
+            if (fileDetails) fileDetails.classList.remove('hidden');
+            
+            const dimensions = `${this.naturalWidth} × ${this.naturalHeight}`;
+            const resolution = `${Math.round(this.naturalWidth * this.naturalHeight / 1000000 * 100) / 100} MP`;
+            
+            if (dimensionsText) dimensionsText.textContent = dimensions;
+            if (resolutionText) resolutionText.textContent = resolution;
+            if (imageDimensions) imageDimensions.classList.remove('hidden');
+            if (imageResolution) imageResolution.classList.remove('hidden');
+          };
         } else if (file.type === 'application/pdf') {
-          const pdfIcon = document.createElement('div');
-          pdfIcon.className = 'flex items-center justify-center h-32 bg-red-50 rounded-lg';
-          pdfIcon.innerHTML = `
+          // Create PDF preview container
+          const pdfPreview = document.createElement('div');
+          pdfPreview.className = 'w-full h-48 bg-gray-100 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors';
+          pdfPreview.innerHTML = `
             <div class="text-center">
-              <svg class="mx-auto h-12 w-12 text-red-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="mx-auto h-12 w-12 text-red-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
               </svg>
-              <p class="text-red-600 font-medium">PDF Document</p>
+              <p class="text-red-600 font-medium text-sm mb-2">PDF Document</p>
+              <p class="text-gray-500 text-xs">Click to view in new tab</p>
             </div>
           `;
-          filePreviewContent.appendChild(pdfIcon);
+          
+          // Add click handler to open PDF in new tab
+          pdfPreview.onclick = () => {
+            const pdfUrl = URL.createObjectURL(file);
+            window.open(pdfUrl, '_blank');
+          };
+          
+          if (filePreviewContent) filePreviewContent.appendChild(pdfPreview);
+          
+          // Show fullscreen button for PDFs
+          const viewFullscreenBtn = document.getElementById('viewFullscreen');
+          if (viewFullscreenBtn) {
+            viewFullscreenBtn.classList.remove('hidden');
+            viewFullscreenBtn.onclick = () => openPDFFullscreen(file);
+          }
         } else if (file.type.includes('word') || file.type.includes('document')) {
-          const docIcon = document.createElement('div');
-          docIcon.className = 'flex items-center justify-center h-32 bg-blue-50 rounded-lg';
-          docIcon.innerHTML = `
+          // Create DOCX preview container
+          const docPreview = document.createElement('div');
+          docPreview.className = 'w-full h-48 bg-blue-50 rounded-lg border-2 border-dashed border-blue-300 flex flex-col items-center justify-center cursor-pointer hover:bg-blue-100 transition-colors';
+          docPreview.innerHTML = `
             <div class="text-center">
-              <svg class="mx-auto h-12 w-12 text-blue-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="mx-auto h-12 w-12 text-blue-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
               </svg>
-              <p class="text-blue-600 font-medium">Word Document</p>
+              <p class="text-blue-600 font-medium text-sm mb-2">Word Document</p>
+              <p class="text-gray-500 text-xs">Click to download</p>
             </div>
           `;
-          filePreviewContent.appendChild(docIcon);
+          
+          // Add click handler to download DOCX
+          docPreview.onclick = () => {
+            const docUrl = URL.createObjectURL(file);
+            const a = document.createElement('a');
+            a.href = docUrl;
+            a.download = file.name;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(docUrl);
+          };
+          
+          if (filePreviewContent) filePreviewContent.appendChild(docPreview);
+          
+          // Show fullscreen button for DOCX
+          const viewFullscreenBtn = document.getElementById('viewFullscreen');
+          if (viewFullscreenBtn) {
+            viewFullscreenBtn.classList.remove('hidden');
+            viewFullscreenBtn.onclick = () => openDOCXFullscreen(file);
+          }
         } else {
-          const genericIcon = document.createElement('div');
-          genericIcon.className = 'flex items-center justify-center h-32 bg-gray-50 rounded-lg';
-          genericIcon.innerHTML = `
+          // Create generic file preview container
+          const genericPreview = document.createElement('div');
+          genericPreview.className = 'w-full h-48 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 transition-colors';
+          genericPreview.innerHTML = `
             <div class="text-center">
-              <svg class="mx-auto h-12 w-12 text-gray-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="mx-auto h-12 w-12 text-gray-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
               </svg>
-              <p class="text-gray-600 font-medium">Document</p>
+              <p class="text-gray-600 font-medium text-sm mb-2">${file.type || 'Unknown File'}</p>
+              <p class="text-gray-500 text-xs">Click to download</p>
             </div>
           `;
-          filePreviewContent.appendChild(genericIcon);
+          
+          // Add click handler to download file
+          genericPreview.onclick = () => {
+            const fileUrl = URL.createObjectURL(file);
+            const a = document.createElement('a');
+            a.href = fileUrl;
+            a.download = file.name;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(fileUrl);
+          };
+          
+          if (filePreviewContent) filePreviewContent.appendChild(genericPreview);
         }
 
         // Add remove file functionality
@@ -1694,13 +1456,25 @@
       function hideFilePreview() {
         const noFileMessage = document.getElementById('noFileMessage');
         const filePreview = document.getElementById('filePreview');
+        const fileDetails = document.getElementById('fileDetails');
+        const viewFullscreenBtn = document.getElementById('viewFullscreen');
+        const imageDimensions = document.getElementById('imageDimensions');
+        const imageResolution = document.getElementById('imageResolution');
+        const fileInput = document.getElementById('document');
         
         noFileMessage.style.display = 'block';
         filePreview.classList.add('hidden');
+        
+        // Reset file details
+        if (fileDetails) fileDetails.classList.add('hidden');
+        if (viewFullscreenBtn) viewFullscreenBtn.classList.add('hidden');
+        if (imageDimensions) imageDimensions.classList.add('hidden');
+        if (imageResolution) imageResolution.classList.add('hidden');
+        
+        // Clear file input
+        if (fileInput) fileInput.value = '';
       }
-    </script>
-
-    <script>
+    </script><script>
       // Update cart count function
       function updateCartCount() {
         try {
@@ -1767,9 +1541,7 @@
             const loginBtn = navbarAuth.querySelector('a[href="login.html"]');
             if (loginBtn) {
               loginBtn.innerHTML = `
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                </svg>
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                 Profile
               `;
               loginBtn.href = "profile.html";
@@ -1782,12 +1554,7 @@
         // Background Animation System - now using shared module
         // Animations will be auto-initialized by background-animations.js
       });
-    </script>
-
-    <script src="../javascript/navbar.js"></script>
-    <script src="../javascript/background-animations.js"></script>
-
-    <script>
+    </script><script src="../javascript/navbar.js"></script><script src="../javascript/cart-utils.js"></script><script src="../javascript/background-animations.js"></script><script>
       // Print order submission handler
       document.getElementById("submitPrintOrder").addEventListener("click", async function (e) {
         e.preventDefault();
@@ -1890,6 +1657,9 @@
               form.reset();
               document.getElementById('estimatedPrice').textContent = 'Rs. 0';
               document.getElementById('additionalNotesContainer').style.display = 'none';
+              
+              // Clear file preview after successful submission
+              hideFilePreview();
             } else {
               // Show detailed validation errors
               let errorMessage = result.error || 'Failed to submit print order';
@@ -1960,7 +1730,405 @@
         // Load delivery settings on page load
         document.addEventListener('DOMContentLoaded', function() {
             loadDeliverySettings();
+            initializePricingCalculator();
+        });
+
+        // Dynamic Pricing Calculator
+        function initializePricingCalculator() {
+            // Use existing pricingData from the page
+
+            // Get form elements
+            const paperSizeSelect = document.getElementById('paperSize');
+            const colorOptionSelect = document.getElementById('colorOption');
+            const bindingSelect = document.getElementById('binding');
+            const copiesInput = document.getElementById('copies');
+            const finishingSelect = document.getElementById('finishing');
+
+            // Get display elements
+            const priceCalculator = document.getElementById('priceCalculator');
+            const priceBreakdown = document.getElementById('priceBreakdown');
+            const basePriceEl = document.getElementById('basePrice');
+            const colorUpgradeEl = document.getElementById('colorUpgrade');
+            const bindingCostEl = document.getElementById('bindingCost');
+            const finishingCostEl = document.getElementById('finishingCost');
+            const totalPriceEl = document.getElementById('totalPrice');
+
+            // Calculate and display price using existing pricingData
+            function calculatePrice() {
+                const paperSize = paperSizeSelect.value;
+                const colorOption = colorOptionSelect.value;
+                const binding = bindingSelect.value;
+                const copies = parseInt(copiesInput.value) || 1;
+                const finishing = finishingSelect.value;
+
+                // Check if at least one option is selected
+                if (!paperSize && !colorOption && !binding && !finishing) {
+                    priceCalculator.style.display = 'block';
+                    priceBreakdown.classList.add('hidden');
+                    return;
+                }
+
+                // Show partial pricing even if not all fields are filled
+                const hasAnySelection = paperSize || colorOption || binding || finishing;
+                if (!hasAnySelection) {
+                    priceCalculator.style.display = 'block';
+                    priceBreakdown.classList.add('hidden');
+                    return;
+                }
+
+                let totalPrice = 0;
+                let printCostPerCopy = 0;
+                let bindingCost = 0;
+                let finishingCost = 0;
+                let deliveryCost = 0;
+
+                // Find paper size pricing using existing pricingData
+                if (paperSize) {
+                    const sizeData = pricingData.paperSizes.find(s => s.size === paperSize);
+                    if (sizeData) {
+                        if (colorOption) {
+                            switch (colorOption) {
+                                case 'normal_color':
+                                    printCostPerCopy = sizeData.normal_color;
+                                    break;
+                                case 'laser_color':
+                                    printCostPerCopy = sizeData.laser_color;
+                                    break;
+                                case 'bw_single':
+                                    printCostPerCopy = sizeData.bw_single;
+                                    break;
+                                case 'bw_double':
+                                    printCostPerCopy = sizeData.bw_double;
+                                    break;
+                            }
+                        } else {
+                            // If no color selected, show the cheapest option (bw_single)
+                            printCostPerCopy = sizeData.bw_single;
+                        }
+                        totalPrice += printCostPerCopy * copies;
+                    }
+                }
+
+                // Add binding cost (skip if "None")
+                if (binding && binding !== "None") {
+                    const bindingData = pricingData.binding.find(b => b.type === binding);
+                    if (bindingData) {
+                        bindingCost = bindingData.price;
+                        totalPrice += bindingCost;
+                    }
+                }
+
+                // Add finishing cost (skip if "None")
+                if (finishing && finishing !== "None") {
+                    const finishingData = pricingData.finishing.find(f => f.type === finishing);
+                    if (finishingData) {
+                        finishingCost = finishingData.price;
+                        totalPrice += finishingCost;
+                    }
+                }
+
+                // Add delivery cost
+                const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked')?.value;
+                if (deliveryMethod) {
+                    const deliveryData = pricingData.delivery.find(d => d.type === deliveryMethod);
+                    if (deliveryData) {
+                        deliveryCost = deliveryData.price;
+                        totalPrice += deliveryCost;
+                    }
+                }
+
+                // Update display
+                priceCalculator.style.display = 'none';
+                priceBreakdown.classList.remove('hidden');
+
+                // Show individual option costs with clear pricing breakdown
+                if (paperSize) {
+                    const sizeData = pricingData.paperSizes.find(s => s.size === paperSize);
+                    if (sizeData && colorOption) {
+                        // Show exact price for selected paper size and color
+                        basePriceEl.textContent = `Rs. ${printCostPerCopy} (${paperSize} ${colorOption.replace('_', ' ').replace('bw', 'B&W').replace('single', 'Single').replace('double', 'Double')})`;
+                    } else if (sizeData) {
+                        // Show paper size with cheapest color option
+                        const cheapestPrice = sizeData.bw_single;
+                        basePriceEl.textContent = `Rs. ${cheapestPrice} (${paperSize} B&W Single - est.)`;
+                    } else {
+                        basePriceEl.textContent = `Select paper size`;
+                    }
+                } else {
+                    basePriceEl.textContent = `Select paper size`;
+                }
+
+                if (colorOption) {
+                    const sizeData = pricingData.paperSizes.find(s => s.size === paperSize);
+                    if (sizeData) {
+                        const colorPrice = sizeData[colorOption];
+                        const basePrice = sizeData.bw_single;
+                        const colorUpgrade = colorPrice - basePrice;
+                        if (colorUpgrade > 0) {
+                            colorUpgradeEl.textContent = `+Rs. ${colorUpgrade} (${colorOption.replace('_', ' ').replace('bw', 'B&W').replace('single', 'Single').replace('double', 'Double')} upgrade)`;
+                        } else {
+                            colorUpgradeEl.textContent = `Rs. 0 (${colorOption.replace('_', ' ').replace('bw', 'B&W').replace('single', 'Single').replace('double', 'Double')})`;
+                        }
+                    } else {
+                        colorUpgradeEl.textContent = `Select color option`;
+                    }
+                } else {
+                    colorUpgradeEl.textContent = `Select color option`;
+                }
+
+                if (binding && binding !== "None") {
+                    bindingCostEl.textContent = `+Rs. ${bindingCost} (${binding})`;
+                } else {
+                    bindingCostEl.textContent = `+Rs. 0 (No binding)`;
+                }
+
+                if (finishing && finishing !== "None") {
+                    finishingCostEl.textContent = `+Rs. ${finishingCost} (${finishing})`;
+                } else {
+                    finishingCostEl.textContent = `+Rs. 0 (No finishing)`;
+                }
+
+                // Show total with appropriate messaging
+                if (totalPrice > 0) {
+                    totalPriceEl.textContent = `Rs. ${totalPrice}`;
+                    if (!paperSize || !colorOption || !binding || !finishing) {
+                        totalPriceEl.textContent += ` (partial)`;
+                    }
+                } else {
+                    totalPriceEl.textContent = `Select options to see price`;
+                }
+
+                // Show/hide partial warning
+                const partialWarning = document.getElementById('partialWarning');
+                if (partialWarning) {
+                    if (totalPrice > 0 && (!paperSize || !colorOption || !binding || !finishing)) {
+                        partialWarning.classList.remove('hidden');
+                    } else {
+                        partialWarning.classList.add('hidden');
+                    }
+                }
+
+                // Update estimated price for form submission
+                const estimatedPriceEl = document.getElementById('estimatedPrice');
+                if (estimatedPriceEl) {
+                    estimatedPriceEl.textContent = `Rs. ${totalPrice}`;
+                }
+            }
+
+            // Add event listeners
+            if (paperSizeSelect) paperSizeSelect.addEventListener('change', calculatePrice);
+            if (colorOptionSelect) colorOptionSelect.addEventListener('change', calculatePrice);
+            if (bindingSelect) bindingSelect.addEventListener('change', calculatePrice);
+            if (copiesInput) copiesInput.addEventListener('input', calculatePrice);
+            if (finishingSelect) finishingSelect.addEventListener('change', calculatePrice);
+
+            // Add delivery method listeners
+            const deliveryMethods = document.querySelectorAll('input[name="deliveryMethod"]');
+            deliveryMethods.forEach(method => {
+                method.addEventListener('change', calculatePrice);
+            });
+
+            // Initial calculation
+            calculatePrice();
+        }
+
+        // PDF Fullscreen function
+        function openPDFFullscreen(file) {
+            const pdfUrl = URL.createObjectURL(file);
+            const newWindow = window.open(pdfUrl, '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+            
+            if (newWindow) {
+                newWindow.document.title = file.name;
+                // Clean up the URL after a delay
+                setTimeout(() => {
+                    URL.revokeObjectURL(pdfUrl);
+                }, 1000);
+            } else {
+                alert('Please allow popups to view PDF files');
+                URL.revokeObjectURL(pdfUrl);
+            }
+        }
+
+        // DOCX Fullscreen function
+        function openDOCXFullscreen(file) {
+            const docUrl = URL.createObjectURL(file);
+            const newWindow = window.open(docUrl, '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+            
+            if (newWindow) {
+                newWindow.document.title = file.name;
+                // Clean up the URL after a delay
+                setTimeout(() => {
+                    URL.revokeObjectURL(docUrl);
+                }, 1000);
+            } else {
+                alert('Please allow popups to view document files');
+                URL.revokeObjectURL(docUrl);
+            }
+        }
+
+        // Fullscreen modal functions
+        function openFullscreenModal(file) {
+            const modal = document.getElementById('fullscreenModal');
+            const fullscreenImage = document.getElementById('fullscreenImage');
+            const fullscreenFileName = document.getElementById('fullscreenFileName');
+            const fullscreenFileSize = document.getElementById('fullscreenFileSize');
+            const fullscreenDimensions = document.getElementById('fullscreenDimensions');
+            const fullscreenFileType = document.getElementById('fullscreenFileType');
+            const imageInfo = document.getElementById('imageInfo');
+
+            if (file.type.startsWith('image/')) {
+                fullscreenImage.src = URL.createObjectURL(file);
+                fullscreenImage.alt = file.name;
+                
+                // Set file info
+                if (fullscreenFileName) fullscreenFileName.textContent = file.name;
+                if (fullscreenFileSize) fullscreenFileSize.textContent = `${(file.size / 1024 / 1024).toFixed(2)} MB`;
+                if (fullscreenFileType) fullscreenFileType.textContent = file.type;
+                
+                // Get image dimensions
+                fullscreenImage.onload = function() {
+                    const dimensions = `${this.naturalWidth} × ${this.naturalHeight}`;
+                    if (fullscreenDimensions) fullscreenDimensions.textContent = dimensions;
+                    if (imageInfo) imageInfo.classList.remove('hidden');
+                };
+                
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeFullscreenModal() {
+            const modal = document.getElementById('fullscreenModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            
+            // Reset zoom
+            const fullscreenImage = document.getElementById('fullscreenImage');
+            if (fullscreenImage) {
+                fullscreenImage.style.transform = 'scale(1)';
+            }
+        }
+
+        // Modal event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('fullscreenModal');
+            const closeBtn = document.getElementById('closeFullscreen');
+            const zoomInBtn = document.getElementById('zoomIn');
+            const zoomOutBtn = document.getElementById('zoomOut');
+            const resetZoomBtn = document.getElementById('resetZoom');
+            const fullscreenImage = document.getElementById('fullscreenImage');
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeFullscreenModal);
+            }
+
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        closeFullscreenModal();
+                    }
+                });
+            }
+
+            // Zoom functionality
+            let currentZoom = 1;
+            const zoomStep = 0.2;
+            const maxZoom = 3;
+            const minZoom = 0.5;
+
+            if (zoomInBtn && fullscreenImage) {
+                zoomInBtn.addEventListener('click', function() {
+                    if (currentZoom < maxZoom) {
+                        currentZoom += zoomStep;
+                        fullscreenImage.style.transform = `scale(${currentZoom})`;
+                    }
+                });
+            }
+
+            if (zoomOutBtn && fullscreenImage) {
+                zoomOutBtn.addEventListener('click', function() {
+                    if (currentZoom > minZoom) {
+                        currentZoom -= zoomStep;
+                        fullscreenImage.style.transform = `scale(${currentZoom})`;
+                    }
+                });
+            }
+
+            if (resetZoomBtn && fullscreenImage) {
+                resetZoomBtn.addEventListener('click', function() {
+                    currentZoom = 1;
+                    fullscreenImage.style.transform = 'scale(1)';
+                });
+            }
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (!modal.classList.contains('hidden')) {
+                    if (e.key === 'Escape') {
+                        closeFullscreenModal();
+                    } else if (e.key === '+' || e.key === '=') {
+                        if (currentZoom < maxZoom) {
+                            currentZoom += zoomStep;
+                            fullscreenImage.style.transform = `scale(${currentZoom})`;
+                        }
+                    } else if (e.key === '-') {
+                        if (currentZoom > minZoom) {
+                            currentZoom -= zoomStep;
+                            fullscreenImage.style.transform = `scale(${currentZoom})`;
+                        }
+                    } else if (e.key === '0') {
+                        currentZoom = 1;
+                        fullscreenImage.style.transform = 'scale(1)';
+                    }
+                }
+            });
         });
     </script>
-  </body>
-</html>
+
+    <!-- Full Screen Image Modal -->
+    <div id="fullscreenModal" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden flex items-center justify-center p-4">
+        <div class="relative max-w-7xl max-h-full w-full h-full flex items-center justify-center">
+            <!-- Close button -->
+            <button id="closeFullscreen" class="absolute top-4 right-4 z-10 text-white hover:text-gray-300 transition-colors">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            
+            <!-- Image container -->
+            <div class="relative max-w-full max-h-full flex items-center justify-center">
+                <img id="fullscreenImage" class="max-w-full max-h-full object-contain" alt="Full screen preview">
+            </div>
+            
+            <!-- Image info overlay -->
+            <div id="imageInfo" class="absolute bottom-4 left-4 right-4 bg-black bg-opacity-75 text-white p-4 rounded-lg hidden">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div><span class="font-medium">File:</span> <span id="fullscreenFileName"></span></div>
+                    <div><span class="font-medium">Size:</span> <span id="fullscreenFileSize"></span></div>
+                    <div><span class="font-medium">Dimensions:</span> <span id="fullscreenDimensions"></span></div>
+                    <div><span class="font-medium">Type:</span> <span id="fullscreenFileType"></span></div>
+                </div>
+            </div>
+            
+            <!-- Zoom controls -->
+            <div class="absolute top-4 left-4 flex flex-col gap-2">
+                <button id="zoomIn" class="bg-black bg-opacity-50 text-white p-2 rounded hover:bg-opacity-75 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                </button>
+                <button id="zoomOut" class="bg-black bg-opacity-50 text-white p-2 rounded hover:bg-opacity-75 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6"></path>
+                    </svg>
+                </button>
+                <button id="resetZoom" class="bg-black bg-opacity-50 text-white p-2 rounded hover:bg-opacity-75 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</body></html>

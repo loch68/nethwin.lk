@@ -11,6 +11,7 @@
       onload="this.rel='stylesheet'"
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
     />
+    <!-- Tailwind CSS CDN - Development only. For production, install as PostCSS plugin -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link rel="stylesheet" href="../css/hover-effects.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
@@ -129,6 +130,12 @@
                             </svg>
                             Print Orders
                         </a>
+                        <a href="admin-print-queue.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                            </svg>
+                            Queue Management
+                        </a>
                         <a href="admin-products.html" class="flex items-center gap-3 px-4 py-3 text-[#19e619] bg-[#e8f2ec] rounded-lg font-medium">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
@@ -215,11 +222,17 @@
                                     </svg>
                                     <span>Add New Product</span>
                                 </button>
-                                <button id="importProductsBtn" class="bg-blue-100 hover:bg-blue-200 text-blue-700 py-3 px-6 rounded-lg font-medium transition-all duration-200 btn-enhanced flex items-center space-x-2">
+                                <button id="bulkUploadBtn" class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-3 px-6 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced flex items-center space-x-2">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
                                     </svg>
-                                    <span>Import Products</span>
+                                    <span>Bulk Upload</span>
+                                </button>
+                                <button id="bulkDeleteBtn" class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white py-3 px-6 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced flex items-center space-x-2">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                    <span>Bulk Delete</span>
                                 </button>
                                 <button id="refreshProductsBtn" class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-6 rounded-lg font-medium transition-all duration-200 btn-enhanced flex items-center space-x-2">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -263,10 +276,18 @@
                                         </div>
                                         <select id="categoryFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent">
                                             <option value="">All Categories</option>
+                                            <option value="book-lists">Book Lists</option>
                                             <option value="books">Books</option>
-                                            <option value="stationery">Stationery</option>
-                                            <option value="electronics">Electronics</option>
-                                            <option value="accessories">Accessories</option>
+                                            <option value="pens">Pens</option>
+                                            <option value="color-products">Color Products</option>
+                                            <option value="school-products">School Products</option>
+                                            <option value="office-products">Office Products</option>
+                                            <option value="bottle-and-boxes">Bottle and Boxes</option>
+                                            <option value="highlighters-and-markers">Highlighters and Markers</option>
+                                            <option value="paper-products">Paper Products</option>
+                                            <option value="toys">Toys</option>
+                                            <option value="innovate">Innovate</option>
+                                            <option value="homerun">Homerun</option>
                                         </select>
                                         <select id="statusFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent">
                                             <option value="">All Status</option>
@@ -337,11 +358,18 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
                             <select id="productCategory" name="category" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent">
                                 <option value="">Select Category</option>
+                                <option value="book-lists">Book Lists</option>
                                 <option value="books">Books</option>
-                                <option value="stationery">Stationery</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="accessories">Accessories</option>
-                                <option value="other">Other</option>
+                                <option value="pens">Pens</option>
+                                <option value="color-products">Color Products</option>
+                                <option value="school-products">School Products</option>
+                                <option value="office-products">Office Products</option>
+                                <option value="bottle-and-boxes">Bottle and Boxes</option>
+                                <option value="highlighters-and-markers">Highlighters and Markers</option>
+                                <option value="paper-products">Paper Products</option>
+                                <option value="toys">Toys</option>
+                                <option value="innovate">Innovate</option>
+                                <option value="homerun">Homerun</option>
                             </select>
                         </div>
 
@@ -482,11 +510,18 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
                             <select id="editProductCategory" name="category" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0ad167] focus:border-transparent">
                                 <option value="">Select Category</option>
+                                <option value="book-lists">Book Lists</option>
                                 <option value="books">Books</option>
-                                <option value="stationery">Stationery</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="accessories">Accessories</option>
-                                <option value="other">Other</option>
+                                <option value="pens">Pens</option>
+                                <option value="color-products">Color Products</option>
+                                <option value="school-products">School Products</option>
+                                <option value="office-products">Office Products</option>
+                                <option value="bottle-and-boxes">Bottle and Boxes</option>
+                                <option value="highlighters-and-markers">Highlighters and Markers</option>
+                                <option value="paper-products">Paper Products</option>
+                                <option value="toys">Toys</option>
+                                <option value="innovate">Innovate</option>
+                                <option value="homerun">Homerun</option>
                             </select>
                         </div>
 
@@ -591,6 +626,267 @@
         </div>
     </div>
 
+    </div>
+
+    <!-- Bulk Upload Modal -->
+    <div id="bulkUploadModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 hidden">
+        <div class="relative top-10 mx-auto p-5 border w-11/12 md:w-4/5 lg:w-3/4 xl:w-2/3 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between pb-4 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-[#0e1a13]">Bulk Product Upload</h3>
+                    <button id="closeBulkModalBtn" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="mt-6 space-y-6">
+                    <!-- Instructions -->
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <h4 class="text-sm font-medium text-blue-800 mb-2">📋 Upload Instructions</h4>
+                        <ul class="text-sm text-blue-700 space-y-1">
+                            <li>• Upload an Excel file (.xlsx) with product data following the exact template format</li>
+                            <li>• Upload a ZIP file containing product images with matching names</li>
+                            <li>• Image names must exactly match the product names in Excel (case-insensitive)</li>
+                            <li>• Supported image formats: JPG, JPEG, WEBP</li>
+                            <li>• All images will be uploaded to Cloudinary for global CDN delivery</li>
+                        </ul>
+                    </div>
+
+                    <!-- File Upload Section -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Excel File Upload -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Excel File (.xlsx) *</label>
+                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 transition-colors">
+                                <div class="space-y-1 text-center">
+                                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <div class="flex text-sm text-gray-600">
+                                        <label for="excelFile" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                                            <span>Upload Excel file</span>
+                                            <input id="excelFile" name="excelFile" type="file" accept=".xlsx,.xls" autocomplete="off" class="sr-only">
+                                        </label>
+                                        <p class="pl-1">or drag and drop</p>
+                                    </div>
+                                    <p class="text-xs text-gray-500">Excel files only</p>
+                                </div>
+                            </div>
+                            <div id="excelFileInfo" class="mt-2 text-sm text-gray-600 hidden">
+                                <!-- Excel file info will be shown here -->
+                            </div>
+                        </div>
+
+                        <!-- ZIP File Upload -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ZIP File with Images *</label>
+                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 transition-colors">
+                                <div class="space-y-1 text-center">
+                                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <div class="flex text-sm text-gray-600">
+                                        <label for="zipFile" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                                            <span>Upload ZIP file</span>
+                                            <input id="zipFile" name="zipFile" type="file" accept=".zip" autocomplete="off" class="sr-only">
+                                        </label>
+                                        <p class="pl-1">or drag and drop</p>
+                                    </div>
+                                    <p class="text-xs text-gray-500">ZIP files only</p>
+                                </div>
+                            </div>
+                            <div id="zipFileInfo" class="mt-2 text-sm text-gray-600 hidden">
+                                <!-- ZIP file info will be shown here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Template Download -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                        <h4 class="text-sm font-medium text-gray-800 mb-2">📄 Excel Template</h4>
+                        <p class="text-sm text-gray-600 mb-3">Download the Excel template to ensure proper formatting:</p>
+                        <button id="downloadTemplateBtn" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <span>Download Template</span>
+                        </button>
+                    </div>
+
+                    <!-- Progress Section -->
+                    <div id="uploadProgress" class="hidden">
+                        <h4 class="text-sm font-medium text-gray-800 mb-2">📊 Upload Progress</h4>
+                        <div class="bg-gray-200 rounded-full h-2 mb-2">
+                            <div id="progressBar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-600">
+                            <span id="progressText">Preparing upload...</span>
+                            <span id="progressPercent">0%</span>
+                        </div>
+                        <div id="uploadLog" class="mt-4 max-h-40 overflow-y-auto bg-gray-50 rounded-lg p-3 text-sm">
+                            <!-- Upload log will be shown here -->
+                        </div>
+                    </div>
+
+                    <!-- Results Section -->
+                    <div id="uploadResults" class="hidden">
+                        <h4 class="text-sm font-medium text-gray-800 mb-2">📈 Upload Results</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+                                <div class="text-2xl font-bold text-green-600" id="successCount">0</div>
+                                <div class="text-sm text-green-700">Successful</div>
+                            </div>
+                            <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+                                <div class="text-2xl font-bold text-red-600" id="errorCount">0</div>
+                                <div class="text-sm text-red-700">Failed</div>
+                            </div>
+                            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                                <div class="text-2xl font-bold text-yellow-600" id="warningCount">0</div>
+                                <div class="text-sm text-yellow-700">Warnings</div>
+                            </div>
+                        </div>
+                        <div id="detailedResults" class="mt-4 max-h-60 overflow-y-auto bg-gray-50 rounded-lg p-3 text-sm">
+                            <!-- Detailed results will be shown here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="flex items-center justify-end space-x-3 pt-6 border-t border-gray-200">
+                    <button type="button" id="cancelBulkBtn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        Cancel
+                    </button>
+                    <button type="button" id="startBulkUploadBtn" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        Start Bulk Upload
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Delete Modal -->
+    <div id="bulkDeleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 hidden">
+        <div class="relative top-10 mx-auto p-5 border w-11/12 md:w-2/3 lg:w-1/2 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between pb-4 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-red-600 flex items-center">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                        </svg>
+                        Bulk Delete Products
+                    </h3>
+                    <button id="closeBulkDeleteModalBtn" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="mt-6 space-y-4">
+                    <!-- Warning Message -->
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                        <div class="flex">
+                            <svg class="w-5 h-5 text-red-400 mt-0.5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                            </svg>
+                            <div>
+                                <h4 class="text-sm font-medium text-red-800">⚠️ DANGER: This action cannot be undone!</h4>
+                                <p class="text-sm text-red-700 mt-1">
+                                    This will permanently delete <strong id="deleteCount">all products</strong> from the database and their associated images from Cloudinary.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Confirmation -->
+                    <div id="deleteStep1" class="space-y-4">
+                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                            <h4 class="text-sm font-medium text-gray-800 mb-2">📋 What will be deleted:</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• All product records from the database</li>
+                                <li>• All product images from Cloudinary</li>
+                                <li>• All associated product reviews and ratings</li>
+                                <li>• All order history related to these products</li>
+                            </ul>
+                        </div>
+
+                        <div class="flex items-center">
+                            <input id="confirmDeleteCheckbox" type="checkbox" class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded">
+                            <label for="confirmDeleteCheckbox" class="ml-2 text-sm text-gray-700">
+                                I understand this action is <strong>permanent and cannot be undone</strong>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Final Confirmation -->
+                    <div id="deleteStep2" class="space-y-4 hidden">
+                        <div class="bg-red-100 border border-red-300 rounded-lg p-4">
+                            <h4 class="text-sm font-medium text-red-800 mb-2">🚨 FINAL WARNING</h4>
+                            <p class="text-sm text-red-700">
+                                You are about to delete <strong id="finalDeleteCount">all products</strong>. 
+                                Type <strong>"DELETE ALL PRODUCTS"</strong> in the box below to confirm:
+                            </p>
+                        </div>
+
+                        <div>
+                            <input id="deleteConfirmationInput" type="text" placeholder="Type: DELETE ALL PRODUCTS" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                        </div>
+                    </div>
+
+                    <!-- Progress Section -->
+                    <div id="deleteProgress" class="hidden">
+                        <h4 class="text-sm font-medium text-gray-800 mb-2">🗑️ Deleting Products...</h4>
+                        <div class="bg-gray-200 rounded-full h-2 mb-2">
+                            <div id="deleteProgressBar" class="bg-red-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-600">
+                            <span id="deleteProgressText">Preparing deletion...</span>
+                            <span id="deleteProgressPercent">0%</span>
+                        </div>
+                        <div id="deleteLog" class="mt-4 max-h-40 overflow-y-auto bg-gray-50 rounded-lg p-3 text-sm">
+                            <!-- Delete log will be shown here -->
+                        </div>
+                    </div>
+
+                    <!-- Results Section -->
+                    <div id="deleteResults" class="hidden">
+                        <h4 class="text-sm font-medium text-gray-800 mb-2">📊 Deletion Results</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+                                <div class="text-2xl font-bold text-red-600" id="deletedCount">0</div>
+                                <div class="text-sm text-red-700">Products Deleted</div>
+                            </div>
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                                <div class="text-2xl font-bold text-blue-600" id="imagesDeletedCount">0</div>
+                                <div class="text-sm text-blue-700">Images Deleted</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="flex items-center justify-end space-x-3 pt-6 border-t border-gray-200">
+                    <button type="button" id="cancelBulkDeleteBtn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        Cancel
+                    </button>
+                    <button type="button" id="proceedDeleteBtn" class="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        Proceed to Step 2
+                    </button>
+                    <button type="button" id="confirmDeleteBtn" class="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed hidden">
+                        DELETE ALL PRODUCTS
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Global variables
         let products = [];
@@ -641,18 +937,38 @@
             document.getElementById('categoryFilter').addEventListener('change', filterProducts);
             document.getElementById('statusFilter').addEventListener('change', filterProducts);
             
+            // Bulk upload event listeners
+            document.getElementById('bulkUploadBtn').addEventListener('click', showBulkUploadModal);
+            document.getElementById('closeBulkModalBtn').addEventListener('click', hideBulkUploadModal);
+            document.getElementById('cancelBulkBtn').addEventListener('click', hideBulkUploadModal);
+            document.getElementById('excelFile').addEventListener('change', handleExcelFileUpload);
+            document.getElementById('zipFile').addEventListener('change', handleZipFileUpload);
+            document.getElementById('startBulkUploadBtn').addEventListener('click', startBulkUpload);
+            document.getElementById('downloadTemplateBtn').addEventListener('click', downloadTemplate);
+            
+            // Bulk delete event listeners
+            document.getElementById('bulkDeleteBtn').addEventListener('click', showBulkDeleteModal);
+            document.getElementById('closeBulkDeleteModalBtn').addEventListener('click', hideBulkDeleteModal);
+            document.getElementById('cancelBulkDeleteBtn').addEventListener('click', hideBulkDeleteModal);
+            document.getElementById('confirmDeleteCheckbox').addEventListener('change', handleDeleteCheckboxChange);
+            document.getElementById('proceedDeleteBtn').addEventListener('click', proceedToDeleteStep2);
+            document.getElementById('deleteConfirmationInput').addEventListener('input', handleDeleteConfirmationInput);
+            document.getElementById('confirmDeleteBtn').addEventListener('click', confirmBulkDelete);
+            
             // Edit modal event listeners
             document.getElementById('closeEditModalBtn').addEventListener('click', hideEditProductModal);
             document.getElementById('cancelEditBtn').addEventListener('click', hideEditProductModal);
             document.getElementById('editProductForm').addEventListener('submit', handleEditProduct);
             document.getElementById('editProductImages').addEventListener('change', handleEditImageUpload);
             document.getElementById('addEditVariantBtn').addEventListener('click', addEditVariant);
+            
+
         }
 
         // Load products from API
         async function loadProducts() {
             try {
-                const response = await fetch('/api/products?includeInactive=true&status=all');
+                const response = await fetch('/api/products?includeInactive=true&status=all&limit=1000');
                 const data = await response.json();
                 
                 if (data.products) {
@@ -845,36 +1161,69 @@
         async function handleAddProduct(event) {
             event.preventDefault();
             
-            const formData = new FormData(event.target);
-            const productData = {
-                productId: formData.get('productId'),
-                name: formData.get('name'),
-                category: formData.get('category'),
-                brand: formData.get('brand'),
-                sellingPrice: parseFloat(formData.get('sellingPrice')),
-                purchasePrice: parseFloat(formData.get('purchasePrice')),
-                stock: parseInt(formData.get('stock')),
-                description: formData.get('description'),
-                discountPrice: formData.get('discountPrice') ? parseFloat(formData.get('discountPrice')) : undefined,
-                status: formData.get('status'),
-                variants: getVariants(),
-                images: []
-            };
-
-            // Upload images first
-            if (uploadedImages.length > 0) {
-                try {
-                    const imageUrls = await uploadImages(uploadedImages);
-                    productData.images = imageUrls;
-                } catch (error) {
-                    console.error('Error uploading images:', error);
-                    alert('Error uploading images. Please try again.');
-                    return;
-                }
+            // Prevent double submission
+            const submitButton = document.getElementById('saveProductBtn');
+            if (!submitButton || submitButton.disabled) {
+                return; // Already processing or button not found
             }
-
-            // Submit product data
+            
+            // Disable button and show loading state
+            submitButton.disabled = true;
+            const originalText = submitButton.innerHTML;
+            submitButton.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Adding Product...
+            `;
+            
             try {
+                const formData = new FormData(event.target);
+                const productData = {
+                    productId: formData.get('productId'),
+                    name: formData.get('name'),
+                    category: formData.get('category'),
+                    brand: formData.get('brand'),
+                    sellingPrice: parseFloat(formData.get('sellingPrice')),
+                    purchasePrice: parseFloat(formData.get('purchasePrice')),
+                    stock: parseInt(formData.get('stock')),
+                    description: formData.get('description'),
+                    discountPrice: formData.get('discountPrice') ? parseFloat(formData.get('discountPrice')) : undefined,
+                    status: formData.get('status'),
+                    variants: getVariants(),
+                    images: []
+                };
+
+                // Upload images first
+                if (uploadedImages.length > 0) {
+                    try {
+                        submitButton.innerHTML = `
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Uploading Images...
+                        `;
+                        
+                        const imageUrls = await uploadImages(uploadedImages);
+                        productData.images = imageUrls;
+                    } catch (error) {
+                        console.error('Error uploading images:', error);
+                        alert('Error uploading images. Please try again.');
+                        return;
+                    }
+                }
+
+                // Submit product data
+                submitButton.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Saving Product...
+                `;
+                
                 const response = await fetch('/api/products', {
                     method: 'POST',
                     headers: {
@@ -895,6 +1244,12 @@
             } catch (error) {
                 console.error('Error adding product:', error);
                 alert('Error adding product. Please try again.');
+            } finally {
+                // Re-enable button
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalText;
+                }
             }
         }
 
@@ -945,11 +1300,39 @@
             const statusFilter = document.getElementById('statusFilter').value;
             
             filteredProducts = products.filter(product => {
-                const matchesSearch = !searchTerm || 
-                    product.name.toLowerCase().includes(searchTerm) ||
-                    product.productId.toLowerCase().includes(searchTerm) ||
-                    product.brand?.toLowerCase().includes(searchTerm) ||
-                    product.description?.toLowerCase().includes(searchTerm);
+                // Enhanced search with singular/plural handling
+                let matchesSearch = !searchTerm;
+                if (searchTerm) {
+                    const productName = product.name.toLowerCase();
+                    const productId = product.productId.toLowerCase();
+                    const productBrand = product.brand?.toLowerCase() || '';
+                    const productDescription = product.description?.toLowerCase() || '';
+                    const productCategory = product.category.toLowerCase();
+                    
+                    // Direct matches
+                    matchesSearch = productName.includes(searchTerm) ||
+                                   productId.includes(searchTerm) ||
+                                   productBrand.includes(searchTerm) ||
+                                   productDescription.includes(searchTerm) ||
+                                   productCategory.includes(searchTerm);
+                    
+                    // Handle singular/plural category matching
+                    if (!matchesSearch) {
+                        const categoryMappings = {
+                            'books': 'book',
+                            'book': 'books',
+                            'pens': 'pen',
+                            'pen': 'pens',
+                            'toys': 'toy',
+                            'toy': 'toys'
+                        };
+                        
+                        const mappedCategory = categoryMappings[searchTerm];
+                        if (mappedCategory && productCategory.includes(mappedCategory)) {
+                            matchesSearch = true;
+                        }
+                    }
+                }
                 
                 const matchesCategory = !categoryFilter || product.category === categoryFilter;
                 const matchesStatus = !statusFilter || product.status === statusFilter;
@@ -1159,38 +1542,55 @@
         async function handleEditProduct(event) {
             event.preventDefault();
             
-            const formData = new FormData(event.target);
-            const productId = document.getElementById('editProductId').value;
-            
-            const productData = {
-                productId: formData.get('productId'),
-                name: formData.get('name'),
-                category: formData.get('category'),
-                brand: formData.get('brand'),
-                sellingPrice: parseFloat(formData.get('sellingPrice')),
-                purchasePrice: parseFloat(formData.get('purchasePrice')),
-                stock: parseInt(formData.get('stock')),
-                description: formData.get('description'),
-                discountPrice: formData.get('discountPrice') ? parseFloat(formData.get('discountPrice')) : undefined,
-                status: formData.get('status'),
-                variants: getEditVariants(),
-                images: currentEditingProduct ? [...(currentEditingProduct.images || [])] : []
-            };
-
-            // Upload new images if any
-            if (editUploadedImages.length > 0) {
-                try {
-                    const imageUrls = await uploadImages(editUploadedImages);
-                    productData.images = [...productData.images, ...imageUrls];
-                } catch (error) {
-                    console.error('Error uploading new images:', error);
-                    alert('Error uploading new images. Please try again.');
-                    return;
-                }
+            // Prevent double submission
+            const submitButton = document.getElementById('updateProductBtn');
+            if (!submitButton || submitButton.disabled) {
+                return; // Already processing or button not found
             }
-
-            // Update product data
+            
+            // Disable button and show loading state
+            submitButton.disabled = true;
+            const originalText = submitButton.innerHTML;
+            submitButton.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Updating Product...
+            `;
+            
             try {
+                const formData = new FormData(event.target);
+                const productId = document.getElementById('editProductId').value;
+            
+                const productData = {
+                    productId: formData.get('productId'),
+                    name: formData.get('name'),
+                    category: formData.get('category'),
+                    brand: formData.get('brand'),
+                    sellingPrice: parseFloat(formData.get('sellingPrice')),
+                    purchasePrice: parseFloat(formData.get('purchasePrice')),
+                    stock: parseInt(formData.get('stock')),
+                    description: formData.get('description'),
+                    discountPrice: formData.get('discountPrice') ? parseFloat(formData.get('discountPrice')) : undefined,
+                    status: formData.get('status'),
+                    variants: getEditVariants(),
+                    images: currentEditingProduct ? [...(currentEditingProduct.images || [])] : []
+                };
+
+                // Upload new images if any
+                if (editUploadedImages.length > 0) {
+                    try {
+                        const imageUrls = await uploadImages(editUploadedImages);
+                        productData.images = [...productData.images, ...imageUrls];
+                    } catch (error) {
+                        console.error('Error uploading new images:', error);
+                        alert('Error uploading new images. Please try again.');
+                        return;
+                    }
+                }
+
+                // Update product data
                 const response = await fetch(`/api/products/${productId}`, {
                     method: 'PUT',
                     headers: {
@@ -1211,6 +1611,12 @@
             } catch (error) {
                 console.error('Error updating product:', error);
                 alert('Error updating product. Please try again.');
+            } finally {
+                // Re-enable button
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalText;
+                }
             }
         }
 
@@ -1241,6 +1647,425 @@
                 localStorage.removeItem('adminMode');
                 // Redirect to main website as new user
                 window.location.href = 'index.html';
+            }
+        }
+
+        // ==================== BULK UPLOAD FUNCTIONALITY ====================
+        
+        // Global variables for bulk upload
+        let bulkUploadData = {
+            excelFile: null,
+            zipFile: null,
+            isUploading: false
+        };
+
+        // Show bulk upload modal
+        function showBulkUploadModal() {
+            document.getElementById('bulkUploadModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            resetBulkUploadForm();
+        }
+
+        // Hide bulk upload modal
+        function hideBulkUploadModal() {
+            if (bulkUploadData.isUploading) {
+                if (!confirm('Upload is in progress. Are you sure you want to cancel?')) {
+                    return;
+                }
+            }
+            document.getElementById('bulkUploadModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            resetBulkUploadForm();
+        }
+
+        // Reset bulk upload form
+        function resetBulkUploadForm() {
+            bulkUploadData.excelFile = null;
+            bulkUploadData.zipFile = null;
+            bulkUploadData.isUploading = false;
+            
+            document.getElementById('excelFile').value = '';
+            document.getElementById('zipFile').value = '';
+            document.getElementById('excelFileInfo').classList.add('hidden');
+            document.getElementById('zipFileInfo').classList.add('hidden');
+            document.getElementById('startBulkUploadBtn').disabled = true;
+            document.getElementById('uploadProgress').classList.add('hidden');
+            document.getElementById('uploadResults').classList.add('hidden');
+        }
+
+        // Handle Excel file upload
+        function handleExcelFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                bulkUploadData.excelFile = file;
+                const fileInfo = document.getElementById('excelFileInfo');
+                fileInfo.innerHTML = `
+                    <div class="flex items-center space-x-2 text-green-600">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                    </div>
+                `;
+                fileInfo.classList.remove('hidden');
+                checkBulkUploadReady();
+            }
+        }
+
+        // Handle ZIP file upload
+        function handleZipFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                bulkUploadData.zipFile = file;
+                const fileInfo = document.getElementById('zipFileInfo');
+                fileInfo.innerHTML = `
+                    <div class="flex items-center space-x-2 text-green-600">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                    </div>
+                `;
+                fileInfo.classList.remove('hidden');
+                checkBulkUploadReady();
+            }
+        }
+
+        // Check if both files are ready for upload
+        function checkBulkUploadReady() {
+            const startBtn = document.getElementById('startBulkUploadBtn');
+            if (bulkUploadData.excelFile && bulkUploadData.zipFile) {
+                startBtn.disabled = false;
+            } else {
+                startBtn.disabled = true;
+            }
+        }
+
+        // Download Excel template
+        function downloadTemplate() {
+            // Create a simple CSV template that can be opened in Excel
+            const templateData = [
+                ['productId', 'name', 'category', 'brand', 'sellingPrice', 'purchasePrice', 'stock', 'discountPrice', 'description', 'status'],
+                ['PROD-001', 'Sample Product Name', 'books', 'Sample Brand', '100.00', '80.00', '50', '0', 'Sample product description', 'active'],
+                ['PROD-002', 'Another Product', 'pens', 'Another Brand', '25.00', '20.00', '100', '0', 'Another sample description', 'active']
+            ];
+            
+            const csvContent = templateData.map(row => row.join(',')).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'product_bulk_upload_template.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Start bulk upload process
+        async function startBulkUpload() {
+            if (!bulkUploadData.excelFile || !bulkUploadData.zipFile) {
+                alert('Please select both Excel and ZIP files before starting upload.');
+                return;
+            }
+
+            bulkUploadData.isUploading = true;
+            document.getElementById('startBulkUploadBtn').disabled = true;
+            document.getElementById('uploadProgress').classList.remove('hidden');
+            document.getElementById('uploadResults').classList.add('hidden');
+
+            try {
+                // Show initial progress
+                updateProgress(0, 'Preparing files for upload...');
+                addToLog('Starting bulk upload process...');
+
+                // Create FormData for file upload
+                const formData = new FormData();
+                formData.append('excelFile', bulkUploadData.excelFile);
+                formData.append('zipFile', bulkUploadData.zipFile);
+
+                // Upload files to backend
+                updateProgress(10, 'Uploading files to server...');
+                addToLog('Uploading Excel and ZIP files...');
+
+                const response = await fetch('/api/products/bulk-upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    updateProgress(100, 'Upload completed successfully!');
+                    addToLog('✅ Bulk upload completed successfully!');
+                    showUploadResults(result.data);
+                } else {
+                    throw new Error(result.error || 'Upload failed');
+                }
+
+            } catch (error) {
+                console.error('Bulk upload error:', error);
+                updateProgress(0, 'Upload failed');
+                addToLog(`❌ Error: ${error.message}`);
+                alert('Bulk upload failed: ' + error.message);
+            } finally {
+                bulkUploadData.isUploading = false;
+                document.getElementById('startBulkUploadBtn').disabled = false;
+            }
+        }
+
+        // Update progress bar and text
+        function updateProgress(percent, text) {
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('progressPercent').textContent = percent + '%';
+            document.getElementById('progressText').textContent = text;
+        }
+
+        // Add message to upload log
+        function addToLog(message) {
+            const logContainer = document.getElementById('uploadLog');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = 'mb-1 text-gray-700';
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        // Show upload results
+        function showUploadResults(data) {
+            document.getElementById('uploadResults').classList.remove('hidden');
+            
+            // Update counts
+            document.getElementById('successCount').textContent = data.successful || 0;
+            document.getElementById('errorCount').textContent = data.failed || 0;
+            document.getElementById('warningCount').textContent = data.warnings || 0;
+
+            // Show detailed results
+            const detailsContainer = document.getElementById('detailedResults');
+            let detailsHtml = '';
+
+            if (data.successful > 0) {
+                detailsHtml += '<div class="mb-3"><h5 class="font-medium text-green-700 mb-2">✅ Successful Products:</h5>';
+                if (data.successfulProducts) {
+                    detailsHtml += '<ul class="text-sm text-green-600 space-y-1">';
+                    data.successfulProducts.forEach(product => {
+                        detailsHtml += `<li>• ${product.name} (${product.productId})</li>`;
+                    });
+                    detailsHtml += '</ul>';
+                }
+                detailsHtml += '</div>';
+            }
+
+            if (data.failed > 0) {
+                detailsHtml += '<div class="mb-3"><h5 class="font-medium text-red-700 mb-2">❌ Failed Products:</h5>';
+                if (data.failedProducts) {
+                    detailsHtml += '<ul class="text-sm text-red-600 space-y-1">';
+                    data.failedProducts.forEach(product => {
+                        detailsHtml += `<li>• ${product.name}: ${product.error}</li>`;
+                    });
+                    detailsHtml += '</ul>';
+                }
+                detailsHtml += '</div>';
+            }
+
+            if (data.warnings > 0) {
+                detailsHtml += '<div class="mb-3"><h5 class="font-medium text-yellow-700 mb-2">⚠️ Warnings:</h5>';
+                if (data.warningMessages) {
+                    detailsHtml += '<ul class="text-sm text-yellow-600 space-y-1">';
+                    data.warningMessages.forEach(warning => {
+                        detailsHtml += `<li>• ${warning}</li>`;
+                    });
+                    detailsHtml += '</ul>';
+                }
+                detailsHtml += '</div>';
+            }
+
+            detailsContainer.innerHTML = detailsHtml;
+
+            // Refresh products list if any were successfully added
+            if (data.successful > 0) {
+                setTimeout(() => {
+                    loadProducts();
+                }, 1000);
+            }
+        }
+
+
+
+
+
+
+        
+
+        // ==================== BULK DELETE FUNCTIONALITY ====================
+        
+        // Global variables for bulk delete
+        let bulkDeleteData = {
+            isDeleting: false,
+            totalProducts: 0
+        };
+
+        // Show bulk delete modal
+        function showBulkDeleteModal() {
+            bulkDeleteData.totalProducts = products.length;
+            document.getElementById('deleteCount').textContent = `${bulkDeleteData.totalProducts} products`;
+            document.getElementById('finalDeleteCount').textContent = `${bulkDeleteData.totalProducts} products`;
+            
+            document.getElementById('bulkDeleteModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            resetBulkDeleteForm();
+        }
+
+        // Hide bulk delete modal
+        function hideBulkDeleteModal() {
+            if (bulkDeleteData.isDeleting) {
+                if (!confirm('Deletion is in progress. Are you sure you want to cancel?')) {
+                    return;
+                }
+            }
+            document.getElementById('bulkDeleteModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            resetBulkDeleteForm();
+        }
+
+        // Reset bulk delete form
+        function resetBulkDeleteForm() {
+            bulkDeleteData.isDeleting = false;
+            
+            // Reset form elements
+            document.getElementById('confirmDeleteCheckbox').checked = false;
+            document.getElementById('deleteConfirmationInput').value = '';
+            document.getElementById('proceedDeleteBtn').disabled = true;
+            document.getElementById('confirmDeleteBtn').disabled = true;
+            
+            // Show/hide sections
+            document.getElementById('deleteStep1').classList.remove('hidden');
+            document.getElementById('deleteStep2').classList.add('hidden');
+            document.getElementById('deleteProgress').classList.add('hidden');
+            document.getElementById('deleteResults').classList.add('hidden');
+            
+            // Show/hide buttons
+            document.getElementById('proceedDeleteBtn').classList.remove('hidden');
+            document.getElementById('confirmDeleteBtn').classList.add('hidden');
+        }
+
+        // Handle delete checkbox change
+        function handleDeleteCheckboxChange() {
+            const checkbox = document.getElementById('confirmDeleteCheckbox');
+            const proceedBtn = document.getElementById('proceedDeleteBtn');
+            proceedBtn.disabled = !checkbox.checked;
+        }
+
+        // Proceed to delete step 2
+        function proceedToDeleteStep2() {
+            document.getElementById('deleteStep1').classList.add('hidden');
+            document.getElementById('deleteStep2').classList.remove('hidden');
+            document.getElementById('proceedDeleteBtn').classList.add('hidden');
+            document.getElementById('confirmDeleteBtn').classList.remove('hidden');
+        }
+
+        // Handle delete confirmation input
+        function handleDeleteConfirmationInput() {
+            const input = document.getElementById('deleteConfirmationInput');
+            const confirmBtn = document.getElementById('confirmDeleteBtn');
+            const expectedText = 'DELETE ALL PRODUCTS';
+            
+            confirmBtn.disabled = input.value !== expectedText;
+        }
+
+        // Confirm bulk delete
+        async function confirmBulkDelete() {
+            if (bulkDeleteData.isDeleting) return;
+            
+            bulkDeleteData.isDeleting = true;
+            document.getElementById('confirmDeleteBtn').disabled = true;
+            document.getElementById('deleteStep2').classList.add('hidden');
+            document.getElementById('deleteProgress').classList.remove('hidden');
+            document.getElementById('deleteResults').classList.add('hidden');
+
+            try {
+                // Show initial progress
+                updateDeleteProgress(0, 'Starting bulk deletion...');
+                addToDeleteLog('Starting bulk delete process...');
+
+                // Call bulk delete API
+                updateDeleteProgress(10, 'Connecting to server...');
+                addToDeleteLog('Connecting to server...');
+
+                const response = await fetch('/api/products/bulk-delete', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    updateDeleteProgress(100, 'Deletion completed successfully!');
+                    addToDeleteLog('✅ Bulk delete completed successfully!');
+                    showDeleteResults(result.data);
+                    
+                    // Refresh products list
+                    setTimeout(() => {
+                        loadProducts();
+                    }, 1000);
+                } else {
+                    throw new Error(result.error || 'Deletion failed');
+                }
+
+            } catch (error) {
+                console.error('Bulk delete error:', error);
+                updateDeleteProgress(0, 'Deletion failed');
+                addToDeleteLog(`❌ Error: ${error.message}`);
+                alert('Bulk delete failed: ' + error.message);
+            } finally {
+                bulkDeleteData.isDeleting = false;
+                document.getElementById('confirmDeleteBtn').disabled = false;
+            }
+        }
+
+        // Update delete progress bar and text
+        function updateDeleteProgress(percent, text) {
+            document.getElementById('deleteProgressBar').style.width = percent + '%';
+            document.getElementById('deleteProgressPercent').textContent = percent + '%';
+            document.getElementById('deleteProgressText').textContent = text;
+        }
+
+        // Add message to delete log
+        function addToDeleteLog(message) {
+            const logContainer = document.getElementById('deleteLog');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = 'mb-1 text-gray-700';
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        // Show delete results
+        function showDeleteResults(data) {
+            document.getElementById('deleteResults').classList.remove('hidden');
+            
+            // Update counts
+            document.getElementById('deletedCount').textContent = data.deletedProducts || 0;
+            document.getElementById('imagesDeletedCount').textContent = data.deletedImages || 0;
+            
+            // Show Cloudinary folder cleanup if applicable
+            if (data.cloudinaryFolderDeleted > 0) {
+                const cloudinaryInfo = document.createElement('div');
+                cloudinaryInfo.className = 'mt-2 p-2 bg-blue-50 border border-blue-200 rounded text-sm text-blue-700';
+                cloudinaryInfo.innerHTML = `🧹 Also cleaned up ${data.cloudinaryFolderDeleted} images from Cloudinary folder`;
+                document.getElementById('deleteResults').appendChild(cloudinaryInfo);
             }
         }
     </script>

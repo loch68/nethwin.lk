@@ -239,6 +239,12 @@
                             </svg>
                             Print Orders
                         </a>
+                        <a href="admin-print-queue.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                            </svg>
+                            Queue Management
+                        </a>
                         <a href="admin-products.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
@@ -335,7 +341,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
                                         </svg>
                                     </div>
-                                    <span class="text-green-600 text-sm font-medium">+12%</span>
+                                    <span id="salesPercentage" class="text-gray-600 text-sm font-medium">0%</span>
                                 </div>
                                 <div>
                                     <p class="text-gray-600 text-sm font-medium">Total Sales</p>
@@ -349,7 +355,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
                                         </svg>
                                     </div>
-                                    <span class="text-blue-600 text-sm font-medium">+8%</span>
+                                    <span id="ordersPercentage" class="text-gray-600 text-sm font-medium">0%</span>
                                 </div>
                                 <div>
                                     <p class="text-gray-600 text-sm font-medium">Total Orders</p>
@@ -363,7 +369,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
                                         </svg>
                                     </div>
-                                    <span class="text-purple-600 text-sm font-medium">+15%</span>
+                                    <span id="usersPercentage" class="text-gray-600 text-sm font-medium">0%</span>
                                 </div>
                                 <div>
                                     <p class="text-gray-600 text-sm font-medium">Total Users</p>
@@ -377,7 +383,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
                                         </svg>
                                     </div>
-                                    <span class="text-orange-600 text-sm font-medium">+5%</span>
+                                    <span id="printJobsPercentage" class="text-gray-600 text-sm font-medium">0%</span>
                                 </div>
                                 <div>
                                     <p class="text-gray-600 text-sm font-medium">Print Jobs</p>
@@ -544,6 +550,12 @@
         // Global variables for auto-refresh
         let refreshInterval;
         let isRefreshing = false;
+        let previousData = {
+            totalSales: 0,
+            totalOrders: 0,
+            totalUsers: 0,
+            totalPrintJobs: 0
+        };
 
         document.addEventListener('DOMContentLoaded', async () => {
             await loadDashboardData();
@@ -557,6 +569,32 @@
                 }
             }, 30000);
         });
+
+        // Calculate percentage change
+        function calculatePercentageChange(current, previous) {
+            if (previous === 0) {
+                return current > 0 ? 100 : 0;
+            }
+            return Math.round(((current - previous) / previous) * 100);
+        }
+
+        // Update percentage display
+        function updatePercentageDisplay(elementId, current, previous) {
+            const percentage = calculatePercentageChange(current, previous);
+            const element = document.getElementById(elementId);
+            if (element) {
+                if (percentage > 0) {
+                    element.textContent = `+${percentage}%`;
+                    element.className = 'text-green-600 text-sm font-medium';
+                } else if (percentage < 0) {
+                    element.textContent = `${percentage}%`;
+                    element.className = 'text-red-600 text-sm font-medium';
+                } else {
+                    element.textContent = '0%';
+                    element.className = 'text-gray-600 text-sm font-medium';
+                }
+            }
+        }
 
         // Load dashboard data
         async function loadDashboardData() {
@@ -598,6 +636,20 @@
                 document.getElementById('cardOrders').textContent = String(totalOrders);
                 document.getElementById('cardUsers').textContent = String(users.length);
                 document.getElementById('cardPrintJobs').textContent = String(printOrders.length);
+
+                // Update percentage changes
+                updatePercentageDisplay('salesPercentage', totalSales, previousData.totalSales);
+                updatePercentageDisplay('ordersPercentage', totalOrders, previousData.totalOrders);
+                updatePercentageDisplay('usersPercentage', users.length, previousData.totalUsers);
+                updatePercentageDisplay('printJobsPercentage', printOrders.length, previousData.totalPrintJobs);
+
+                // Store current data for next comparison
+                previousData = {
+                    totalSales,
+                    totalOrders,
+                    totalUsers: users.length,
+                    totalPrintJobs: printOrders.length
+                };
 
                 // Load print orders table
                 loadPrintOrdersTable(printOrders);

@@ -237,6 +237,12 @@
                             </svg>
                             Print Orders
                         </a>
+                        <a href="admin-print-queue.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                            </svg>
+                            Queue Management
+                        </a>
                         <a href="admin-products.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
@@ -423,8 +429,8 @@
                 </div>
                 
                 <div>
-                    <label class="block text-sm font-medium text-[#0e1a13] mb-1">Phone Number</label>
-                    <input type="tel" id="addPhone" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:ring-2 focus:ring-[#19e619] focus:border-[#19e619]">
+                    <label class="block text-sm font-medium text-[#0e1a13] mb-1">Mobile Number</label>
+                    <input type="tel" id="addPhone" placeholder="071 234 5678" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:ring-2 focus:ring-[#19e619] focus:border-[#19e619]">
                 </div>
                 
                 <div>
@@ -440,7 +446,7 @@
                     </select>
                 </div>
                 
-                <div>
+                <div id="customerTypeField">
                     <label class="block text-sm font-medium text-[#0e1a13] mb-1">Customer Type *</label>
                     <select id="addCustomerType" required class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:ring-2 focus:ring-[#19e619] focus:border-[#19e619]">
                         <option value="online">Online Customer</option>
@@ -506,6 +512,83 @@
             if (!window.authManager.isLoggedIn()) {
                 window.location.href = 'admin-login.html';
                 return;
+            }
+            
+            // Phone number validation and formatting
+            const phoneInput = document.getElementById('addPhone');
+            if (phoneInput) {
+                const phoneLabel = phoneInput.closest('div').querySelector('label');
+                
+                phoneInput.addEventListener('input', function() {
+                    const value = this.value.replace(/\s/g, ''); // Remove spaces
+                    
+                    // Remove existing validation classes
+                    this.classList.remove('border-red-500', 'border-green-500');
+                    if (phoneLabel) {
+                        phoneLabel.classList.remove('text-red-500', 'text-green-500');
+                    }
+                    
+                    // Only validate when user has entered all 10 digits
+                    if (value.length === 10) {
+                        if (value.startsWith('07')) {
+                            // Valid phone number - starts with 07
+                            this.classList.add('border-green-500');
+                            if (phoneLabel) {
+                                phoneLabel.classList.add('text-green-500');
+                            }
+                        } else {
+                            // Invalid format - doesn't start with 07
+                            this.classList.add('border-red-500');
+                            if (phoneLabel) {
+                                phoneLabel.classList.add('text-red-500');
+                            }
+                        }
+                    }
+                });
+                
+                // Format phone number as user types (add spaces for readability)
+                phoneInput.addEventListener('input', function() {
+                    let value = this.value.replace(/\D/g, ''); // Remove non-digits
+                    
+                    // Limit to 10 digits
+                    if (value.length > 10) {
+                        value = value.substring(0, 10);
+                    }
+                    
+                    // Add spaces for readability: 07X XXX XXXX
+                    if (value.length > 3) {
+                        value = value.substring(0, 3) + ' ' + value.substring(3);
+                    }
+                    if (value.length > 7) {
+                        value = value.substring(0, 7) + ' ' + value.substring(7);
+                    }
+                    
+                    this.value = value;
+                });
+            }
+            
+            // Show/hide customer type field based on role selection
+            const roleSelect = document.getElementById('addRole');
+            const customerTypeField = document.getElementById('customerTypeField');
+            const customerTypeSelect = document.getElementById('addCustomerType');
+            
+            if (roleSelect && customerTypeField && customerTypeSelect) {
+                function toggleCustomerTypeField() {
+                    if (roleSelect.value === 'admin') {
+                        customerTypeField.style.display = 'none';
+                        customerTypeSelect.removeAttribute('required');
+                        customerTypeSelect.value = 'online'; // Set default value for backend
+                    } else {
+                        customerTypeField.style.display = 'block';
+                        customerTypeSelect.setAttribute('required', 'required');
+                    }
+                }
+                
+                // Initial state
+                toggleCustomerTypeField();
+                
+                // Listen for role changes
+                roleSelect.addEventListener('change', toggleCustomerTypeField);
             }
             
             if (!window.authManager.isAdmin()) {
@@ -741,14 +824,32 @@
         }
 
         async function addUser() {
+            const phoneNumber = document.getElementById('addPhone').value;
+            
+            // Validate Sri Lankan phone number
+            const cleanPhone = phoneNumber.replace(/\s/g, ''); // Remove spaces for validation
+            
+            if (cleanPhone.length !== 10) {
+                alert('Phone number must be exactly 10 digits');
+                return;
+            }
+            
+            if (!cleanPhone.startsWith('07')) {
+                alert('Phone number must start with 07 (Sri Lankan mobile number)');
+                return;
+            }
+            
+            const role = document.getElementById('addRole').value;
+            const customerType = role === 'admin' ? 'online' : document.getElementById('addCustomerType').value;
+            
             const formData = {
                 fullName: document.getElementById('addFullName').value,
                 email: document.getElementById('addEmail').value,
                 username: document.getElementById('addUsername').value,
-                phoneNumber: document.getElementById('addPhone').value,
+                phoneNumber: phoneNumber,
                 password: document.getElementById('addPassword').value,
-                role: document.getElementById('addRole').value,
-                customerType: document.getElementById('addCustomerType').value,
+                role: role,
+                customerType: customerType,
                 status: document.getElementById('addStatus').value
             };
 
