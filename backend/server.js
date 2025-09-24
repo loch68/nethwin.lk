@@ -2100,9 +2100,8 @@ app.get('/api/reviews/product/:productId', async (req, res) => {
     
     // Handle both ObjectId and string productId
     let query = {
-      // For debugging, let's also include pending reviews
-      status: { $in: ['approved', 'pending'] },
-      isVisible: true
+      // Only show approved reviews to public
+      status: 'approved'
     };
     
     // Check if productId is a valid ObjectId
@@ -2166,8 +2165,7 @@ app.post('/api/reviews', [
     
     const reviewData = {
       ...req.body,
-      status: 'pending',
-      isVisible: false
+      status: 'pending'
     };
     
     const review = await Review.create(reviewData);
@@ -2214,14 +2212,13 @@ app.put('/api/reviews/:id/status', async (req, res) => {
   console.log('PUT /api/reviews/:id/status route hit');
   try {
     const { id } = req.params;
-    const { status, isVisible, adminNotes } = req.body;
+    const { status, adminNotes } = req.body;
     
     console.log('Updating review status for ID:', id);
-    console.log('Update data:', { status, isVisible, adminNotes });
+    console.log('Update data:', { status, adminNotes });
     
     const updateData = {};
     if (status) updateData.status = status;
-    if (typeof isVisible === 'boolean') updateData.isVisible = isVisible;
     if (adminNotes) updateData.adminNotes = adminNotes;
     
     console.log('Final update data:', updateData);
@@ -2246,14 +2243,14 @@ app.put('/api/reviews/:id/status', async (req, res) => {
 
 console.log('PUT /api/reviews/:id/status route registered');
 
-// Delete review (admin only)
+// Delete review (admin only) - Actually removes from database
 app.delete('/api/reviews/:id', async (req, res) => {
   try {
     const review = await Review.findByIdAndDelete(req.params.id);
     if (!review) {
       return res.status(404).json({ error: 'Review not found' });
     }
-    res.json({ success: true });
+    res.json({ success: true, message: 'Review permanently deleted from database' });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -2276,6 +2273,56 @@ app.post('/api/reviews/:id/vote', async (req, res) => {
     
     await review.save();
     res.json({ success: true, helpfulVotes: review.helpfulVotes });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Bulk actions for reviews (admin only)
+app.post('/api/admin/reviews/bulk-action', async (req, res) => {
+  try {
+    const { action, reviewIds } = req.body;
+    
+    if (!action || !reviewIds || !Array.isArray(reviewIds)) {
+      return res.status(400).json({ error: 'Action and review IDs are required' });
+    }
+    
+    let updateData = {};
+    let message = '';
+    
+    let result;
+    
+    switch (action) {
+      case 'approve':
+        updateData = { status: 'approved', approvedAt: new Date() };
+        message = `${reviewIds.length} reviews approved successfully`;
+        result = await Review.updateMany(
+          { _id: { $in: reviewIds } },
+          updateData
+        );
+        break;
+      case 'delete':
+        // Actually delete from database
+        result = await Review.deleteMany({ _id: { $in: reviewIds } });
+        message = `${result.deletedCount} reviews permanently deleted from database`;
+        break;
+      case 'pending':
+        updateData = { status: 'pending' };
+        message = `${reviewIds.length} reviews set to pending`;
+        result = await Review.updateMany(
+          { _id: { $in: reviewIds } },
+          updateData
+        );
+        break;
+      default:
+        return res.status(400).json({ error: 'Invalid action. Use: approve, delete, or pending' });
+    }
+    
+    res.json({
+      success: true,
+      message,
+      modifiedCount: result.modifiedCount || result.deletedCount || 0
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
