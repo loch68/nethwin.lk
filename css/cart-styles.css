@@ -1,0 +1,173 @@
+/* Enhanced Cart Styles - Only for navbar cart */
+.nav-auth-btn.cart-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: auto;
+  max-width: 180px; /* Limit cart container width */
+  overflow: visible; /* Allow cart count badge to be visible */
+  /* Inherit padding from .nav-auth-btn parent class */
+}
+
+.nav-auth-btn .cart-total {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #19e619;
+  background: rgba(25, 230, 25, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(25, 230, 25, 0.2);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  line-height: 1.2;
+  max-width: 70px; /* Limit cart total width */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: none; /* Hide separate total, will be integrated into count badge */
+}
+
+.nav-auth-btn .cart-total.hidden {
+    display: none;
+}
+
+/* Cart count indicator styles */
+.nav-auth-btn.cart-container .cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #ef4444;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.nav-auth-btn .cart-count.hidden {
+    display: none;
+}
+
+.nav-auth-btn .cart-count.cart-updated {
+    animation: cartPulse 0.6s ease-in-out;
+    transform: scale(1.2);
+}
+
+@keyframes cartPulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.3);
+        background: #dc2626;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Mobile cart styles */
+.mobile-icon-btn.mobile-cart-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    max-width: 120px; /* Limit mobile cart width */
+    overflow: hidden;
+}
+
+.mobile-icon-btn .mobile-cart-total {
+    font-size: 0.625rem;
+    font-weight: 600;
+    color: #19e619;
+    background: rgba(25, 230, 25, 0.1);
+    padding: 1px 4px;
+    border-radius: 6px;
+    border: 1px solid rgba(25, 230, 25, 0.2);
+    transition: all 0.3s ease;
+    max-width: 60px; /* Limit mobile cart total width */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: none; /* Hide separate total, now integrated into count badge */
+}
+
+.mobile-icon-btn .mobile-cart-total.hidden {
+    display: none;
+}
+
+/* Mobile cart count indicator styles */
+.mobile-icon-btn.mobile-cart-container .mobile-cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #ef4444;
+    color: white;
+    font-size: 0.625rem;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.mobile-icon-btn .mobile-cart-count.hidden {
+    display: none;
+}
+
+/* Responsive adjustments for very small screens */
+@media (max-width: 480px) {
+    .nav-auth-btn.cart-container {
+        max-width: 140px; /* Smaller max width on very small screens */
+        gap: 4px; /* Tighter spacing */
+    }
+    
+    .mobile-icon-btn.mobile-cart-container {
+        max-width: 100px; /* Smaller mobile cart on very small screens */
+    }
+}
+
+.mobile-icon-btn .mobile-cart-count.cart-updated {
+    animation: cartPulse 0.6s ease-in-out;
+    transform: scale(1.2);
+}
+
+/* Hover effects */
+.nav-auth-btn:hover .cart-total {
+    background: rgba(25, 230, 25, 0.2);
+    border-color: rgba(25, 230, 25, 0.3);
+}
+
+.nav-auth-btn:hover .cart-count {
+    background: #dc2626;
+    transform: scale(1.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .cart-total {
+        font-size: 0.625rem;
+        padding: 1px 4px;
+    }
+    
+    .cart-count {
+        width: 18px;
+        height: 18px;
+        font-size: 0.625rem;
+    }
+}
