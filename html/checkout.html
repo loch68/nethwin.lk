@@ -69,6 +69,31 @@
         }
         
         /* Delivery and Payment Option Cards */
+        .delivery-option-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .delivery-option-card > div {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .delivery-option-card .flex.items-start.gap-4 {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .delivery-option-card .flex-1 {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
         .delivery-option-card input[type="radio"]:checked + div {
             border-color: #10b981;
             background-color: #f0fdf4;
@@ -92,11 +117,29 @@
             background-color: #10b981;
         }
         
+        /* Local Delivery circle - green when card is selected */
+        .delivery-option-card[onclick*="local"].selected .absolute.top-3.right-3 {
+            border-color: #10b981;
+        }
+        .delivery-option-card[onclick*="local"].selected .absolute.top-3.right-3 > div {
+            opacity: 1;
+            background-color: #10b981;
+        }
+        
         /* Store Pickup circle - always blue when selected */
         .delivery-option-card[onclick*="pickup"] input[type="radio"]:checked + div .absolute.top-3.right-3 {
             border-color: #3b82f6;
         }
         .delivery-option-card[onclick*="pickup"] input[type="radio"]:checked + div .absolute.top-3.right-3 > div {
+            opacity: 1;
+            background-color: #3b82f6;
+        }
+        
+        /* Store Pickup circle - blue when card is selected */
+        .delivery-option-card[onclick*="pickup"].selected .absolute.top-3.right-3 {
+            border-color: #3b82f6;
+        }
+        .delivery-option-card[onclick*="pickup"].selected .absolute.top-3.right-3 > div {
             opacity: 1;
             background-color: #3b82f6;
         }
@@ -124,6 +167,15 @@
             background-color: #3b82f6;
         }
         
+        /* Card Payment circle - blue when card is selected */
+        .payment-option-card[onclick*="card"].selected .absolute.top-3.right-3 {
+            border-color: #3b82f6;
+        }
+        .payment-option-card[onclick*="card"].selected .absolute.top-3.right-3 > div {
+            opacity: 1;
+            background-color: #3b82f6;
+        }
+        
         /* Cash on Delivery circle - always green when selected */
         .payment-option-card[onclick*="cod"] input[type="radio"]:checked + div .absolute.top-3.right-3 {
             border-color: #10b981;
@@ -133,11 +185,29 @@
             background-color: #10b981;
         }
         
+        /* Cash on Delivery circle - green when card is selected */
+        .payment-option-card[onclick*="cod"].selected .absolute.top-3.right-3 {
+            border-color: #10b981;
+        }
+        .payment-option-card[onclick*="cod"].selected .absolute.top-3.right-3 > div {
+            opacity: 1;
+            background-color: #10b981;
+        }
+        
         /* QR Payment circle - always purple when selected */
         .payment-option-card[onclick*="qr"] input[type="radio"]:checked + div .absolute.top-3.right-3 {
             border-color: #8b5cf6;
         }
         .payment-option-card[onclick*="qr"] input[type="radio"]:checked + div .absolute.top-3.right-3 > div {
+            opacity: 1;
+            background-color: #8b5cf6;
+        }
+        
+        /* QR Payment circle - purple when card is selected */
+        .payment-option-card[onclick*="qr"].selected .absolute.top-3.right-3 {
+            border-color: #8b5cf6;
+        }
+        .payment-option-card[onclick*="qr"].selected .absolute.top-3.right-3 > div {
             opacity: 1;
             background-color: #8b5cf6;
         }
@@ -218,13 +288,13 @@
                             Search</a><a href="login.html" class="nav-auth-btn"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path></svg>
                             Login</a></div><!-- Mobile Menu Button --><button class="mobile-menu-btn" id="mobileMenuBtn"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></button></div><!-- Mobile Navigation Menu --><div class="mobile-nav" id="mobileNav"><div class="mobile-nav-content"><a href="index.html" class="mobile-nav-link">Home</a><a href="print.html" class="mobile-nav-link">Print Services</a><a href="bookshop.html" class="mobile-nav-link">Bookshop</a><a href="aboutus.html" class="mobile-nav-link">About</a><a href="contactus.html" class="mobile-nav-link">Contact</a><div class="mobile-nav-divider"></div><a href="cart.html" class="mobile-nav-link">Cart</a><a href="search.html" class="mobile-nav-link">Search</a><a href="login.html" class="mobile-nav-link">Login</a></div></div></nav><!-- Main Content --><main class="flex-1 pt-20"><div class="container mx-auto px-4 py-8"><!-- Breadcrumb --><nav class="mb-8"><div class="flex items-center space-x-2 text-sm"><a href="bookshop.html" class="text-gray-600 hover:text-[#19e619] transition-colors">Shop</a><span class="text-gray-400">/</span><a href="cart.html" class="text-gray-600 hover:text-[#19e619] transition-colors">Cart</a><span class="text-gray-400">/</span><span class="text-gray-800 font-medium">Checkout</span></div></nav><!-- Progress Steps --><div class="mb-8"><div class="flex items-center justify-center space-x-4"><div class="step-indicator flex items-center"><div class="step-number step-completed w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold">1</div><span class="ml-2 text-sm font-medium text-gray-600">Cart</span></div><div class="step-indicator flex items-center"><div class="step-number step-active w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold">2</div><span class="ml-2 text-sm font-medium text-gray-800">Checkout</span></div><div class="step-indicator flex items-center"><div class="step-number w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-200 text-gray-600">3</div><span class="ml-2 text-sm font-medium text-gray-600">Confirmation</span></div></div></div><div class="grid grid-cols-1 lg:grid-cols-3 gap-8"><!-- Checkout Form --><div class="lg:col-span-2"><form id="checkoutForm" class="space-y-8"><!-- Customer Information --><div class="form-section p-6"><h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><svg class="w-5 h-5 mr-3 text-[#19e619]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                                         Customer Information
-                                    </h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label><input type="text" id="customerName" class="form-input w-full px-4 py-3 rounded-lg" required></div><div><label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label><input type="email" id="customerEmail" class="form-input w-full px-4 py-3 rounded-lg" required></div><div><label class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label><input type="tel" id="customerPhone" class="form-input w-full px-4 py-3 rounded-lg" required></div></div></div><!-- Delivery Information --><div class="form-section p-6"><h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><svg class="w-5 h-5 mr-3 text-[#19e619]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    </h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label><input type="text" id="customerName" name="customerName" class="form-input w-full px-4 py-3 rounded-lg" required></div><div><label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label><input type="email" id="customerEmail" name="customerEmail" class="form-input w-full px-4 py-3 rounded-lg" required></div><div><label class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label><input type="tel" id="customerPhone" name="customerPhone" class="form-input w-full px-4 py-3 rounded-lg" required></div></div></div><!-- Delivery Information --><div class="form-section p-6"><h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><svg class="w-5 h-5 mr-3 text-[#19e619]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                         Delivery Information
-                                    </h2><div class="space-y-4"><div><label class="block text-sm font-medium text-gray-700 mb-2">Delivery Method *</label><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><label class="delivery-option-card group cursor-pointer" onclick="selectDelivery('local')"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="deliveryMethod" value="Local Delivery" class="sr-only" checked><div class="flex items-start gap-4"><div class="w-12 h-12 bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg flex items-center justify-center group-hover:from-green-200 group-hover:to-emerald-200 transition-colors"><svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg></div><div class="flex-1"><h4 class="font-bold text-gray-800 text-lg mb-1">Local Delivery</h4><p class="text-sm text-gray-600 mb-3">Within <span id="deliveryRadius">10</span>km radius from our store</p><div class="flex items-center justify-between"><div class="flex items-center gap-2"><svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span class="text-sm text-green-600 font-medium">Estimated 1-2 days</span></div><span id="localDeliveryPrice" class="text-sm font-bold text-green-600">LKR 0.00</span></div></div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-green-500 transition-colors"><div class="w-full h-full rounded-full bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="delivery-option-card group cursor-pointer" onclick="selectDelivery('pickup')"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-blue-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="deliveryMethod" value="Store Pickup" class="sr-only"><div class="flex items-start gap-4"><div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg flex items-center justify-center group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors"><svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg></div><div class="flex-1"><h4 class="font-bold text-gray-800 text-lg mb-1">Store Pickup</h4><p class="text-sm text-gray-600 mb-3">Collect from our physical store</p><p class="text-sm text-gray-500 mb-3">Available during store hours</p><div class="flex items-center justify-between"><div class="flex items-center gap-2"><svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span class="text-sm text-blue-600 font-medium">Ready in 2-4 hours</span></div><span class="text-sm font-bold text-green-600">Free</span></div></div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-blue-500 transition-colors"><div class="w-full h-full rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label></div></div><div id="deliveryAddressSection"><label class="block text-sm font-medium text-gray-700 mb-2">Delivery Address *</label><textarea id="deliveryAddress" class="form-input w-full px-4 py-3 rounded-lg" rows="3" placeholder="Enter your complete delivery address"></textarea></div></div></div><!-- Payment Information --><div class="form-section p-6"><h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><svg class="w-5 h-5 mr-3 text-[#19e619]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                                    </h2><div class="space-y-4"><div><label class="block text-sm font-medium text-gray-700 mb-2">Delivery Method *</label><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><label class="delivery-option-card group cursor-pointer" onclick="selectDelivery('local', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="deliveryMethod" value="Local Delivery" class="sr-only" checked><div class="flex items-start gap-4"><div class="w-12 h-12 bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg flex items-center justify-center group-hover:from-green-200 group-hover:to-emerald-200 transition-colors"><svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg></div><div class="flex-1"><h4 class="font-bold text-gray-800 text-lg mb-1">Local Delivery</h4><p class="text-sm text-gray-600 mb-3">Within <span id="deliveryRadius">10</span>km radius from our store</p><p class="text-sm text-gray-500 mb-3">Available during business hours</p><div class="flex items-center justify-between"><div class="flex items-center gap-2"><svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span class="text-sm text-green-600 font-medium">Estimated 1-2 days</span></div><span id="localDeliveryPrice" class="text-sm font-bold text-green-600">LKR 0.00</span></div></div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-green-500 transition-colors"><div class="w-full h-full rounded-full bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="delivery-option-card group cursor-pointer" onclick="selectDelivery('pickup', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-blue-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="deliveryMethod" value="Store Pickup" class="sr-only"><div class="flex items-start gap-4"><div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg flex items-center justify-center group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors"><svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg></div><div class="flex-1"><h4 class="font-bold text-gray-800 text-lg mb-1">Store Pickup</h4><p class="text-sm text-gray-600 mb-3">Collect from our physical store</p><p class="text-sm text-gray-500 mb-3">Available during store hours</p><div class="flex items-center justify-between"><div class="flex items-center gap-2"><svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span class="text-sm text-blue-600 font-medium">Ready in 2-4 hours</span></div><span class="text-sm font-bold text-green-600">Free</span></div></div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-blue-500 transition-colors"><div class="w-full h-full rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label></div></div><div id="deliveryAddressSection"><label class="block text-sm font-medium text-gray-700 mb-2">Delivery Address *</label><textarea id="deliveryAddress" name="deliveryAddress" class="form-input w-full px-4 py-3 rounded-lg" rows="3" placeholder="Enter your complete delivery address"></textarea></div></div></div><!-- Payment Information --><div class="form-section p-6"><h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><svg class="w-5 h-5 mr-3 text-[#19e619]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
                                         Payment Information
-                                    </h2><div class="space-y-4"><div><label class="block text-sm font-medium text-gray-700 mb-2">Payment Method *</label><div class="grid grid-cols-1 md:grid-cols-3 gap-6"><label class="payment-option-card group cursor-pointer" onclick="selectPayment('card')"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-blue-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="paymentMethod" value="Card Payment" class="sr-only" checked><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors"><svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">Card Payment</h4><p class="text-sm text-gray-600 mb-4">Visa, Mastercard, Amex</p><div class="w-16 h-6 bg-blue-500 rounded text-white text-xs flex items-center justify-center font-bold">CARD</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-blue-500 transition-colors"><div class="w-full h-full rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="payment-option-card group cursor-pointer" onclick="selectPayment('cod')"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="paymentMethod" value="Cash on Delivery" class="sr-only"><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-green-200 group-hover:to-emerald-200 transition-colors"><svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">Cash on Delivery</h4><p class="text-sm text-gray-600 mb-4">Pay when delivered</p><div class="w-16 h-6 bg-green-500 rounded text-white text-xs flex items-center justify-center font-bold">COD</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-green-500 transition-colors"><div class="w-full h-full rounded-full bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="payment-option-card group cursor-pointer" onclick="selectPayment('qr')"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-purple-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="paymentMethod" value="QR Payment" class="sr-only"><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-violet-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-purple-200 group-hover:to-violet-200 transition-colors"><svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-4v-4m-6 4h2m0-4h-2v4m0-4v-4m6 0V7a2 2 0 00-2-2H8a2 2 0 00-2 2v4"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">QR Payment</h4><p class="text-sm text-gray-600 mb-4">Scan QR code to pay</p><div class="w-16 h-6 bg-purple-500 rounded text-white text-xs flex items-center justify-center font-bold">QR</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-purple-500 transition-colors"><div class="w-full h-full rounded-full bg-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label></div></div></div></div><!-- Order Notes --><div class="form-section p-6"><h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><svg class="w-5 h-5 mr-3 text-[#19e619]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                    </h2><div class="space-y-4"><div><label class="block text-sm font-medium text-gray-700 mb-2">Payment Method *</label><div class="grid grid-cols-1 md:grid-cols-3 gap-6"><label class="payment-option-card group cursor-pointer" onclick="selectPayment('card', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-blue-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="paymentMethod" value="Card Payment" class="sr-only" checked><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors"><svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">Card Payment</h4><p class="text-sm text-gray-600 mb-4">Visa, Mastercard, Amex</p><div class="w-16 h-6 bg-blue-500 rounded text-white text-xs flex items-center justify-center font-bold">CARD</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-blue-500 transition-colors"><div class="w-full h-full rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="payment-option-card group cursor-pointer" onclick="selectPayment('cod', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="paymentMethod" value="Cash on Delivery" class="sr-only"><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-green-200 group-hover:to-emerald-200 transition-colors"><svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">Cash on Delivery</h4><p class="text-sm text-gray-600 mb-4">Pay when delivered</p><div class="w-16 h-6 bg-green-500 rounded text-white text-xs flex items-center justify-center font-bold">COD</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-green-500 transition-colors"><div class="w-full h-full rounded-full bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="payment-option-card group cursor-pointer" onclick="selectPayment('qr', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-purple-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="paymentMethod" value="QR Payment" class="sr-only"><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-violet-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-purple-200 group-hover:to-violet-200 transition-colors"><svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-4v-4m-6 4h2m0-4h-2v4m0-4v-4m6 0V7a2 2 0 00-2-2H8a2 2 0 00-2 2v4"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">QR Payment</h4><p class="text-sm text-gray-600 mb-4">Scan QR code to pay</p><div class="w-16 h-6 bg-purple-500 rounded text-white text-xs flex items-center justify-center font-bold">QR</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-purple-500 transition-colors"><div class="w-full h-full rounded-full bg-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label></div></div></div></div><!-- Order Notes --><div class="form-section p-6"><h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><svg class="w-5 h-5 mr-3 text-[#19e619]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                         Order Notes (Optional)
-                                    </h2><div><textarea id="orderNotes" class="form-input w-full px-4 py-3 rounded-lg" rows="3" placeholder="Any special instructions for your order?"></textarea></div></div></form></div><!-- Order Summary --><div class="lg:col-span-1"><div class="order-summary p-6 sticky top-24"><h2 class="text-xl font-semibold text-gray-900 mb-6">Order Summary</h2><!-- Order Items --><div id="orderItems" class="space-y-4 mb-6"><!-- Items will be loaded here --></div><!-- Order Totals --><div class="border-t border-gray-200 pt-4 space-y-3"><div class="flex justify-between text-sm"><span class="text-gray-600">Subtotal</span><span id="subtotal" class="font-medium">Rs. 0.00</span></div><div class="flex justify-between text-sm"><span class="text-gray-600">Delivery Fee</span><span id="deliveryFee" class="font-medium">Rs. 0.00</span></div><div class="flex justify-between text-lg font-semibold"><span>Total</span><span id="total" class="text-[#19e619]">Rs. 0.00</span></div></div><!-- Action Buttons --><div class="mt-6 space-y-3"><button id="proceedToReview" class="btn-primary w-full py-3 px-6 rounded-lg font-semibold text-white flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </h2><div><textarea id="orderNotes" name="orderNotes" class="form-input w-full px-4 py-3 rounded-lg" rows="3" placeholder="Any special instructions for your order?"></textarea></div></div></form></div><!-- Order Summary --><div class="lg:col-span-1"><div class="order-summary p-6 sticky top-24"><h2 class="text-xl font-semibold text-gray-900 mb-6">Order Summary</h2><!-- Order Items --><div id="orderItems" class="space-y-4 mb-6"><!-- Items will be loaded here --></div><!-- Order Totals --><div class="border-t border-gray-200 pt-4 space-y-3"><div class="flex justify-between text-sm"><span class="text-gray-600">Subtotal</span><span id="subtotal" class="font-medium">Rs. 0.00</span></div><div class="flex justify-between text-sm"><span class="text-gray-600">Delivery Fee</span><span id="deliveryFee" class="font-medium">Rs. 0.00</span></div><div class="flex justify-between text-lg font-semibold"><span>Total</span><span id="total" class="text-[#19e619]">Rs. 0.00</span></div></div><!-- Action Buttons --><div class="mt-6 space-y-3"><button id="proceedToReview" class="btn-primary w-full py-3 px-6 rounded-lg font-semibold text-white flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                         Review Order
                                     </button><button onclick="window.history.back()" class="btn-secondary w-full py-3 px-6 rounded-lg font-semibold text-white">
                                         Back to Cart
@@ -233,13 +303,14 @@
         let orderData = null;
         
         // Load order data from localStorage
-        function loadOrderData() {
+        async function loadOrderData() {
             const savedOrder = localStorage.getItem('pendingOrder');
             if (savedOrder) {
                 orderData = JSON.parse(savedOrder);
                 console.log('Loaded order data:', orderData);
                 displayOrderItems();
-                updateTotals();
+                await updateDeliveryOptionDisplay();
+                await updateTotals();
                 loadUserDetails();
             } else {
                 // Redirect to cart if no order data
@@ -304,14 +375,75 @@
             });
         }
         
+        // Get delivery fee from API
+        async function getDeliveryFee(deliveryMethod) {
+            console.log('Getting delivery fee for method:', deliveryMethod);
+            
+            if (deliveryMethod === 'Local Delivery') {
+                try {
+                    const response = await fetch('/api/delivery-settings');
+                    if (response.ok) {
+                        const data = await response.json();
+                        const fee = data.data?.localDeliveryPrice || 0;
+                        console.log('Local delivery fee:', fee);
+                        return fee;
+                    }
+                } catch (error) {
+                    console.error('Error fetching delivery price:', error);
+                    return 0; // Fallback to free delivery
+                }
+            }
+            
+            console.log('Store pickup - free delivery');
+            return 0; // Free for pickup
+        }
+
+        // Update delivery option display
+        async function updateDeliveryOptionDisplay() {
+            try {
+                const response = await fetch('/api/delivery-settings');
+                if (response.ok) {
+                    const data = await response.json();
+                    const price = data.data?.localDeliveryPrice || 0;
+                    const radius = data.data?.deliveryRadius || 10;
+                    
+                    // Update delivery radius
+                    const radiusElement = document.getElementById('deliveryRadius');
+                    if (radiusElement) {
+                        radiusElement.textContent = radius;
+                    }
+                    
+                    // Update delivery price
+                    const priceElement = document.getElementById('localDeliveryPrice');
+                    if (priceElement) {
+                        if (price > 0) {
+                            priceElement.textContent = `LKR ${price.toFixed(2)}`;
+                        } else {
+                            priceElement.textContent = 'Free';
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error updating delivery option display:', error);
+            }
+        }
+
         // Update totals
-        function updateTotals() {
+        async function updateTotals() {
             if (!orderData) return;
             
-            const subtotal = orderData.total || 0;
+            // Get the original subtotal (without any delivery fees)
+            const subtotal = orderData.subtotal || orderData.total || 0;
             const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked')?.value;
-            const deliveryFee = deliveryMethod === 'Local Delivery' ? 200 : 0; // Rs. 200 for local delivery
+            const deliveryFee = await getDeliveryFee(deliveryMethod);
             const total = subtotal + deliveryFee;
+            
+            console.log('Updating totals:', {
+                subtotal: subtotal,
+                deliveryMethod: deliveryMethod,
+                deliveryFee: deliveryFee,
+                total: total
+            });
             
             document.getElementById('subtotal').textContent = `Rs. ${subtotal.toFixed(2)}`;
             document.getElementById('deliveryFee').textContent = `Rs. ${deliveryFee.toFixed(2)}`;
@@ -323,7 +455,7 @@
         }
         
         // Handle delivery method change
-        function handleDeliveryMethodChange() {
+        async function handleDeliveryMethodChange() {
             const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked')?.value;
             const addressSection = document.getElementById('deliveryAddressSection');
             
@@ -335,7 +467,7 @@
                 document.getElementById('deliveryAddress').required = true;
             }
             
-            updateTotals();
+            await updateTotals();
         }
         
         // Handle payment method change
@@ -346,6 +478,17 @@
         
         // Proceed to order review
         function proceedToReview() {
+            // Get delivery method first
+            const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked')?.value;
+            
+            // Set delivery address required attribute based on delivery method
+            const deliveryAddressField = document.getElementById('deliveryAddress');
+            if (deliveryMethod === 'Local Delivery') {
+                deliveryAddressField.required = true;
+            } else {
+                deliveryAddressField.required = false;
+            }
+            
             // Validate form
             const form = document.getElementById('checkoutForm');
             if (!form.checkValidity()) {
@@ -374,9 +517,31 @@
             window.location.href = 'order-confirmation.html';
         }
         
+        // Initialize selected state for default options
+        function initializeSelectedState() {
+            // Set Local Delivery as selected by default
+            const localDeliveryCard = document.querySelector('.delivery-option-card[onclick*="local"]');
+            if (localDeliveryCard) {
+                localDeliveryCard.classList.add('selected');
+            }
+            
+            // Set Card Payment as selected by default
+            const cardPaymentCard = document.querySelector('.payment-option-card[onclick*="card"]');
+            if (cardPaymentCard) {
+                cardPaymentCard.classList.add('selected');
+            }
+            
+            // Set delivery address as required by default (Local Delivery is default)
+            const deliveryAddressField = document.getElementById('deliveryAddress');
+            if (deliveryAddressField) {
+                deliveryAddressField.required = true;
+            }
+        }
+        
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
             loadOrderData();
+            initializeSelectedState();
             
             // Add event listeners
             document.querySelectorAll('input[name="deliveryMethod"]').forEach(radio => {
@@ -391,6 +556,13 @@
             
             // Initialize delivery method
             handleDeliveryMethodChange();
+            
+            // Listen for delivery settings updates
+            window.addEventListener('deliverySettingsUpdated', async function(event) {
+                console.log('Delivery settings updated, refreshing checkout totals...');
+                await updateDeliveryOptionDisplay();
+                await updateTotals();
+            });
             
             // Initialize selected states
             initializeSelectedStates();
@@ -412,7 +584,7 @@
         }
         
         // Delivery and Payment Selection Functions
-        function selectDelivery(type) {
+        async function selectDelivery(type, event) {
             // Remove selected class from all delivery options
             document.querySelectorAll('.delivery-option-card').forEach(card => {
                 card.classList.remove('selected');
@@ -432,14 +604,21 @@
                 orderData.deliveryMethod = type === 'local' ? 'Local Delivery' : 'Store Pickup';
             }
             
-            // Show/hide delivery address section
+            // Show/hide delivery address section and set required attribute
             const addressSection = document.getElementById('deliveryAddressSection');
+            const deliveryAddressField = document.getElementById('deliveryAddress');
             if (addressSection) {
                 addressSection.style.display = type === 'local' ? 'block' : 'none';
             }
+            if (deliveryAddressField) {
+                deliveryAddressField.required = type === 'local';
+            }
+            
+            // Update totals to reflect new delivery fee
+            await updateTotals();
         }
         
-        function selectPayment(type) {
+        function selectPayment(type, event) {
             // Remove selected class from all payment options
             document.querySelectorAll('.payment-option-card').forEach(card => {
                 card.classList.remove('selected');

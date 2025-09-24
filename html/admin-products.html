@@ -228,6 +228,22 @@
                                     </svg>
                                     <span>Bulk Upload</span>
                                 </button>
+                                
+                                <!-- Export Buttons -->
+                                <div class="flex flex-col sm:flex-row gap-2">
+                                    <button id="exportCatalogBtn" class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-3 px-4 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced flex items-center space-x-2">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                        <span>Export Catalog</span>
+                                    </button>
+                                    <button id="exportLowStockBtn" class="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-3 px-4 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced flex items-center space-x-2">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                        </svg>
+                                        <span>Low Stock Report</span>
+                                    </button>
+                                </div>
                                 <button id="bulkDeleteBtn" class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white py-3 px-6 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced flex items-center space-x-2">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
@@ -887,6 +903,51 @@
         </div>
     </div>
 
+    <!-- Export Format Selection Modal -->
+    <div id="exportFormatModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 hidden">
+        <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-1/3 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between pb-4 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-[#0e1a13]" id="exportModalTitle">Select Export Format</h3>
+                    <button id="closeExportModalBtn" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="mt-4">
+                    <p class="text-gray-600 mb-4" id="exportModalDescription">Choose the format for your export:</p>
+                    
+                    <div class="space-y-3">
+                        <button id="exportExcelBtn" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-3 px-4 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <span>Export as Excel (.xlsx)</span>
+                        </button>
+                        
+                        <button id="exportPdfBtn" class="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white py-3 px-4 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                            <span>Export as PDF (.html)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="mt-6 flex justify-end space-x-3">
+                    <button id="cancelExportBtn" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition-colors">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Global variables
         let products = [];
@@ -951,6 +1012,14 @@
             document.getElementById('closeBulkDeleteModalBtn').addEventListener('click', hideBulkDeleteModal);
             document.getElementById('cancelBulkDeleteBtn').addEventListener('click', hideBulkDeleteModal);
             document.getElementById('confirmDeleteCheckbox').addEventListener('change', handleDeleteCheckboxChange);
+            
+            // Export event listeners
+            document.getElementById('exportCatalogBtn').addEventListener('click', () => openExportModal('catalog'));
+            document.getElementById('exportLowStockBtn').addEventListener('click', () => openExportModal('low-stock'));
+            document.getElementById('closeExportModalBtn').addEventListener('click', closeExportModal);
+            document.getElementById('cancelExportBtn').addEventListener('click', closeExportModal);
+            document.getElementById('exportExcelBtn').addEventListener('click', handleExport);
+            document.getElementById('exportPdfBtn').addEventListener('click', handleExport);
             document.getElementById('proceedDeleteBtn').addEventListener('click', proceedToDeleteStep2);
             document.getElementById('deleteConfirmationInput').addEventListener('input', handleDeleteConfirmationInput);
             document.getElementById('confirmDeleteBtn').addEventListener('click', confirmBulkDelete);
@@ -2067,6 +2136,133 @@
                 cloudinaryInfo.innerHTML = `🧹 Also cleaned up ${data.cloudinaryFolderDeleted} images from Cloudinary folder`;
                 document.getElementById('deleteResults').appendChild(cloudinaryInfo);
             }
+        }
+
+        // Export functionality
+        let currentExportType = null;
+
+        function openExportModal(type) {
+            currentExportType = type;
+            const modal = document.getElementById('exportFormatModal');
+            const title = document.getElementById('exportModalTitle');
+            const description = document.getElementById('exportModalDescription');
+            
+            if (type === 'catalog') {
+                title.textContent = 'Export Book Catalog';
+                description.textContent = 'Choose the format for your book catalog export:';
+            } else if (type === 'low-stock') {
+                title.textContent = 'Export Low Stock Report';
+                description.textContent = 'Choose the format for your low stock report export:';
+            }
+            
+            modal.classList.remove('hidden');
+        }
+
+        function closeExportModal() {
+            document.getElementById('exportFormatModal').classList.add('hidden');
+            currentExportType = null;
+        }
+
+        async function handleExport(event) {
+            const format = event.target.id === 'exportExcelBtn' ? 'excel' : 'pdf';
+            const button = event.target;
+            const originalText = button.innerHTML;
+            
+            try {
+                // Show loading state
+                button.innerHTML = `
+                    <svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    <span>Exporting...</span>
+                `;
+                button.disabled = true;
+
+                // Determine the API endpoint
+                let endpoint;
+                if (currentExportType === 'catalog') {
+                    endpoint = format === 'excel' ? '/api/products/export/catalog/excel' : '/api/products/export/catalog/pdf';
+                } else if (currentExportType === 'low-stock') {
+                    endpoint = format === 'excel' ? '/api/products/export/low-stock/excel' : '/api/products/export/low-stock/pdf';
+                }
+
+                // Make API call
+                const response = await fetch(endpoint, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to export ${currentExportType} as ${format}`);
+                }
+
+                // Get the file content
+                const fileContent = await response.blob();
+                const contentType = response.headers.get('content-type');
+                
+                // Determine file extension
+                const fileExtension = format === 'excel' ? 'xlsx' : 'html';
+                
+                // Create and download the file
+                const url = window.URL.createObjectURL(fileContent);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${currentExportType}_export_${new Date().toISOString().split('T')[0]}.${fileExtension}`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+                // Show success message
+                showNotification(`${currentExportType} exported successfully as ${format.toUpperCase()}!`, 'success');
+                
+                // Close modal
+                closeExportModal();
+
+            } catch (error) {
+                console.error('Export error:', error);
+                showNotification(`Failed to export ${currentExportType}. Please try again.`, 'error');
+            } finally {
+                // Restore button state
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }
+        }
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm ${
+                type === 'success' ? 'bg-green-500 text-white' :
+                type === 'error' ? 'bg-red-500 text-white' :
+                type === 'warning' ? 'bg-yellow-500 text-white' :
+                'bg-blue-500 text-white'
+            }`;
+            
+            notification.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        ${type === 'success' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>' :
+                          type === 'error' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>' :
+                          type === 'warning' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>' :
+                          '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>'}
+                    </svg>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            // Add to page
+            document.body.appendChild(notification);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 5000);
         }
     </script>
 </body>

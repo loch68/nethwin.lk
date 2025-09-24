@@ -345,6 +345,30 @@
                                     <span class="text-sm text-gray-600">Total Orders:</span>
                                     <span class="ml-2 font-bold text-[#0e1a13]" id="totalOrdersCount">0</span>
                                 </div>
+                                
+                                <!-- Export Buttons -->
+                                <div class="flex items-center space-x-2">
+                                    <button
+                                        onclick="exportPrintOrdersCSV()"
+                                        class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-2"
+                                        title="Export all print orders to CSV"
+                                    >
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                        <span>Export CSV</span>
+                                    </button>
+                                    <button
+                                        onclick="exportPrintOrdersPDF()"
+                                        class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-2"
+                                        title="Export all print orders to PDF"
+                                    >
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                        </svg>
+                                        <span>Export PDF</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
@@ -758,6 +782,146 @@
                 // Redirect to main website as new user
                 window.location.href = 'index.html';
             }
+        }
+
+        // Export print orders as CSV
+        async function exportPrintOrdersCSV() {
+            try {
+                // Show loading state
+                const button = document.querySelector('button[onclick="exportPrintOrdersCSV()"]');
+                const originalText = button.innerHTML;
+                button.innerHTML = `
+                    <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    <span>Exporting...</span>
+                `;
+                button.disabled = true;
+
+                // Make API call to export CSV
+                const response = await fetch('/api/admin/print-orders/export/csv', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    }
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Server error:', response.status, errorText);
+                    throw new Error(`Failed to export CSV: ${response.status} ${errorText}`);
+                }
+
+                // Get the CSV content
+                const csvContent = await response.text();
+
+                // Create and download the file
+                const blob = new Blob([csvContent], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'print-orders-export.csv';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+                // Show success notification
+                showNotification('Print orders CSV exported successfully!', 'success');
+
+            } catch (error) {
+                console.error('CSV export error:', error);
+                showNotification('Failed to export CSV. Please try again.', 'error');
+            } finally {
+                // Restore button state
+                const button = document.querySelector('button[onclick="exportPrintOrdersCSV()"]');
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }
+        }
+
+        // Export print orders as PDF (HTML)
+        async function exportPrintOrdersPDF() {
+            try {
+                // Show loading state
+                const button = document.querySelector('button[onclick="exportPrintOrdersPDF()"]');
+                const originalText = button.innerHTML;
+                button.innerHTML = `
+                    <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    <span>Exporting...</span>
+                `;
+                button.disabled = true;
+
+                // Make API call to export PDF
+                const response = await fetch('/api/admin/print-orders/export/pdf', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    }
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Server error:', response.status, errorText);
+                    throw new Error(`Failed to export PDF: ${response.status} ${errorText}`);
+                }
+
+                // Get the HTML content
+                const htmlContent = await response.text();
+
+                // Create and download the file
+                const blob = new Blob([htmlContent], { type: 'text/html' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'print-orders-report.html';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+                // Show success notification
+                showNotification('Print orders PDF exported successfully!', 'success');
+
+            } catch (error) {
+                console.error('PDF export error:', error);
+                showNotification('Failed to export PDF. Please try again.', 'error');
+            } finally {
+                // Restore button state
+                const button = document.querySelector('button[onclick="exportPrintOrdersPDF()"]');
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }
+        }
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-lg text-white font-medium transition-all duration-300 transform translate-x-full ${
+                type === 'success' ? 'bg-green-500' : 
+                type === 'error' ? 'bg-red-500' : 
+                type === 'warning' ? 'bg-yellow-500' : 'bg-blue-500'
+            }`;
+            notification.textContent = message;
+
+            // Add to page
+            document.body.appendChild(notification);
+
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
         }
     </script>
 </body>

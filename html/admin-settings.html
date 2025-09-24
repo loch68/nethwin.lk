@@ -683,52 +683,78 @@
         }
 
         // Delivery Settings Functions
-        function loadDeliverySettings() {
+        async function loadDeliverySettings() {
             try {
-                const settings = JSON.parse(localStorage.getItem('nethwin_delivery_settings') || '{}');
-                
-                document.getElementById('localDeliveryPrice').value = settings.localDeliveryPrice || 0;
-                document.getElementById('deliveryRadius').value = settings.deliveryRadius || 10;
-                document.getElementById('deliveryDescription').value = settings.deliveryDescription || 'Within 10km - Free delivery';
-                
-                updateCurrentDeliverySettingsDisplay();
-            } catch (e) {
-                console.error('Error loading delivery settings:', e);
+                const response = await fetch('/api/delivery-settings');
+                if (response.ok) {
+                    const data = await response.json();
+                    const settings = data.data;
+                    
+                    document.getElementById('localDeliveryPrice').value = settings.localDeliveryPrice || 0;
+                    document.getElementById('deliveryRadius').value = settings.deliveryRadius || 10;
+                    document.getElementById('deliveryDescription').value = `Within ${settings.deliveryRadius || 10}km - ${settings.localDeliveryPrice > 0 ? `LKR ${settings.localDeliveryPrice}` : 'Free delivery'}`;
+                    
+                    updateCurrentDeliverySettingsDisplay(settings);
+                } else {
+                    console.error('Error loading delivery settings from API');
+                    // Fallback to localStorage
+                    const settings = JSON.parse(localStorage.getItem('nethwin_delivery_settings') || '{}');
+                    document.getElementById('localDeliveryPrice').value = settings.localDeliveryPrice || 0;
+                    document.getElementById('deliveryRadius').value = settings.deliveryRadius || 10;
+                    document.getElementById('deliveryDescription').value = settings.deliveryDescription || 'Within 10km - Free delivery';
+                    updateCurrentDeliverySettingsDisplay(settings);
+                }
+            } catch (error) {
+                console.error('Error loading delivery settings:', error);
             }
         }
 
-        function saveDeliverySettings() {
+        async function saveDeliverySettings() {
             try {
                 const settings = {
                     localDeliveryPrice: parseFloat(document.getElementById('localDeliveryPrice').value) || 0,
                     deliveryRadius: parseInt(document.getElementById('deliveryRadius').value) || 10,
-                    deliveryDescription: document.getElementById('deliveryDescription').value || 'Within 10km - Free delivery',
-                    lastUpdated: new Date().toISOString()
+                    deliveryDescription: document.getElementById('deliveryDescription').value || 'Within 10km - Free delivery'
                 };
                 
-                localStorage.setItem('nethwin_delivery_settings', JSON.stringify(settings));
+                const response = await fetch('/api/admin/delivery-settings', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    },
+                    body: JSON.stringify(settings)
+                });
                 
-                showMessage('Delivery settings saved successfully!', 'success');
-                updateCurrentDeliverySettingsDisplay();
+                if (response.ok) {
+                    const data = await response.json();
+                    showMessage('Delivery settings saved successfully! All existing print orders have been updated.', 'success');
+                    updateCurrentDeliverySettingsDisplay(data.data);
+                    
+                    // Update all pages that use delivery pricing
+                    updateAllPagesDeliveryPricing();
+                } else {
+                    const errorData = await response.json();
+                    showMessage(`Error saving settings: ${errorData.error}`, 'error');
+                }
                 
-                // Update all pages that use delivery pricing
-                updateAllPagesDeliveryPricing();
-                
-            } catch (e) {
-                console.error('Error saving delivery settings:', e);
+            } catch (error) {
+                console.error('Error saving delivery settings:', error);
                 showMessage('Error saving settings. Please try again.', 'error');
             }
         }
 
-        function updateCurrentDeliverySettingsDisplay() {
+        function updateCurrentDeliverySettingsDisplay(settings = null) {
             try {
-                const settings = JSON.parse(localStorage.getItem('nethwin_delivery_settings') || '{}');
+                if (!settings) {
+                    settings = JSON.parse(localStorage.getItem('nethwin_delivery_settings') || '{}');
+                }
                 const container = document.getElementById('currentDeliverySettings');
                 
                 const price = settings.localDeliveryPrice || 0;
                 const radius = settings.deliveryRadius || 10;
-                const description = settings.deliveryDescription || 'Within 10km - Free delivery';
-                const lastUpdated = settings.lastUpdated ? new Date(settings.lastUpdated).toLocaleString() : 'Never';
+                const description = settings.deliveryDescription || `Within ${radius}km - ${price > 0 ? `LKR ${price}` : 'Free delivery'}`;
+                const lastUpdated = settings.updatedAt ? new Date(settings.updatedAt).toLocaleString() : 'Never';
                 
                 container.innerHTML = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -758,7 +784,7 @@
         function updateAllPagesDeliveryPricing() {
             const event = new CustomEvent('deliverySettingsUpdated', {
                 detail: {
-                    settings: JSON.parse(localStorage.getItem('nethwin_delivery_settings') || '{}')
+                    message: 'Delivery settings have been updated. Please refresh the print page to see new pricing.'
                 }
             });
             window.dispatchEvent(event);

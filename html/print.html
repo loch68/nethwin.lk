@@ -1635,6 +1635,18 @@
             formData.append('document', documentInput.files[0]);
           }
 
+          // Add calculated estimated price from frontend
+          const estimatedPriceElement = document.getElementById('estimatedPrice');
+          if (estimatedPriceElement) {
+            const priceText = estimatedPriceElement.textContent;
+            const priceMatch = priceText.match(/Rs\.\s*(\d+)/);
+            if (priceMatch) {
+              const calculatedPrice = parseInt(priceMatch[1]);
+              formData.append('estimatedPrice', calculatedPrice);
+              console.log('Adding calculated estimated price:', calculatedPrice);
+            }
+          }
+
           // Debug: Log form data being sent
           console.log('Form data being sent:');
           for (let [key, value] of formData.entries()) {
@@ -1678,17 +1690,21 @@
         });
 
         // Delivery pricing management
-        function getDeliveryPrice() {
+        async function getDeliveryPrice() {
             try {
-                const settings = JSON.parse(localStorage.getItem('nethwin_delivery_settings') || '{}');
-                return settings.localDeliveryPrice || 0;
-            } catch {
-                return 0;
+                const response = await fetch('/api/delivery-settings');
+                if (response.ok) {
+                    const data = await response.json();
+                    return data.data?.localDeliveryPrice || 0;
+                }
+            } catch (error) {
+                console.error('Error fetching delivery settings:', error);
             }
+            return 0;
         }
 
-        function updateDeliveryPrice() {
-            const price = getDeliveryPrice();
+        async function updateDeliveryPrice() {
+            const price = await getDeliveryPrice();
             const priceElement = document.getElementById('printDeliveryPrice');
             if (priceElement) {
                 if (price > 0) {
@@ -1700,24 +1716,32 @@
             
             // Update pricing data
             pricingData.delivery[0].price = price;
+            
+            // Recalculate price if pricing calculator is active
+            if (typeof calculatePrice === 'function') {
+                calculatePrice();
+            }
         }
 
-        function loadDeliverySettings() {
-            updateDeliveryPrice();
+        async function loadDeliverySettings() {
+            await updateDeliveryPrice();
             updateDeliveryRadius();
         }
 
-        function updateDeliveryRadius() {
+        async function updateDeliveryRadius() {
             try {
-                const settings = JSON.parse(localStorage.getItem('nethwin_delivery_settings') || '{}');
-                const radius = settings.deliveryRadius || 10;
-                
-                const radiusElement = document.getElementById('printDeliveryRadius');
-                if (radiusElement) {
-                    radiusElement.textContent = radius;
+                const response = await fetch('/api/delivery-settings');
+                if (response.ok) {
+                    const data = await response.json();
+                    const radius = data.data?.deliveryRadius || 10;
+                    
+                    const radiusElement = document.getElementById('printDeliveryRadius');
+                    if (radiusElement) {
+                        radiusElement.textContent = `${radius} km`;
+                    }
                 }
-            } catch (e) {
-                console.error('Error updating delivery radius:', e);
+            } catch (error) {
+                console.error('Error loading delivery radius:', error);
             }
         }
 

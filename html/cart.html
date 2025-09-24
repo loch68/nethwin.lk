@@ -146,6 +146,74 @@
             background-clip: text;
         }
         
+        /* Delivery Option Cards - Equal Heights */
+        .delivery-option-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .delivery-option-card > div {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .delivery-option-card .flex.items-start.gap-4 {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .delivery-option-card .flex-1 {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        /* Delivery option card circles - show color when selected */
+        .delivery-option-card[onclick*="local"].selected .absolute.top-3.right-3 {
+            border-color: #10b981;
+        }
+        .delivery-option-card[onclick*="local"].selected .absolute.top-3.right-3 > div {
+            opacity: 1;
+            background-color: #10b981;
+        }
+        
+        .delivery-option-card[onclick*="pickup"].selected .absolute.top-3.right-3 {
+            border-color: #3b82f6;
+        }
+        .delivery-option-card[onclick*="pickup"].selected .absolute.top-3.right-3 > div {
+            opacity: 1;
+            background-color: #3b82f6;
+        }
+        
+        /* Payment option card circles - show color when selected */
+        .payment-option-card[onclick*="card"].selected .absolute.top-3.right-3 {
+            border-color: #3b82f6;
+        }
+        .payment-option-card[onclick*="card"].selected .absolute.top-3.right-3 > div {
+            opacity: 1;
+            background-color: #3b82f6;
+        }
+        
+        .payment-option-card[onclick*="cod"].selected .absolute.top-3.right-3 {
+            border-color: #10b981;
+        }
+        .payment-option-card[onclick*="cod"].selected .absolute.top-3.right-3 > div {
+            opacity: 1;
+            background-color: #10b981;
+        }
+        
+        .payment-option-card[onclick*="qr"].selected .absolute.top-3.right-3 {
+            border-color: #8b5cf6;
+        }
+        .payment-option-card[onclick*="qr"].selected .absolute.top-3.right-3 > div {
+            opacity: 1;
+            background-color: #8b5cf6;
+        }
+        
         /* Force background colors for selected options */
         .delivery-option-card.selected {
             background-color: #f0fdf4 !important; /* Light green for Local Delivery */
@@ -199,15 +267,22 @@
                                 </h2><!-- Cart Items Container --><div id="cartItems" class="space-y-4"><!-- Items will be dynamically inserted here --></div><!-- Empty Cart State --><div id="emptyCart" class="empty-cart p-12 text-center hidden"><div class="mb-6"><svg class="w-24 h-24 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path></svg></div><h3 class="text-xl font-semibold text-gray-700 mb-2">Your cart is empty</h3><p class="text-gray-500 mb-6">Looks like you haven't added any items to your cart yet.</p><a href="bookshop.html" class="inline-flex items-center gap-2 px-6 py-3 bg-[#19e619] text-white rounded-xl font-semibold hover:bg-[#16d616] transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                                         Start Shopping</a></div></div><!-- Delivery Options --><div class="cart-container p-6 mt-6"><h3 class="section-title text-xl font-bold mb-6 flex items-center gap-3"><div class="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg></div>
                                     Delivery Options
-                                </h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><label class="delivery-option-card group cursor-pointer" onclick="selectDelivery('local')"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="delivery" value="local" class="sr-only" checked><div class="flex items-start gap-4"><div class="w-12 h-12 bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg flex items-center justify-center group-hover:from-green-200 group-hover:to-emerald-200 transition-colors"><svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg></div><div class="flex-1"><h4 class="font-bold text-gray-800 text-lg mb-1">Local Delivery</h4><p class="text-sm text-gray-600 mb-3">Within <span id="deliveryRadius">10</span>km radius from our store</p><div class="flex items-center justify-between"><div class="flex items-center gap-2"><svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span class="text-sm text-green-600 font-medium">Estimated 1-2 days</span></div><span id="localDeliveryPrice" class="text-lg font-bold text-green-600">LKR 0.00</span></div></div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-green-500 transition-colors"><div class="w-full h-full rounded-full bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="delivery-option-card group cursor-pointer" onclick="selectDelivery('pickup')"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-blue-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="delivery" value="pickup" class="sr-only"><div class="flex items-start gap-4"><div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg flex items-center justify-center group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors"><svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg></div><div class="flex-1"><h4 class="font-bold text-gray-800 text-lg mb-1">Store Pickup</h4><p class="text-sm text-gray-600 mb-3">Collect from our physical store</p><p class="text-sm text-gray-500 mb-3">Available during store hours</p><div class="flex items-center justify-between"><div class="flex items-center gap-2"><svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span class="text-sm text-blue-600 font-medium">Ready in 2-4 hours</span></div><span class="text-lg font-bold text-green-600">Free</span></div></div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-blue-500 transition-colors"><div class="w-full h-full rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label></div></div><!-- Payment Method --><div class="cart-container p-6 mt-6"><h3 class="section-title text-xl font-bold mb-6 flex items-center gap-3"><div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg></div>
+                                </h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><label class="delivery-option-card group cursor-pointer" onclick="selectDelivery('local', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="delivery" value="local" class="sr-only" checked><div class="flex items-start gap-4"><div class="w-12 h-12 bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg flex items-center justify-center group-hover:from-green-200 group-hover:to-emerald-200 transition-colors"><svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg></div><div class="flex-1"><h4 class="font-bold text-gray-800 text-lg mb-1">Local Delivery</h4><p class="text-sm text-gray-600 mb-3">Within <span id="deliveryRadius">10</span>km radius from our store</p><p class="text-sm text-gray-500 mb-3">Available during business hours</p><div class="flex items-center justify-between"><div class="flex items-center gap-2"><svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span class="text-sm text-green-600 font-medium">Estimated 1-2 days</span></div><span id="localDeliveryPrice" class="text-lg font-bold text-green-600">LKR 0.00</span></div></div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-green-500 transition-colors"><div class="w-full h-full rounded-full bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="delivery-option-card group cursor-pointer" onclick="selectDelivery('pickup', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-blue-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="delivery" value="pickup" class="sr-only"><div class="flex items-start gap-4"><div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg flex items-center justify-center group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors"><svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg></div><div class="flex-1"><h4 class="font-bold text-gray-800 text-lg mb-1">Store Pickup</h4><p class="text-sm text-gray-600 mb-3">Collect from our physical store</p><p class="text-sm text-gray-500 mb-3">Available during store hours</p><div class="flex items-center justify-between"><div class="flex items-center gap-2"><svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span class="text-sm text-blue-600 font-medium">Ready in 2-4 hours</span></div><span class="text-lg font-bold text-green-600">Free</span></div></div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-blue-500 transition-colors"><div class="w-full h-full rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label></div></div><!-- Payment Method --><div class="cart-container p-6 mt-6"><h3 class="section-title text-xl font-bold mb-6 flex items-center gap-3"><div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg></div>
                                     Payment Method
-                                </h3><div class="grid grid-cols-1 md:grid-cols-3 gap-6"><label class="payment-option-card group cursor-pointer" onclick="selectPayment('card')"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-blue-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="payment" value="card" class="sr-only" checked><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors"><svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">Card Payment</h4><p class="text-sm text-gray-600 mb-4">Visa, Mastercard, Amex</p><div class="w-16 h-6 bg-blue-500 rounded text-white text-xs flex items-center justify-center font-bold">CARD</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-blue-500 transition-colors"><div class="w-full h-full rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="payment-option-card group cursor-pointer" onclick="selectPayment('cod')"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="payment" value="cod" class="sr-only"><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-green-200 group-hover:to-emerald-200 transition-colors"><svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">Cash on Delivery</h4><p class="text-sm text-gray-600 mb-4">Pay when delivered</p><div class="w-16 h-6 bg-green-500 rounded text-white text-xs flex items-center justify-center font-bold">COD</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-green-500 transition-colors"><div class="w-full h-full rounded-full bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="payment-option-card group cursor-pointer" onclick="selectPayment('qr')"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-purple-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="payment" value="qr" class="sr-only"><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-violet-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-purple-200 group-hover:to-violet-200 transition-colors"><svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">QR Payment</h4><p class="text-sm text-gray-600 mb-4">Scan QR code to pay</p><div class="w-16 h-6 bg-purple-500 rounded text-white text-xs flex items-center justify-center font-bold">QR</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-purple-500 transition-colors"><div class="w-full h-full rounded-full bg-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label></div></div></div><!-- Order Summary --><div class="lg:col-span-1"><div class="summary-card p-6 sticky top-24"><h3 class="section-title text-xl font-bold mb-6 flex items-center gap-3"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                                </h3><div class="grid grid-cols-1 md:grid-cols-3 gap-6"><label class="payment-option-card group cursor-pointer" onclick="selectPayment('card', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-blue-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="payment" value="card" class="sr-only" checked><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors"><svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">Card Payment</h4><p class="text-sm text-gray-600 mb-4">Visa, Mastercard, Amex</p><div class="w-16 h-6 bg-blue-500 rounded text-white text-xs flex items-center justify-center font-bold">CARD</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-blue-500 transition-colors"><div class="w-full h-full rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="payment-option-card group cursor-pointer" onclick="selectPayment('cod', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="payment" value="cod" class="sr-only"><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-green-200 group-hover:to-emerald-200 transition-colors"><svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">Cash on Delivery</h4><p class="text-sm text-gray-600 mb-4">Pay when delivered</p><div class="w-16 h-6 bg-green-500 rounded text-white text-xs flex items-center justify-center font-bold">COD</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-green-500 transition-colors"><div class="w-full h-full rounded-full bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="payment-option-card group cursor-pointer" onclick="selectPayment('qr', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-purple-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="payment" value="qr" class="sr-only"><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-violet-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-purple-200 group-hover:to-violet-200 transition-colors"><svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">QR Payment</h4><p class="text-sm text-gray-600 mb-4">Scan QR code to pay</p><div class="w-16 h-6 bg-purple-500 rounded text-white text-xs flex items-center justify-center font-bold">QR</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-purple-500 transition-colors"><div class="w-full h-full rounded-full bg-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label></div></div></div><!-- Order Summary --><div class="lg:col-span-1"><div class="summary-card p-6 sticky top-24"><h3 class="section-title text-xl font-bold mb-6 flex items-center gap-3"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                                     Order Summary
                                 </h3><div class="space-y-4 mb-6"><div class="flex justify-between items-center py-2"><span class="text-gray-600">Subtotal</span><span id="subtotal" class="font-semibold text-gray-800">LKR 0.00</span></div><div class="flex justify-between items-center py-2"><span class="text-gray-600">Delivery</span><span id="delivery" class="font-semibold text-gray-800">LKR 0.00</span></div><div class="border-t border-gray-200 pt-4"><div class="flex justify-between items-center"><span class="text-lg font-bold text-gray-800">Total</span><span id="total" class="text-xl font-bold text-[#19e619]">LKR 0.00</span></div></div></div><div class="space-y-3"><a href="bookshop.html" class="block"><button class="continue-btn w-full py-3 px-4 rounded-xl font-semibold text-gray-700 flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                                             Continue Shopping
                 </button></a><button id="checkoutBtn" class="checkout-btn w-full py-3 px-4 rounded-xl font-semibold text-white flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                         Proceed to Checkout
-                                    </button></div></div></div></div></div></div></div></div><script src="../javascript/navbar.js"></script><script src="../javascript/cart-utils.js"></script><script src="../javascript/background-animations.js"></script><script src="../javascript/auth.js"></script><script>
+                                    </button>
+                                    <button id="downloadCartSummaryBtn" class="w-full py-3 px-4 rounded-xl font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 flex items-center justify-center gap-2 transition-all duration-200">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                        Download Cart Summary
+                                    </button>
+                                </div></div></div></div></div></div></div></div><script src="../javascript/navbar.js"></script><script src="../javascript/cart-utils.js"></script><script src="../javascript/background-animations.js"></script><script src="../javascript/auth.js"></script><script>
       // Initialize auth system
       document.addEventListener('DOMContentLoaded', function() {
           initializeAuth();
@@ -231,6 +306,12 @@
         renderCart();
             updateCartCount();
             loadDeliverySettings();
+            
+            // Listen for delivery settings updates
+            window.addEventListener('deliverySettingsUpdated', async function(event) {
+                console.log('Delivery settings updated, refreshing cart totals...');
+                await updateOrderSummary();
+            });
       });
 
       function getCart() {
@@ -280,41 +361,67 @@
             }
         }
 
-        function updateDeliveryPrice() {
-            const price = getDeliveryPrice();
+        async function updateDeliveryPrice() {
+            console.log('Updating delivery price...');
+            const price = await getDeliveryCost();
+            console.log('Delivery price from API:', price);
             const priceElement = document.getElementById('localDeliveryPrice');
             if (priceElement) {
                 if (price > 0) {
                     priceElement.textContent = `LKR ${price.toFixed(2)}`;
+                    console.log('Updated delivery price display to:', priceElement.textContent);
                 } else {
                     priceElement.textContent = 'Free';
+                    console.log('Updated delivery price display to: Free');
                 }
+            } else {
+                console.error('localDeliveryPrice element not found');
             }
         }
 
-        function loadDeliverySettings() {
-            updateDeliveryPrice();
-            updateDeliveryRadius();
+        async function loadDeliverySettings() {
+            console.log('Loading delivery settings...');
+            await updateDeliveryPrice();
+            await updateDeliveryRadius();
+            console.log('Delivery settings loaded');
         }
 
-        function updateDeliveryRadius() {
+        async function updateDeliveryRadius() {
             try {
-                const settings = JSON.parse(localStorage.getItem('nethwin_delivery_settings') || '{}');
-                const radius = settings.deliveryRadius || 10;
-                
-                const radiusElement = document.getElementById('deliveryRadius');
-                if (radiusElement) {
-                    radiusElement.textContent = radius;
+                console.log('Updating delivery radius...');
+                const response = await fetch('/api/delivery-settings');
+                if (response.ok) {
+                    const data = await response.json();
+                    const radius = data.data?.deliveryRadius || 10;
+                    console.log('Delivery radius from API:', radius);
+                    
+                    const radiusElement = document.getElementById('deliveryRadius');
+                    if (radiusElement) {
+                        radiusElement.textContent = radius;
+                        console.log('Updated delivery radius display to:', radius);
+                    } else {
+                        console.error('deliveryRadius element not found');
+                    }
+                } else {
+                    console.log('API failed, using localStorage fallback');
+                    // Fallback to localStorage
+                    const settings = JSON.parse(localStorage.getItem('nethwin_delivery_settings') || '{}');
+                    const radius = settings.deliveryRadius || 10;
+                    
+                    const radiusElement = document.getElementById('deliveryRadius');
+                    if (radiusElement) {
+                        radiusElement.textContent = radius;
+                    }
                 }
-            } catch (e) {
-                console.error('Error updating delivery radius:', e);
+            } catch (error) {
+                console.error('Error updating delivery radius:', error);
             }
         }
 
         // Listen for delivery settings updates from admin panel
-        window.addEventListener('deliverySettingsUpdated', function(event) {
+        window.addEventListener('deliverySettingsUpdated', async function(event) {
             console.log('Delivery settings updated, refreshing cart page...');
-            loadDeliverySettings();
+            await loadDeliverySettings();
         });
 
       function renderCart() {
@@ -352,11 +459,11 @@
             updateSummary(subtotal);
         }
 
-        function updateSummary(subtotal) {
-        document.getElementById('subtotal').textContent = `LKR ${subtotal.toFixed(2)}`;
+        async function updateSummary(subtotal) {
+            document.getElementById('subtotal').textContent = `LKR ${subtotal.toFixed(2)}`;
             
             // Calculate delivery cost based on selected delivery method
-            const deliveryCost = getDeliveryCost();
+            const deliveryCost = await getDeliveryCost();
             document.getElementById('delivery').textContent = `LKR ${deliveryCost.toFixed(2)}`;
             document.getElementById('total').textContent = `LKR ${(subtotal + deliveryCost).toFixed(2)}`;
         }
@@ -372,17 +479,28 @@
             return total;
         }
 
-        function getDeliveryCost() {
+        async function getDeliveryCost() {
             const selectedDelivery = document.querySelector('input[name="delivery"]:checked');
             if (!selectedDelivery) return 0;
             
             if (selectedDelivery.value === 'local') {
-                // Get delivery price from localStorage
+                // Get delivery price from API
                 try {
-                    const settings = JSON.parse(localStorage.getItem('nethwin_delivery_settings') || '{}');
-                    return settings.localDeliveryPrice || 0;
-                } catch (e) {
-                    return 0;
+                    const response = await fetch('/api/delivery-settings');
+                    if (response.ok) {
+                        const data = await response.json();
+                        return data.data?.localDeliveryPrice || 0;
+                    }
+                } catch (error) {
+                    console.error('Error fetching delivery price:', error);
+                    // Fallback to localStorage
+                    try {
+                        const settings = JSON.parse(localStorage.getItem('nethwin_delivery_settings') || '{}');
+                        return settings.localDeliveryPrice || 0;
+                    } catch (e) {
+                        console.error('Error getting delivery price from localStorage:', e);
+                        return 0;
+                    }
                 }
             } else if (selectedDelivery.value === 'pickup') {
                 return 0; // Store pickup is free
@@ -391,7 +509,7 @@
             return 0;
         }
 
-        function updateOrderSummary() {
+        async function updateOrderSummary() {
             // Recalculate subtotal and update summary
             const items = getCart();
             let subtotal = 0;
@@ -400,7 +518,7 @@
                 const qty = item.qty || item.quantity || 1;
                 subtotal += price * qty;
             });
-            updateSummary(subtotal);
+            await updateSummary(subtotal);
       }
 
       function changeQty(index, delta) {
@@ -424,7 +542,21 @@
         renderCart();
       }
 
-        function selectDelivery(type) {
+        async function selectDelivery(type, event) {
+            // Remove selected class from all delivery options
+            document.querySelectorAll('.delivery-option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            event.currentTarget.classList.add('selected');
+            
+            // Update radio button
+            const radio = event.currentTarget.querySelector('input[type="radio"]');
+            if (radio) {
+                radio.checked = true;
+            }
+            
             document.querySelectorAll('input[name="delivery"]').forEach(radio => {
                 radio.checked = radio.value === type;
             });
@@ -467,11 +599,26 @@
             });
             
             // Update order summary with delivery cost
-            updateOrderSummary();
+            await updateOrderSummary();
         }
 
-        function selectPayment(type) {
+        function selectPayment(type, event) {
             console.log('Selecting payment:', type);
+            
+            // Remove selected class from all payment options
+            document.querySelectorAll('.payment-option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            event.currentTarget.classList.add('selected');
+            
+            // Update radio button
+            const radio = event.currentTarget.querySelector('input[type="radio"]');
+            if (radio) {
+                radio.checked = true;
+            }
+            
             document.querySelectorAll('input[name="payment"]').forEach(radio => {
                 radio.checked = radio.value === type;
             });
@@ -564,6 +711,10 @@
             }
             
             // Prepare order data
+            const subtotal = calculateTotal();
+            const deliveryCost = await getDeliveryCost();
+            const total = subtotal + deliveryCost;
+            
             const orderData = {
                 items: cart.map(item => ({
                     productId: item.id,
@@ -572,11 +723,12 @@
                     quantity: item.qty || item.quantity || 1,
                     image: item.image
                 })),
-                total: calculateTotal(),
+                subtotal: subtotal, // Original subtotal without delivery
+                deliveryFee: deliveryCost, // Delivery fee from cart
+                total: total, // Total including delivery
                 deliveryMethod: deliveryMethod === 'local' ? 'Local Delivery' : 'Store Pickup',
                 paymentMethod: paymentMethod === 'cod' ? 'Cash on Delivery' : 'Card Payment',
-                deliveryAddress: deliveryMethod === 'local' ? prompt('Please enter your delivery address:') : null,
-                deliveryFee: deliveryMethod === 'local' ? getDeliveryFee() : 0,
+                deliveryAddress: null, // Will be collected on checkout page
                 customerName: userDetails.name || '',
                 customerEmail: userDetails.email || '',
                 customerPhone: userDetails.phoneNumber || userDetails.phone || ''
@@ -634,6 +786,119 @@
             const deliverySettings = JSON.parse(localStorage.getItem('deliverySettings') || '{}');
             return deliverySettings.deliveryFee || 0;
         }
+
+        // Download cart summary as PDF
+        async function downloadCartSummary() {
+            const cart = getCart();
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            const button = document.getElementById('downloadCartSummaryBtn');
+            const originalText = button.innerHTML;
+            
+            try {
+                // Show loading state
+                button.innerHTML = `
+                    <svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    <span>Generating...</span>
+                `;
+                button.disabled = true;
+
+                // Prepare cart data
+                const cartData = {
+                    items: cart.map(item => ({
+                        name: item.name || 'Unknown Item',
+                        quantity: item.quantity || 0,
+                        price: item.price || 0,
+                        subtotal: (item.price || 0) * (item.quantity || 0)
+                    })),
+                    subtotal: cart.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 0)), 0),
+                    deliveryFee: getDeliveryFee() || 0,
+                    total: cart.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 0)), 0) + (getDeliveryFee() || 0)
+                };
+
+                console.log('Cart data being sent:', cartData);
+
+                // Make API call to generate cart summary
+                const response = await fetch('/api/cart/export/summary', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    },
+                    body: JSON.stringify(cartData)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Server error:', response.status, errorText);
+                    throw new Error(`Failed to generate cart summary: ${response.status} ${errorText}`);
+                }
+
+                // Get the HTML content
+                const htmlContent = await response.text();
+
+                // Create and download the file
+                const blob = new Blob([htmlContent], { type: 'text/html' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `cart_summary_${new Date().toISOString().split('T')[0]}.html`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+                // Show success message
+                showNotification('Cart summary downloaded successfully!', 'success');
+
+            } catch (error) {
+                console.error('Cart summary export error:', error);
+                showNotification('Failed to download cart summary. Please try again.', 'error');
+            } finally {
+                // Restore button state
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }
+        }
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm ${
+                type === 'success' ? 'bg-green-500 text-white' :
+                type === 'error' ? 'bg-red-500 text-white' :
+                type === 'warning' ? 'bg-yellow-500 text-white' :
+                'bg-blue-500 text-white'
+            }`;
+            
+            notification.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        ${type === 'success' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>' :
+                          type === 'error' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>' :
+                          type === 'warning' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>' :
+                          '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>'}
+                    </svg>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            // Add to page
+            document.body.appendChild(notification);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 5000);
+        }
         
         // Add event listener for checkout button
         document.addEventListener('DOMContentLoaded', function() {
@@ -641,11 +906,26 @@
             if (checkoutBtn) {
                 checkoutBtn.addEventListener('click', handleCheckout);
             }
+            
+            // Add event listener for cart summary download button
+            const downloadCartSummaryBtn = document.getElementById('downloadCartSummaryBtn');
+            if (downloadCartSummaryBtn) {
+                downloadCartSummaryBtn.addEventListener('click', downloadCartSummary);
+            }
         });
 
         // Initialize selected states
         document.addEventListener('DOMContentLoaded', function() {
-            selectDelivery('local');
-            selectPayment('card');
+            // Set Local Delivery as selected by default
+            const localDeliveryCard = document.querySelector('.delivery-option-card[onclick*="local"]');
+            if (localDeliveryCard) {
+                localDeliveryCard.classList.add('selected');
+            }
+            
+            // Set Card Payment as selected by default
+            const cardPaymentCard = document.querySelector('.payment-option-card[onclick*="card"]');
+            if (cardPaymentCard) {
+                cardPaymentCard.classList.add('selected');
+            }
         });
     </script></body></html>

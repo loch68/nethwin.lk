@@ -130,6 +130,7 @@ const Review = require('./src/models/Review');
 const Message = require('./src/models/Message');
 const PrintOrder = require('./src/models/PrintOrder');
 const HeroImage = require('./src/models/HeroImage');
+const DeliverySettings = require('./src/models/DeliverySettings');
 
 // Pricing data
 const pricingData = {
@@ -1043,6 +1044,812 @@ app.get('/api/users', async (req, res) => {
   const users = await User.find(filter).sort({ createdAt: -1 }).lean();
   res.json({ users });
 });
+
+// User Export Endpoints
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+const jsPDF = require('jspdf');
+
+// Export all users to CSV
+app.get('/api/users/export/csv', async (req, res) => {
+  try {
+    const users = await User.find({}).sort({ createdAt: -1 }).lean();
+    
+    // Prepare CSV data
+    const csvData = users.map(user => ({
+      _id: user._id,
+      fullName: user.fullName || '',
+      email: user.email || '',
+      phoneNumber: user.phoneNumber || '',
+      role: user.role || '',
+      status: user.status || '',
+      customerType: user.customerType || '',
+      createdAt: user.createdAt ? new Date(user.createdAt).toLocaleDateString() : '',
+      updatedAt: user.updatedAt ? new Date(user.updatedAt).toLocaleDateString() : ''
+    }));
+
+    // Set response headers for CSV download
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', `attachment; filename="users_export_${new Date().toISOString().split('T')[0]}.csv"`);
+
+    // Create CSV content
+    const headers = ['User ID', 'Full Name', 'Email', 'Phone Number', 'Role', 'Status', 'Customer Type', 'Created At', 'Last Updated'];
+    const csvContent = [
+      headers.join(','),
+      ...csvData.map(row => [
+        `"${row._id}"`,
+        `"${row.fullName}"`,
+        `"${row.email}"`,
+        `"${row.phoneNumber}"`,
+        `"${row.role}"`,
+        `"${row.status}"`,
+        `"${row.customerType}"`,
+        `"${row.createdAt}"`,
+        `"${row.updatedAt}"`
+      ].join(','))
+    ].join('\n');
+
+    res.send(csvContent);
+  } catch (error) {
+    console.error('CSV export error:', error);
+    res.status(500).json({ error: 'Failed to export users to CSV' });
+  }
+});
+
+// Export all users to PDF
+app.get('/api/users/export/pdf', async (req, res) => {
+  try {
+    console.log('Starting PDF export...');
+    const users = await User.find({}).sort({ createdAt: -1 }).lean();
+    console.log(`Found ${users.length} users for PDF export`);
+    
+    // Create a simple HTML document that can be converted to PDF
+    let htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>NethwinLK - User Export Report</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            h1 { color: #333; }
+            .header { text-align: center; margin-bottom: 30px; }
+            .logo { max-width: 200px; height: auto; margin-bottom: 15px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background-color: #f2f2f2; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <img src="https://res.cloudinary.com/dz6bntmc6/image/upload/v1758739710/fLogo_xy2tut.png" alt="NethwinLK Logo" class="logo" onerror="this.style.display='none'">
+            <h1>NethwinLK - User Export Report</h1>
+            <p>Generated on: ${new Date().toLocaleDateString()}</p>
+            <p>Total Users: ${users.length}</p>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    
+    users.forEach(user => {
+      htmlContent += `
+        <tr>
+            <td>${user._id.toString().substring(0, 8)}...</td>
+            <td>${user.fullName || ''}</td>
+            <td>${user.email || ''}</td>
+            <td>${user.phoneNumber || ''}</td>
+            <td>${user.role || ''}</td>
+            <td>${user.status || ''}</td>
+            <td>${user.createdAt ? new Date(user.createdAt).toLocaleDateString() : ''}</td>
+        </tr>
+      `;
+    });
+    
+    htmlContent += `
+            </tbody>
+        </table>
+    </body>
+    </html>
+    `;
+
+    // Set response headers for HTML download (can be converted to PDF by browser)
+    res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Content-Disposition', `attachment; filename="users_export_${new Date().toISOString().split('T')[0]}.html"`);
+
+    // Send HTML
+    console.log('Sending HTML export...');
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('PDF export error:', error);
+    console.error('Error stack:', error.stack);
+    res.status(500).json({ error: 'Failed to export users to PDF', details: error.message });
+  }
+});
+
+// Export individual user profile to PDF
+app.get('/api/users/:id/export/pdf', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId).lean();
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Get user's orders
+    const orders = await Order.find({
+      $or: [
+        { customerEmail: user.email },
+        { 'meta.userId': userId }
+      ]
+    }).sort({ createdAt: -1 }).lean();
+
+    // Create HTML document
+    let htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>NethwinLK - User Profile Report</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            h1 { color: #333; }
+            h2 { color: #666; border-bottom: 2px solid #ddd; padding-bottom: 5px; }
+            .header { text-align: center; margin-bottom: 30px; }
+            .logo { max-width: 200px; height: auto; margin-bottom: 15px; }
+            .user-details { margin: 20px 0; }
+            .detail-row { margin: 8px 0; }
+            .detail-label { font-weight: bold; display: inline-block; width: 150px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background-color: #f2f2f2; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <img src="https://res.cloudinary.com/dz6bntmc6/image/upload/v1758739710/fLogo_xy2tut.png" alt="NethwinLK Logo" class="logo" onerror="this.style.display='none'">
+            <h1>NethwinLK - User Profile Report</h1>
+            <p>Generated on: ${new Date().toLocaleDateString()}</p>
+        </div>
+        
+        <h2>Personal Information</h2>
+        <div class="user-details">
+            <div class="detail-row"><span class="detail-label">User ID:</span> ${user._id}</div>
+            <div class="detail-row"><span class="detail-label">Full Name:</span> ${user.fullName || ''}</div>
+            <div class="detail-row"><span class="detail-label">Email:</span> ${user.email || ''}</div>
+            <div class="detail-row"><span class="detail-label">Phone Number:</span> ${user.phoneNumber || ''}</div>
+            <div class="detail-row"><span class="detail-label">Role:</span> ${user.role || ''}</div>
+            <div class="detail-row"><span class="detail-label">Status:</span> ${user.status || ''}</div>
+            <div class="detail-row"><span class="detail-label">Customer Type:</span> ${user.customerType || ''}</div>
+            <div class="detail-row"><span class="detail-label">Address:</span> ${user.address || ''}</div>
+            <div class="detail-row"><span class="detail-label">Province:</span> ${user.province || ''}</div>
+            <div class="detail-row"><span class="detail-label">District:</span> ${user.district || ''}</div>
+            <div class="detail-row"><span class="detail-label">City:</span> ${user.city || ''}</div>
+            <div class="detail-row"><span class="detail-label">ZIP Code:</span> ${user.zipCode || ''}</div>
+            <div class="detail-row"><span class="detail-label">Created At:</span> ${user.createdAt ? new Date(user.createdAt).toLocaleString() : ''}</div>
+            <div class="detail-row"><span class="detail-label">Last Updated:</span> ${user.updatedAt ? new Date(user.updatedAt).toLocaleString() : ''}</div>
+        </div>
+    `;
+
+    // Add order history section
+    if (orders.length > 0) {
+      htmlContent += `
+        <h2>Order History</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Order Number</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+      `;
+      
+      orders.forEach(order => {
+        htmlContent += `
+          <tr>
+              <td>${order.orderNumber || order._id.toString().substring(0, 8) + '...'}</td>
+              <td>${order.type || ''}</td>
+              <td>${order.status || ''}</td>
+              <td>${order.total || 0}</td>
+              <td>${order.createdAt ? new Date(order.createdAt).toLocaleDateString() : ''}</td>
+          </tr>
+        `;
+      });
+      
+      htmlContent += `
+            </tbody>
+        </table>
+      `;
+    } else {
+      htmlContent += `
+        <h2>Order History</h2>
+        <p>No orders found for this user.</p>
+      `;
+    }
+
+    htmlContent += `
+    </body>
+    </html>
+    `;
+
+    // Set response headers for HTML download
+    res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Content-Disposition', `attachment; filename="user_profile_${user.fullName || user.email}_${new Date().toISOString().split('T')[0]}.html"`);
+
+    // Send HTML
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('Individual PDF export error:', error);
+    res.status(500).json({ error: 'Failed to export user profile to PDF' });
+  }
+});
+
+// Product Export Endpoints
+
+// Export book catalog to Excel
+app.get('/api/products/export/catalog/excel', async (req, res) => {
+  try {
+    console.log('Starting book catalog Excel export...');
+    const products = await Product.find({}).sort({ createdAt: -1 }).lean();
+    console.log(`Found ${products.length} products for catalog export`);
+    
+    // Prepare Excel data
+    const excelData = products.map(product => ({
+      'Book ID': product.productId,
+      'Title': product.name,
+      'Author': product.brand || 'N/A',
+      'Genre': product.category,
+      'Price': product.sellingPrice,
+      'Stock': product.stock,
+      'Status': product.status,
+      'Created At': product.createdAt ? new Date(product.createdAt).toLocaleDateString() : '',
+      'Updated At': product.updatedAt ? new Date(product.updatedAt).toLocaleDateString() : ''
+    }));
+
+    // Create workbook and worksheet
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(excelData);
+    
+    // Set column widths
+    const columnWidths = [
+      { wch: 15 }, // Book ID
+      { wch: 30 }, // Title
+      { wch: 20 }, // Author
+      { wch: 15 }, // Genre
+      { wch: 10 }, // Price
+      { wch: 8 },  // Stock
+      { wch: 12 }, // Status
+      { wch: 12 }, // Created At
+      { wch: 12 }  // Updated At
+    ];
+    worksheet['!cols'] = columnWidths;
+
+    // Add worksheet to workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Book Catalog');
+
+    // Generate Excel buffer
+    const excelBuffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+
+    // Set response headers
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', `attachment; filename="book_catalog_${new Date().toISOString().split('T')[0]}.xlsx"`);
+
+    // Send Excel file
+    console.log(`Excel catalog generated successfully, size: ${excelBuffer.length} bytes`);
+    res.send(excelBuffer);
+  } catch (error) {
+    console.error('Excel catalog export error:', error);
+    res.status(500).json({ error: 'Failed to export book catalog to Excel' });
+  }
+});
+
+// Export book catalog to PDF (HTML)
+app.get('/api/products/export/catalog/pdf', async (req, res) => {
+  try {
+    console.log('Starting book catalog PDF export...');
+    const products = await Product.find({}).sort({ createdAt: -1 }).lean();
+    console.log(`Found ${products.length} products for catalog export`);
+    
+    // Create HTML document
+    let htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>NethwinLK - Book Catalog Report</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            h1 { color: #333; }
+            .header { text-align: center; margin-bottom: 30px; }
+            .logo { max-width: 200px; height: auto; margin-bottom: 15px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background-color: #f2f2f2; }
+            .low-stock { background-color: #ffebee; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <img src="https://res.cloudinary.com/dz6bntmc6/image/upload/v1758739710/fLogo_xy2tut.png" alt="NethwinLK Logo" class="logo" onerror="this.style.display='none'">
+            <h1>NethwinLK - Book Catalog Report</h1>
+            <p>Generated on: ${new Date().toLocaleDateString()}</p>
+            <p>Total Books: ${products.length}</p>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Book ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Genre</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    
+    products.forEach(product => {
+      const isLowStock = product.stock < 10;
+      const rowClass = isLowStock ? 'class="low-stock"' : '';
+      
+      htmlContent += `
+        <tr ${rowClass}>
+            <td>${product.productId}</td>
+            <td>${product.name}</td>
+            <td>${product.brand || 'N/A'}</td>
+            <td>${product.category}</td>
+            <td>Rs. ${product.sellingPrice}</td>
+            <td>${product.stock}</td>
+            <td>${product.status}</td>
+            <td>${product.createdAt ? new Date(product.createdAt).toLocaleDateString() : ''}</td>
+        </tr>
+      `;
+    });
+    
+    htmlContent += `
+            </tbody>
+        </table>
+    </body>
+    </html>
+    `;
+
+    // Set response headers for HTML download
+    res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Content-Disposition', `attachment; filename="book_catalog_${new Date().toISOString().split('T')[0]}.html"`);
+
+    // Send HTML
+    console.log('Sending HTML catalog export...');
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('PDF catalog export error:', error);
+    res.status(500).json({ error: 'Failed to export book catalog to PDF' });
+  }
+});
+
+// Export low stock report to Excel
+app.get('/api/products/export/low-stock/excel', async (req, res) => {
+  try {
+    console.log('Starting low stock Excel export...');
+    const products = await Product.find({ stock: { $lt: 10 } }).sort({ stock: 1, createdAt: -1 }).lean();
+    console.log(`Found ${products.length} products with low stock`);
+    
+    // Prepare Excel data
+    const excelData = products.map(product => ({
+      'Book ID': product.productId,
+      'Title': product.name,
+      'Author': product.brand || 'N/A',
+      'Genre': product.category,
+      'Price': product.sellingPrice,
+      'Stock': product.stock,
+      'Status': product.status,
+      'Created At': product.createdAt ? new Date(product.createdAt).toLocaleDateString() : '',
+      'Updated At': product.updatedAt ? new Date(product.updatedAt).toLocaleDateString() : ''
+    }));
+
+    // Create workbook and worksheet
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(excelData);
+    
+    // Set column widths
+    const columnWidths = [
+      { wch: 15 }, // Book ID
+      { wch: 30 }, // Title
+      { wch: 20 }, // Author
+      { wch: 15 }, // Genre
+      { wch: 10 }, // Price
+      { wch: 8 },  // Stock
+      { wch: 12 }, // Status
+      { wch: 12 }, // Created At
+      { wch: 12 }  // Updated At
+    ];
+    worksheet['!cols'] = columnWidths;
+
+    // Add worksheet to workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Low Stock Report');
+
+    // Generate Excel buffer
+    const excelBuffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+
+    // Set response headers
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', `attachment; filename="low_stock_report_${new Date().toISOString().split('T')[0]}.xlsx"`);
+
+    // Send Excel file
+    console.log(`Excel low stock report generated successfully, size: ${excelBuffer.length} bytes`);
+    res.send(excelBuffer);
+  } catch (error) {
+    console.error('Excel low stock export error:', error);
+    res.status(500).json({ error: 'Failed to export low stock report to Excel' });
+  }
+});
+
+// Export low stock report to PDF (HTML)
+app.get('/api/products/export/low-stock/pdf', async (req, res) => {
+  try {
+    console.log('Starting low stock PDF export...');
+    const products = await Product.find({ stock: { $lt: 10 } }).sort({ stock: 1, createdAt: -1 }).lean();
+    console.log(`Found ${products.length} products with low stock`);
+    
+    // Create HTML document
+    let htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>NethwinLK - Low Stock Report</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            h1 { color: #d32f2f; }
+            .header { text-align: center; margin-bottom: 30px; }
+            .logo { max-width: 200px; height: auto; margin-bottom: 15px; }
+            .warning { background-color: #ffebee; padding: 10px; border-left: 4px solid #d32f2f; margin: 20px 0; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background-color: #f2f2f2; }
+            .critical { background-color: #ffcdd2; }
+            .warning-row { background-color: #fff3e0; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <img src="https://res.cloudinary.com/dz6bntmc6/image/upload/v1758739710/fLogo_xy2tut.png" alt="NethwinLK Logo" class="logo" onerror="this.style.display='none'">
+            <h1>NethwinLK - Low Stock Report</h1>
+            <p>Generated on: ${new Date().toLocaleDateString()}</p>
+        </div>
+        <div class="warning">
+            <strong>⚠️ Warning:</strong> ${products.length} books have stock levels below 10 units.
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Book ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Genre</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    
+    products.forEach(product => {
+      let rowClass = '';
+      if (product.stock === 0) {
+        rowClass = 'class="critical"';
+      } else if (product.stock < 5) {
+        rowClass = 'class="warning-row"';
+      }
+      
+      htmlContent += `
+        <tr ${rowClass}>
+            <td>${product.productId}</td>
+            <td>${product.name}</td>
+            <td>${product.brand || 'N/A'}</td>
+            <td>${product.category}</td>
+            <td>Rs. ${product.sellingPrice}</td>
+            <td><strong>${product.stock}</strong></td>
+            <td>${product.status}</td>
+            <td>${product.createdAt ? new Date(product.createdAt).toLocaleDateString() : ''}</td>
+        </tr>
+      `;
+    });
+    
+    htmlContent += `
+            </tbody>
+        </table>
+    </body>
+    </html>
+    `;
+
+    // Set response headers for HTML download
+    res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Content-Disposition', `attachment; filename="low_stock_report_${new Date().toISOString().split('T')[0]}.html"`);
+
+    // Send HTML
+    console.log('Sending HTML low stock export...');
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('PDF low stock export error:', error);
+    res.status(500).json({ error: 'Failed to export low stock report to PDF' });
+  }
+});
+
+// Cart Export Endpoints
+
+// Export cart summary to PDF (HTML)
+app.post('/api/cart/export/summary', async (req, res) => {
+  try {
+    console.log('Starting cart summary export...');
+    const cartData = req.body;
+    console.log(`Cart has ${cartData.items.length} items`);
+    
+    // Create HTML document
+    let htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>NethwinLK - Cart Summary</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            h1 { color: #333; }
+            .header { text-align: center; margin-bottom: 30px; }
+            .logo { max-width: 200px; height: auto; margin-bottom: 15px; }
+            .cart-info { background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+            th { background-color: #f2f2f2; font-weight: bold; }
+            .total-section { margin-top: 20px; padding: 15px; background-color: #e8f5e8; border-radius: 8px; }
+            .total-row { font-weight: bold; font-size: 18px; }
+            .footer { margin-top: 30px; text-align: center; color: #666; font-size: 12px; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <img src="https://res.cloudinary.com/dz6bntmc6/image/upload/v1758739710/fLogo_xy2tut.png" alt="NethwinLK Logo" class="logo" onerror="this.style.display='none'">
+            <h1>NethwinLK - Cart Summary</h1>
+            <p>Generated on: ${new Date().toLocaleDateString()}</p>
+        </div>
+        
+        <div class="cart-info">
+            <p><strong>Total Items:</strong> ${cartData.items.length}</p>
+            <p><strong>Cart Total:</strong> LKR ${cartData.total.toFixed(2)}</p>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    
+    cartData.items.forEach(item => {
+      htmlContent += `
+        <tr>
+            <td>${item.name}</td>
+            <td>${item.quantity}</td>
+            <td>LKR ${item.price.toFixed(2)}</td>
+            <td>LKR ${item.subtotal.toFixed(2)}</td>
+        </tr>
+      `;
+    });
+    
+    htmlContent += `
+            </tbody>
+        </table>
+        
+        <div class="total-section">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span>Subtotal:</span>
+                <span>LKR ${cartData.subtotal.toFixed(2)}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span>Delivery Fee:</span>
+                <span>LKR ${cartData.deliveryFee.toFixed(2)}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; border-top: 2px solid #333; padding-top: 10px;" class="total-row">
+                <span>Total:</span>
+                <span>LKR ${cartData.total.toFixed(2)}</span>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Thank you for shopping with NethwinLK!</p>
+            <p>This is a cart summary. Complete your purchase to receive an official invoice.</p>
+        </div>
+    </body>
+    </html>
+    `;
+
+    // Set response headers for HTML download
+    res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Content-Disposition', `attachment; filename="cart_summary_${new Date().toISOString().split('T')[0]}.html"`);
+
+    // Send HTML
+    console.log('Sending HTML cart summary export...');
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('Cart summary export error:', error);
+    res.status(500).json({ error: 'Failed to export cart summary' });
+  }
+});
+
+// Invoice Generation Endpoint
+
+// Generate invoice/receipt for completed order
+app.post('/api/orders/:orderId/invoice', async (req, res) => {
+  try {
+    console.log('Starting invoice generation...');
+    const orderId = req.params.orderId;
+    
+    // Find the order
+    const order = await Order.findById(orderId).lean();
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    
+    console.log(`Generating invoice for order: ${order.orderNumber || orderId}`);
+    
+    // Create HTML document for invoice
+    let htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>NethwinLK - Invoice #${order.orderNumber || orderId}</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            .invoice-header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 20px; }
+            .logo { max-width: 200px; height: auto; margin-bottom: 15px; }
+            .invoice-title { font-size: 28px; font-weight: bold; color: #333; margin-bottom: 10px; }
+            .invoice-number { font-size: 18px; color: #666; }
+            .invoice-details { display: flex; justify-content: space-between; margin-bottom: 30px; }
+            .customer-info, .order-info { width: 45%; }
+            .info-section { background-color: #f8f9fa; padding: 15px; border-radius: 8px; }
+            .info-section h3 { margin-top: 0; color: #333; }
+            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+            th { background-color: #f2f2f2; font-weight: bold; }
+            .total-section { margin-top: 20px; padding: 20px; background-color: #e8f5e8; border-radius: 8px; }
+            .total-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
+            .final-total { font-weight: bold; font-size: 20px; border-top: 2px solid #333; padding-top: 10px; }
+            .footer { margin-top: 40px; text-align: center; color: #666; font-size: 12px; }
+            .status-badge { 
+                display: inline-block; 
+                padding: 4px 12px; 
+                border-radius: 20px; 
+                font-size: 12px; 
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+            .status-pending { background-color: #fff3cd; color: #856404; }
+            .status-confirmed { background-color: #d1ecf1; color: #0c5460; }
+            .status-processing { background-color: #d4edda; color: #155724; }
+            .status-shipped { background-color: #cce5ff; color: #004085; }
+            .status-delivered { background-color: #d1f2eb; color: #0f5132; }
+            .status-cancelled { background-color: #f8d7da; color: #721c24; }
+        </style>
+    </head>
+    <body>
+        <div class="invoice-header">
+            <img src="https://res.cloudinary.com/dz6bntmc6/image/upload/v1758739710/fLogo_xy2tut.png" alt="NethwinLK Logo" class="logo" onerror="this.style.display='none'">
+            <div class="invoice-title">NethwinLK</div>
+            <div class="invoice-number">Invoice #${order.orderNumber || orderId}</div>
+            <div style="margin-top: 10px; font-size: 14px; color: #666;">
+                Generated on: ${new Date().toLocaleDateString()}
+            </div>
+        </div>
+        
+        <div class="invoice-details">
+            <div class="customer-info">
+                <div class="info-section">
+                    <h3>Customer Information</h3>
+                    <p><strong>Name:</strong> ${order.customerName || 'N/A'}</p>
+                    <p><strong>Email:</strong> ${order.customerEmail || 'N/A'}</p>
+                    <p><strong>Phone:</strong> ${order.customerPhone || 'N/A'}</p>
+                    ${order.deliveryAddress ? `<p><strong>Address:</strong> ${order.deliveryAddress}</p>` : ''}
+                </div>
+            </div>
+            
+            <div class="order-info">
+                <div class="info-section">
+                    <h3>Order Information</h3>
+                    <p><strong>Order Date:</strong> ${order.createdAt ? new Date(order.createdAt).toLocaleDateString() : 'N/A'}</p>
+                    <p><strong>Order Type:</strong> ${order.type || 'N/A'}</p>
+                    <p><strong>Status:</strong> <span class="status-badge status-${order.status}">${order.status}</span></p>
+                    <p><strong>Payment Method:</strong> ${order.paymentMethod || 'N/A'}</p>
+                    <p><strong>Delivery Method:</strong> ${order.deliveryMethod || 'N/A'}</p>
+                </div>
+            </div>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    
+    order.items.forEach(item => {
+      htmlContent += `
+        <tr>
+            <td>${item.name}</td>
+            <td>${item.quantity}</td>
+            <td>LKR ${item.price.toFixed(2)}</td>
+            <td>LKR ${(item.price * item.quantity).toFixed(2)}</td>
+        </tr>
+      `;
+    });
+    
+    const subtotal = order.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const deliveryFee = order.deliveryFee || 0;
+    const total = order.total || (subtotal + deliveryFee);
+    
+    htmlContent += `
+            </tbody>
+        </table>
+        
+        <div class="total-section">
+            <div class="total-row">
+                <span>Subtotal:</span>
+                <span>LKR ${subtotal.toFixed(2)}</span>
+            </div>
+            <div class="total-row">
+                <span>Delivery Fee:</span>
+                <span>LKR ${deliveryFee.toFixed(2)}</span>
+            </div>
+            <div class="total-row final-total">
+                <span>Total:</span>
+                <span>LKR ${total.toFixed(2)}</span>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Thank you for your business!</strong></p>
+            <p>This is your official invoice/receipt from NethwinLK.</p>
+            <p>For any questions, please contact us at support@nethwinlk.com</p>
+        </div>
+    </body>
+    </html>
+    `;
+
+    // Set response headers for HTML download
+    res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Content-Disposition', `attachment; filename="invoice_${order.orderNumber || orderId}_${new Date().toISOString().split('T')[0]}.html"`);
+
+    // Send HTML
+    console.log('Sending HTML invoice...');
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('Invoice generation error:', error);
+    res.status(500).json({ error: 'Failed to generate invoice' });
+  }
+});
+
 app.post('/api/users', async (req, res) => {
   try {
     const {
@@ -1794,15 +2601,22 @@ app.post('/api/print-orders',
         });
       }
 
-      // Calculate estimated price
-      const estimatedPrice = calculatePrintPrice(
-        req.body.paperSize,
-        req.body.colorOption,
-        parseInt(req.body.copies),
-        req.body.binding,
-        req.body.finishing,
-        req.body.deliveryMethod
-      );
+      // Use frontend calculated price if provided, otherwise calculate on backend
+      let estimatedPrice;
+      if (req.body.estimatedPrice) {
+        estimatedPrice = parseInt(req.body.estimatedPrice);
+        console.log('Using frontend calculated price:', estimatedPrice);
+      } else {
+        estimatedPrice = calculatePrintPrice(
+          req.body.paperSize,
+          req.body.colorOption,
+          parseInt(req.body.copies),
+          req.body.binding,
+          req.body.finishing,
+          req.body.deliveryMethod
+        );
+        console.log('Using backend calculated price:', estimatedPrice);
+      }
 
       // Convert delivery method to match schema
       const deliveryMethod = req.body.deliveryMethod === 'Home Delivery' ? 'delivery' : 'pickup';
@@ -2351,6 +3165,542 @@ function getContentType(filename) {
   };
   return contentTypes[ext] || 'application/octet-stream';
 }
+
+// ==================== ORDER EXPORT FUNCTIONALITY ====================
+
+// GET /api/orders/:id/quotation - Export individual bookshop order quotation as HTML
+app.get('/api/orders/:id/quotation', async (req, res) => {
+  try {
+    console.log('Starting bookshop order quotation export...');
+    const orderId = req.params.id;
+    
+    // Find the order
+    const order = await Order.findById(orderId).lean();
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    
+    console.log(`Generating quotation for bookshop order: ${orderId}`);
+    
+    // Create HTML document for quotation
+    let htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>NethwinLK - Book Order Quotation #${orderId}</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            h1 { color: #333; }
+            .header { text-align: center; margin-bottom: 30px; }
+            .logo { max-width: 200px; height: auto; margin-bottom: 15px; }
+            .quotation-info { background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+            th { background-color: #f2f2f2; font-weight: bold; }
+            .total-section { margin-top: 20px; padding: 15px; background-color: #e8f5e8; border-radius: 8px; }
+            .total-row { font-weight: bold; font-size: 18px; }
+            .footer { margin-top: 30px; text-align: center; color: #666; font-size: 12px; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <img src="https://res.cloudinary.com/dz6bntmc6/image/upload/v1758739710/fLogo_xy2tut.png" alt="NethwinLK Logo" class="logo" onerror="this.style.display='none'">
+            <h1>NethwinLK - Book Order Quotation</h1>
+            <p>Generated on: ${new Date().toLocaleDateString()}</p>
+        </div>
+        
+        <div class="quotation-info">
+            <p><strong>Order ID:</strong> ${order._id}</p>
+            <p><strong>Customer:</strong> ${order.userName || 'N/A'}</p>
+            <p><strong>Contact:</strong> ${order.contactNumber || 'N/A'}</p>
+            <p><strong>Email:</strong> ${order.email || 'N/A'}</p>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Book Title</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${order.items.map(item => `
+                    <tr>
+                        <td>${item.name || 'N/A'}</td>
+                        <td>${item.author || 'N/A'}</td>
+                        <td>${item.category || 'N/A'}</td>
+                        <td>${item.quantity || 1}</td>
+                        <td>Rs. ${(item.price || 0).toFixed(2)}</td>
+                        <td>Rs. ${((item.price || 0) * (item.quantity || 1)).toFixed(2)}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+        
+        <div class="total-section">
+            <div class="total-row">
+                <strong>Subtotal: Rs. ${(order.subtotal || 0).toFixed(2)}</strong>
+            </div>
+            ${order.deliveryFee > 0 ? `
+                <div style="margin-top: 10px;">
+                    <strong>Delivery Fee: Rs. ${order.deliveryFee.toFixed(2)}</strong>
+                </div>
+            ` : ''}
+            <div style="margin-top: 10px; border-top: 2px solid #333; padding-top: 10px;">
+                <strong>Total Amount: Rs. ${(order.total || 0).toFixed(2)}</strong>
+            </div>
+        </div>
+        
+        <div style="margin-top: 20px; padding: 15px; background-color: #f0f8ff; border-radius: 8px;">
+            <h3>Order Details</h3>
+            <p><strong>Delivery Method:</strong> ${order.deliveryMethod || 'Store Pickup'}</p>
+            ${order.deliveryAddress ? `<p><strong>Delivery Address:</strong> ${order.deliveryAddress}</p>` : ''}
+            <p><strong>Payment Method:</strong> ${order.paymentMethod || 'Cash on Delivery'}</p>
+            <p><strong>Order Status:</strong> ${order.status || 'Pending'}</p>
+            <p><strong>Order Date:</strong> ${new Date(order.createdAt).toLocaleDateString()}</p>
+        </div>
+        
+        <div class="footer">
+            <p>Thank you for choosing NethwinLK for your book needs!</p>
+            <p>This is a quotation. Final price may vary based on availability.</p>
+        </div>
+    </body>
+    </html>
+    `;
+    
+    console.log('Sending HTML quotation export...');
+    res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Content-Disposition', `attachment; filename="book-order-quotation-${orderId}.html"`);
+    res.send(htmlContent);
+    
+  } catch (error) {
+    console.error('Book order quotation export error:', error);
+    res.status(500).json({ error: 'Failed to generate quotation' });
+  }
+});
+
+// GET /api/print-orders/:id/quotation - Export individual print job quotation as PDF
+app.get('/api/print-orders/:id/quotation', async (req, res) => {
+  try {
+    console.log('Starting print job quotation export...');
+    const orderId = req.params.id;
+    
+    // Find the print order
+    const printOrder = await PrintOrder.findById(orderId).lean();
+    if (!printOrder) {
+      return res.status(404).json({ error: 'Print order not found' });
+    }
+    
+    console.log(`Generating quotation for print order: ${orderId}`);
+    
+    // Create HTML document for quotation
+    let htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>NethwinLK - Print Job Quotation #${orderId}</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            h1 { color: #333; }
+            .header { text-align: center; margin-bottom: 30px; }
+            .logo { max-width: 200px; height: auto; margin-bottom: 15px; }
+            .quotation-info { background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+            th { background-color: #f2f2f2; font-weight: bold; }
+            .total-section { margin-top: 20px; padding: 15px; background-color: #e8f5e8; border-radius: 8px; }
+            .total-row { font-weight: bold; font-size: 18px; }
+            .footer { margin-top: 30px; text-align: center; color: #666; font-size: 12px; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <img src="https://res.cloudinary.com/dz6bntmc6/image/upload/v1758739710/fLogo_xy2tut.png" alt="NethwinLK Logo" class="logo" onerror="this.style.display='none'">
+            <h1>NethwinLK - Print Job Quotation</h1>
+            <p>Generated on: ${new Date().toLocaleDateString()}</p>
+        </div>
+        
+        <div class="quotation-info">
+            <p><strong>Job ID:</strong> ${printOrder._id}</p>
+            <p><strong>Customer:</strong> ${printOrder.userName}</p>
+            <p><strong>Contact:</strong> ${printOrder.contactNumber}</p>
+            <p><strong>Email:</strong> ${printOrder.email}</p>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Specification</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>File Name</td>
+                    <td>${printOrder.originalFileName}</td>
+                </tr>
+                <tr>
+                    <td>Paper Size</td>
+                    <td>${printOrder.paperSize}</td>
+                </tr>
+                <tr>
+                    <td>Color Option</td>
+                    <td>${printOrder.colorOption}</td>
+                </tr>
+                <tr>
+                    <td>Binding</td>
+                    <td>${printOrder.binding}</td>
+                </tr>
+                <tr>
+                    <td>Number of Copies</td>
+                    <td>${printOrder.copies}</td>
+                </tr>
+                <tr>
+                    <td>Finishing</td>
+                    <td>${printOrder.finishing}</td>
+                </tr>
+                <tr>
+                    <td>Delivery Method</td>
+                    <td>${printOrder.deliveryMethod}</td>
+                </tr>
+                ${printOrder.additionalNotes ? `
+                <tr>
+                    <td>Additional Notes</td>
+                    <td>${printOrder.additionalNotes}</td>
+                </tr>
+                ` : ''}
+            </tbody>
+        </table>
+        
+        <div class="total-section">
+            <div style="display: flex; justify-content: space-between; border-top: 2px solid #333; padding-top: 10px;" class="total-row">
+                <span>Estimated Cost:</span>
+                <span>LKR ${(printOrder.estimatedPrice || 0).toFixed(2)}</span>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Thank you for choosing NethwinLK for your printing needs!</p>
+            <p>This is a quotation. Final price may vary based on actual requirements.</p>
+        </div>
+    </body>
+    </html>
+    `;
+    
+    console.log('Sending HTML quotation export...');
+    res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Content-Disposition', `attachment; filename="print-quotation-${orderId}.html"`);
+    res.send(htmlContent);
+    
+  } catch (error) {
+    console.error('Print quotation export error:', error);
+    res.status(500).json({ error: 'Failed to generate quotation' });
+  }
+});
+
+// GET /api/admin/print-orders/export/csv - Export all print jobs as CSV
+app.get('/api/admin/print-orders/export/csv', async (req, res) => {
+  try {
+    console.log('Starting print orders CSV export...');
+    
+    // Get all print orders
+    const printOrders = await PrintOrder.find({})
+      .sort({ createdAt: -1 })
+      .lean();
+    
+    console.log(`Found ${printOrders.length} print orders for CSV export`);
+    
+    // Create CSV content
+    let csvContent = 'JobID,UserID,FileName,Status,Priority,EstimatedPrice,FinalPrice,PaperSize,ColorOption,Binding,Copies,Finishing,DeliveryMethod,CreatedAt,UpdatedAt\n';
+    
+    printOrders.forEach(order => {
+      const row = [
+        order._id,
+        order.userId,
+        `"${order.originalFileName}"`,
+        order.status,
+        order.priority,
+        order.estimatedPrice || 0,
+        order.finalPrice || 0,
+        `"${order.paperSize}"`,
+        `"${order.colorOption}"`,
+        `"${order.binding}"`,
+        order.copies,
+        `"${order.finishing}"`,
+        `"${order.deliveryMethod}"`,
+        new Date(order.createdAt).toLocaleDateString(),
+        new Date(order.updatedAt).toLocaleDateString()
+      ].join(',');
+      csvContent += row + '\n';
+    });
+    
+    console.log('Sending CSV export...');
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename="print-orders-export.csv"');
+    res.send(csvContent);
+    
+  } catch (error) {
+    console.error('Print orders CSV export error:', error);
+    res.status(500).json({ error: 'Failed to export CSV' });
+  }
+});
+
+// GET /api/admin/print-orders/export/pdf - Export all print jobs as PDF (HTML)
+app.get('/api/admin/print-orders/export/pdf', async (req, res) => {
+  try {
+    console.log('Starting print orders PDF export...');
+    
+    // Get all print orders
+    const printOrders = await PrintOrder.find({})
+      .sort({ createdAt: -1 })
+      .lean();
+    
+    console.log(`Found ${printOrders.length} print orders for PDF export`);
+    
+    // Create HTML document
+    let htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>NethwinLK - Print Orders Report</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            h1 { color: #333; }
+            .header { text-align: center; margin-bottom: 30px; }
+            .logo { max-width: 200px; height: auto; margin-bottom: 15px; }
+            .report-info { background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background-color: #f2f2f2; font-weight: bold; }
+            .status-pending { color: #f59e0b; }
+            .status-in_queue { color: #3b82f6; }
+            .status-in_progress { color: #8b5cf6; }
+            .status-ready { color: #10b981; }
+            .status-completed { color: #059669; }
+            .status-cancelled { color: #ef4444; }
+            .status-failed { color: #dc2626; }
+            .footer { margin-top: 30px; text-align: center; color: #666; font-size: 12px; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <img src="https://res.cloudinary.com/dz6bntmc6/image/upload/v1758739710/fLogo_xy2tut.png" alt="NethwinLK Logo" class="logo" onerror="this.style.display='none'">
+            <h1>NethwinLK - Print Orders Report</h1>
+            <p>Generated on: ${new Date().toLocaleDateString()}</p>
+        </div>
+        
+        <div class="report-info">
+            <p><strong>Total Print Orders:</strong> ${printOrders.length}</p>
+            <p><strong>Report Period:</strong> All Time</p>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Job ID</th>
+                    <th>User ID</th>
+                    <th>File Name</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Estimated Price</th>
+                    <th>Final Price</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    
+    printOrders.forEach(order => {
+      htmlContent += `
+        <tr>
+            <td>${order._id}</td>
+            <td>${order.userId}</td>
+            <td>${order.originalFileName}</td>
+            <td class="status-${order.status}">${order.status}</td>
+            <td>${order.priority}</td>
+            <td>LKR ${(order.estimatedPrice || 0).toFixed(2)}</td>
+            <td>LKR ${(order.finalPrice || 0).toFixed(2)}</td>
+            <td>${new Date(order.createdAt).toLocaleDateString()}</td>
+            <td>${new Date(order.updatedAt).toLocaleDateString()}</td>
+        </tr>
+      `;
+    });
+    
+    htmlContent += `
+            </tbody>
+        </table>
+        
+        <div class="footer">
+            <p>Thank you for using NethwinLK Print Management System!</p>
+            <p>This report contains all print orders in the system.</p>
+        </div>
+    </body>
+    </html>
+    `;
+    
+    console.log('Sending HTML print orders export...');
+    res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Content-Disposition', 'attachment; filename="print-orders-report.html"');
+    res.send(htmlContent);
+    
+  } catch (error) {
+    console.error('Print orders PDF export error:', error);
+    res.status(500).json({ error: 'Failed to export PDF' });
+  }
+});
+
+// ==================== DELIVERY SETTINGS MANAGEMENT ====================
+
+// GET /api/delivery-settings - Get current delivery settings
+app.get('/api/delivery-settings', async (req, res) => {
+  try {
+    console.log('Fetching delivery settings...');
+    
+    // Get the active delivery settings
+    let settings = await DeliverySettings.findOne({ isActive: true }).lean();
+    
+    // If no settings exist, create default ones
+    if (!settings) {
+      console.log('No delivery settings found, creating default...');
+      settings = await DeliverySettings.create({
+        localDeliveryPrice: 0,
+        deliveryRadius: 10,
+        deliveryZones: [],
+        isActive: true
+      });
+    }
+    
+    console.log('Delivery settings retrieved:', settings);
+    res.json({
+      success: true,
+      data: settings
+    });
+    
+  } catch (error) {
+    console.error('Error fetching delivery settings:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch delivery settings'
+    });
+  }
+});
+
+// PUT /api/admin/delivery-settings - Update delivery settings (Admin only)
+app.put('/api/admin/delivery-settings', async (req, res) => {
+  try {
+    console.log('Updating delivery settings...');
+    const { localDeliveryPrice, deliveryRadius, deliveryZones } = req.body;
+    
+    // Validate input
+    if (localDeliveryPrice === undefined || localDeliveryPrice < 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'Valid local delivery price is required'
+      });
+    }
+    
+    if (deliveryRadius === undefined || deliveryRadius < 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'Valid delivery radius is required'
+      });
+    }
+    
+    // Get current settings
+    let settings = await DeliverySettings.findOne({ isActive: true });
+    
+    if (!settings) {
+      // Create new settings if none exist
+      settings = await DeliverySettings.create({
+        localDeliveryPrice,
+        deliveryRadius,
+        deliveryZones: deliveryZones || [],
+        isActive: true
+      });
+    } else {
+      // Update existing settings
+      const oldPrice = settings.localDeliveryPrice;
+      settings.localDeliveryPrice = localDeliveryPrice;
+      settings.deliveryRadius = deliveryRadius;
+      settings.deliveryZones = deliveryZones || [];
+      settings.lastUpdatedBy = req.user?.id; // If authentication is added
+      await settings.save();
+      
+      // If delivery price changed, update all existing print orders
+      if (oldPrice !== localDeliveryPrice) {
+        console.log(`Delivery price changed from ${oldPrice} to ${localDeliveryPrice}, updating existing orders...`);
+        
+        // Update all pending and in_queue print orders with delivery method
+        const updateResult = await PrintOrder.updateMany(
+          { 
+            status: { $in: ['pending', 'in_queue'] },
+            deliveryMethod: 'delivery'
+          },
+          { 
+            $inc: { 
+              estimatedPrice: localDeliveryPrice - oldPrice,
+              finalPrice: localDeliveryPrice - oldPrice
+            }
+          }
+        );
+        
+        console.log(`Updated ${updateResult.modifiedCount} print orders with new delivery price`);
+      }
+    }
+    
+    console.log('Delivery settings updated successfully');
+    res.json({
+      success: true,
+      data: settings,
+      message: 'Delivery settings updated successfully'
+    });
+    
+  } catch (error) {
+    console.error('Error updating delivery settings:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to update delivery settings'
+    });
+  }
+});
+
+// GET /api/print-orders/pricing - Get updated pricing information with current delivery settings
+app.get('/api/print-orders/pricing', async (req, res) => {
+  try {
+    console.log('Fetching updated pricing information...');
+    
+    // Get current delivery settings
+    const settings = await DeliverySettings.findOne({ isActive: true }).lean();
+    const deliveryPrice = settings ? settings.localDeliveryPrice : 0;
+    
+    // Update pricing data with current delivery price
+    const updatedPricingData = {
+      ...pricingData,
+      delivery: [
+        { type: "Home Delivery", price: deliveryPrice },
+        { type: "Pickup", price: 0 }
+      ]
+    };
+    
+    console.log('Updated pricing data with delivery price:', deliveryPrice);
+    res.json({
+      success: true,
+      data: updatedPricingData
+    });
+    
+  } catch (error) {
+    console.error('Error fetching pricing information:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch pricing information'
+    });
+  }
+});
 
 // ==================== BULK UPLOAD FUNCTIONALITY ====================
 
@@ -2949,6 +4299,503 @@ app.get('/api/admin/hero-images', async (req, res) => {
 
 // MongoDB connection is already established above
 
+// ==================== ANALYTICS & REPORTS API ENDPOINTS ====================
+
+// POST /api/admin/analytics/sales-report - Generate sales reports
+app.post('/api/admin/analytics/sales-report', async (req, res) => {
+  try {
+    console.log('Generating sales report...');
+    const { period, format, startDate, endDate } = req.body;
+    
+    // Calculate date range based on period
+    let dateFilter = {};
+    const now = new Date();
+    
+    if (period === 'daily') {
+      const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+      dateFilter = { createdAt: { $gte: startOfDay, $lte: endOfDay } };
+    } else if (period === 'monthly') {
+      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+      const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+      dateFilter = { createdAt: { $gte: startOfMonth, $lte: endOfMonth } };
+    } else if (period === 'yearly') {
+      const startOfYear = new Date(now.getFullYear(), 0, 1);
+      const endOfYear = new Date(now.getFullYear(), 11, 31, 23, 59, 59);
+      dateFilter = { createdAt: { $gte: startOfYear, $lte: endOfYear } };
+    } else if (period === 'custom' && startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      end.setHours(23, 59, 59, 999);
+      dateFilter = { createdAt: { $gte: start, $lte: end } };
+    }
+    
+    // Fetch orders with date filter
+    const orders = await Order.find(dateFilter).lean();
+    const printOrders = await PrintOrder.find(dateFilter).lean();
+    
+    // Combine and process data
+    const allOrders = [
+      ...orders.map(order => ({
+        _id: order._id,
+        type: 'bookshop',
+        orderNumber: order.orderNumber,
+        customerName: order.customerName,
+        customerEmail: order.customerEmail,
+        items: order.items,
+        total: order.total,
+        paymentMethod: order.paymentMethod,
+        deliveryMethod: order.deliveryMethod,
+        status: order.status,
+        createdAt: order.createdAt,
+        itemsCount: order.items ? order.items.length : 0
+      })),
+      ...printOrders.map(order => ({
+        _id: order._id,
+        type: 'print',
+        orderNumber: order.orderNumber || order._id.toString().substring(0, 8),
+        customerName: order.customerName,
+        customerEmail: order.customerEmail,
+        items: [{ name: order.fileName, quantity: order.copies, price: order.estimatedPrice }],
+        total: order.estimatedPrice,
+        paymentMethod: order.paymentMethod,
+        deliveryMethod: order.deliveryMethod,
+        status: order.status,
+        createdAt: order.createdAt,
+        itemsCount: 1
+      }))
+    ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    
+    // Generate report based on format
+    if (format === 'pdf') {
+      // Generate HTML report (can be converted to PDF by browser)
+      const htmlContent = generateSalesReportHTML(allOrders, period, startDate, endDate);
+      res.setHeader('Content-Type', 'text/html');
+      res.setHeader('Content-Disposition', `attachment; filename="sales-report-${period}-${new Date().toISOString().split('T')[0]}.html"`);
+      res.send(htmlContent);
+            } else if (format === 'excel') {
+                // Generate CSV report (Excel-compatible)
+                const csvBuffer = generateSalesReportExcel(allOrders, period, startDate, endDate);
+                res.setHeader('Content-Type', 'text/csv');
+                res.setHeader('Content-Disposition', `attachment; filename="sales-report-${period}-${new Date().toISOString().split('T')[0]}.csv"`);
+                res.send(csvBuffer);
+    } else {
+      res.status(400).json({ error: 'Invalid format. Use "pdf" or "excel".' });
+    }
+    
+  } catch (error) {
+    console.error('Sales report generation error:', error);
+    res.status(500).json({ error: 'Failed to generate sales report' });
+  }
+});
+
+// POST /api/admin/analytics/analytics-report - Generate comprehensive analytics report
+app.post('/api/admin/analytics/analytics-report', async (req, res) => {
+  try {
+    console.log('Generating analytics report...');
+    const { format } = req.body;
+    
+    // Fetch all data
+    const users = await User.find({}).lean();
+    const orders = await Order.find({}).lean();
+    const printOrders = await PrintOrder.find({}).lean();
+    const products = await Product.find({}).lean();
+    
+    // Calculate analytics
+    const totalUsers = users.length;
+    const activeUsers = users.filter(user => user.status === 'active').length;
+    const totalOrders = orders.length + printOrders.length;
+    const completedOrders = [...orders, ...printOrders].filter(order => 
+      ['delivered', 'completed'].includes(order.status)
+    ).length;
+    
+    // Top selling products
+    const productSales = {};
+    orders.forEach(order => {
+      if (order.items) {
+        order.items.forEach(item => {
+          const productName = item.name;
+          if (!productSales[productName]) {
+            productSales[productName] = { quantity: 0, revenue: 0 };
+          }
+          productSales[productName].quantity += item.quantity || 1;
+          productSales[productName].revenue += (item.price || 0) * (item.quantity || 1);
+        });
+      }
+    });
+    
+    const topSellingProducts = Object.entries(productSales)
+      .map(([name, data]) => ({ name, ...data }))
+      .sort((a, b) => b.revenue - a.revenue)
+      .slice(0, 10);
+    
+    // Revenue calculation
+    const totalRevenue = [...orders, ...printOrders]
+      .filter(order => ['delivered', 'completed'].includes(order.status))
+      .reduce((sum, order) => sum + (order.total || order.estimatedPrice || 0), 0);
+    
+    const analyticsData = {
+      totalUsers,
+      activeUsers,
+      totalOrders,
+      completedOrders,
+      topSellingProducts,
+      totalRevenue,
+      generatedAt: new Date()
+    };
+    
+    // Generate report based on format
+    if (format === 'pdf') {
+      const htmlContent = generateAnalyticsReportHTML(analyticsData);
+      res.setHeader('Content-Type', 'text/html');
+      res.setHeader('Content-Disposition', `attachment; filename="analytics-report-${new Date().toISOString().split('T')[0]}.html"`);
+      res.send(htmlContent);
+            } else if (format === 'excel') {
+                const csvBuffer = generateAnalyticsReportExcel(analyticsData);
+                res.setHeader('Content-Type', 'text/csv');
+                res.setHeader('Content-Disposition', `attachment; filename="analytics-report-${new Date().toISOString().split('T')[0]}.csv"`);
+                res.send(csvBuffer);
+    } else {
+      res.status(400).json({ error: 'Invalid format. Use "pdf" or "excel".' });
+    }
+    
+  } catch (error) {
+    console.error('Analytics report generation error:', error);
+    res.status(500).json({ error: 'Failed to generate analytics report' });
+  }
+});
+
+// POST /api/admin/analytics/performance-report - Generate performance summary report
+app.post('/api/admin/analytics/performance-report', async (req, res) => {
+  try {
+    console.log('Generating performance report...');
+    const { format } = req.body;
+    
+    // Fetch data for the last 30 days
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    
+    const recentOrders = await Order.find({ 
+      createdAt: { $gte: thirtyDaysAgo } 
+    }).lean();
+    
+    const recentPrintOrders = await PrintOrder.find({ 
+      createdAt: { $gte: thirtyDaysAgo } 
+    }).lean();
+    
+    const products = await Product.find({}).lean();
+    
+    // Calculate performance metrics
+    const totalRevenue = [...recentOrders, ...recentPrintOrders]
+      .filter(order => ['delivered', 'completed'].includes(order.status))
+      .reduce((sum, order) => sum + (order.total || order.estimatedPrice || 0), 0);
+    
+    const averageOrderValue = recentOrders.length > 0 ? 
+      recentOrders.reduce((sum, order) => sum + (order.total || 0), 0) / recentOrders.length : 0;
+    
+    const lowStockProducts = products.filter(product => product.stock < 10);
+    
+    // Payment method distribution
+    const paymentMethods = {};
+    [...recentOrders, ...recentPrintOrders].forEach(order => {
+      const method = order.paymentMethod || 'Unknown';
+      paymentMethods[method] = (paymentMethods[method] || 0) + 1;
+    });
+    
+    // Delivery method distribution
+    const deliveryMethods = {};
+    [...recentOrders, ...recentPrintOrders].forEach(order => {
+      const method = order.deliveryMethod || 'Unknown';
+      deliveryMethods[method] = (deliveryMethods[method] || 0) + 1;
+    });
+    
+    const performanceData = {
+      totalRevenue,
+      averageOrderValue,
+      lowStockProducts,
+      paymentMethods,
+      deliveryMethods,
+      period: 'Last 30 Days',
+      generatedAt: new Date()
+    };
+    
+    // Generate report based on format
+    if (format === 'pdf') {
+      const htmlContent = generatePerformanceReportHTML(performanceData);
+      res.setHeader('Content-Type', 'text/html');
+      res.setHeader('Content-Disposition', `attachment; filename="performance-report-${new Date().toISOString().split('T')[0]}.html"`);
+      res.send(htmlContent);
+            } else if (format === 'excel') {
+                const csvBuffer = generatePerformanceReportExcel(performanceData);
+                res.setHeader('Content-Type', 'text/csv');
+                res.setHeader('Content-Disposition', `attachment; filename="performance-report-${new Date().toISOString().split('T')[0]}.csv"`);
+                res.send(csvBuffer);
+    } else {
+      res.status(400).json({ error: 'Invalid format. Use "pdf" or "excel".' });
+    }
+    
+  } catch (error) {
+    console.error('Performance report generation error:', error);
+    res.status(500).json({ error: 'Failed to generate performance report' });
+  }
+});
+
+// Helper function to generate sales report HTML
+function generateSalesReportHTML(orders, period, startDate, endDate) {
+  const periodText = period === 'custom' ? 
+    `${new Date(startDate).toLocaleDateString()} - ${new Date(endDate).toLocaleDateString()}` :
+    period.charAt(0).toUpperCase() + period.slice(1);
+  
+  const totalRevenue = orders.reduce((sum, order) => sum + (order.total || 0), 0);
+  const totalOrders = orders.length;
+  
+  return `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>NethwinLK - Sales Report (${periodText})</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            .header { text-align: center; margin-bottom: 30px; }
+            .logo { max-width: 200px; height: auto; margin-bottom: 15px; }
+            .summary { background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+            th { background-color: #f2f2f2; font-weight: bold; }
+            .total-section { margin-top: 20px; padding: 15px; background-color: #e8f5e8; border-radius: 8px; }
+            .footer { margin-top: 30px; text-align: center; color: #666; font-size: 12px; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <img src="https://res.cloudinary.com/dz6bntmc6/image/upload/v1758739710/fLogo_xy2tut.png" alt="NethwinLK Logo" class="logo" onerror="this.style.display='none'">
+            <h1>NethwinLK - Sales Report</h1>
+            <p>Period: ${periodText}</p>
+            <p>Generated on: ${new Date().toLocaleDateString()}</p>
+        </div>
+        
+        <div class="summary">
+            <h2>Summary</h2>
+            <p><strong>Total Orders:</strong> ${totalOrders}</p>
+            <p><strong>Total Revenue:</strong> Rs. ${totalRevenue.toFixed(2)}</p>
+            <p><strong>Average Order Value:</strong> Rs. ${totalOrders > 0 ? (totalRevenue / totalOrders).toFixed(2) : '0.00'}</p>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Type</th>
+                    <th>Customer</th>
+                    <th>Items Count</th>
+                    <th>Total Amount</th>
+                    <th>Payment Method</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${orders.map(order => `
+                    <tr>
+                        <td>${order.orderNumber || order._id.toString().substring(0, 8)}</td>
+                        <td>${order.type === 'print' ? 'Print Order' : 'Book Order'}</td>
+                        <td>${order.customerName || 'N/A'}</td>
+                        <td>${order.itemsCount}</td>
+                        <td>Rs. ${(order.total || 0).toFixed(2)}</td>
+                        <td>${order.paymentMethod || 'N/A'}</td>
+                        <td>${new Date(order.createdAt).toLocaleDateString()}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+        
+        <div class="footer">
+            <p>Thank you for using NethwinLK Analytics!</p>
+            <p>This report was generated automatically by the NethwinLK Admin Dashboard.</p>
+        </div>
+    </body>
+    </html>
+  `;
+}
+
+// Helper function to generate analytics report HTML
+function generateAnalyticsReportHTML(data) {
+  return `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>NethwinLK - Analytics Report</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            .header { text-align: center; margin-bottom: 30px; }
+            .logo { max-width: 200px; height: auto; margin-bottom: 15px; }
+            .section { margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+            th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+            th { background-color: #f2f2f2; font-weight: bold; }
+            .metric { display: inline-block; margin: 10px 20px 10px 0; padding: 15px; background-color: #f8f9fa; border-radius: 8px; }
+            .footer { margin-top: 30px; text-align: center; color: #666; font-size: 12px; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <img src="https://res.cloudinary.com/dz6bntmc6/image/upload/v1758739710/fLogo_xy2tut.png" alt="NethwinLK Logo" class="logo" onerror="this.style.display='none'">
+            <h1>NethwinLK - Business Analytics Report</h1>
+            <p>Generated on: ${new Date().toLocaleDateString()}</p>
+        </div>
+        
+        <div class="section">
+            <h2>Key Metrics</h2>
+            <div class="metric"><strong>Total Users:</strong> ${data.totalUsers}</div>
+            <div class="metric"><strong>Active Users:</strong> ${data.activeUsers}</div>
+            <div class="metric"><strong>Total Orders:</strong> ${data.totalOrders}</div>
+            <div class="metric"><strong>Completed Orders:</strong> ${data.completedOrders}</div>
+            <div class="metric"><strong>Total Revenue:</strong> Rs. ${data.totalRevenue.toFixed(2)}</div>
+        </div>
+        
+        <div class="section">
+            <h2>Top Selling Products</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity Sold</th>
+                        <th>Revenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${data.topSellingProducts.map(product => `
+                        <tr>
+                            <td>${product.name}</td>
+                            <td>${product.quantity}</td>
+                            <td>Rs. ${product.revenue.toFixed(2)}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="footer">
+            <p>Thank you for using NethwinLK Analytics!</p>
+            <p>This report was generated automatically by the NethwinLK Admin Dashboard.</p>
+        </div>
+    </body>
+    </html>
+  `;
+}
+
+// Helper function to generate performance report HTML
+function generatePerformanceReportHTML(data) {
+  return `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>NethwinLK - Performance Report</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            .header { text-align: center; margin-bottom: 30px; }
+            .logo { max-width: 200px; height: auto; margin-bottom: 15px; }
+            .section { margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+            .metric { display: inline-block; margin: 10px 20px 10px 0; padding: 15px; background-color: #f8f9fa; border-radius: 8px; }
+            .footer { margin-top: 30px; text-align: center; color: #666; font-size: 12px; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <img src="https://res.cloudinary.com/dz6bntmc6/image/upload/v1758739710/fLogo_xy2tut.png" alt="NethwinLK Logo" class="logo" onerror="this.style.display='none'">
+            <h1>NethwinLK - Performance Summary</h1>
+            <p>Period: ${data.period}</p>
+            <p>Generated on: ${new Date().toLocaleDateString()}</p>
+        </div>
+        
+        <div class="section">
+            <h2>Performance Metrics</h2>
+            <div class="metric"><strong>Total Revenue:</strong> Rs. ${data.totalRevenue.toFixed(2)}</div>
+            <div class="metric"><strong>Average Order Value:</strong> Rs. ${data.averageOrderValue.toFixed(2)}</div>
+            <div class="metric"><strong>Low Stock Products:</strong> ${data.lowStockProducts.length}</div>
+        </div>
+        
+        <div class="section">
+            <h2>Payment Method Distribution</h2>
+            ${Object.entries(data.paymentMethods).map(([method, count]) => `
+                <div class="metric"><strong>${method}:</strong> ${count} orders</div>
+            `).join('')}
+        </div>
+        
+        <div class="section">
+            <h2>Delivery Method Distribution</h2>
+            ${Object.entries(data.deliveryMethods).map(([method, count]) => `
+                <div class="metric"><strong>${method}:</strong> ${count} orders</div>
+            `).join('')}
+        </div>
+        
+        <div class="footer">
+            <p>Thank you for using NethwinLK Analytics!</p>
+            <p>This report was generated automatically by the NethwinLK Admin Dashboard.</p>
+        </div>
+    </body>
+    </html>
+  `;
+}
+
+// Helper functions for Excel generation (placeholder - would need xlsx library)
+function generateSalesReportExcel(orders, period, startDate, endDate) {
+  // This would use the xlsx library to generate actual Excel files
+  // For now, return a simple text representation
+  const csvContent = [
+    'Order ID,Type,Customer,Items Count,Total Amount,Payment Method,Date',
+    ...orders.map(order => [
+      order.orderNumber || order._id.toString().substring(0, 8),
+      order.type === 'print' ? 'Print Order' : 'Book Order',
+      order.customerName || 'N/A',
+      order.itemsCount,
+      order.total || 0,
+      order.paymentMethod || 'N/A',
+      new Date(order.createdAt).toLocaleDateString()
+    ].join(','))
+  ].join('\n');
+  
+  return Buffer.from(csvContent, 'utf8');
+}
+
+function generateAnalyticsReportExcel(data) {
+  const csvContent = [
+    'Metric,Value',
+    `Total Users,${data.totalUsers}`,
+    `Active Users,${data.activeUsers}`,
+    `Total Orders,${data.totalOrders}`,
+    `Completed Orders,${data.completedOrders}`,
+    `Total Revenue,${data.totalRevenue}`,
+    '',
+    'Top Selling Products',
+    'Product Name,Quantity Sold,Revenue',
+    ...data.topSellingProducts.map(product => [
+      product.name,
+      product.quantity,
+      product.revenue
+    ].join(','))
+  ].join('\n');
+  
+  return Buffer.from(csvContent, 'utf8');
+}
+
+function generatePerformanceReportExcel(data) {
+  const csvContent = [
+    'Metric,Value',
+    `Total Revenue,${data.totalRevenue}`,
+    `Average Order Value,${data.averageOrderValue}`,
+    `Low Stock Products,${data.lowStockProducts.length}`,
+    '',
+    'Payment Methods',
+    'Method,Count',
+    ...Object.entries(data.paymentMethods).map(([method, count]) => [method, count].join(',')),
+    '',
+    'Delivery Methods',
+    'Method,Count',
+    ...Object.entries(data.deliveryMethods).map(([method, count]) => [method, count].join(','))
+  ].join('\n');
+  
+  return Buffer.from(csvContent, 'utf8');
+}
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

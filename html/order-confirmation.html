@@ -106,7 +106,28 @@
                         Download Invoice
                     </button><button id="confirmOrderBtn" class="btn-primary px-8 py-3 rounded-xl font-semibold text-white flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         Confirm Order
-                    </button></div></div></div></div></div><script src="../javascript/navbar.js"></script><script src="../javascript/cart-utils.js"></script><script src="../javascript/background-animations.js"></script><script>
+                    </button></div>
+                    
+                    <!-- Navigation Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center mt-6">
+                        <button id="goHomeBtn" class="btn-secondary px-8 py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                            Go to Home
+                        </button>
+                        <button id="goBookshopBtn" class="btn-secondary px-8 py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                            Continue Shopping
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><script src="../javascript/navbar.js"></script><script src="../javascript/cart-utils.js"></script><script src="../javascript/background-animations.js"></script><script>
         // Order confirmation functionality
         let orderData = null;
         
@@ -383,7 +404,12 @@
                     confirmBtn.disabled = true;
                     
                     // Show success message
-                    alert('Order confirmed successfully! Your cart has been cleared. You can now download your invoice.');
+                    alert('Order confirmed successfully! Your cart has been cleared. Your invoice will be downloaded automatically.');
+                    
+                    // Automatically generate and download invoice
+                    setTimeout(() => {
+                        downloadInvoice();
+                    }, 2000); // Wait 2 seconds before auto-downloading
                 } else {
                     throw new Error('Failed to confirm order');
                 }
@@ -409,23 +435,87 @@
                 return;
             }
             
+            const button = document.getElementById('downloadInvoiceBtn');
+            const originalText = button.innerHTML;
+            
             try {
+                // Show loading state
+                button.innerHTML = `
+                    <svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    <span>Generating...</span>
+                `;
+                button.disabled = true;
+
+                // Make API call to generate invoice
                 const response = await fetch(`/api/orders/${orderData.orderId}/invoice`, {
+                    method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                     }
                 });
                 
-                if (response.ok) {
-                    const data = await response.json();
-                    generateInvoicePDF(data.data);
-                } else {
-                    throw new Error('Failed to fetch invoice data');
+                if (!response.ok) {
+                    throw new Error('Failed to generate invoice');
                 }
+
+                // Get the HTML content
+                const htmlContent = await response.text();
+
+                // Create and download the file
+                const blob = new Blob([htmlContent], { type: 'text/html' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `invoice_${orderData.orderNumber || orderData.orderId}_${new Date().toISOString().split('T')[0]}.html`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+                // Show success message
+                showNotification('Invoice downloaded successfully!', 'success');
+
             } catch (error) {
                 console.error('Error downloading invoice:', error);
+                showNotification('Failed to download invoice. Please try again.', 'error');
                 alert('Failed to download invoice. Please try again.');
             }
+        }
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm ${
+                type === 'success' ? 'bg-green-500 text-white' :
+                type === 'error' ? 'bg-red-500 text-white' :
+                type === 'warning' ? 'bg-yellow-500 text-white' :
+                'bg-blue-500 text-white'
+            }`;
+            
+            notification.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        ${type === 'success' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>' :
+                          type === 'error' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>' :
+                          type === 'warning' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>' :
+                          '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>'}
+                    </svg>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            // Add to page
+            document.body.appendChild(notification);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 5000);
         }
         
         // Generate PDF invoice
@@ -468,6 +558,16 @@
             window.location.href = 'cart.html';
         }
         
+        // Go to home page
+        function goHome() {
+            window.location.href = 'index.html';
+        }
+        
+        // Go to bookshop
+        function goBookshop() {
+            window.location.href = 'bookshop.html';
+        }
+        
         // Update cart count
         function updateCartCount() {
             try {
@@ -503,6 +603,8 @@
         document.getElementById('confirmOrderBtn').addEventListener('click', confirmOrder);
         document.getElementById('editOrderBtn').addEventListener('click', editOrder);
         document.getElementById('downloadInvoiceBtn').addEventListener('click', downloadInvoice);
+        document.getElementById('goHomeBtn').addEventListener('click', goHome);
+        document.getElementById('goBookshopBtn').addEventListener('click', goBookshop);
         
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
