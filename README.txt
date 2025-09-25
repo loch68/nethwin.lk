@@ -4,6 +4,7 @@ NETHWINLK - TEAM MODULES DOCUMENTATION
 Project: E-commerce & Print Services Platform
 Date: January 2025
 Status: 75% Complete (Members 2-3, 5), 100% Complete (Members 1, 4)
+NEW: Real-time Messaging System (100% Complete)
 
 ==========================================
 TEAM MEMBER ROLES & RESPONSIBILITIES
@@ -467,7 +468,60 @@ RECENT FIXES & UPDATES
 CONTACT & SUPPORT
 ==========================================
 
+==========================================
+REAL-TIME MESSAGING SYSTEM (100% COMPLETE)
+==========================================
+
+Developer: System Integration
+Functionality: Customer-Admin Communication with Real-time Updates
+
+DATABASE MODELS:
+- messageId: String (unique UUID)
+- senderId: String (user ID or 'admin')
+- receiverId: String (user ID or 'admin')
+- threadId: String (conversation identifier)
+- text: String (message content, max 1000 chars)
+- status: String (sent/delivered/read)
+- productId: ObjectId (optional, for product-related messages)
+- senderName: String
+- receiverName: String
+- createdAt: Date
+
+BACKEND API ROUTES:
+POST /api/messages/send - Send new message
+GET /api/messages/thread/:userId - Get conversation thread
+PATCH /api/messages/:messageId/read - Mark message as read
+GET /api/admin/messages/conversations - Get all conversations (admin)
+GET /api/admin/messages/conversation/:threadId - Get specific conversation (admin)
+
+REAL-TIME FEATURES:
+- Socket.IO integration for instant message delivery
+- Live message updates without page refresh
+- Real-time read status notifications
+- Admin conversation management interface
+
+FRONTEND COMPONENTS:
+- Chat System (chat-system.js) - Customer-side chat interface
+- Message Admin buttons on product-detail.html and profile.html
+- Admin Messages (admin-messages.html) - Admin conversation management
+- Real-time message bubbles with timestamps
+- Unread message counters and notifications
+
+BUSINESS RULES:
+- Customers can only message Admin
+- Each customer sees only their own messages with Admin
+- Admin can see all user conversations
+- Messages are grouped by threadId for conversation management
+- Real-time updates via Socket.IO for instant communication
+
+TECHNICAL IMPLEMENTATION:
+- Socket.IO server integration with Express
+- MongoDB ChatMessage collection for persistence
+- Thread-based conversation grouping
+- Real-time event handling (new_message, message_read)
+- Admin room management for message routing
+
 For questions about specific modules or technical implementation, refer to the respective team member or check the codebase documentation in each module's folder.
 
 Last Updated: January 2025
-Document Version: 1.0
+Document Version: 1.1

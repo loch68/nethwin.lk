@@ -1,4 +1,24 @@
 require('dotenv').config({ path: '../.env' });
+
+// Environment validation
+const requiredEnvVars = [
+  'MONGODB_URI',
+  'JWT_SECRET', 
+  'CLOUDINARY_URL',
+  'ADMIN_EMAIL',
+  'ADMIN_PASSWORD',
+  'PORT'
+];
+
+const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
+if (missingEnvVars.length > 0) {
+  console.error('❌ Missing required environment variables:', missingEnvVars.join(', '));
+  console.error('Please check your .env file in the root directory.');
+  process.exit(1);
+}
+
+console.log('✅ All required environment variables are set');
+
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -16,8 +36,17 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const XLSX = require('xlsx');
 const yauzl = require('yauzl');
+const { createServer } = require('http');
+const { Server } = require('socket.io');
 
 const app = express();
+const server = createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
 
 // Middleware
 app.use(helmet({
@@ -58,7 +87,7 @@ const authenticateToken = (req, res, next) => {
   }
   
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
   } catch (error) {
@@ -114,7 +143,7 @@ if (!fs.existsSync(productsUploadDir)) {
 }
 
 // Connect to MongoDB
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/bookstore';
+const mongoUri = process.env.MONGODB_URI;
 mongoose
   .connect(mongoUri, { 
     serverSelectionTimeoutMS: 5000,
@@ -128,6 +157,7 @@ const User = require('./src/models/User');
 const Order = require('./src/models/Order');
 const Review = require('./src/models/Review');
 const Message = require('./src/models/Message');
+const ChatMessage = require('./src/models/ChatMessage');
 const PrintOrder = require('./src/models/PrintOrder');
 const HeroImage = require('./src/models/HeroImage');
 const DeliverySettings = require('./src/models/DeliverySettings');
@@ -2378,8 +2408,291 @@ app.post('/api/messages/:id/reply', async (req, res) => {
   } catch (e) { res.status(400).json({ error: e.message }); }
 });
 
+// ===== REAL-TIME MESSAGING SYSTEM =====
+
+// Send a new message
+app.post('/api/messages/send', async (req, res) => {
+  try {
+    const { senderId, receiverId, text, productId, senderName, receiverName } = req.body;
+    
+    if (!senderId || !receiverId || !text || !senderName || !receiverName) {
+      return res.status(400).json({ error: 'senderId, receiverId, text, senderName, and receiverName are required' });
+    }
+
+    // Generate thread ID
+    const threadId = ChatMessage.generateThreadId(senderId, receiverId);
+    
+    // Create new message
+    const message = new ChatMessage({
+      senderId,
+      receiverId,
+      text: text.trim(),
+      productId: productId || null,
+      senderName,
+      receiverName,
+      threadId,
+      status: 'sent'
+    });
+
+    await message.save();
+    
+    // Emit real-time update via Socket.IO if available
+    if (io) {
+      io.to(`user_${receiverId}`).emit('new_message', {
+        messageId: message.messageId,
+        senderId: message.senderId,
+        receiverId: message.receiverId,
+        text: message.text,
+        senderName: message.senderName,
+        threadId: message.threadId,
+        createdAt: message.createdAt
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      message: {
+        messageId: message.messageId,
+        senderId: message.senderId,
+        receiverId: message.receiverId,
+        text: message.text,
+        status: message.status,
+        productId: message.productId,
+        senderName: message.senderName,
+        receiverName: message.receiverName,
+        threadId: message.threadId,
+        createdAt: message.createdAt
+      }
+    });
+  } catch (error) {
+    console.error('Send message error:', error);
+    res.status(500).json({ error: 'Failed to send message' });
+  }
+});
+
+// Get conversation thread between two users
+app.get('/api/messages/thread/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { otherUserId } = req.query;
+    
+    if (!otherUserId) {
+      return res.status(400).json({ error: 'otherUserId query parameter is required' });
+    }
+
+    // Generate thread ID
+    const threadId = ChatMessage.generateThreadId(userId, otherUserId);
+    
+    // Get all messages in the thread
+    const messages = await ChatMessage.find({ threadId })
+      .sort({ createdAt: 1 })
+      .lean();
+
+    res.json({
+      success: true,
+      threadId,
+      messages: messages.map(msg => ({
+        messageId: msg.messageId,
+        senderId: msg.senderId,
+        receiverId: msg.receiverId,
+        text: msg.text,
+        status: msg.status,
+        productId: msg.productId,
+        senderName: msg.senderName,
+        receiverName: msg.receiverName,
+        createdAt: msg.createdAt
+      }))
+    });
+  } catch (error) {
+    console.error('Get thread error:', error);
+    res.status(500).json({ error: 'Failed to get conversation thread' });
+  }
+});
+
+// Mark message as read
+app.patch('/api/messages/:messageId/read', async (req, res) => {
+  try {
+    const { messageId } = req.params;
+    
+    const message = await ChatMessage.findOneAndUpdate(
+      { messageId },
+      { status: 'read' },
+      { new: true }
+    );
+
+    if (!message) {
+      return res.status(404).json({ error: 'Message not found' });
+    }
+
+    // Emit real-time update
+    if (io) {
+      io.to(`user_${message.senderId}`).emit('message_read', {
+        messageId: message.messageId,
+        status: 'read'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: {
+        messageId: message.messageId,
+        status: message.status
+      }
+    });
+  } catch (error) {
+    console.error('Mark as read error:', error);
+    res.status(500).json({ error: 'Failed to mark message as read' });
+  }
+});
+
+// Get all conversations for admin (all user threads)
+app.get('/api/admin/messages/conversations', async (req, res) => {
+  try {
+    // Get all unique thread IDs
+    const threads = await ChatMessage.aggregate([
+      {
+        $group: {
+          _id: '$threadId',
+          lastMessage: { $last: '$$ROOT' },
+          messageCount: { $sum: 1 },
+          unreadCount: {
+            $sum: {
+              $cond: [
+                { $and: [
+                  { $eq: ['$status', 'sent'] },
+                  { $ne: ['$receiverId', 'admin'] }
+                ]},
+                1,
+                0
+              ]
+            }
+          }
+        }
+      },
+      {
+        $sort: { 'lastMessage.createdAt': -1 }
+      }
+    ]);
+
+    // Get user details for each thread
+    const conversations = await Promise.all(
+      threads.map(async (thread) => {
+        const lastMessage = thread.lastMessage;
+        const otherUserId = lastMessage.senderId === 'admin' ? lastMessage.receiverId : lastMessage.senderId;
+        
+               // Get user details
+               let userDetails = { name: 'Unknown User', email: 'unknown@example.com' };
+               try {
+                 // Check if otherUserId is a valid MongoDB ObjectId
+                 if (otherUserId && otherUserId !== 'admin' && otherUserId.match(/^[0-9a-fA-F]{24}$/)) {
+                   const user = await User.findById(otherUserId).lean();
+                   if (user) {
+                     userDetails = {
+                       name: user.fullName || user.name || 'Unknown User',
+                       email: user.email || 'unknown@example.com'
+                     };
+                   }
+                 } else if (otherUserId && otherUserId.startsWith('guest_')) {
+                   // Handle guest users
+                   userDetails = {
+                     name: 'Guest User',
+                     email: 'guest@example.com'
+                   };
+                 }
+               } catch (userError) {
+                 console.error('Error fetching user details:', userError);
+               }
+
+        return {
+          threadId: thread._id,
+          otherUserId,
+          userDetails,
+          lastMessage: {
+            messageId: lastMessage.messageId,
+            text: lastMessage.text,
+            senderName: lastMessage.senderName,
+            createdAt: lastMessage.createdAt,
+            status: lastMessage.status
+          },
+          messageCount: thread.messageCount,
+          unreadCount: thread.unreadCount
+        };
+      })
+    );
+
+    res.json({
+      success: true,
+      conversations
+    });
+  } catch (error) {
+    console.error('Get conversations error:', error);
+    res.status(500).json({ error: 'Failed to get conversations' });
+  }
+});
+
+// Get specific conversation for admin
+app.get('/api/admin/messages/conversation/:threadId', async (req, res) => {
+  try {
+    const { threadId } = req.params;
+    
+    const messages = await ChatMessage.find({ threadId })
+      .sort({ createdAt: 1 })
+      .lean();
+
+    if (messages.length === 0) {
+      return res.status(404).json({ error: 'Conversation not found' });
+    }
+
+    // Get user details
+    const firstMessage = messages[0];
+    const otherUserId = firstMessage.senderId === 'admin' ? firstMessage.receiverId : firstMessage.senderId;
+    
+    let userDetails = { name: 'Unknown User', email: 'unknown@example.com' };
+    try {
+      // Check if otherUserId is a valid MongoDB ObjectId
+      if (otherUserId && otherUserId !== 'admin' && otherUserId.match(/^[0-9a-fA-F]{24}$/)) {
+        const user = await User.findById(otherUserId).lean();
+        if (user) {
+          userDetails = {
+            name: user.fullName || user.name || 'Unknown User',
+            email: user.email || 'unknown@example.com'
+          };
+        }
+      } else if (otherUserId && otherUserId.startsWith('guest_')) {
+        // Handle guest users
+        userDetails = {
+          name: 'Guest User',
+          email: 'guest@example.com'
+        };
+      }
+    } catch (userError) {
+      console.error('Error fetching user details:', userError);
+    }
+
+    res.json({
+      success: true,
+      threadId,
+      userDetails,
+      messages: messages.map(msg => ({
+        messageId: msg.messageId,
+        senderId: msg.senderId,
+        receiverId: msg.receiverId,
+        text: msg.text,
+        status: msg.status,
+        productId: msg.productId,
+        senderName: msg.senderName,
+        receiverName: msg.receiverName,
+        createdAt: msg.createdAt
+      }))
+    });
+  } catch (error) {
+    console.error('Get conversation error:', error);
+    res.status(500).json({ error: 'Failed to get conversation' });
+  }
+});
+
 // AUTH: signup/login and profile
-const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-me';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 app.post('/api/auth/signup', async (req, res) => {
   try {
@@ -2388,7 +2701,7 @@ app.post('/api/auth/signup', async (req, res) => {
       // New field names from frontend
       Username, FullName, EmailAddress, PhoneNumber, Address, Province, District, City, ZipCode, PasswordHash,
       // Old field names for backward compatibility
-      fullName, email, phone, password, username
+      fullName, email, phone, password, username, role
     } = req.body || {};
 
     // Use new field names if available, otherwise fall back to old ones
@@ -2428,7 +2741,7 @@ app.post('/api/auth/signup', async (req, res) => {
       zipCode: zipCodeValue,
       passwordHash: passwordHash,
       status: 'active',
-      role: 'customer'
+      role: role || 'customer'
     });
 
     // Generate JWT token
@@ -4139,7 +4452,7 @@ app.post('/api/create-admin', async (req, res) => {
       return res.json({ message: 'Admin already exists' });
     }
 
-    const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD || 'admin123', 10);
+    const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
     const admin = await User.create({
       fullName: 'Admin User',
       email: 'admin@nethwin.com',
@@ -4149,7 +4462,7 @@ app.post('/api/create-admin', async (req, res) => {
       status: 'active'
     });
 
-    res.json({ message: 'Admin user created successfully', email: process.env.ADMIN_EMAIL || 'admin@nethwin.com', password: 'Check .env file for password' });
+    res.json({ message: 'Admin user created successfully', email: process.env.ADMIN_EMAIL, password: 'Check .env file for password' });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -4844,8 +5157,45 @@ function generatePerformanceReportExcel(data) {
   return Buffer.from(csvContent, 'utf8');
 }
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
+// Socket.IO connection handling
+io.on('connection', (socket) => {
+  console.log('User connected:', socket.id);
+
+  // Join user to their personal room
+  socket.on('join_user_room', (userId) => {
+    socket.join(`user_${userId}`);
+    console.log(`User ${userId} joined room: user_${userId}`);
+  });
+
+  // Handle message read events
+  socket.on('mark_message_read', async (data) => {
+    try {
+      const { messageId } = data;
+      const message = await ChatMessage.findOneAndUpdate(
+        { messageId },
+        { status: 'read' },
+        { new: true }
+      );
+
+      if (message) {
+        // Notify sender that message was read
+        io.to(`user_${message.senderId}`).emit('message_read', {
+          messageId: message.messageId,
+          status: 'read'
+        });
+      }
+    } catch (error) {
+      console.error('Socket mark as read error:', error);
+    }
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+});
+
+const PORT = process.env.PORT;
+server.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
   console.log(`Open frontend at http://localhost:${PORT}/html/index.html`);
   console.log('📚 Enhanced with 5-member functionality:');
@@ -4854,6 +5204,7 @@ app.listen(PORT, () => {
   console.log(`   • Member 3 - Cart & Checkout: /html/cart.html`);
   console.log(`   • Member 4 - Print Services: /html/print.html`);
   console.log(`   • Member 5 - Admin Dashboard: /html/admin-dashboard.html`);
+  console.log('💬 Real-time Messaging with Socket.IO');
 });
 
 

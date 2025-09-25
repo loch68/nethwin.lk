@@ -5,7 +5,7 @@ const Order = require('../src/models/Order');
 const Review = require('../src/models/Review');
 
 async function main() {
-  const uri = process.env.MONGODB_URI || 'mongodb+srv://Cluster28608:nethwinlk@cluster28608.qqqrppl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster28608';
+  const uri = process.env.MONGODB_URI;
   await mongoose.connect(uri, { serverSelectionTimeoutMS: 5000 });
 
   // Seed Users

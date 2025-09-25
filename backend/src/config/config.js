@@ -4,12 +4,12 @@ require('dotenv').config({ path: '../../.env' });
 const config = {
   // Database Configuration
   database: {
-    uri: process.env.MONGODB_URI || 'mongodb://localhost:27017/nethwinlk'
+    uri: process.env.MONGODB_URI
   },
 
   // JWT Configuration
   jwt: {
-    secret: process.env.JWT_SECRET || 'fallback-jwt-secret-change-this',
+    secret: process.env.JWT_SECRET,
     expiresIn: '24h'
   },
 
@@ -31,14 +31,14 @@ const config = {
 
   // Admin Configuration
   admin: {
-    email: process.env.ADMIN_EMAIL || 'admin@nethwinlk.com',
-    password: process.env.ADMIN_PASSWORD || 'admin123'
+    email: process.env.ADMIN_EMAIL,
+    password: process.env.ADMIN_PASSWORD
   },
 
   // Server Configuration
   server: {
-    port: process.env.PORT || 4000,
-    nodeEnv: process.env.NODE_ENV || 'development'
+    port: process.env.PORT,
+    nodeEnv: process.env.NODE_ENV
   }
 };
 
