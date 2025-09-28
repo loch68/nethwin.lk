@@ -12,6 +12,19 @@
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
     />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        // Suppress Tailwind CDN warning
+        (function() {
+            const originalWarn = console.warn;
+            console.warn = function(...args) {
+                const message = args.join(' ');
+                if (message.includes('cdn.tailwindcss.com should not be used in production')) {
+                    return;
+                }
+                originalWarn.apply(console, args);
+            };
+        })();
+    </script>
     <link rel="stylesheet" href="../css/hover-effects.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/background-animations.css" />
@@ -786,24 +799,33 @@
             if (previous === 0) {
                 return current > 0 ? 100 : 0;
             }
-            return Math.round(((current - previous) / previous) * 100);
+            const change = ((current - previous) / previous) * 100;
+            return Math.round(change);
         }
 
         // Update percentage display
         function updatePercentageDisplay(elementId, current, previous) {
-            const percentage = calculatePercentageChange(current, previous);
             const element = document.getElementById(elementId);
-            if (element) {
-                if (percentage > 0) {
-                    element.textContent = `+${percentage}%`;
-                    element.className = 'text-green-600 text-sm font-medium';
-                } else if (percentage < 0) {
-                    element.textContent = `${percentage}%`;
-                    element.className = 'text-red-600 text-sm font-medium';
-                } else {
-                    element.textContent = '0%';
-                    element.className = 'text-gray-600 text-sm font-medium';
-                }
+            if (!element) return;
+            
+            // If this is the first load (previous is 0), show a neutral indicator
+            if (previous === 0) {
+                element.textContent = 'New';
+                element.className = 'text-blue-600 text-sm font-medium';
+                return;
+            }
+            
+            const percentage = calculatePercentageChange(current, previous);
+            
+            if (percentage > 0) {
+                element.textContent = `+${percentage}%`;
+                element.className = 'text-green-600 text-sm font-medium';
+            } else if (percentage < 0) {
+                element.textContent = `${percentage}%`;
+                element.className = 'text-red-600 text-sm font-medium';
+            } else {
+                element.textContent = '0%';
+                element.className = 'text-gray-600 text-sm font-medium';
             }
         }
 
@@ -849,6 +871,13 @@
                 document.getElementById('cardPrintJobs').textContent = String(printOrders.length);
 
                 // Update percentage changes
+                console.log('Updating percentages:', {
+                    sales: { current: totalSales, previous: previousData.totalSales },
+                    orders: { current: totalOrders, previous: previousData.totalOrders },
+                    users: { current: users.length, previous: previousData.totalUsers },
+                    printJobs: { current: printOrders.length, previous: previousData.totalPrintJobs }
+                });
+                
                 updatePercentageDisplay('salesPercentage', totalSales, previousData.totalSales);
                 updatePercentageDisplay('ordersPercentage', totalOrders, previousData.totalOrders);
                 updatePercentageDisplay('usersPercentage', users.length, previousData.totalUsers);

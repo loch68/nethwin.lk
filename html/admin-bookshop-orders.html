@@ -350,13 +350,14 @@
                                             <th class="px-6 py-4 text-left text-[#0e1a13] w-[150px] text-base font-semibold leading-normal">Status</th>
                                             <th class="px-6 py-4 text-left text-[#0e1a13] w-[200px] text-base font-semibold leading-normal">Delivery</th>
                                             <th class="px-6 py-4 text-left text-[#0e1a13] w-[150px] text-base font-semibold leading-normal">Payment</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[120px] text-base font-semibold leading-normal">Gift</th>
                                             <th class="px-6 py-4 text-left text-[#0e1a13] w-[200px] text-base font-semibold leading-normal">Date</th>
                                             <th class="px-6 py-4 text-left text-[#0e1a13] w-[150px] text-base font-semibold leading-normal">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="ordersTableBody">
                                         <tr>
-                                            <td colspan="6" class="px-6 py-12 text-center text-[#51946c]">
+                                            <td colspan="8" class="px-6 py-12 text-center text-[#51946c]">
                                                 <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                                                 </svg>
@@ -561,6 +562,11 @@
                         </span>
                     </td>
                     <td class="px-6 py-4">
+                        <span class="px-2 py-1 text-xs font-medium rounded-full ${getGiftColor(order.giftOption)}">
+                            ${order.giftOption === 'gift' ? 'Gift' : 'Self'}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4">
                         <div>
                             <div class="font-medium text-[#0e1a13]">${new Date(order.createdAt).toLocaleDateString()}</div>
                             <div class="text-sm text-gray-500">${new Date(order.createdAt).toLocaleTimeString()}</div>
@@ -626,6 +632,15 @@
             return paymentColors[paymentMethod?.toLowerCase()] || 'bg-gray-100 text-gray-800';
         }
         
+        // Get gift option color class
+        function getGiftColor(giftOption) {
+            const giftColors = {
+                'gift': 'bg-pink-100 text-pink-800',
+                'self': 'bg-blue-100 text-blue-800'
+            };
+            return giftColors[giftOption] || 'bg-gray-100 text-gray-800';
+        }
+        
         // Download invoice
         async function downloadInvoice(orderId) {
             try {
@@ -683,6 +698,16 @@
                         <p><strong>Delivery Method:</strong> ${invoiceData.deliveryMethod}</p>
                         ${invoiceData.deliveryAddress ? `<p><strong>Address:</strong> ${invoiceData.deliveryAddress}</p>` : ''}
                         <p><strong>Payment Method:</strong> ${invoiceData.paymentMethod}</p>
+                        <p><strong>Gift Option:</strong> ${invoiceData.giftOption === 'gift' ? 'Gift' : 'For Self'}</p>
+                        ${invoiceData.giftOption === 'gift' ? `
+                            <div class="mt-4 p-3 bg-pink-50 rounded-lg border border-pink-200">
+                                <h4 class="font-semibold text-pink-800 mb-2">🎁 Gift Recipient Details</h4>
+                                <p><strong>Recipient Name:</strong> ${invoiceData.recipientName || 'N/A'}</p>
+                                <p><strong>Recipient Email:</strong> ${invoiceData.recipientEmail || 'N/A'}</p>
+                                <p><strong>Recipient Phone:</strong> ${invoiceData.recipientPhone || 'N/A'}</p>
+                                ${invoiceData.giftMessage ? `<p><strong>Gift Message:</strong> ${invoiceData.giftMessage}</p>` : ''}
+                            </div>
+                        ` : ''}
                     </div>
                     
                     <table class="items-table">

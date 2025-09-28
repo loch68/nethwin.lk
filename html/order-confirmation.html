@@ -3,7 +3,18 @@
       as="style"
       onload="this.rel='stylesheet'"
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
-    /><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link rel="stylesheet" href="../css/hover-effects.css" /><link rel="stylesheet" href="../css/navbar.css" /><link rel="stylesheet" href="../css/cart-styles.css" /><link rel="stylesheet" href="../css/background-animations.css" /><link rel="stylesheet" href="../css/responsive.css" /><script src="../javascript/auth.js"></script><style>
+    /><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script>
+        // Suppress Tailwind CDN warning
+        window.addEventListener('load', function() {
+            const originalWarn = console.warn;
+            console.warn = function(message) {
+                if (typeof message === 'string' && message.includes('cdn.tailwindcss.com should not be used in production')) {
+                    return;
+                }
+                originalWarn.apply(console, arguments);
+            };
+        });
+    </script><link rel="stylesheet" href="../css/hover-effects.css" /><link rel="stylesheet" href="../css/navbar.css" /><link rel="stylesheet" href="../css/cart-styles.css" /><link rel="stylesheet" href="../css/background-animations.css" /><link rel="stylesheet" href="../css/responsive.css" /><script src="../javascript/auth.js"></script><style>
         .confirmation-container {
             background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
             border-radius: 20px;
@@ -287,6 +298,29 @@
                     ${hasUserInfo ? '<p class="text-sm text-green-600 flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Verified from your account</p>' : ''}
                 </div>
             `;
+            
+            // Display gift recipient info if it's a gift
+            if (orderData.giftOption === 'gift') {
+                const recipientInfo = document.createElement('div');
+                recipientInfo.className = 'info-card p-6 mt-6';
+                recipientInfo.innerHTML = `
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <svg class="w-6 h-6 mr-2 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
+                        </svg>
+                        Gift Recipient Details
+                    </h3>
+                    <div class="space-y-2">
+                        <p><span class="font-semibold">Recipient Name:</span> ${orderData.recipientName || 'Not provided'}</p>
+                        <p><span class="font-semibold">Recipient Email:</span> ${orderData.recipientEmail || 'Not provided'}</p>
+                        <p><span class="font-semibold">Recipient Phone:</span> ${orderData.recipientPhone || 'Not provided'}</p>
+                        ${orderData.giftMessage ? `<p><span class="font-semibold">Gift Message:</span> <em>"${orderData.giftMessage}"</em></p>` : ''}
+                    </div>
+                `;
+                
+                // Insert recipient info after customer info
+                customerInfo.parentNode.insertBefore(recipientInfo, customerInfo.nextSibling);
+            }
         }
         
         // Confirm order
@@ -354,11 +388,21 @@
                         customerPhone: customerDetails.customerPhone,
                         deliveryMethod: orderData.deliveryMethod,
                         paymentMethod: orderData.paymentMethod,
+                        giftOption: orderData.giftOption || 'self',
+                        recipientName: orderData.recipientName || '',
+                        recipientEmail: orderData.recipientEmail || '',
+                        recipientPhone: orderData.recipientPhone || '',
+                        giftMessage: orderData.giftMessage || '',
                         deliveryAddress: orderData.deliveryAddress,
                         deliveryFee: orderData.deliveryFee,
                         meta: {
                             deliveryMethod: orderData.deliveryMethod,
                             paymentMethod: orderData.paymentMethod,
+                            giftOption: orderData.giftOption || 'self',
+                            recipientName: orderData.recipientName || '',
+                            recipientEmail: orderData.recipientEmail || '',
+                            recipientPhone: orderData.recipientPhone || '',
+                            giftMessage: orderData.giftMessage || '',
                             deliveryAddress: orderData.deliveryAddress,
                             deliveryFee: orderData.deliveryFee
                         }
@@ -533,9 +577,20 @@
                         .items-table th { background-color: #f2f2f2; }
                         .total-section { text-align: right; margin-top: 20px; }
                         .footer { margin-top: 40px; text-align: center; color: #666; }
-                    </style></head><body><div class="header"><h1>NethwinLK</h1><h2>Invoice #${invoiceData.orderNumber}</h2><p>Date: ${new Date(invoiceData.orderDate).toLocaleDateString()}</p></div><div class="invoice-details"><h3>Customer Information</h3><p><strong>Name:</strong> ${invoiceData.customerName}</p><p><strong>Email:</strong> ${invoiceData.customerEmail}</p><p><strong>Phone:</strong> ${invoiceData.customerPhone}</p><p><strong>Delivery Method:</strong> ${invoiceData.deliveryMethod}</p>
+                    </style></head><body><div class="header"><h1>NethwinLK</h1><h2>Invoice #${invoiceData.orderNumber}</h2><p>Date: ${new Date(invoiceData.orderDate).toLocaleDateString()}</p></div><div class="invoice-details"><h3>Customer Information</h3><p><strong>Name:</strong> ${invoiceData.customerName}</p><p><strong>Email:</strong> ${invoiceData.customerEmail}</p><p><strong>Phone:</strong> ${invoiceData.customerPhone}</p>                        <p><strong>Delivery Method:</strong> ${invoiceData.deliveryMethod}</p>
                         ${invoiceData.deliveryAddress ? `<p><strong>Address:</strong> ${invoiceData.deliveryAddress}</p>` : ''}
-                        <p><strong>Payment Method:</strong> ${invoiceData.paymentMethod}</p></div><table class="items-table"><thead><tr><th>Item</th><th>Quantity</th><th>Price</th><th>Total</th></tr></thead><tbody>
+                        <p><strong>Payment Method:</strong> ${invoiceData.paymentMethod}</p>
+                        <p><strong>Gift Option:</strong> ${invoiceData.giftOption === 'gift' ? 'Gift' : 'For Self'}</p>
+                        ${invoiceData.giftOption === 'gift' ? `
+                            <div style="margin-top: 15px; padding: 10px; background-color: #f8f9fa; border-left: 4px solid #e91e63;">
+                                <h4 style="margin: 0 0 10px 0; color: #e91e63;">🎁 Gift Recipient Details</h4>
+                                <p><strong>Recipient Name:</strong> ${invoiceData.recipientName || 'N/A'}</p>
+                                <p><strong>Recipient Email:</strong> ${invoiceData.recipientEmail || 'N/A'}</p>
+                                <p><strong>Recipient Phone:</strong> ${invoiceData.recipientPhone || 'N/A'}</p>
+                                ${invoiceData.giftMessage ? `<p><strong>Gift Message:</strong> "${invoiceData.giftMessage}"</p>` : ''}
+                            </div>
+                        ` : ''}
+                    </div><table class="items-table"><thead><tr><th>Item</th><th>Quantity</th><th>Price</th><th>Total</th></tr></thead><tbody>
                             ${invoiceData.items.map(item => `
                                 <tr><td>${item.name}</td><td>${item.quantity}</td><td>Rs. ${item.price.toFixed(2)}</td><td>Rs. ${(item.price * item.quantity).toFixed(2)}</td></tr>
                             `).join('')}

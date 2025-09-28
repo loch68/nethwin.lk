@@ -3,7 +3,20 @@
       as="style"
       onload="this.rel='stylesheet'"
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
-    /><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link rel="stylesheet" href="../css/hover-effects.css" /><link rel="stylesheet" href="../css/navbar.css" /><link rel="stylesheet" href="../css/background-animations.css" /><link rel="stylesheet" href="../css/cart-styles.css" /><style>
+    /><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        // Suppress Tailwind CDN warning
+        window.addEventListener('load', function() {
+            const originalWarn = console.warn;
+            console.warn = function(message) {
+                if (typeof message === 'string' && message.includes('cdn.tailwindcss.com should not be used in production')) {
+                    return;
+                }
+                originalWarn.apply(console, arguments);
+            };
+        });
+    </script>
+    <link rel="stylesheet" href="../css/hover-effects.css" /><link rel="stylesheet" href="../css/navbar.css" /><link rel="stylesheet" href="../css/background-animations.css" /><link rel="stylesheet" href="../css/cart-styles.css" /><style>
       .product-grid {
         display: grid !important;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
@@ -1409,18 +1422,21 @@
                   ${window.authManager && window.authManager.isAdmin() ? `
                   <div class="flex items-center justify-between text-sm text-gray-500 bg-yellow-50 px-2 py-1 rounded border-l-2 border-yellow-400"><span class="text-xs text-yellow-600 font-medium">Admin View:</span><div class="flex gap-4"><span>Cost: LKR ${purchasePrice.toFixed(2)}</span><span>Profit: LKR ${(finalPrice - purchasePrice).toFixed(2)}</span></div></div>
                   ` : ''}
-                </div><!-- Action Buttons --><div class="flex gap-2 w-full"><div class="flex items-center bg-gray-100 rounded-lg overflow-hidden"><button onclick="changeQuantity('${productId}', -1)" 
+                </div><!-- Action Buttons --><div class="flex gap-2 w-full">                <div class="flex items-center bg-gray-100 rounded-lg overflow-hidden"><button onclick="changeQuantity('${productId}', -1)" 
                             class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-colors duration-200 disabled:opacity-50" 
+                            data-no-refresh="true"
                             ${!isInStock ? 'disabled' : ''}>
                       −
                     </button><span id="quantity-${productId}" class="w-10 text-center font-semibold text-gray-900 text-sm">
                       1
                     </span><button onclick="changeQuantity('${productId}', 1)" 
                             class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-colors duration-200 disabled:opacity-50" 
+                            data-no-refresh="true"
                             ${!isInStock ? 'disabled' : ''}>
                       +
                             </button></div><button onclick="addToCart('${productId}')" 
                           class="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-2 px-3 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 text-sm"
+                          data-no-refresh="true"
                           ${!isInStock ? 'disabled' : ''}><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path></svg>
                     ${isInStock ? 'Add to Cart' : 'Out of Stock'}
                   </button></div></div><!-- Ratings (if available) -->
@@ -2403,71 +2419,68 @@
       }
 
       // Enhanced add to cart function with proper cart management
-      function addToCart(productId) {
-        const product = allProducts.find(p => (p._id || p.id) === productId);
-        if (!product) {
-          console.error("Product not found:", productId);
-          return;
-        }
-
-        const quantitySpan = document.getElementById(`quantity-${productId}`);
-        const quantity = quantitySpan ? parseInt(quantitySpan.textContent) : 1;
-
-        // Get existing cart
-        let cart = [];
+      async function addToCart(productId) {
         try {
-          cart = JSON.parse(localStorage.getItem("nethwin_cart") || "[]");
-        } catch (e) {
-          console.warn("Could not load cart from localStorage:", e);
-        }
+          const product = allProducts.find(p => (p._id || p.id) === productId);
+          if (!product) {
+            console.error("Product not found:", productId);
+            return;
+          }
 
-        // Check if product already in cart
-        const existingItem = cart.find(item => item.id === (product._id || product.id));
-        
-        if (existingItem) {
-          existingItem.qty += quantity;
-        } else {
-          // Get the correct product image (same logic as product card)
-          const productImage = (product.images && product.images.length > 0) 
-            ? product.images[0] 
-            : (product.image && product.image !== '') 
-              ? product.image 
-              : "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xNTAgMTAwQzE2NS40NjQgMTAwIDE3NyAxMTEuNTM2IDE3NyAxMjdDMTc3IDE0Mi40NjQgMTY1LjQ2NCAxNTQgMTUwIDE1NEMxMzQuNTM2IDE1NCAxMjMgMTQyLjQ2NCAxMjMgMTI3QzEyMyAxMTEuNTM2IDEzNC41MzYgMTAwIDE1MCAxMDBaIiBmaWxsPSIjOUI5QkE1Ii8+CjxwYXRoIGQ9Ik0xMjMgMTc3SDE3N1YyMDBIMTIzVjE3N1oiIGZpbGw9IiM5QjlCQTUiLz4KPC9zdmc+";
+          const quantitySpan = document.getElementById(`quantity-${productId}`);
+          const quantity = quantitySpan ? parseInt(quantitySpan.textContent) : 1;
+
+          // Get existing cart
+          let cart = [];
+          try {
+            cart = JSON.parse(localStorage.getItem("nethwin_cart") || "[]");
+          } catch (e) {
+            console.warn("Could not load cart from localStorage:", e);
+          }
+
+          // Check if product already in cart
+          const existingItem = cart.find(item => item.id === (product._id || product.id));
           
-          cart.push({
-            id: product._id || product.id,
-            name: product.name,
-            price: product.sellingPrice || product.price || 0,
-            qty: quantity,
-            image: productImage,
-            images: product.images || [],
-            category: product.category,
-            brand: product.brand
-          });
-        }
+          if (existingItem) {
+            existingItem.qty += quantity;
+          } else {
+            // Get the correct product image (same logic as product card)
+            const productImage = (product.images && product.images.length > 0) 
+              ? product.images[0] 
+              : (product.image && product.image !== '') 
+                ? product.image 
+                : "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xNTAgMTAwQzE2NS40NjQgMTAwIDE3NyAxMTEuNTM2IDE3NyAxMjdDMTc3IDE0Mi40NjQgMTY1LjQ2NCAxNTQgMTUwIDE1NEMxMzQuNTM2IDE1NCAxMjMgMTQyLjQ2NCAxMjMgMTI3QzEyMyAxMTEuNTM2IDEzNC41MzYgMTAwIDE1MCAxMDBaIiBmaWxsPSIjOUI5QkE1Ii8+CjxwYXRoIGQ9Ik0xMjMgMTc3SDE3N1YyMDBIMTIzVjE3N1oiIGZpbGw9IiM5QjlCQTUiLz4KPC9zdmc+";
+            
+            cart.push({
+              id: product._id || product.id,
+              name: product.name,
+              price: product.sellingPrice || product.price || 0,
+              qty: quantity,
+              image: productImage,
+              images: product.images || [],
+              category: product.category,
+              brand: product.brand
+            });
+          }
 
-        // Save cart
-        try {
+          // Save cart
           localStorage.setItem("nethwin_cart", JSON.stringify(cart));
           
           // Update cart count on all pages
           updateCartCount();
           
-          // Visual feedback
-          const button = event.target;
-          const originalText = button.textContent;
-          button.textContent = "Added!";
-          button.style.backgroundColor = "#10b981";
-          
-          setTimeout(() => {
-            button.textContent = originalText;
-            button.style.backgroundColor = "";
-          }, 1500);
-          
           console.log(`Added ${quantity} x ${product.name} to cart`);
+          
+          // Show success notification
+          if (window.showNotification) {
+            window.showNotification(`Added ${quantity} x ${product.name} to cart!`, 'success');
+          }
+          
         } catch (e) {
-          console.error("Could not save cart to localStorage:", e);
-          alert("Added to cart! (Cart data may not persist)");
+          console.error("Error adding to cart:", e);
+          if (window.showNotification) {
+            window.showNotification("Error adding to cart. Please try again.", 'error');
+          }
         }
       }
 

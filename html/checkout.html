@@ -238,6 +238,52 @@
             width: 100%;
         }
         
+        /* Gift Option Cards */
+        .gift-option-card input[type="radio"]:checked + div {
+            border-color: #ec4899;
+            background-color: #fdf2f8;
+        }
+        
+        .gift-option-card input[type="radio"]:checked + div .absolute.top-2.right-2 {
+            border-color: #ec4899;
+        }
+        
+        .gift-option-card input[type="radio"]:checked + div .absolute.top-2.right-2 > div {
+            opacity: 1;
+            background-color: #ec4899;
+        }
+        
+        /* Gift option card circles - show color when selected */
+        .gift-option-card[onclick*="self"].selected .absolute.top-2.right-2 {
+            border-color: #3b82f6;
+        }
+        .gift-option-card[onclick*="self"].selected .absolute.top-2.right-2 > div {
+            opacity: 1;
+            background-color: #3b82f6;
+        }
+        
+        .gift-option-card[onclick*="gift"].selected .absolute.top-2.right-2 {
+            border-color: #ec4899;
+        }
+        .gift-option-card[onclick*="gift"].selected .absolute.top-2.right-2 > div {
+            opacity: 1;
+            background-color: #ec4899;
+        }
+        
+        /* Force background colors for selected gift options */
+        .gift-option-card.selected[onclick*="self"] {
+            background-color: #eff6ff !important; /* Light blue for self */
+        }
+        .gift-option-card.selected[onclick*="self"] .flex.items-center.gap-3 {
+            background-color: #eff6ff !important; /* Light blue for self inner div */
+        }
+        .gift-option-card.selected[onclick*="gift"] {
+            background-color: #fdf2f8 !important; /* Light pink for gift */
+        }
+        .gift-option-card.selected[onclick*="gift"] .flex.items-center.gap-3 {
+            background-color: #fdf2f8 !important; /* Light pink for gift inner div */
+        }
+        
         .step-indicator {
             position: relative;
         }
@@ -276,7 +322,11 @@
                                         Customer Information
                                     </h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label><input type="text" id="customerName" name="customerName" class="form-input w-full px-4 py-3 rounded-lg" required></div><div><label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label><input type="email" id="customerEmail" name="customerEmail" class="form-input w-full px-4 py-3 rounded-lg" required></div><div><label class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label><input type="tel" id="customerPhone" name="customerPhone" class="form-input w-full px-4 py-3 rounded-lg" required></div></div></div><!-- Delivery Information --><div class="form-section p-6"><h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><svg class="w-5 h-5 mr-3 text-[#19e619]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                         Delivery Information
-                                    </h2><div class="space-y-4"><div><label class="block text-sm font-medium text-gray-700 mb-2">Delivery Method *</label><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><label class="delivery-option-card group cursor-pointer" onclick="selectDelivery('local', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="deliveryMethod" value="Local Delivery" class="sr-only" checked><div class="flex items-start gap-4"><div class="w-12 h-12 bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg flex items-center justify-center group-hover:from-green-200 group-hover:to-emerald-200 transition-colors"><svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg></div><div class="flex-1"><h4 class="font-bold text-gray-800 text-lg mb-1">Local Delivery</h4><p class="text-sm text-gray-600 mb-3">Within <span id="deliveryRadius">10</span>km radius from our store</p><p class="text-sm text-gray-500 mb-3">Available during business hours</p><div class="flex items-center justify-between"><div class="flex items-center gap-2"><svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span class="text-sm text-green-600 font-medium">Estimated 1-2 days</span></div><span id="localDeliveryPrice" class="text-sm font-bold text-green-600">LKR 0.00</span></div></div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-green-500 transition-colors"><div class="w-full h-full rounded-full bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="delivery-option-card group cursor-pointer" onclick="selectDelivery('pickup', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-blue-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="deliveryMethod" value="Store Pickup" class="sr-only"><div class="flex items-start gap-4"><div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg flex items-center justify-center group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors"><svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg></div><div class="flex-1"><h4 class="font-bold text-gray-800 text-lg mb-1">Store Pickup</h4><p class="text-sm text-gray-600 mb-3">Collect from our physical store</p><p class="text-sm text-gray-500 mb-3">Available during store hours</p><div class="flex items-center justify-between"><div class="flex items-center gap-2"><svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span class="text-sm text-blue-600 font-medium">Ready in 2-4 hours</span></div><span class="text-sm font-bold text-green-600">Free</span></div></div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-blue-500 transition-colors"><div class="w-full h-full rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label></div></div><div id="deliveryAddressSection"><label class="block text-sm font-medium text-gray-700 mb-2">Delivery Address *</label><textarea id="deliveryAddress" name="deliveryAddress" class="form-input w-full px-4 py-3 rounded-lg" rows="3" placeholder="Enter your complete delivery address"></textarea></div></div></div><!-- Payment Information --><div class="form-section p-6"><h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><svg class="w-5 h-5 mr-3 text-[#19e619]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                                    </h2><div class="space-y-4"><div><label class="block text-sm font-medium text-gray-700 mb-2">Delivery Method *</label><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><label class="delivery-option-card group cursor-pointer" onclick="selectDelivery('local', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="deliveryMethod" value="Local Delivery" class="sr-only" checked><div class="flex items-start gap-4"><div class="w-12 h-12 bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg flex items-center justify-center group-hover:from-green-200 group-hover:to-emerald-200 transition-colors"><svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg></div><div class="flex-1"><h4 class="font-bold text-gray-800 text-lg mb-1">Local Delivery</h4><p class="text-sm text-gray-600 mb-3">Within <span id="deliveryRadius">10</span>km radius from our store</p><p class="text-sm text-gray-500 mb-3">Available during business hours</p><div class="flex items-center justify-between"><div class="flex items-center gap-2"><svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span class="text-sm text-green-600 font-medium">Estimated 1-2 days</span></div><span id="localDeliveryPrice" class="text-sm font-bold text-green-600">LKR 0.00</span></div></div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-green-500 transition-colors"><div class="w-full h-full rounded-full bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="delivery-option-card group cursor-pointer" onclick="selectDelivery('pickup', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-blue-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="deliveryMethod" value="Store Pickup" class="sr-only"><div class="flex items-start gap-4"><div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg flex items-center justify-center group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors"><svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg></div><div class="flex-1"><h4 class="font-bold text-gray-800 text-lg mb-1">Store Pickup</h4><p class="text-sm text-gray-600 mb-3">Collect from our physical store</p><p class="text-sm text-gray-500 mb-3">Available during store hours</p><div class="flex items-center justify-between"><div class="flex items-center gap-2"><svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span class="text-sm text-blue-600 font-medium">Ready in 2-4 hours</span></div><span class="text-sm font-bold text-green-600">Free</span></div></div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-blue-500 transition-colors"><div class="w-full h-full rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label></div></div><!-- Gift Option Section (only shown for Local Delivery) --><div id="giftOptionSection" class="mt-6 p-4 bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl border border-pink-200"><h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center"><svg class="w-5 h-5 mr-2 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
+                                        Is this a gift?
+                                    </h3><p class="text-sm text-gray-600 mb-4">Let us know if you're sending this to your own address or as a gift to someone special!</p><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><label class="gift-option-card group cursor-pointer" onclick="selectGiftOption('self', event)"><div class="relative p-4 border-2 border-gray-200 rounded-lg hover:border-pink-400 transition-all duration-300 group-hover:shadow-md"><input type="radio" name="giftOption" value="self" class="sr-only" checked><div class="flex items-center gap-3"><div class="w-10 h-10 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg flex items-center justify-center group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors"><svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg></div><div class="flex-1"><h4 class="font-semibold text-gray-800 text-base">For Myself</h4><p class="text-sm text-gray-600">Sending to my own address</p></div></div><div class="absolute top-2 right-2 w-5 h-5 border-2 border-gray-300 rounded-full group-hover:border-blue-500 transition-colors"><div class="w-full h-full rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="gift-option-card group cursor-pointer" onclick="selectGiftOption('gift', event)"><div class="relative p-4 border-2 border-gray-200 rounded-lg hover:border-pink-400 transition-all duration-300 group-hover:shadow-md"><input type="radio" name="giftOption" value="gift" class="sr-only"><div class="flex items-center gap-3"><div class="w-10 h-10 bg-gradient-to-br from-pink-100 to-purple-100 rounded-lg flex items-center justify-center group-hover:from-pink-200 group-hover:to-purple-200 transition-colors"><svg class="w-5 h-5 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg></div><div class="flex-1"><h4 class="font-semibold text-gray-800 text-base">As a Gift</h4><p class="text-sm text-gray-600">Sending to someone else</p></div></div><div class="absolute top-2 right-2 w-5 h-5 border-2 border-gray-300 rounded-full group-hover:border-pink-500 transition-colors"><div class="w-full h-full rounded-full bg-pink-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label></div><!-- Recipient Details Section (only shown for Gift) --><div id="recipientDetailsSection" class="mt-6 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border border-purple-200" style="display: none;"><h4 class="text-lg font-semibold text-gray-800 mb-4 flex items-center"><svg class="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                        Recipient Details
+                                    </h4><p class="text-sm text-gray-600 mb-4">Please provide the recipient's information for delivery</p><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="block text-sm font-medium text-gray-700 mb-2">Recipient's Full Name *</label><input type="text" id="recipientName" name="recipientName" class="form-input w-full px-4 py-3 rounded-lg" placeholder="Enter recipient's full name"></div><div><label class="block text-sm font-medium text-gray-700 mb-2">Recipient's Email *</label><input type="email" id="recipientEmail" name="recipientEmail" class="form-input w-full px-4 py-3 rounded-lg" placeholder="Enter recipient's email address"></div><div><label class="block text-sm font-medium text-gray-700 mb-2">Recipient's Phone Number *</label><input type="tel" id="recipientPhone" name="recipientPhone" class="form-input w-full px-4 py-3 rounded-lg" placeholder="Enter recipient's phone number"></div><div><label class="block text-sm font-medium text-gray-700 mb-2">Gift Message (Optional)</label><input type="text" id="giftMessage" name="giftMessage" class="form-input w-full px-4 py-3 rounded-lg" placeholder="Add a special message for the recipient"></div></div><div class="mt-4"><label class="block text-sm font-medium text-gray-700 mb-2">Delivery Address *</label><textarea id="deliveryAddress" name="deliveryAddress" class="form-input w-full px-4 py-3 rounded-lg" rows="3" placeholder="Enter the recipient's complete delivery address"></textarea></div></div></div><!-- Delivery Address Section for Self --><div id="deliveryAddressSection" class="mt-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200"><h4 class="text-lg font-semibold text-gray-800 mb-4 flex items-center"><svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>Delivery Address</h4><div><label class="block text-sm font-medium text-gray-700 mb-2">Your Delivery Address *</label><textarea id="deliveryAddressSelf" name="deliveryAddressSelf" class="form-input w-full px-4 py-3 rounded-lg" rows="3" placeholder="Enter your complete delivery address"></textarea></div></div></div><!-- Payment Information --><div class="form-section p-6"><h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><svg class="w-5 h-5 mr-3 text-[#19e619]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
                                         Payment Information
                                     </h2><div class="space-y-4"><div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4"><div class="flex items-center"><svg class="w-5 h-5 text-yellow-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path></svg><div><h3 class="text-sm font-medium text-yellow-800">Payment Gateway Notice</h3><p class="text-sm text-yellow-700 mt-1">Card payments are currently not available. Please use Cash on Delivery or QR Payment methods.</p></div></div></div><div><label class="block text-sm font-medium text-gray-700 mb-2">Payment Method *</label><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><label class="payment-option-card group cursor-pointer" onclick="selectPayment('cod', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="paymentMethod" value="Cash on Delivery" class="sr-only" checked><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-green-200 group-hover:to-emerald-200 transition-colors"><svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">Cash on Delivery</h4><p class="text-sm text-gray-600 mb-4">Pay when delivered</p><div class="w-16 h-6 bg-green-500 rounded text-white text-xs flex items-center justify-center font-bold">COD</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-green-500 transition-colors"><div class="w-full h-full rounded-full bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="payment-option-card group cursor-pointer" onclick="selectPayment('qr', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-purple-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="paymentMethod" value="QR Payment" class="sr-only"><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-violet-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-purple-200 group-hover:to-violet-200 transition-colors"><svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-4v-4m-6 4h2m0-4h-2v4m0-4v-4m6 0V7a2 2 0 00-2-2H8a2 2 0 00-2 2v4"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">QR Payment</h4><p class="text-sm text-gray-600 mb-4">Scan QR code to pay</p><div class="w-16 h-6 bg-purple-500 rounded text-white text-xs flex items-center justify-center font-bold">QR</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-purple-500 transition-colors"><div class="w-full h-full rounded-full bg-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label></div></div></div></div><!-- Order Notes --><div class="form-section p-6"><h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><svg class="w-5 h-5 mr-3 text-[#19e619]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                         Order Notes (Optional)
@@ -322,16 +372,16 @@
                 return;
             }
             
-            try {
-                const response = await fetch('/api/profile', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                
-                if (response.ok) {
-                    const userDetails = await response.json();
-                    if (userDetails && userDetails.data) {
+                try {
+                    const response = await fetch('/api/profile', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const userDetails = await response.json();
+                        if (userDetails && userDetails.data) {
                         // Cache the user details
                         userDetailsCache = userDetails.data;
                         populateUserForm(userDetails.data);
@@ -350,9 +400,9 @@
                     }
                 } else {
                     console.error('Failed to load user details:', response.status, response.statusText);
-                }
-            } catch (error) {
-                console.error('Error loading user details:', error);
+                    }
+                } catch (error) {
+                    console.error('Error loading user details:', error);
                 // Try to use cached data as fallback
                 const cachedUser = localStorage.getItem('userDetails');
                 if (cachedUser) {
@@ -381,7 +431,10 @@
             if (userData.zipCode) addressParts.push(userData.zipCode);
             
             if (addressParts.length > 0) {
-                document.getElementById('deliveryAddress').value = addressParts.join(', ');
+                const deliveryAddressSelfField = document.getElementById('deliveryAddressSelf');
+                if (deliveryAddressSelfField) {
+                    deliveryAddressSelfField.value = addressParts.join(', ');
+                }
             }
         }
         
@@ -470,21 +523,21 @@
         function updateDeliveryDisplayFromCache(settings) {
             const price = settings?.localDeliveryPrice || 0;
             const radius = settings?.deliveryRadius || 10;
-            
-            // Update delivery radius
-            const radiusElement = document.getElementById('deliveryRadius');
-            if (radiusElement) {
-                radiusElement.textContent = radius;
-            }
-            
-            // Update delivery price
-            const priceElement = document.getElementById('localDeliveryPrice');
-            if (priceElement) {
-                if (price > 0) {
-                    priceElement.textContent = `LKR ${price.toFixed(2)}`;
-                } else {
-                    priceElement.textContent = 'Free';
-                }
+                    
+                    // Update delivery radius
+                    const radiusElement = document.getElementById('deliveryRadius');
+                    if (radiusElement) {
+                        radiusElement.textContent = radius;
+                    }
+                    
+                    // Update delivery price
+                    const priceElement = document.getElementById('localDeliveryPrice');
+                    if (priceElement) {
+                        if (price > 0) {
+                            priceElement.textContent = `LKR ${price.toFixed(2)}`;
+                        } else {
+                            priceElement.textContent = 'Free';
+                        }
             }
         }
 
@@ -557,13 +610,23 @@
             }
             
             // Collect form data
+            const giftOption = document.querySelector('input[name="giftOption"]:checked')?.value;
+            const deliveryAddress = giftOption === 'gift' 
+                ? document.getElementById('deliveryAddress').value 
+                : document.getElementById('deliveryAddressSelf').value;
+                
             const formData = {
                 customerName: document.getElementById('customerName').value,
                 customerEmail: document.getElementById('customerEmail').value,
                 customerPhone: document.getElementById('customerPhone').value,
                 deliveryMethod: document.querySelector('input[name="deliveryMethod"]:checked')?.value,
-                deliveryAddress: document.getElementById('deliveryAddress').value,
+                deliveryAddress: deliveryAddress,
                 paymentMethod: document.querySelector('input[name="paymentMethod"]:checked')?.value,
+                giftOption: giftOption,
+                recipientName: document.getElementById('recipientName').value,
+                recipientEmail: document.getElementById('recipientEmail').value,
+                recipientPhone: document.getElementById('recipientPhone').value,
+                giftMessage: document.getElementById('giftMessage').value,
                 orderNotes: document.getElementById('orderNotes').value
             };
             
@@ -589,6 +652,18 @@
             const codPaymentCard = document.querySelector('.payment-option-card[onclick*="cod"]');
             if (codPaymentCard) {
                 codPaymentCard.classList.add('selected');
+            }
+            
+            // Set "For Myself" as selected by default for gift option
+            const selfGiftCard = document.querySelector('.gift-option-card[onclick*="self"]');
+            if (selfGiftCard) {
+                selfGiftCard.classList.add('selected');
+            }
+            
+            // Show gift option section since Local Delivery is default
+            const giftSection = document.getElementById('giftOptionSection');
+            if (giftSection) {
+                giftSection.style.display = 'block';
             }
             
             // Set delivery address as required by default (Local Delivery is default)
@@ -664,9 +739,14 @@
                 orderData.deliveryMethod = type === 'local' ? 'Local Delivery' : 'Store Pickup';
             }
             
-            // Show/hide delivery address section and set required attribute
+            // Show/hide gift option section and delivery address section
+            const giftSection = document.getElementById('giftOptionSection');
             const addressSection = document.getElementById('deliveryAddressSection');
             const deliveryAddressField = document.getElementById('deliveryAddress');
+            
+            if (giftSection) {
+                giftSection.style.display = type === 'local' ? 'block' : 'none';
+            }
             if (addressSection) {
                 addressSection.style.display = type === 'local' ? 'block' : 'none';
             }
@@ -703,6 +783,104 @@
                         orderData.paymentMethod = 'QR Payment';
                         break;
                 }
+            }
+        }
+        
+        function selectGiftOption(type, event) {
+            // Remove selected class from all gift options
+            document.querySelectorAll('.gift-option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            event.currentTarget.classList.add('selected');
+            
+            // Update radio button
+            const radio = event.currentTarget.querySelector('input[type="radio"]');
+            if (radio) {
+                radio.checked = true;
+            }
+            
+            // Update gift option in order data
+            if (orderData) {
+                orderData.giftOption = type;
+            }
+            
+            // Show/hide recipient details section
+            const recipientSection = document.getElementById('recipientDetailsSection');
+            const deliveryAddressField = document.getElementById('deliveryAddress');
+            const customerNameField = document.getElementById('customerName');
+            const customerEmailField = document.getElementById('customerEmail');
+            const customerPhoneField = document.getElementById('customerPhone');
+            
+            if (type === 'gift') {
+                // Show recipient details section (which now includes delivery address)
+                if (recipientSection) {
+                    recipientSection.style.display = 'block';
+                }
+                
+                // Clear delivery address field and update placeholder for gift
+                if (deliveryAddressField) {
+                    deliveryAddressField.value = '';
+                    deliveryAddressField.placeholder = 'Enter the recipient\'s complete delivery address';
+                }
+                
+                // Clear customer fields since it's a gift
+                if (customerNameField) customerNameField.value = '';
+                if (customerEmailField) customerEmailField.value = '';
+                if (customerPhoneField) customerPhoneField.value = '';
+                
+                // Set required fields for recipient
+                const recipientNameField = document.getElementById('recipientName');
+                const recipientEmailField = document.getElementById('recipientEmail');
+                const recipientPhoneField = document.getElementById('recipientPhone');
+                
+                if (recipientNameField) recipientNameField.required = true;
+                if (recipientEmailField) recipientEmailField.required = true;
+                if (recipientPhoneField) recipientPhoneField.required = true;
+                
+            } else {
+                // Hide recipient details section
+                if (recipientSection) {
+                    recipientSection.style.display = 'none';
+                }
+                
+                // Show separate delivery address section for self
+                const addressSection = document.getElementById('deliveryAddressSection');
+                if (addressSection) {
+                    addressSection.style.display = 'block';
+                }
+                
+                // Update the self delivery address field
+                const deliveryAddressSelfField = document.getElementById('deliveryAddressSelf');
+                if (deliveryAddressSelfField) {
+                    deliveryAddressSelfField.placeholder = 'Enter your complete delivery address';
+                }
+                
+                // Clear recipient fields and make them not required
+                const recipientNameField = document.getElementById('recipientName');
+                const recipientEmailField = document.getElementById('recipientEmail');
+                const recipientPhoneField = document.getElementById('recipientPhone');
+                const giftMessageField = document.getElementById('giftMessage');
+                
+                if (recipientNameField) {
+                    recipientNameField.value = '';
+                    recipientNameField.required = false;
+                }
+                if (recipientEmailField) {
+                    recipientEmailField.value = '';
+                    recipientEmailField.required = false;
+                }
+                if (recipientPhoneField) {
+                    recipientPhoneField.value = '';
+                    recipientPhoneField.required = false;
+                }
+                if (giftMessageField) {
+                    giftMessageField.value = '';
+                }
+                
+                // Try to reload user details if available
+                loadUserDetails();
             }
         }
     </script><script src="../javascript/button-refresh.js"></script></body></html>

@@ -1775,7 +1775,17 @@ app.post('/api/orders/:orderId/invoice', async (req, res) => {
                     <p><strong>Name:</strong> ${order.customerName || 'N/A'}</p>
                     <p><strong>Email:</strong> ${order.customerEmail || 'N/A'}</p>
                     <p><strong>Phone:</strong> ${order.customerPhone || 'N/A'}</p>
+                    <p><strong>Gift Option:</strong> ${(order.giftOption || order.meta?.giftOption) === 'gift' ? 'Gift' : 'For Self'}</p>
                     ${order.deliveryAddress ? `<p><strong>Address:</strong> ${order.deliveryAddress}</p>` : ''}
+                    ${(order.giftOption || order.meta?.giftOption) === 'gift' ? `
+                        <div style="margin-top: 15px; padding: 15px; background-color: #f8f9fa; border-left: 4px solid #e91e63; border-radius: 4px;">
+                            <h4 style="margin: 0 0 10px 0; color: #e91e63; font-size: 16px;">🎁 Gift Recipient Details</h4>
+                            <p><strong>Recipient Name:</strong> ${order.recipientName || order.meta?.recipientName || 'N/A'}</p>
+                            <p><strong>Recipient Email:</strong> ${order.recipientEmail || order.meta?.recipientEmail || 'N/A'}</p>
+                            <p><strong>Recipient Phone:</strong> ${order.recipientPhone || order.meta?.recipientPhone || 'N/A'}</p>
+                            ${(order.giftMessage || order.meta?.giftMessage) ? `<p><strong>Gift Message:</strong> <em>"${order.giftMessage || order.meta?.giftMessage}"</em></p>` : ''}
+                        </div>
+                    ` : ''}
                 </div>
             </div>
             
@@ -1959,6 +1969,11 @@ app.post('/api/orders', async (req, res) => {
       customerPhone: body.customerPhone || '',
       deliveryMethod: body.deliveryMethod || body.meta?.deliveryMethod || 'Local Delivery',
       paymentMethod: body.paymentMethod || body.meta?.paymentMethod || 'Cash on Delivery',
+      giftOption: body.giftOption || body.meta?.giftOption || 'self',
+      recipientName: body.recipientName || body.meta?.recipientName || '',
+      recipientEmail: body.recipientEmail || body.meta?.recipientEmail || '',
+      recipientPhone: body.recipientPhone || body.meta?.recipientPhone || '',
+      giftMessage: body.giftMessage || body.meta?.giftMessage || '',
       deliveryAddress: body.deliveryAddress || body.meta?.deliveryAddress || '',
       deliveryFee: body.deliveryFee || body.meta?.deliveryFee || 0,
       orderNumber: orderNumber,
@@ -1996,6 +2011,11 @@ app.get('/api/orders/:id/invoice', async (req, res) => {
       customerPhone: order.customerPhone,
       deliveryMethod: order.deliveryMethod,
       paymentMethod: order.paymentMethod,
+      giftOption: order.giftOption || 'self',
+      recipientName: order.recipientName || '',
+      recipientEmail: order.recipientEmail || '',
+      recipientPhone: order.recipientPhone || '',
+      giftMessage: order.giftMessage || '',
       deliveryAddress: order.deliveryAddress,
       items: order.items,
       subtotal: order.total - (order.deliveryFee || 0),
@@ -2914,9 +2934,14 @@ app.post('/api/print-orders',
   ],
   async (req, res) => {
     try {
+      console.log('Print order submission started');
+      console.log('Request body:', req.body);
+      console.log('Request file:', req.file);
+      
       // Check validation errors
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
+        console.log('Validation errors:', errors.array());
         return res.status(400).json({
           success: false,
           error: 'Validation failed',
@@ -2926,11 +2951,14 @@ app.post('/api/print-orders',
 
       // Check if file was uploaded
       if (!req.file) {
+        console.log('No file uploaded');
         return res.status(400).json({
           success: false,
           error: 'Document file is required'
         });
       }
+      
+      console.log('File validation passed, proceeding with order creation');
 
       // Validate additionalNotes if finishing is custom
       if (req.body.finishing === 'custom' && !req.body.additionalNotes) {
@@ -2988,6 +3016,7 @@ app.post('/api/print-orders',
         finalPrice: 0,
         deliveryMethod: deliveryMethod,
         deliveryAddress: req.body.deliveryAddress,
+        paymentMethod: req.body.paymentMethod,
         adminNotes: ''
       });
 
@@ -2999,9 +3028,11 @@ app.post('/api/print-orders',
 
     } catch (error) {
       console.error('Print order submission error:', error);
+      console.error('Error stack:', error.stack);
       res.status(500).json({
         success: false,
-        error: 'Failed to submit print order'
+        error: 'Failed to submit print order',
+        details: error.message
       });
     }
   }
@@ -3443,6 +3474,31 @@ app.put('/api/print-orders/:id/assign', async (req, res) => {
   }
 });
 
+// GET /api/print-orders/:id - Get individual print order (Admin)
+app.get('/api/print-orders/:id', async (req, res) => {
+  try {
+    const order = await PrintOrder.findById(req.params.id).lean();
+    
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        error: 'Print order not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      data: order
+    });
+  } catch (error) {
+    console.error('Error fetching print order:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch print order'
+    });
+  }
+});
+
 // GET /api/print-orders/:id/document - Get print order document (Admin)
 app.get('/api/print-orders/:id/document', async (req, res) => {
   try {
@@ -3526,6 +3582,29 @@ app.get('/api/orders/:id/quotation', async (req, res) => {
       return res.status(404).json({ error: 'Order not found' });
     }
     
+    // Fetch full product details for each item
+    const enrichedItems = await Promise.all(
+      order.items.map(async (item) => {
+        try {
+          const product = await Product.findById(item.productId).lean();
+          return {
+            ...item,
+            author: product?.author || item.author || 'N/A',
+            category: product?.category || item.category || 'N/A',
+            name: product?.name || item.name || 'N/A'
+          };
+        } catch (error) {
+          console.error(`Error fetching product ${item.productId}:`, error);
+          return {
+            ...item,
+            author: item.author || 'N/A',
+            category: item.category || 'N/A',
+            name: item.name || 'N/A'
+          };
+        }
+      })
+    );
+    
     console.log(`Generating quotation for bookshop order: ${orderId}`);
     
     // Create HTML document for quotation
@@ -3557,9 +3636,19 @@ app.get('/api/orders/:id/quotation', async (req, res) => {
         
         <div class="quotation-info">
             <p><strong>Order ID:</strong> ${order._id}</p>
-            <p><strong>Customer:</strong> ${order.userName || 'N/A'}</p>
-            <p><strong>Contact:</strong> ${order.contactNumber || 'N/A'}</p>
-            <p><strong>Email:</strong> ${order.email || 'N/A'}</p>
+            <p><strong>Customer:</strong> ${order.customerName || order.userName || 'N/A'}</p>
+            <p><strong>Contact:</strong> ${order.customerPhone || order.contactNumber || 'N/A'}</p>
+            <p><strong>Email:</strong> ${order.customerEmail || order.email || 'N/A'}</p>
+            <p><strong>Gift Option:</strong> ${(order.giftOption || order.meta?.giftOption) === 'gift' ? 'Gift' : 'For Self'}</p>
+            ${(order.giftOption || order.meta?.giftOption) === 'gift' ? `
+                <div style="margin-top: 15px; padding: 15px; background-color: #f8f9fa; border-left: 4px solid #e91e63; border-radius: 4px;">
+                    <h4 style="margin: 0 0 10px 0; color: #e91e63; font-size: 16px;">🎁 Gift Recipient Details</h4>
+                    <p><strong>Recipient Name:</strong> ${order.recipientName || order.meta?.recipientName || 'N/A'}</p>
+                    <p><strong>Recipient Email:</strong> ${order.recipientEmail || order.meta?.recipientEmail || 'N/A'}</p>
+                    <p><strong>Recipient Phone:</strong> ${order.recipientPhone || order.meta?.recipientPhone || 'N/A'}</p>
+                    ${(order.giftMessage || order.meta?.giftMessage) ? `<p><strong>Gift Message:</strong> <em>"${order.giftMessage || order.meta?.giftMessage}"</em></p>` : ''}
+                </div>
+            ` : ''}
         </div>
         
         <table>
@@ -3574,7 +3663,7 @@ app.get('/api/orders/:id/quotation', async (req, res) => {
                 </tr>
             </thead>
             <tbody>
-                ${order.items.map(item => `
+                ${enrichedItems.map(item => `
                     <tr>
                         <td>${item.name || 'N/A'}</td>
                         <td>${item.author || 'N/A'}</td>
@@ -3713,6 +3802,16 @@ app.get('/api/print-orders/:id/quotation', async (req, res) => {
                     <td>Delivery Method</td>
                     <td>${printOrder.deliveryMethod}</td>
                 </tr>
+                <tr>
+                    <td>Payment Method</td>
+                    <td>${printOrder.paymentMethod || 'Not specified'}</td>
+                </tr>
+                ${printOrder.deliveryAddress ? `
+                <tr>
+                    <td>Delivery Address</td>
+                    <td>${printOrder.deliveryAddress}</td>
+                </tr>
+                ` : ''}
                 ${printOrder.additionalNotes ? `
                 <tr>
                     <td>Additional Notes</td>

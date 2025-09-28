@@ -52,6 +52,13 @@ const printOrderSchema = new mongoose.Schema(
     deliveryMethod: { type: String, enum: ['pickup', 'delivery'], required: true },
     deliveryAddress: { type: String, default: '' },
     
+    // Payment information
+    paymentMethod: { 
+      type: String, 
+      enum: ['Cash on Delivery', 'Card Payment'], 
+      required: true 
+    },
+    
     // Admin notes
     adminNotes: { type: String, default: '' },
     completedAt: { type: Date },

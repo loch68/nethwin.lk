@@ -3,7 +3,21 @@
       as="style"
       onload="this.rel='stylesheet'"
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
-    /><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link rel="stylesheet" href="../css/hover-effects.css" /><link rel="stylesheet" href="../css/navbar.css" /><link rel="stylesheet" href="../css/cart-styles.css" /><link rel="stylesheet" href="../css/background-animations.css" /><link rel="stylesheet" href="../css/responsive.css" /><style>
+    /><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        // Suppress Tailwind CDN warning
+        (function() {
+            const originalWarn = console.warn;
+            console.warn = function(...args) {
+                const message = args.join(' ');
+                if (message.includes('cdn.tailwindcss.com should not be used in production')) {
+                    return;
+                }
+                originalWarn.apply(console, args);
+            };
+        })();
+    </script>
+    <link rel="stylesheet" href="../css/hover-effects.css" /><link rel="stylesheet" href="../css/navbar.css" /><link rel="stylesheet" href="../css/cart-styles.css" /><link rel="stylesheet" href="../css/background-animations.css" /><link rel="stylesheet" href="../css/responsive.css" /><style>
         /* Modern Cart Styles */
         .cart-container {
             background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
@@ -70,33 +84,6 @@
             box-shadow: 0 4px 20px rgba(25, 230, 25, 0.15);
         }
         
-        .delivery-option-card input[type="radio"]:checked + div {
-            border-color: #10b981;
-            background-color: #f0fdf4;
-        }
-        
-        .delivery-option-card input[type="radio"]:checked + div .absolute.top-3.right-3 {
-            border-color: #10b981;
-        }
-        
-        .delivery-option-card input[type="radio"]:checked + div .absolute.top-3.right-3 > div {
-            opacity: 1;
-            background-color: #10b981;
-        }
-        
-        .payment-option-card input[type="radio"]:checked + div {
-            border-color: #3b82f6;
-            background-color: #eff6ff;
-        }
-        
-        .payment-option-card input[type="radio"]:checked + div .absolute.top-3.right-3 {
-            border-color: #3b82f6;
-        }
-        
-        .payment-option-card input[type="radio"]:checked + div .absolute.top-3.right-3 > div {
-            opacity: 1;
-            background-color: #3b82f6;
-        }
         
         .summary-card {
             background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
@@ -146,113 +133,6 @@
             background-clip: text;
         }
         
-        /* Delivery Option Cards - Equal Heights */
-        .delivery-option-card {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .delivery-option-card > div {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .delivery-option-card .flex.items-start.gap-4 {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .delivery-option-card .flex-1 {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        
-        /* Delivery option card circles - show color when selected */
-        .delivery-option-card[onclick*="local"].selected .absolute.top-3.right-3 {
-            border-color: #10b981;
-        }
-        .delivery-option-card[onclick*="local"].selected .absolute.top-3.right-3 > div {
-            opacity: 1;
-            background-color: #10b981;
-        }
-        
-        .delivery-option-card[onclick*="pickup"].selected .absolute.top-3.right-3 {
-            border-color: #3b82f6;
-        }
-        .delivery-option-card[onclick*="pickup"].selected .absolute.top-3.right-3 > div {
-            opacity: 1;
-            background-color: #3b82f6;
-        }
-        
-        /* Payment option card circles - show color when selected */
-        .payment-option-card[onclick*="card"].selected .absolute.top-3.right-3 {
-            border-color: #3b82f6;
-        }
-        .payment-option-card[onclick*="card"].selected .absolute.top-3.right-3 > div {
-            opacity: 1;
-            background-color: #3b82f6;
-        }
-        
-        .payment-option-card[onclick*="cod"].selected .absolute.top-3.right-3 {
-            border-color: #10b981;
-        }
-        .payment-option-card[onclick*="cod"].selected .absolute.top-3.right-3 > div {
-            opacity: 1;
-            background-color: #10b981;
-        }
-        
-        .payment-option-card[onclick*="qr"].selected .absolute.top-3.right-3 {
-            border-color: #8b5cf6;
-        }
-        .payment-option-card[onclick*="qr"].selected .absolute.top-3.right-3 > div {
-            opacity: 1;
-            background-color: #8b5cf6;
-        }
-        
-        /* Force background colors for selected options */
-        .delivery-option-card.selected {
-            background-color: #f0fdf4 !important; /* Light green for Local Delivery */
-        }
-        .delivery-option-card.selected[onclick*="local"] .flex.items-start.gap-4 {
-            background-color: #f0fdf4 !important; /* Light green for Local Delivery inner div */
-        }
-        .delivery-option-card.selected[onclick*="pickup"] {
-            background-color: #eff6ff !important; /* Light blue for Store Pickup */
-        }
-        .delivery-option-card.selected[onclick*="pickup"] .flex.items-start.gap-4 {
-            background-color: #eff6ff !important; /* Light blue for Store Pickup inner div */
-        }
-        .delivery-option-card.selected[onclick*="pickup"] .flex.flex-col.items-center.text-center {
-            background-color: #eff6ff !important; /* Light blue for Store Pickup inner div */
-        }
-        .payment-option-card.selected[onclick*="card"] {
-            background-color: #eff6ff !important; /* Light blue for Card Payment */
-        }
-        .payment-option-card.selected[onclick*="card"] .flex.flex-col.items-center.text-center {
-            background-color: #eff6ff !important; /* Light blue for Card Payment inner div */
-        }
-        .payment-option-card.selected[onclick*="cod"] {
-            background-color: #f0fdf4 !important; /* Light green for Cash on Delivery */
-        }
-        .payment-option-card.selected[onclick*="cod"] .flex.flex-col.items-center.text-center {
-            background-color: #f0fdf4 !important; /* Light green for Cash on Delivery inner div */
-        }
-        .payment-option-card.selected[onclick*="qr"] {
-            background-color: #faf5ff !important; /* Light purple for QR Payment */
-        }
-        .payment-option-card.selected[onclick*="qr"] .flex.flex-col.items-center.text-center {
-            background-color: #faf5ff !important; /* Light purple for QR Payment inner div */
-        }
-        
-        /* Ensure all payment cards have equal sizing */
-        .payment-option-card {
-            width: 100%;
-        }
     </style></head><body><div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient"><!-- Background Animation Container --><div class="particles-container fixed inset-0 pointer-events-none z-0" id="particlesContainer"></div><div class="layout-container flex flex-col grow h-full relative z-10"><!-- Modern Seamless Navbar --><nav class="modern-navbar fixed top-0 left-0 right-0 z-30"><div class="navbar-container"><!-- Logo/Brand --><div class="navbar-brand"><a href="index.html" class="flex items-center"><img src="../assets/fLogo.png" alt="NethwinLK" class="navbar-logo"></a></div><!-- Navigation Links --><div class="navbar-links" id="navbarLinks"><a href="index.html" class="nav-link">Home</a><a href="print.html" class="nav-link">Print Services</a><a href="bookshop.html" class="nav-link">Bookshop</a><a href="aboutus.html" class="nav-link">About</a><a href="contactus.html" class="nav-link">Contact</a></div><!-- Desktop Auth Area --><div class="navbar-auth" id="navbarAuth"><a href="cart.html" class="nav-auth-btn cart-container relative"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
         </svg>
@@ -265,11 +145,7 @@
         <span class="mobile-cart-count hidden" id="mobileCartCount">0</span></a><a href="search.html" class="mobile-icon-btn"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></a><a href="login.html" class="mobile-icon-btn"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path></svg></a></div><!-- Mobile Menu Toggle --><button class="mobile-menu-toggle" id="mobileToggle"><span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span></button></div></nav><!-- Navbar Spacer --><div style="height: 4rem;"></div><!-- Main Content --><div class="px-4 md:px-10 flex flex-1 justify-center py-8"><div class="layout-content-container flex flex-col max-w-[1200px] flex-1"><!-- Breadcrumb --><div class="breadcrumb mb-6"><div class="flex items-center gap-2 text-sm"><a href="bookshop.html" class="text-gray-600 hover:text-[#19e619] transition-colors">Shop</a><span class="text-gray-400">/</span><span class="text-gray-800 font-medium">Cart</span></div></div><!-- Page Title --><div class="text-center mb-8"><h1 class="text-4xl font-bold text-gray-800 mb-2">Your Shopping Cart</h1><p class="text-gray-600">Review your items and proceed to checkout</p></div><!-- Cart Content --><div class="grid grid-cols-1 lg:grid-cols-3 gap-8"><!-- Cart Items Section --><div class="lg:col-span-2"><div class="cart-container p-6"><h2 class="section-title text-2xl font-bold mb-6 flex items-center gap-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path></svg>
                                     Cart Items
                                 </h2><!-- Cart Items Container --><div id="cartItems" class="space-y-4"><!-- Items will be dynamically inserted here --></div><!-- Empty Cart State --><div id="emptyCart" class="empty-cart p-12 text-center hidden"><div class="mb-6"><svg class="w-24 h-24 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path></svg></div><h3 class="text-xl font-semibold text-gray-700 mb-2">Your cart is empty</h3><p class="text-gray-500 mb-6">Looks like you haven't added any items to your cart yet.</p><a href="bookshop.html" class="inline-flex items-center gap-2 px-6 py-3 bg-[#19e619] text-white rounded-xl font-semibold hover:bg-[#16d616] transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                                        Start Shopping</a></div></div><!-- Delivery Options --><div class="cart-container p-6 mt-6"><h3 class="section-title text-xl font-bold mb-6 flex items-center gap-3"><div class="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg></div>
-                                    Delivery Options
-                                </h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><label class="delivery-option-card group cursor-pointer" onclick="selectDelivery('local', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="delivery" value="local" class="sr-only" checked><div class="flex items-start gap-4"><div class="w-12 h-12 bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg flex items-center justify-center group-hover:from-green-200 group-hover:to-emerald-200 transition-colors"><svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg></div><div class="flex-1"><h4 class="font-bold text-gray-800 text-lg mb-1">Local Delivery</h4><p class="text-sm text-gray-600 mb-3">Within <span id="deliveryRadius">10</span>km radius from our store</p><p class="text-sm text-gray-500 mb-3">Available during business hours</p><div class="flex items-center justify-between"><div class="flex items-center gap-2"><svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span class="text-sm text-green-600 font-medium">Estimated 1-2 days</span></div><span id="localDeliveryPrice" class="text-lg font-bold text-green-600">LKR 0.00</span></div></div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-green-500 transition-colors"><div class="w-full h-full rounded-full bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="delivery-option-card group cursor-pointer" onclick="selectDelivery('pickup', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-blue-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="delivery" value="pickup" class="sr-only"><div class="flex items-start gap-4"><div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg flex items-center justify-center group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors"><svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg></div><div class="flex-1"><h4 class="font-bold text-gray-800 text-lg mb-1">Store Pickup</h4><p class="text-sm text-gray-600 mb-3">Collect from our physical store</p><p class="text-sm text-gray-500 mb-3">Available during store hours</p><div class="flex items-center justify-between"><div class="flex items-center gap-2"><svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span class="text-sm text-blue-600 font-medium">Ready in 2-4 hours</span></div><span class="text-lg font-bold text-green-600">Free</span></div></div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-blue-500 transition-colors"><div class="w-full h-full rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label></div></div><!-- Payment Method --><div class="cart-container p-6 mt-6"><h3 class="section-title text-xl font-bold mb-6 flex items-center gap-3"><div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg></div>
-                                    Payment Method
-                                </h3><div class="grid grid-cols-1 md:grid-cols-3 gap-6"><label class="payment-option-card group cursor-pointer" onclick="selectPayment('card', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-blue-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="payment" value="card" class="sr-only" checked><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors"><svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">Card Payment</h4><p class="text-sm text-gray-600 mb-4">Visa, Mastercard, Amex</p><div class="w-16 h-6 bg-blue-500 rounded text-white text-xs flex items-center justify-center font-bold">CARD</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-blue-500 transition-colors"><div class="w-full h-full rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="payment-option-card group cursor-pointer" onclick="selectPayment('cod', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="payment" value="cod" class="sr-only"><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-green-200 group-hover:to-emerald-200 transition-colors"><svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">Cash on Delivery</h4><p class="text-sm text-gray-600 mb-4">Pay when delivered</p><div class="w-16 h-6 bg-green-500 rounded text-white text-xs flex items-center justify-center font-bold">COD</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-green-500 transition-colors"><div class="w-full h-full rounded-full bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="payment-option-card group cursor-pointer" onclick="selectPayment('qr', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-purple-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="payment" value="qr" class="sr-only"><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-violet-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-purple-200 group-hover:to-violet-200 transition-colors"><svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">QR Payment</h4><p class="text-sm text-gray-600 mb-4">Scan QR code to pay</p><div class="w-16 h-6 bg-purple-500 rounded text-white text-xs flex items-center justify-center font-bold">QR</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-purple-500 transition-colors"><div class="w-full h-full rounded-full bg-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label></div></div></div><!-- Order Summary --><div class="lg:col-span-1"><div class="summary-card p-6 sticky top-24"><h3 class="section-title text-xl font-bold mb-6 flex items-center gap-3"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                                        Start Shopping</a></div></div></div><!-- Order Summary --><div class="lg:col-span-1"><div class="summary-card p-6 sticky top-24"><h3 class="section-title text-xl font-bold mb-6 flex items-center gap-3"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                                     Order Summary
                                 </h3><div class="space-y-4 mb-6"><div class="flex justify-between items-center py-2"><span class="text-gray-600">Subtotal</span><span id="subtotal" class="font-semibold text-gray-800">LKR 0.00</span></div><div class="flex justify-between items-center py-2"><span class="text-gray-600">Delivery</span><span id="delivery" class="font-semibold text-gray-800">LKR 0.00</span></div><div class="border-t border-gray-200 pt-4"><div class="flex justify-between items-center"><span class="text-lg font-bold text-gray-800">Total</span><span id="total" class="text-xl font-bold text-[#19e619]">LKR 0.00</span></div></div></div><div class="space-y-3"><a href="bookshop.html" class="block"><button class="continue-btn w-full py-3 px-4 rounded-xl font-semibold text-gray-700 flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                                             Continue Shopping
@@ -305,13 +181,6 @@
       document.addEventListener('DOMContentLoaded', () => {
         renderCart();
             updateCartCount();
-            loadDeliverySettings();
-            
-            // Listen for delivery settings updates
-            window.addEventListener('deliverySettingsUpdated', async function(event) {
-                console.log('Delivery settings updated, refreshing cart totals...');
-                await updateOrderSummary();
-            });
       });
 
       function getCart() {
@@ -351,78 +220,6 @@
             }
         }
 
-        // Delivery pricing management
-        function getDeliveryPrice() {
-            try {
-                const settings = JSON.parse(localStorage.getItem('nethwin_delivery_settings') || '{}');
-                return settings.localDeliveryPrice || 0;
-            } catch {
-                return 0;
-            }
-        }
-
-        async function updateDeliveryPrice() {
-            console.log('Updating delivery price...');
-            const price = await getDeliveryCost();
-            console.log('Delivery price from API:', price);
-            const priceElement = document.getElementById('localDeliveryPrice');
-            if (priceElement) {
-                if (price > 0) {
-                    priceElement.textContent = `LKR ${price.toFixed(2)}`;
-                    console.log('Updated delivery price display to:', priceElement.textContent);
-                } else {
-                    priceElement.textContent = 'Free';
-                    console.log('Updated delivery price display to: Free');
-                }
-            } else {
-                console.error('localDeliveryPrice element not found');
-            }
-        }
-
-        async function loadDeliverySettings() {
-            console.log('Loading delivery settings...');
-            await updateDeliveryPrice();
-            await updateDeliveryRadius();
-            console.log('Delivery settings loaded');
-        }
-
-        async function updateDeliveryRadius() {
-            try {
-                console.log('Updating delivery radius...');
-                const response = await fetch('/api/delivery-settings');
-                if (response.ok) {
-                    const data = await response.json();
-                    const radius = data.data?.deliveryRadius || 10;
-                    console.log('Delivery radius from API:', radius);
-                    
-                    const radiusElement = document.getElementById('deliveryRadius');
-                    if (radiusElement) {
-                        radiusElement.textContent = radius;
-                        console.log('Updated delivery radius display to:', radius);
-                    } else {
-                        console.error('deliveryRadius element not found');
-                    }
-                } else {
-                    console.log('API failed, using localStorage fallback');
-                    // Fallback to localStorage
-                    const settings = JSON.parse(localStorage.getItem('nethwin_delivery_settings') || '{}');
-                    const radius = settings.deliveryRadius || 10;
-                    
-                    const radiusElement = document.getElementById('deliveryRadius');
-                    if (radiusElement) {
-                        radiusElement.textContent = radius;
-                    }
-                }
-            } catch (error) {
-                console.error('Error updating delivery radius:', error);
-            }
-        }
-
-        // Listen for delivery settings updates from admin panel
-        window.addEventListener('deliverySettingsUpdated', async function(event) {
-            console.log('Delivery settings updated, refreshing cart page...');
-            await loadDeliverySettings();
-        });
 
       function renderCart() {
         const container = document.getElementById('cartItems');
@@ -459,13 +256,12 @@
             updateSummary(subtotal);
         }
 
-        async function updateSummary(subtotal) {
+        function updateSummary(subtotal) {
             document.getElementById('subtotal').textContent = `LKR ${subtotal.toFixed(2)}`;
             
-            // Calculate delivery cost based on selected delivery method
-            const deliveryCost = await getDeliveryCost();
-            document.getElementById('delivery').textContent = `LKR ${deliveryCost.toFixed(2)}`;
-            document.getElementById('total').textContent = `LKR ${(subtotal + deliveryCost).toFixed(2)}`;
+            // No delivery cost in cart - will be calculated at checkout
+            document.getElementById('delivery').textContent = `LKR 0.00`;
+            document.getElementById('total').textContent = `LKR ${subtotal.toFixed(2)}`;
         }
         
         function calculateTotal() {
@@ -479,35 +275,6 @@
             return total;
         }
 
-        async function getDeliveryCost() {
-            const selectedDelivery = document.querySelector('input[name="delivery"]:checked');
-            if (!selectedDelivery) return 0;
-            
-            if (selectedDelivery.value === 'local') {
-                // Get delivery price from API
-                try {
-                    const response = await fetch('/api/delivery-settings');
-                    if (response.ok) {
-                        const data = await response.json();
-                        return data.data?.localDeliveryPrice || 0;
-                    }
-                } catch (error) {
-                    console.error('Error fetching delivery price:', error);
-                    // Fallback to localStorage
-                    try {
-                        const settings = JSON.parse(localStorage.getItem('nethwin_delivery_settings') || '{}');
-                        return settings.localDeliveryPrice || 0;
-                    } catch (e) {
-                        console.error('Error getting delivery price from localStorage:', e);
-                        return 0;
-                    }
-                }
-            } else if (selectedDelivery.value === 'pickup') {
-                return 0; // Store pickup is free
-            }
-            
-            return 0;
-        }
 
         async function updateOrderSummary() {
             // Recalculate subtotal and update summary
@@ -542,135 +309,6 @@
         renderCart();
       }
 
-        async function selectDelivery(type, event) {
-            // Remove selected class from all delivery options
-            document.querySelectorAll('.delivery-option-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            
-            // Add selected class to clicked option
-            event.currentTarget.classList.add('selected');
-            
-            // Update radio button
-            const radio = event.currentTarget.querySelector('input[type="radio"]');
-            if (radio) {
-                radio.checked = true;
-            }
-            
-            document.querySelectorAll('input[name="delivery"]').forEach(radio => {
-                radio.checked = radio.value === type;
-            });
-            document.querySelectorAll('.delivery-option-card').forEach(card => {
-                const deliveryInput = card.querySelector('input[name="delivery"]');
-                if (deliveryInput && deliveryInput.value === type) {
-                    card.classList.add('selected');
-                    const borderElement = card.querySelector('.border-2');
-                    const circleElement = card.querySelector('.absolute.top-3.right-3');
-                    const circleInner = circleElement.querySelector('div');
-                    
-                    // Remove all color classes first
-                    borderElement.classList.remove('border-gray-200', 'border-green-500', 'border-blue-500', 'bg-green-50', 'bg-blue-50');
-                    circleElement.classList.remove('border-gray-300', 'border-green-500', 'border-blue-500');
-                    circleInner.classList.remove('bg-green-500', 'bg-blue-500', 'opacity-0', 'opacity-100');
-                    
-                    // Apply appropriate color based on delivery type
-                    if (type === 'local') {
-                        borderElement.classList.add('border-green-500', 'bg-green-50');
-                        circleElement.classList.add('border-green-500');
-                        circleInner.classList.add('bg-green-500', 'opacity-100');
-                    } else if (type === 'pickup') {
-                        borderElement.classList.add('border-blue-500', 'bg-blue-50');
-                        circleElement.classList.add('border-blue-500');
-                        circleInner.classList.add('bg-blue-500', 'opacity-100');
-                    }
-                } else if (deliveryInput) {
-                    card.classList.remove('selected');
-                    const borderElement = card.querySelector('.border-2');
-                    const circleElement = card.querySelector('.absolute.top-3.right-3');
-                    const circleInner = circleElement.querySelector('div');
-                    
-                    borderElement.classList.remove('border-green-500', 'border-blue-500', 'bg-green-50', 'bg-blue-50');
-                    borderElement.classList.add('border-gray-200');
-                    circleElement.classList.remove('border-green-500', 'border-blue-500');
-                    circleElement.classList.add('border-gray-300');
-                    circleInner.classList.remove('bg-green-500', 'bg-blue-500', 'opacity-100');
-                    circleInner.classList.add('opacity-0');
-                }
-            });
-            
-            // Update order summary with delivery cost
-            await updateOrderSummary();
-        }
-
-        function selectPayment(type, event) {
-            console.log('Selecting payment:', type);
-            
-            // Remove selected class from all payment options
-            document.querySelectorAll('.payment-option-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            
-            // Add selected class to clicked option
-            event.currentTarget.classList.add('selected');
-            
-            // Update radio button
-            const radio = event.currentTarget.querySelector('input[type="radio"]');
-            if (radio) {
-                radio.checked = true;
-            }
-            
-            document.querySelectorAll('input[name="payment"]').forEach(radio => {
-                radio.checked = radio.value === type;
-            });
-            document.querySelectorAll('.payment-option-card').forEach(card => {
-                const paymentInput = card.querySelector('input[name="payment"]');
-                if (paymentInput && paymentInput.value === type) {
-                    console.log('Found matching payment card for:', type);
-                    card.classList.add('selected');
-                    const borderElement = card.querySelector('.border-2');
-                    const circleElement = card.querySelector('.absolute.top-3.right-3');
-                    const circleInner = circleElement.querySelector('div');
-                    
-                    console.log('Border element:', borderElement);
-                    console.log('Circle element:', circleElement);
-                    
-                    // Remove all color classes first
-                    borderElement.classList.remove('border-gray-200', 'border-blue-500', 'border-yellow-500', 'border-green-500', 'border-purple-500', 'bg-blue-50', 'bg-yellow-50', 'bg-green-50', 'bg-purple-50');
-                    circleElement.classList.remove('border-gray-300', 'border-blue-500', 'border-yellow-500', 'border-green-500', 'border-purple-500');
-                    circleInner.classList.remove('bg-blue-500', 'bg-yellow-500', 'bg-green-500', 'bg-purple-500', 'opacity-0', 'opacity-100');
-                    
-                    // Apply appropriate color based on payment type
-                    if (type === 'card') {
-                        borderElement.classList.add('border-blue-500', 'bg-blue-50');
-                        circleElement.classList.add('border-blue-500');
-                        circleInner.classList.add('bg-blue-500', 'opacity-100');
-                        console.log('Applied blue styling');
-                    } else if (type === 'cod') {
-                        borderElement.classList.add('border-green-500', 'bg-green-50');
-                        circleElement.classList.add('border-green-500');
-                        circleInner.classList.add('bg-green-500', 'opacity-100');
-                        console.log('Applied green styling');
-                    } else if (type === 'qr') {
-                        borderElement.classList.add('border-purple-500', 'bg-purple-50');
-                        circleElement.classList.add('border-purple-500');
-                        circleInner.classList.add('bg-purple-500', 'opacity-100');
-                        console.log('Applied purple styling');
-                    }
-                } else if (paymentInput) {
-                    card.classList.remove('selected');
-                    const borderElement = card.querySelector('.border-2');
-                    const circleElement = card.querySelector('.absolute.top-3.right-3');
-                    const circleInner = circleElement.querySelector('div');
-                    
-                    borderElement.classList.remove('border-blue-500', 'border-yellow-500', 'border-green-500', 'border-purple-500', 'bg-blue-50', 'bg-yellow-50', 'bg-green-50', 'bg-purple-50');
-                    borderElement.classList.add('border-gray-200');
-                    circleElement.classList.remove('border-blue-500', 'border-yellow-500', 'border-green-500', 'border-purple-500');
-                    circleElement.classList.add('border-gray-300');
-                    circleInner.classList.remove('bg-blue-500', 'bg-yellow-500', 'bg-green-500', 'bg-purple-500', 'opacity-100');
-                    circleInner.classList.add('opacity-0');
-                }
-            });
-        }
 
         // Checkout functionality
         async function handleCheckout() {
@@ -680,29 +318,7 @@
                 return;
             }
             
-            // Get selected delivery and payment options
-            const selectedDelivery = document.querySelector('input[name="delivery"]:checked');
-            const selectedPayment = document.querySelector('input[name="payment"]:checked');
-            
-            if (!selectedDelivery || !selectedPayment) {
-                alert('Please select both delivery and payment options!');
-                return;
-            }
-            
-            // Check if order is eligible for approval
-            const deliveryMethod = selectedDelivery.value;
-            const paymentMethod = selectedPayment.value;
-            
-            // Only approve orders with Local Delivery or Store Pickup + Cash on Delivery
-            const isEligibleForApproval = (
-                (deliveryMethod === 'local' || deliveryMethod === 'pickup') && 
-                paymentMethod === 'cod'
-            );
-            
-            if (!isEligibleForApproval) {
-                alert('Currently, we only accept Cash on Delivery with Local Delivery or Store Pickup. Please select these options to proceed.');
-                return;
-            }
+            // Delivery and payment options will be selected on checkout page
             
             // Get user details (try to fetch from database first, fallback to token)
             let userDetails = getCurrentUser();
@@ -712,8 +328,6 @@
             
             // Prepare order data
             const subtotal = calculateTotal();
-            const deliveryCost = await getDeliveryCost();
-            const total = subtotal + deliveryCost;
             
             const orderData = {
                 items: cart.map(item => ({
@@ -723,12 +337,7 @@
                     quantity: item.qty || item.quantity || 1,
                     image: item.image
                 })),
-                subtotal: subtotal, // Original subtotal without delivery
-                deliveryFee: deliveryCost, // Delivery fee from cart
-                total: total, // Total including delivery
-                deliveryMethod: deliveryMethod === 'local' ? 'Local Delivery' : 'Store Pickup',
-                paymentMethod: paymentMethod === 'cod' ? 'Cash on Delivery' : 'Card Payment',
-                deliveryAddress: null, // Will be collected on checkout page
+                subtotal: subtotal, // Subtotal without delivery (will be calculated on checkout)
                 customerName: userDetails.name || '',
                 customerEmail: userDetails.email || '',
                 customerPhone: userDetails.phoneNumber || userDetails.phone || ''

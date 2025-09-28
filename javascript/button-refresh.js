@@ -49,6 +49,11 @@ class ButtonRefreshSystem {
 
     enhanceButton(button) {
         if (!button || button.dataset.refreshEnhanced) return;
+        
+        // Skip buttons with data-no-refresh attribute
+        if (button.dataset.noRefresh === 'true') {
+            return;
+        }
 
         // Mark as enhanced
         button.dataset.refreshEnhanced = 'true';
@@ -67,6 +72,11 @@ class ButtonRefreshSystem {
 
     addRefreshFunctionality(button) {
         const originalOnclick = button.onclick;
+        
+        // Check if this is a quantity controller or add to cart button
+        const isQuantityButton = button.onclick && button.onclick.toString().includes('changeQuantity');
+        const isAddToCartButton = button.onclick && button.onclick.toString().includes('addToCart');
+        const isQuickAction = isQuantityButton || isAddToCartButton;
         
         button.onclick = (event) => {
             // Prevent double-clicks
@@ -89,9 +99,11 @@ class ButtonRefreshSystem {
                 this.showError(button, 'Action failed. Please try again.');
             } finally {
                 // Reset loading state after a delay
+                // Use shorter delay for quick actions like quantity and add to cart
+                const delay = isQuickAction ? 200 : 1000;
                 setTimeout(() => {
                     this.setLoadingState(button, false);
-                }, 1000);
+                }, delay);
             }
 
             return result;
