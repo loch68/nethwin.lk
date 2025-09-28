@@ -79,6 +79,7 @@
         }
     </style>
     <script src="../javascript/auth.js"></script>
+    <script src="../javascript/button-refresh.js"></script>
 </head>
 <body>
     <div class="relative flex size-full min-h-screen flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden" style="font-family: Inter, 'Noto Sans', sans-serif;">
@@ -333,10 +334,36 @@
                 }
             });
 
-            // Initialize messaging system
-            initializeSocket();
-            loadConversations();
-            bindEventListeners();
+        // Initialize messaging system
+        initializeSocket();
+        loadConversations();
+        bindEventListeners();
+        
+        // Test function to verify JavaScript is working
+        window.testClick = function() {
+            console.log('Test click function is working!');
+            alert('JavaScript is working! Click events should be functional.');
+        };
+        
+        // Emergency chat interface opener
+        window.forceOpenChat = function() {
+            const chat = document.getElementById('chatInterface');
+            if (chat) {
+                chat.style.display = 'block';
+                chat.style.visibility = 'visible';
+                chat.style.opacity = '1';
+                chat.style.position = 'relative';
+                chat.style.zIndex = '1000';
+                chat.style.marginTop = '20px';
+                chat.style.backgroundColor = 'white';
+                chat.style.border = '2px solid #19e619';
+                chat.classList.remove('hidden');
+                console.log('Chat interface forced open with positioning!');
+                alert('Chat interface should now be visible with green border!');
+            } else {
+                alert('Chat interface element not found!');
+            }
+        };
         });
 
         // Messaging system functions
@@ -392,7 +419,7 @@
                 return;
             }
             tbody.innerHTML = conversations.map(conv => `
-                <tr class="hover:bg-gray-50 cursor-pointer" onclick="openConversation('${conv.threadId}', '${conv.otherUserId}')">
+                <tr class="hover:bg-gray-50 cursor-pointer" onclick="console.log('Row clicked:', '${conv.threadId}', '${conv.otherUserId}'); openConversation('${conv.threadId}', '${conv.otherUserId}')">
                     <td class="px-4 py-3">
                         <div class="flex items-center space-x-3">
                             <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-semibold">
@@ -416,22 +443,30 @@
                     </td>
                     <td class="px-4 py-3 text-sm text-gray-500">${new Date(conv.lastMessage.createdAt).toLocaleDateString()}</td>
                     <td class="px-4 py-3">
-                        <button onclick="event.stopPropagation(); openConversation('${conv.threadId}', '${conv.otherUserId}')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">View Chat</button>
+                        <button onclick="event.stopPropagation(); console.log('Button clicked:', '${conv.threadId}', '${conv.otherUserId}'); openConversation('${conv.threadId}', '${conv.otherUserId}')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">View Chat</button>
                     </td>
                 </tr>
             `).join('');
         }
 
         async function openConversation(threadId, userId) {
+            console.log('openConversation called with:', threadId, userId);
             try {
+                console.log('Making API call to:', `/api/admin/messages/conversation/${threadId}`);
                 const response = await fetch(`/api/admin/messages/conversation/${threadId}`, {
                     headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
                 });
+                console.log('API response status:', response.status);
                 if (response.ok) {
                     const data = await response.json();
+                    console.log('API response data:', data);
                     currentConversation = { threadId, userId, ...data };
+                    console.log('Calling displayChatInterface with:', data);
                     displayChatInterface(data);
                 } else {
+                    console.error('Failed to load conversation, response:', response.status);
+                    const errorText = await response.text();
+                    console.error('Error response:', errorText);
                     showError('Failed to load conversation');
                 }
             } catch (error) {
@@ -441,23 +476,46 @@
         }
 
         function displayChatInterface(conversationData) {
-            document.getElementById('chatCustomerName').textContent = conversationData.userDetails.name;
-            document.getElementById('chatCustomerEmail').textContent = conversationData.userDetails.email;
-            
-            const unreadCount = conversationData.messages.filter(msg => msg.status === 'sent' && msg.receiverId === 'admin').length;
-            const unreadElement = document.getElementById('chatUnreadCount');
-            if (unreadCount > 0) {
-                unreadElement.textContent = unreadCount;
-                unreadElement.classList.remove('hidden');
-            } else {
-                unreadElement.classList.add('hidden');
-            }
+            console.log('displayChatInterface called with:', conversationData);
+            try {
+                document.getElementById('chatCustomerName').textContent = conversationData.userDetails.name;
+                document.getElementById('chatCustomerEmail').textContent = conversationData.userDetails.email;
+                
+                const unreadCount = conversationData.messages.filter(msg => msg.status === 'sent' && msg.receiverId === 'admin').length;
+                const unreadElement = document.getElementById('chatUnreadCount');
+                if (unreadCount > 0) {
+                    unreadElement.textContent = unreadCount;
+                    unreadElement.classList.remove('hidden');
+                } else {
+                    unreadElement.classList.add('hidden');
+                }
 
-            displayMessages(conversationData.messages);
-            document.getElementById('chatInterface').classList.remove('hidden');
-            
-            const messagesContainer = document.getElementById('chatMessages');
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                displayMessages(conversationData.messages);
+                const chatInterface = document.getElementById('chatInterface');
+                console.log('Chat interface element:', chatInterface);
+                console.log('Classes before removing hidden:', chatInterface.className);
+                chatInterface.classList.remove('hidden');
+                console.log('Classes after removing hidden:', chatInterface.className);
+                console.log('Is hidden class still present?', chatInterface.classList.contains('hidden'));
+                console.log('Element display style:', window.getComputedStyle(chatInterface).display);
+                console.log('Element visibility style:', window.getComputedStyle(chatInterface).visibility);
+                
+                // Force visibility as a test
+                chatInterface.style.display = 'block';
+                chatInterface.style.visibility = 'visible';
+                chatInterface.style.opacity = '1';
+                chatInterface.style.position = 'relative';
+                chatInterface.style.zIndex = '1000';
+                chatInterface.style.marginTop = '20px';
+                chatInterface.style.backgroundColor = 'white';
+                chatInterface.style.border = '2px solid #19e619';
+                console.log('Forced visibility with positioning - chat interface should now be visible');
+                
+                const messagesContainer = document.getElementById('chatMessages');
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            } catch (error) {
+                console.error('Error in displayChatInterface:', error);
+            }
         }
 
         function displayMessages(messages) {

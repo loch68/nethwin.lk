@@ -70,10 +70,16 @@ app.use(cors());
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ extended: true, limit: '100mb' }));
 
-// Rate limiting
+// Rate limiting - More lenient for development
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+  max: 1000, // Increased limit for development (was 100)
+  message: {
+    error: 'Too many requests from this IP, please try again later.',
+    retryAfter: '15 minutes'
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 app.use('/api/', limiter);
 
@@ -103,35 +109,8 @@ const requireAdmin = (req, res, next) => {
   next();
 };
 
-// Multer configuration for print order file uploads
-const printOrderStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/print-orders/');
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, 'print_' + uniqueSuffix + path.extname(file.originalname));
-  }
-});
-
-const printOrderUpload = multer({
-  storage: printOrderStorage,
-  limits: {
-    fileSize: 10 * 1024 * 1024 // 10MB limit
-  },
-  fileFilter: (req, file, cb) => {
-    // Allow common document formats
-    const allowedTypes = /pdf|doc|docx|txt|jpg|jpeg|png|gif/;
-    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = allowedTypes.test(file.mimetype);
-    
-    if (mimetype && extname) {
-      return cb(null, true);
-    } else {
-      cb(new Error('Only PDF, DOC, DOCX, TXT, JPG, JPEG, PNG, and GIF files are allowed'));
-    }
-  }
-});
+// Import Cloudinary configuration for print orders
+const { printOrderUpload, cloudinary: printCloudinary } = require('./src/config/print-cloudinary');
 
 // Use Cloudinary for product image uploads
 const productImageUpload = cloudinaryUpload;
@@ -2999,7 +2978,7 @@ app.post('/api/print-orders',
         copies: parseInt(req.body.copies),
         finishing: req.body.finishing,
         additionalNotes: req.body.additionalNotes || '',
-        documentPath: req.file.path,
+        documentPath: req.file.path, // Cloudinary URL
         originalFileName: req.file.originalname,
         fileSize: req.file.size,
         status: 'pending',
@@ -3483,23 +3462,30 @@ app.get('/api/print-orders/:id/document', async (req, res) => {
       });
     }
 
-    const filePath = path.join(__dirname, 'uploads', 'print-orders', path.basename(order.documentPath));
-    
-    // Check if file exists
-    if (!fs.existsSync(filePath)) {
-      return res.status(404).json({
-        success: false,
-        error: 'Document file not found on server'
-      });
-    }
+    // Check if it's a Cloudinary URL
+    if (order.documentPath.includes('cloudinary.com')) {
+      // For Cloudinary URLs, redirect to the file directly
+      res.redirect(order.documentPath);
+    } else {
+      // Handle legacy local files
+      const filePath = path.join(__dirname, 'uploads', 'print-orders', path.basename(order.documentPath));
+      
+      // Check if file exists
+      if (!fs.existsSync(filePath)) {
+        return res.status(404).json({
+          success: false,
+          error: 'Document file not found on server'
+        });
+      }
 
-    // Set appropriate headers for file download
-    res.setHeader('Content-Disposition', `inline; filename="${order.originalFileName}"`);
-    res.setHeader('Content-Type', getContentType(order.originalFileName));
-    
-    // Stream the file
-    const fileStream = fs.createReadStream(filePath);
-    fileStream.pipe(res);
+      // Set appropriate headers for file download
+      res.setHeader('Content-Disposition', `inline; filename="${order.originalFileName}"`);
+      res.setHeader('Content-Type', getContentType(order.originalFileName));
+      
+      // Stream the file
+      const fileStream = fs.createReadStream(filePath);
+      fileStream.pipe(res);
+    }
 
   } catch (error) {
     console.error('Get document error:', error);
@@ -3911,6 +3897,81 @@ app.get('/api/admin/print-orders/export/pdf', async (req, res) => {
   } catch (error) {
     console.error('Print orders PDF export error:', error);
     res.status(500).json({ error: 'Failed to export PDF' });
+  }
+});
+
+// DELETE /api/admin/print-orders/:id - Delete print order (Admin)
+app.delete('/api/admin/print-orders/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    // Find the print order first to get file information
+    const printOrder = await PrintOrder.findById(id);
+    if (!printOrder) {
+      return res.status(404).json({ 
+        success: false, 
+        error: 'Print order not found' 
+      });
+    }
+
+    // Delete associated files from Cloudinary if they exist
+    if (printOrder.documentPath) {
+      try {
+        // Check if it's a Cloudinary URL
+        if (printOrder.documentPath.includes('cloudinary.com')) {
+          // Extract public ID from Cloudinary URL
+          const urlParts = printOrder.documentPath.split('/');
+          const publicIdWithExtension = urlParts[urlParts.length - 1];
+          const publicId = publicIdWithExtension.split('.')[0];
+          const fullPublicId = `nethwinlk/print-orders/${publicId}`;
+          
+          // Delete from Cloudinary
+          await printCloudinary.uploader.destroy(fullPublicId);
+          console.log(`Deleted Cloudinary file: ${fullPublicId}`);
+        } else {
+          // Handle legacy local files
+          const fs = require('fs');
+          const path = require('path');
+          const filePath = path.join(__dirname, 'uploads', 'print-orders', path.basename(printOrder.documentPath));
+          
+          if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+            console.log(`Deleted local file: ${filePath}`);
+          }
+        }
+      } catch (fileError) {
+        console.error('Error deleting file:', fileError);
+        // Continue with order deletion even if file deletion fails
+      }
+    }
+
+    // Delete the print order from database
+    const deletedOrder = await PrintOrder.findByIdAndDelete(id);
+    
+    if (!deletedOrder) {
+      return res.status(404).json({ 
+        success: false, 
+        error: 'Print order not found' 
+      });
+    }
+
+    console.log(`Print order ${id} deleted successfully`);
+    res.json({ 
+      success: true, 
+      message: 'Print order deleted successfully',
+      deletedOrder: {
+        id: deletedOrder._id,
+        fileName: deletedOrder.fileName,
+        status: deletedOrder.status
+      }
+    });
+
+  } catch (error) {
+    console.error('Delete print order error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to delete print order' 
+    });
   }
 });
 

@@ -3,17 +3,26 @@
       as="style"
       onload="this.rel='stylesheet'"
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
-    /><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script>
+    /><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>    <script>
         // Suppress Tailwind CDN warning for development
         window.addEventListener('DOMContentLoaded', function() {
             const originalWarn = console.warn;
             console.warn = function(message) {
-                if (message && message.includes('cdn.tailwindcss.com should not be used in production')) {
+                if (message && typeof message === 'string' && message.includes('cdn.tailwindcss.com should not be used in production')) {
                     return; // Suppress this specific warning
                 }
                 originalWarn.apply(console, arguments);
             };
         });
+        
+        // Also suppress the warning that appears immediately
+        const originalWarn = console.warn;
+        console.warn = function(message) {
+            if (message && typeof message === 'string' && message.includes('cdn.tailwindcss.com should not be used in production')) {
+                return; // Suppress this specific warning
+            }
+            originalWarn.apply(console, arguments);
+        };
     </script><link rel="stylesheet" href="../css/hover-effects.css" /><link rel="stylesheet" href="../css/navbar.css" /><link rel="stylesheet" href="../css/cart-styles.css" /><link rel="stylesheet" href="../css/background-animations.css" /><link rel="stylesheet" href="../css/responsive.css" /><script src="../javascript/auth.js"></script><style>
         .checkout-container {
             background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
@@ -158,23 +167,6 @@
             background-color: #3b82f6;
         }
         
-        /* Card Payment circle - always blue when selected */
-        .payment-option-card[onclick*="card"] input[type="radio"]:checked + div .absolute.top-3.right-3 {
-            border-color: #3b82f6;
-        }
-        .payment-option-card[onclick*="card"] input[type="radio"]:checked + div .absolute.top-3.right-3 > div {
-            opacity: 1;
-            background-color: #3b82f6;
-        }
-        
-        /* Card Payment circle - blue when card is selected */
-        .payment-option-card[onclick*="card"].selected .absolute.top-3.right-3 {
-            border-color: #3b82f6;
-        }
-        .payment-option-card[onclick*="card"].selected .absolute.top-3.right-3 > div {
-            opacity: 1;
-            background-color: #3b82f6;
-        }
         
         /* Cash on Delivery circle - always green when selected */
         .payment-option-card[onclick*="cod"] input[type="radio"]:checked + div .absolute.top-3.right-3 {
@@ -227,12 +219,6 @@
         }
         .delivery-option-card.selected[onclick*="pickup"] .flex.flex-col.items-center.text-center {
             background-color: #eff6ff !important; /* Light blue for Store Pickup inner div */
-        }
-        .payment-option-card.selected[onclick*="card"] {
-            background-color: #eff6ff !important; /* Light blue for Card Payment */
-        }
-        .payment-option-card.selected[onclick*="card"] .flex.flex-col.items-center.text-center {
-            background-color: #eff6ff !important; /* Light blue for Card Payment inner div */
         }
         .payment-option-card.selected[onclick*="cod"] {
             background-color: #f0fdf4 !important; /* Light green for Cash on Delivery */
@@ -292,7 +278,7 @@
                                         Delivery Information
                                     </h2><div class="space-y-4"><div><label class="block text-sm font-medium text-gray-700 mb-2">Delivery Method *</label><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><label class="delivery-option-card group cursor-pointer" onclick="selectDelivery('local', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="deliveryMethod" value="Local Delivery" class="sr-only" checked><div class="flex items-start gap-4"><div class="w-12 h-12 bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg flex items-center justify-center group-hover:from-green-200 group-hover:to-emerald-200 transition-colors"><svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg></div><div class="flex-1"><h4 class="font-bold text-gray-800 text-lg mb-1">Local Delivery</h4><p class="text-sm text-gray-600 mb-3">Within <span id="deliveryRadius">10</span>km radius from our store</p><p class="text-sm text-gray-500 mb-3">Available during business hours</p><div class="flex items-center justify-between"><div class="flex items-center gap-2"><svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span class="text-sm text-green-600 font-medium">Estimated 1-2 days</span></div><span id="localDeliveryPrice" class="text-sm font-bold text-green-600">LKR 0.00</span></div></div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-green-500 transition-colors"><div class="w-full h-full rounded-full bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="delivery-option-card group cursor-pointer" onclick="selectDelivery('pickup', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-blue-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="deliveryMethod" value="Store Pickup" class="sr-only"><div class="flex items-start gap-4"><div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg flex items-center justify-center group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors"><svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg></div><div class="flex-1"><h4 class="font-bold text-gray-800 text-lg mb-1">Store Pickup</h4><p class="text-sm text-gray-600 mb-3">Collect from our physical store</p><p class="text-sm text-gray-500 mb-3">Available during store hours</p><div class="flex items-center justify-between"><div class="flex items-center gap-2"><svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span class="text-sm text-blue-600 font-medium">Ready in 2-4 hours</span></div><span class="text-sm font-bold text-green-600">Free</span></div></div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-blue-500 transition-colors"><div class="w-full h-full rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label></div></div><div id="deliveryAddressSection"><label class="block text-sm font-medium text-gray-700 mb-2">Delivery Address *</label><textarea id="deliveryAddress" name="deliveryAddress" class="form-input w-full px-4 py-3 rounded-lg" rows="3" placeholder="Enter your complete delivery address"></textarea></div></div></div><!-- Payment Information --><div class="form-section p-6"><h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><svg class="w-5 h-5 mr-3 text-[#19e619]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
                                         Payment Information
-                                    </h2><div class="space-y-4"><div><label class="block text-sm font-medium text-gray-700 mb-2">Payment Method *</label><div class="grid grid-cols-1 md:grid-cols-3 gap-6"><label class="payment-option-card group cursor-pointer" onclick="selectPayment('card', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-blue-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="paymentMethod" value="Card Payment" class="sr-only" checked><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors"><svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">Card Payment</h4><p class="text-sm text-gray-600 mb-4">Visa, Mastercard, Amex</p><div class="w-16 h-6 bg-blue-500 rounded text-white text-xs flex items-center justify-center font-bold">CARD</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-blue-500 transition-colors"><div class="w-full h-full rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="payment-option-card group cursor-pointer" onclick="selectPayment('cod', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="paymentMethod" value="Cash on Delivery" class="sr-only"><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-green-200 group-hover:to-emerald-200 transition-colors"><svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">Cash on Delivery</h4><p class="text-sm text-gray-600 mb-4">Pay when delivered</p><div class="w-16 h-6 bg-green-500 rounded text-white text-xs flex items-center justify-center font-bold">COD</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-green-500 transition-colors"><div class="w-full h-full rounded-full bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="payment-option-card group cursor-pointer" onclick="selectPayment('qr', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-purple-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="paymentMethod" value="QR Payment" class="sr-only"><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-violet-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-purple-200 group-hover:to-violet-200 transition-colors"><svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-4v-4m-6 4h2m0-4h-2v4m0-4v-4m6 0V7a2 2 0 00-2-2H8a2 2 0 00-2 2v4"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">QR Payment</h4><p class="text-sm text-gray-600 mb-4">Scan QR code to pay</p><div class="w-16 h-6 bg-purple-500 rounded text-white text-xs flex items-center justify-center font-bold">QR</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-purple-500 transition-colors"><div class="w-full h-full rounded-full bg-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label></div></div></div></div><!-- Order Notes --><div class="form-section p-6"><h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><svg class="w-5 h-5 mr-3 text-[#19e619]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                    </h2><div class="space-y-4"><div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4"><div class="flex items-center"><svg class="w-5 h-5 text-yellow-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path></svg><div><h3 class="text-sm font-medium text-yellow-800">Payment Gateway Notice</h3><p class="text-sm text-yellow-700 mt-1">Card payments are currently not available. Please use Cash on Delivery or QR Payment methods.</p></div></div></div><div><label class="block text-sm font-medium text-gray-700 mb-2">Payment Method *</label><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><label class="payment-option-card group cursor-pointer" onclick="selectPayment('cod', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="paymentMethod" value="Cash on Delivery" class="sr-only" checked><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-green-200 group-hover:to-emerald-200 transition-colors"><svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">Cash on Delivery</h4><p class="text-sm text-gray-600 mb-4">Pay when delivered</p><div class="w-16 h-6 bg-green-500 rounded text-white text-xs flex items-center justify-center font-bold">COD</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-green-500 transition-colors"><div class="w-full h-full rounded-full bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label><label class="payment-option-card group cursor-pointer" onclick="selectPayment('qr', event)"><div class="relative p-6 border-2 border-gray-200 rounded-xl hover:border-purple-400 transition-all duration-300 group-hover:shadow-lg"><input type="radio" name="paymentMethod" value="QR Payment" class="sr-only"><div class="flex flex-col items-center text-center"><div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-violet-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-purple-200 group-hover:to-violet-200 transition-colors"><svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-4v-4m-6 4h2m0-4h-2v4m0-4v-4m6 0V7a2 2 0 00-2-2H8a2 2 0 00-2 2v4"></path></svg></div><h4 class="font-bold text-gray-800 text-lg mb-2">QR Payment</h4><p class="text-sm text-gray-600 mb-4">Scan QR code to pay</p><div class="w-16 h-6 bg-purple-500 rounded text-white text-xs flex items-center justify-center font-bold">QR</div></div><div class="absolute top-3 right-3 w-6 h-6 border-2 border-gray-300 rounded-full group-hover:border-purple-500 transition-colors"><div class="w-full h-full rounded-full bg-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div></div></div></label></div></div></div></div><!-- Order Notes --><div class="form-section p-6"><h2 class="text-xl font-semibold text-gray-900 mb-6 flex items-center"><svg class="w-5 h-5 mr-3 text-[#19e619]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                         Order Notes (Optional)
                                     </h2><div><textarea id="orderNotes" name="orderNotes" class="form-input w-full px-4 py-3 rounded-lg" rows="3" placeholder="Any special instructions for your order?"></textarea></div></div></form></div><!-- Order Summary --><div class="lg:col-span-1"><div class="order-summary p-6 sticky top-24"><h2 class="text-xl font-semibold text-gray-900 mb-6">Order Summary</h2><!-- Order Items --><div id="orderItems" class="space-y-4 mb-6"><!-- Items will be loaded here --></div><!-- Order Totals --><div class="border-t border-gray-200 pt-4 space-y-3"><div class="flex justify-between text-sm"><span class="text-gray-600">Subtotal</span><span id="subtotal" class="font-medium">Rs. 0.00</span></div><div class="flex justify-between text-sm"><span class="text-gray-600">Delivery Fee</span><span id="deliveryFee" class="font-medium">Rs. 0.00</span></div><div class="flex justify-between text-lg font-semibold"><span>Total</span><span id="total" class="text-[#19e619]">Rs. 0.00</span></div></div><!-- Action Buttons --><div class="mt-6 space-y-3"><button id="proceedToReview" class="btn-primary w-full py-3 px-6 rounded-lg font-semibold text-white flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                         Review Order
@@ -301,6 +287,8 @@
                                     </button></div></div></div></div></div></main></div></div><script src="../javascript/navbar.js"></script><script src="../javascript/cart-utils.js"></script><script src="../javascript/background-animations.js"></script><script>
         // Checkout functionality
         let orderData = null;
+        let deliverySettingsCache = null;
+        let userDetailsCache = null;
         
         // Load order data from localStorage
         async function loadOrderData() {
@@ -309,9 +297,14 @@
                 orderData = JSON.parse(savedOrder);
                 console.log('Loaded order data:', orderData);
                 displayOrderItems();
-                await updateDeliveryOptionDisplay();
+                
+                // Load data in parallel to reduce API calls
+                await Promise.all([
+                    updateDeliveryOptionDisplay(),
+                    loadUserDetails()
+                ]);
+                
                 await updateTotals();
-                loadUserDetails();
             } else {
                 // Redirect to cart if no order data
                 window.location.href = 'cart.html';
@@ -321,38 +314,74 @@
         // Load user details if logged in
         async function loadUserDetails() {
             const token = localStorage.getItem('authToken');
-            if (token) {
-                try {
-                    const response = await fetch('/api/profile', {
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        const userDetails = await response.json();
-                        if (userDetails && userDetails.data) {
-                            // Pre-fill form with user details
-                            document.getElementById('customerName').value = userDetails.data.name || '';
-                            document.getElementById('customerEmail').value = userDetails.data.email || '';
-                            document.getElementById('customerPhone').value = userDetails.data.phoneNumber || '';
-                            
-                            // Pre-fill address if available
-                            const addressParts = [];
-                            if (userDetails.data.address) addressParts.push(userDetails.data.address);
-                            if (userDetails.data.city) addressParts.push(userDetails.data.city);
-                            if (userDetails.data.district) addressParts.push(userDetails.data.district);
-                            if (userDetails.data.province) addressParts.push(userDetails.data.province);
-                            if (userDetails.data.zipCode) addressParts.push(userDetails.data.zipCode);
-                            
-                            if (addressParts.length > 0) {
-                                document.getElementById('deliveryAddress').value = addressParts.join(', ');
-                            }
+            if (!token) return;
+            
+            // Use cache if available
+            if (userDetailsCache) {
+                populateUserForm(userDetailsCache);
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/profile', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const userDetails = await response.json();
+                    if (userDetails && userDetails.data) {
+                        // Cache the user details
+                        userDetailsCache = userDetails.data;
+                        populateUserForm(userDetails.data);
+                    }
+                } else if (response.status === 429) {
+                    console.warn('Rate limited when fetching user details, using cached data if available');
+                    // Try to use any cached data from localStorage
+                    const cachedUser = localStorage.getItem('userDetails');
+                    if (cachedUser) {
+                        try {
+                            const parsedUser = JSON.parse(cachedUser);
+                            populateUserForm(parsedUser);
+                        } catch (e) {
+                            console.error('Error parsing cached user data:', e);
                         }
                     }
-                } catch (error) {
-                    console.error('Error loading user details:', error);
+                } else {
+                    console.error('Failed to load user details:', response.status, response.statusText);
                 }
+            } catch (error) {
+                console.error('Error loading user details:', error);
+                // Try to use cached data as fallback
+                const cachedUser = localStorage.getItem('userDetails');
+                if (cachedUser) {
+                    try {
+                        const parsedUser = JSON.parse(cachedUser);
+                        populateUserForm(parsedUser);
+                    } catch (e) {
+                        console.error('Error parsing cached user data:', e);
+                    }
+                }
+            }
+        }
+        
+        // Helper function to populate user form
+        function populateUserForm(userData) {
+            document.getElementById('customerName').value = userData.name || '';
+            document.getElementById('customerEmail').value = userData.email || '';
+            document.getElementById('customerPhone').value = userData.phoneNumber || '';
+            
+            // Pre-fill address if available
+            const addressParts = [];
+            if (userData.address) addressParts.push(userData.address);
+            if (userData.city) addressParts.push(userData.city);
+            if (userData.district) addressParts.push(userData.district);
+            if (userData.province) addressParts.push(userData.province);
+            if (userData.zipCode) addressParts.push(userData.zipCode);
+            
+            if (addressParts.length > 0) {
+                document.getElementById('deliveryAddress').value = addressParts.join(', ');
             }
         }
         
@@ -375,18 +404,30 @@
             });
         }
         
-        // Get delivery fee from API
+        // Get delivery fee from API with caching
         async function getDeliveryFee(deliveryMethod) {
             console.log('Getting delivery fee for method:', deliveryMethod);
             
             if (deliveryMethod === 'Local Delivery') {
+                // Use cached data if available
+                if (deliverySettingsCache) {
+                    const fee = deliverySettingsCache.localDeliveryPrice || 0;
+                    console.log('Local delivery fee (cached):', fee);
+                    return fee;
+                }
+                
                 try {
                     const response = await fetch('/api/delivery-settings');
                     if (response.ok) {
                         const data = await response.json();
+                        // Cache the delivery settings
+                        deliverySettingsCache = data.data;
                         const fee = data.data?.localDeliveryPrice || 0;
                         console.log('Local delivery fee:', fee);
                         return fee;
+                    } else if (response.status === 429) {
+                        console.warn('Rate limited when fetching delivery settings, using fallback');
+                        return 0; // Fallback to free delivery
                     }
                 } catch (error) {
                     console.error('Error fetching delivery price:', error);
@@ -400,31 +441,50 @@
 
         // Update delivery option display
         async function updateDeliveryOptionDisplay() {
+            // Use cached data if available
+            if (deliverySettingsCache) {
+                updateDeliveryDisplayFromCache(deliverySettingsCache);
+                return;
+            }
+            
             try {
                 const response = await fetch('/api/delivery-settings');
                 if (response.ok) {
                     const data = await response.json();
-                    const price = data.data?.localDeliveryPrice || 0;
-                    const radius = data.data?.deliveryRadius || 10;
-                    
-                    // Update delivery radius
-                    const radiusElement = document.getElementById('deliveryRadius');
-                    if (radiusElement) {
-                        radiusElement.textContent = radius;
-                    }
-                    
-                    // Update delivery price
-                    const priceElement = document.getElementById('localDeliveryPrice');
-                    if (priceElement) {
-                        if (price > 0) {
-                            priceElement.textContent = `LKR ${price.toFixed(2)}`;
-                        } else {
-                            priceElement.textContent = 'Free';
-                        }
-                    }
+                    // Cache the delivery settings
+                    deliverySettingsCache = data.data;
+                    updateDeliveryDisplayFromCache(data.data);
+                } else if (response.status === 429) {
+                    console.warn('Rate limited when fetching delivery settings, using defaults');
+                    // Use default values
+                    updateDeliveryDisplayFromCache({ localDeliveryPrice: 0, deliveryRadius: 10 });
                 }
             } catch (error) {
                 console.error('Error updating delivery option display:', error);
+                // Use default values on error
+                updateDeliveryDisplayFromCache({ localDeliveryPrice: 0, deliveryRadius: 10 });
+            }
+        }
+        
+        // Helper function to update delivery display from cached data
+        function updateDeliveryDisplayFromCache(settings) {
+            const price = settings?.localDeliveryPrice || 0;
+            const radius = settings?.deliveryRadius || 10;
+            
+            // Update delivery radius
+            const radiusElement = document.getElementById('deliveryRadius');
+            if (radiusElement) {
+                radiusElement.textContent = radius;
+            }
+            
+            // Update delivery price
+            const priceElement = document.getElementById('localDeliveryPrice');
+            if (priceElement) {
+                if (price > 0) {
+                    priceElement.textContent = `LKR ${price.toFixed(2)}`;
+                } else {
+                    priceElement.textContent = 'Free';
+                }
             }
         }
 
@@ -525,10 +585,10 @@
                 localDeliveryCard.classList.add('selected');
             }
             
-            // Set Card Payment as selected by default
-            const cardPaymentCard = document.querySelector('.payment-option-card[onclick*="card"]');
-            if (cardPaymentCard) {
-                cardPaymentCard.classList.add('selected');
+            // Set Cash on Delivery as selected by default
+            const codPaymentCard = document.querySelector('.payment-option-card[onclick*="cod"]');
+            if (codPaymentCard) {
+                codPaymentCard.classList.add('selected');
             }
             
             // Set delivery address as required by default (Local Delivery is default)
@@ -636,9 +696,6 @@
             // Update payment method in order data
             if (orderData) {
                 switch(type) {
-                    case 'card':
-                        orderData.paymentMethod = 'Card Payment';
-                        break;
                     case 'cod':
                         orderData.paymentMethod = 'Cash on Delivery';
                         break;
@@ -648,4 +705,4 @@
                 }
             }
         }
-    </script></body></html>
+    </script><script src="../javascript/button-refresh.js"></script></body></html>
