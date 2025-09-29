@@ -3,25 +3,29 @@
       href="https://fonts.googleapis.com/css2?display=swap&family=Inter:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900"
     /><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script>
-        // Suppress Tailwind CDN warning for development
+        // Suppress Tailwind CDN warnings for development
+        const originalWarn = console.warn;
+        console.warn = function(message) {
+            if (message && typeof message === 'string' && 
+                (message.includes('cdn.tailwindcss.com should not be used in production') ||
+                 message.includes('Components object is deprecated'))) {
+                return; // Suppress these specific warnings
+            }
+            originalWarn.apply(console, arguments);
+        };
+        
+        // Also suppress warnings that appear immediately
         window.addEventListener('DOMContentLoaded', function() {
             const originalWarn = console.warn;
             console.warn = function(message) {
-                if (message && typeof message === 'string' && message.includes('cdn.tailwindcss.com should not be used in production')) {
-                    return; // Suppress this specific warning
+                if (message && typeof message === 'string' && 
+                    (message.includes('cdn.tailwindcss.com should not be used in production') ||
+                     message.includes('Components object is deprecated'))) {
+                    return; // Suppress these specific warnings
                 }
                 originalWarn.apply(console, arguments);
             };
         });
-        
-        // Also suppress the warning that appears immediately
-        const originalWarn = console.warn;
-        console.warn = function(message) {
-            if (message && typeof message === 'string' && message.includes('cdn.tailwindcss.com should not be used in production')) {
-                return; // Suppress this specific warning
-            }
-            originalWarn.apply(console, arguments);
-        };
     </script><link rel="stylesheet" href="../css/hover-effects.css" /><link rel="stylesheet" href="../css/responsive.css" /><link rel="stylesheet" href="../css/navbar.css" /><link rel="stylesheet" href="../css/cart-styles.css" /><link rel="stylesheet" href="../css/background-animations.css" /><style>
       :root {
         --primary-green: #0ad167;
@@ -966,16 +970,34 @@
                   </p>
                 </div>
               </label>
-            </div><div
+            </div>            <div
               class="flex max-w-full sm:max-w-[480px] flex-wrap gap-4 px-2 sm:px-4 py-3"
-            ><label class="flex flex-col w-full" id="deliveryAddressLabel"><p class="pb-2 font-medium text-sm sm:text-base">Delivery Address *</p><textarea
+            >
+              <label class="flex flex-col w-full" id="deliveryAddressLabel">
+                <div class="flex items-center justify-between pb-2">
+                  <p class="font-medium text-sm sm:text-base">Delivery Address *</p>
+                  <button 
+                    type="button" 
+                    id="useSavedAddressBtn" 
+                    class="text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors"
+                    onclick="useSavedAddress()"
+                  >
+                    📍 Use Saved Address
+                  </button>
+                </div>
+                <textarea
                   name="deliveryAddress"
                   id="deliveryAddress"
-                  placeholder="Enter your delivery address"
+                  placeholder="Enter your delivery address or click 'Use Saved Address' to auto-fill"
                   rows="3"
                   required
                   class="form-input w-full p-3 sm:p-[15px] rounded-xl border border-[#dbdfe6] text-sm sm:text-base resize-none"
-                ></textarea></label></div>
+                ></textarea>
+                <div id="savedAddressNotification" class="hidden mt-2 p-2 bg-green-50 border border-green-200 rounded-lg">
+                  <p class="text-sm text-green-700">✅ Address loaded from your profile!</p>
+                </div>
+              </label>
+            </div>
             
             <!-- Store Pickup Notification -->
             <div id="storePickupNotification" class="hidden px-2 sm:px-4 py-3 transition-all duration-300 ease-in-out">
@@ -1776,6 +1798,9 @@
         
         isSubmitting = true;
         console.log('Print order submission started');
+        
+        // Show submission notification
+        showNotification('Submitting your print order...', 'info', 3000);
           
           const form = document.getElementById("printForm");
           
@@ -1890,7 +1915,13 @@
             // Show upload progress
             const submitButton = document.getElementById('submitPrintOrder');
             const originalText = submitButton.textContent;
-            submitButton.textContent = 'Uploading...';
+            submitButton.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Uploading...
+            `;
             submitButton.disabled = true;
             
             const response = await fetch("/api/print-orders", {
@@ -1911,7 +1942,10 @@
             }
             
             if (response.ok && result.success) {
-              alert("Print order submitted successfully! Order ID: " + result.data._id);
+              // Show success modal instead of alert
+              showPrintOrderSuccessModal(result.data._id);
+              
+              // Reset form
               form.reset();
               document.getElementById('estimatedPrice').textContent = 'Rs. 0';
               document.getElementById('additionalNotesContainer').style.display = 'none';
@@ -1939,7 +1973,7 @@
             }
           } catch (err) {
             console.error('Print order submission error:', err);
-            alert("Failed to submit print order: " + err.message);
+            showErrorModal("Failed to submit print order: " + err.message);
           } finally {
             // Reset submission flag and button in all cases
             isSubmitting = false;
@@ -2011,6 +2045,119 @@
             console.log('Delivery settings updated, refreshing print page...');
             loadDeliverySettings();
         });
+
+        // Function to use saved address from user profile (global function)
+        async function useSavedAddress() {
+            try {
+                const deliveryAddressField = document.getElementById('deliveryAddress');
+                const notification = document.getElementById('savedAddressNotification');
+                const useBtn = document.getElementById('useSavedAddressBtn');
+                
+                // Show loading state
+                useBtn.innerHTML = '⏳ Loading...';
+                useBtn.disabled = true;
+                
+                // Try to get user data from localStorage first
+                let userData = localStorage.getItem('userData');
+                if (userData) {
+                    try {
+                        userData = JSON.parse(userData);
+                    } catch (e) {
+                        console.error('Error parsing user data from localStorage:', e);
+                        userData = null;
+                    }
+                }
+                
+                // If no localStorage data, try to fetch from API
+                if (!userData || !userData.address) {
+                    const token = localStorage.getItem('token') || localStorage.getItem('authToken');
+                    console.log('Token found:', !!token);
+                    
+                    if (token) {
+                        try {
+                            const response = await fetch('/api/profile', {
+                                headers: {
+                                    'Authorization': `Bearer ${token}`
+                                }
+                            });
+                            
+                            console.log('API response status:', response.status);
+                            
+                            if (response.ok) {
+                                const profileData = await response.json();
+                                userData = profileData.data || profileData;
+                                console.log('Fetched user data from API:', userData);
+                            } else {
+                                console.error('API request failed:', response.status, response.statusText);
+                                const errorText = await response.text();
+                                console.error('Error response:', errorText);
+                            }
+                        } catch (apiError) {
+                            console.error('API request error:', apiError);
+                        }
+                    } else {
+                        console.log('No token found in localStorage');
+                    }
+                }
+                
+                console.log('User data retrieved:', userData);
+                console.log('Address field value:', userData?.address);
+                
+                if (userData && userData.address && userData.address.trim() !== '') {
+                    // Fill the delivery address field
+                    deliveryAddressField.value = userData.address;
+                    
+                    // Show success notification
+                    notification.innerHTML = '<p class="text-sm text-green-700">✅ Address loaded from your profile!</p>';
+                    notification.classList.remove('hidden');
+                    
+                    // Hide notification after 3 seconds
+                    setTimeout(() => {
+                        notification.classList.add('hidden');
+                    }, 3000);
+                    
+                    console.log('Address loaded from user profile:', userData.address);
+                } else {
+                    // Show error notification with more helpful message
+                    const hasUserData = userData && Object.keys(userData).length > 0;
+                    const hasEmptyAddress = userData && userData.address === '';
+                    
+                    let errorMessage = '❌ No saved address found. Please enter your address manually.';
+                    if (hasUserData && hasEmptyAddress) {
+                        errorMessage = '❌ You haven\'t saved an address in your profile yet. <a href="profile.html" class="underline text-blue-600 hover:text-blue-800">Update your profile</a> or enter your address manually.';
+                    } else if (!hasUserData) {
+                        errorMessage = '❌ Could not retrieve your profile data. Please enter your address manually.';
+                    }
+                    
+                    notification.innerHTML = `<p class="text-sm text-red-700">${errorMessage}</p>`;
+                    notification.classList.remove('hidden');
+                    
+                    // Hide notification after 5 seconds (longer for error messages)
+                    setTimeout(() => {
+                        notification.classList.add('hidden');
+                        notification.innerHTML = '<p class="text-sm text-green-700">✅ Address loaded from your profile!</p>';
+                    }, 5000);
+                }
+            } catch (error) {
+                console.error('Error loading saved address:', error);
+                
+                // Show error notification
+                const notification = document.getElementById('savedAddressNotification');
+                notification.innerHTML = '<p class="text-sm text-red-700">❌ Error loading address. Please enter manually.</p>';
+                notification.classList.remove('hidden');
+                
+                // Hide notification after 3 seconds
+                setTimeout(() => {
+                    notification.classList.add('hidden');
+                    notification.innerHTML = '<p class="text-sm text-green-700">✅ Address loaded from your profile!</p>';
+                }, 3000);
+            } finally {
+                // Reset button state
+                const useBtn = document.getElementById('useSavedAddressBtn');
+                useBtn.innerHTML = '📍 Use Saved Address';
+                useBtn.disabled = false;
+            }
+        }
 
         // Load delivery settings on page load
         document.addEventListener('DOMContentLoaded', function() {
@@ -2258,9 +2405,118 @@
                 }
             }
 
+
             // Initial calculation and setup
             calculatePrice();
             toggleDeliveryAddress(); // Set initial state
+        }
+
+        // Modern Notification System
+        function showNotification(message, type = 'info', duration = 5000) {
+            const container = document.getElementById('notificationContainer');
+            const notification = document.createElement('div');
+            
+            const colors = {
+                success: 'bg-green-500',
+                error: 'bg-red-500',
+                warning: 'bg-yellow-500',
+                info: 'bg-blue-500'
+            };
+            
+            const icons = {
+                success: '✓',
+                error: '✕',
+                warning: '⚠',
+                info: 'ℹ'
+            };
+            
+            notification.className = `${colors[type]} text-white px-6 py-4 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full opacity-0`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <span class="text-xl mr-3">${icons[type]}</span>
+                    <span class="flex-1">${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            `;
+            
+            container.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full', 'opacity-0');
+            }, 100);
+            
+            // Auto remove
+            setTimeout(() => {
+                notification.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => notification.remove(), 300);
+            }, duration);
+        }
+
+        // Print Order Success Modal Functions
+        function showPrintOrderSuccessModal(orderId) {
+            const modal = document.getElementById('printOrderSuccessModal');
+            const content = document.getElementById('successModalContent');
+            const orderIdElement = document.getElementById('successOrderId');
+            
+            orderIdElement.textContent = orderId;
+            modal.classList.remove('hidden');
+            
+            // Animate in
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 100);
+        }
+
+        function closePrintOrderSuccessModal() {
+            const modal = document.getElementById('printOrderSuccessModal');
+            const content = document.getElementById('successModalContent');
+            
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function viewPrintOrders() {
+            closePrintOrderSuccessModal();
+            // Redirect to orders page or open orders modal
+            window.location.href = 'profile.html#orders';
+        }
+
+        // Error Modal Functions
+        function showErrorModal(message) {
+            const modal = document.getElementById('errorModal');
+            const content = document.getElementById('errorModalContent');
+            const messageElement = document.getElementById('errorMessage');
+            
+            messageElement.textContent = message;
+            modal.classList.remove('hidden');
+            
+            // Animate in
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 100);
+        }
+
+        function closeErrorModal() {
+            const modal = document.getElementById('errorModal');
+            const content = document.getElementById('errorModalContent');
+            
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
         }
 
         // PDF Fullscreen function
@@ -2275,7 +2531,7 @@
                     URL.revokeObjectURL(pdfUrl);
                 }, 1000);
             } else {
-                alert('Please allow popups to view PDF files');
+                showNotification('Please allow popups to view PDF files', 'warning');
                 URL.revokeObjectURL(pdfUrl);
             }
         }
@@ -2292,7 +2548,7 @@
                     URL.revokeObjectURL(docUrl);
                 }, 1000);
             } else {
-                alert('Please allow popups to view document files');
+                showNotification('Please allow popups to view document files', 'warning');
                 URL.revokeObjectURL(docUrl);
             }
         }
@@ -2458,6 +2714,87 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                     </svg>
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modern Notification System -->
+    <div id="notificationContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+    <!-- Print Order Success Modal -->
+    <div id="printOrderSuccessModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full transform transition-all duration-300 scale-95 opacity-0" id="successModalContent">
+            <div class="p-6">
+                <!-- Success Icon -->
+                <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                
+                <!-- Success Message -->
+                <div class="text-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Print Order Submitted!</h3>
+                    <p class="text-gray-600 mb-4">Your print order has been successfully submitted and is being processed.</p>
+                    <div class="bg-gray-50 rounded-lg p-3">
+                        <p class="text-sm text-gray-700">
+                            <span class="font-semibold">Order ID:</span> 
+                            <span id="successOrderId" class="font-mono text-blue-600"></span>
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex gap-3">
+                    <button 
+                        onclick="closePrintOrderSuccessModal()" 
+                        class="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors"
+                    >
+                        Continue Shopping
+                    </button>
+                    <button 
+                        onclick="viewPrintOrders()" 
+                        class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors"
+                    >
+                        View Orders
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full transform transition-all duration-300 scale-95 opacity-0" id="errorModalContent">
+            <div class="p-6">
+                <!-- Error Icon -->
+                <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full">
+                    <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </div>
+                
+                <!-- Error Message -->
+                <div class="text-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Something Went Wrong</h3>
+                    <p id="errorMessage" class="text-gray-600 mb-4">We encountered an error while processing your request.</p>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex gap-3">
+                    <button 
+                        onclick="closeErrorModal()" 
+                        class="flex-1 bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 transition-colors"
+                    >
+                        Try Again
+                    </button>
+                    <button 
+                        onclick="closeErrorModal()" 
+                        class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors"
+                    >
+                        Cancel
+                    </button>
+                </div>
             </div>
         </div>
     </div>

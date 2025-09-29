@@ -1951,6 +1951,32 @@ app.get('/api/orders', async (req, res) => {
   const orders = await Order.find(filter).sort({ createdAt: -1 }).lean();
   res.json({ orders });
 });
+
+// GET /api/orders/:id - Get individual order by ID
+app.get('/api/orders/:id', async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id).lean();
+    
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        error: 'Order not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      data: order
+    });
+  } catch (error) {
+    console.error('Error fetching order:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch order'
+    });
+  }
+});
+
 app.post('/api/orders', async (req, res) => {
   try {
     const body = req.body || {};
@@ -1997,39 +2023,162 @@ app.delete('/api/orders/:id', async (req, res) => {
 // Invoice generation route
 app.get('/api/orders/:id/invoice', async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id).lean();
+    console.log('Starting invoice generation...');
+    const orderId = req.params.id;
+    
+    // Find the order
+    const order = await Order.findById(orderId).lean();
     if (!order) {
       return res.status(404).json({ error: 'Order not found' });
     }
     
-    // Generate invoice data
-    const invoiceData = {
-      orderNumber: order.orderNumber,
-      orderDate: order.createdAt,
-      customerName: order.customerName,
-      customerEmail: order.customerEmail,
-      customerPhone: order.customerPhone,
-      deliveryMethod: order.deliveryMethod,
-      paymentMethod: order.paymentMethod,
-      giftOption: order.giftOption || 'self',
-      recipientName: order.recipientName || '',
-      recipientEmail: order.recipientEmail || '',
-      recipientPhone: order.recipientPhone || '',
-      giftMessage: order.giftMessage || '',
-      deliveryAddress: order.deliveryAddress,
-      items: order.items,
-      subtotal: order.total - (order.deliveryFee || 0),
-      deliveryFee: order.deliveryFee || 0,
-      total: order.total,
-      status: order.status
-    };
+    console.log(`Generating invoice for order: ${order.orderNumber || orderId}`);
     
-    res.json({
-      success: true,
-      data: invoiceData
+    // Create HTML document for invoice
+    let htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>NethwinLK - Invoice #${order.orderNumber || orderId}</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            .invoice-header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 20px; }
+            .logo { max-width: 200px; height: auto; margin-bottom: 15px; }
+            .invoice-title { font-size: 28px; font-weight: bold; color: #333; margin-bottom: 10px; }
+            .invoice-number { font-size: 18px; color: #666; }
+            .invoice-details { display: flex; justify-content: space-between; margin-bottom: 30px; }
+            .customer-info, .order-info { width: 45%; }
+            .info-section { background-color: #f8f9fa; padding: 15px; border-radius: 8px; }
+            .info-section h3 { margin-top: 0; color: #333; }
+            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+            th { background-color: #f2f2f2; font-weight: bold; }
+            .total-section { margin-top: 20px; padding: 20px; background-color: #e8f5e8; border-radius: 8px; }
+            .total-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
+            .final-total { font-weight: bold; font-size: 20px; border-top: 2px solid #333; padding-top: 10px; }
+            .footer { margin-top: 40px; text-align: center; color: #666; font-size: 12px; }
+            .status-badge { 
+                display: inline-block; 
+                padding: 4px 12px; 
+                border-radius: 20px; 
+                font-size: 12px; 
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+            .status-pending { background-color: #fff3cd; color: #856404; }
+            .status-confirmed { background-color: #d1ecf1; color: #0c5460; }
+            .status-processing { background-color: #d4edda; color: #155724; }
+            .status-shipped { background-color: #cce5ff; color: #004085; }
+            .status-delivered { background-color: #d1f2eb; color: #0f5132; }
+            .status-cancelled { background-color: #f8d7da; color: #721c24; }
+        </style>
+    </head>
+    <body>
+        <div class="invoice-header">
+            <img src="https://res.cloudinary.com/dz6bntmc6/image/upload/v1758739710/fLogo_xy2tut.png" alt="NethwinLK Logo" class="logo" onerror="this.style.display='none'">
+            <div class="invoice-title">NethwinLK</div>
+            <div class="invoice-number">Invoice #${order.orderNumber || orderId}</div>
+            <div style="margin-top: 10px; font-size: 14px; color: #666;">
+                Generated on: ${new Date().toLocaleDateString()}
+            </div>
+        </div>
+        
+        <div class="invoice-details">
+            <div class="customer-info">
+                <div class="info-section">
+                    <h3>Customer Information</h3>
+                    <p><strong>Name:</strong> ${order.customerName || 'N/A'}</p>
+                    <p><strong>Email:</strong> ${order.customerEmail || 'N/A'}</p>
+                    <p><strong>Phone:</strong> ${order.customerPhone || 'N/A'}</p>
+                    <p><strong>Delivery Method:</strong> ${order.deliveryMethod || 'N/A'}</p>
+                    <p><strong>Payment Method:</strong> ${order.paymentMethod || 'N/A'}</p>
+                    <p><strong>Gift Option:</strong> ${(order.giftOption || order.meta?.giftOption) === 'gift' ? 'Gift' : 'For Self'}</p>
+                    ${order.deliveryAddress ? `<p><strong>Address:</strong> ${order.deliveryAddress}</p>` : ''}
+                    ${(order.giftOption || order.meta?.giftOption) === 'gift' ? `
+                        <div style="margin-top: 15px; padding: 15px; background-color: #f8f9fa; border-left: 4px solid #e91e63; border-radius: 4px;">
+                            <h4 style="margin: 0 0 10px 0; color: #e91e63; font-size: 16px;">🎁 Gift Recipient Details</h4>
+                            <p><strong>Recipient Name:</strong> ${order.recipientName || order.meta?.recipientName || 'N/A'}</p>
+                            <p><strong>Recipient Email:</strong> ${order.recipientEmail || order.meta?.recipientEmail || 'N/A'}</p>
+                            <p><strong>Recipient Phone:</strong> ${order.recipientPhone || order.meta?.recipientPhone || 'N/A'}</p>
+                            ${(order.giftMessage || order.meta?.giftMessage) ? `<p><strong>Gift Message:</strong> <em>"${order.giftMessage || order.meta?.giftMessage}"</em></p>` : ''}
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+            
+            <div class="order-info">
+                <div class="info-section">
+                    <h3>Order Information</h3>
+                    <p><strong>Order Date:</strong> ${new Date(order.createdAt).toLocaleDateString()}</p>
+                    <p><strong>Order Status:</strong> <span class="status-badge status-${order.status || 'pending'}">${(order.status || 'pending').charAt(0).toUpperCase() + (order.status || 'pending').slice(1)}</span></p>
+                </div>
+            </div>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>`;
+
+    // Add items to the table
+    const subtotal = order.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const deliveryFee = order.deliveryFee || 0;
+    
+    order.items.forEach(item => {
+        htmlContent += `
+                <tr>
+                    <td>${item.name || 'N/A'}</td>
+                    <td>${item.quantity || 1}</td>
+                    <td>Rs. ${(item.price || 0).toFixed(2)}</td>
+                    <td>Rs. ${((item.price || 0) * (item.quantity || 1)).toFixed(2)}</td>
+                </tr>`;
     });
-  } catch (e) {
-    console.error('Invoice generation error:', e);
+
+    const total = order.total || (subtotal + deliveryFee);
+    
+    htmlContent += `
+            </tbody>
+        </table>
+        
+        <div class="total-section">
+            <div class="total-row">
+                <span>Subtotal:</span>
+                <span>Rs. ${subtotal.toFixed(2)}</span>
+            </div>
+            <div class="total-row">
+                <span>Delivery Fee:</span>
+                <span>Rs. ${deliveryFee.toFixed(2)}</span>
+            </div>
+            <div class="total-row final-total">
+                <span>Total:</span>
+                <span>Rs. ${total.toFixed(2)}</span>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Thank you for your business!</strong></p>
+            <p>This is your official invoice/receipt from NethwinLK.</p>
+            <p>For any questions, please contact us at support@nethwinlk.com</p>
+        </div>
+    </body>
+    </html>
+    `;
+
+    // Set response headers for HTML download
+    res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Content-Disposition', `attachment; filename="invoice_${order.orderNumber || orderId}_${new Date().toISOString().split('T')[0]}.html"`);
+
+    // Send HTML
+    console.log('Sending HTML invoice...');
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('Invoice generation error:', error);
     res.status(500).json({ error: 'Failed to generate invoice' });
   }
 });

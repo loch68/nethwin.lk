@@ -48,6 +48,37 @@
         }
       }
       
+      /* Modal Animations */
+      .modal-enter {
+        animation: modalEnter 0.3s ease-out;
+      }
+      
+      .modal-exit {
+        animation: modalExit 0.3s ease-in;
+      }
+      
+      @keyframes modalEnter {
+        from {
+          opacity: 0;
+          transform: scale(0.8) translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+      
+      @keyframes modalExit {
+        from {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+        to {
+          opacity: 0;
+          transform: scale(0.8) translateY(-20px);
+        }
+      }
+      
       .animation-delay-1000 {
         animation-delay: 1s;
       }
@@ -2418,13 +2449,31 @@
         }
       }
 
-      // Enhanced add to cart function with proper cart management
+      // Enhanced add to cart function with proper cart management and button feedback
       async function addToCart(productId) {
+        // Find the button element
+        const button = document.querySelector(`button[onclick="addToCart('${productId}')"]`);
+        const originalButtonContent = button ? button.innerHTML : '';
+        const originalButtonClass = button ? button.className : '';
+        
         try {
+          // Show loading state on button
+          if (button) {
+            button.innerHTML = `
+              <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Adding...
+            `;
+            button.disabled = true;
+            button.classList.add('opacity-75');
+          }
+
           const product = allProducts.find(p => (p._id || p.id) === productId);
           if (!product) {
             console.error("Product not found:", productId);
-            return;
+            throw new Error("Product not found");
           }
 
           const quantitySpan = document.getElementById(`quantity-${productId}`);
@@ -2471,18 +2520,259 @@
           
           console.log(`Added ${quantity} x ${product.name} to cart`);
           
-          // Show success notification
-          if (window.showNotification) {
-            window.showNotification(`Added ${quantity} x ${product.name} to cart!`, 'success');
+          // Show success state on button
+          if (button) {
+            button.innerHTML = `
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              Added!
+            `;
+            button.className = originalButtonClass.replace('bg-green-600 hover:bg-green-700', 'bg-green-500');
+            button.classList.remove('opacity-75');
           }
+          
+          // Show success modal
+          showAddToCartSuccessModal(product.name, quantity);
+          
+          // Reset button after 2 seconds
+          setTimeout(() => {
+            if (button) {
+              button.innerHTML = originalButtonContent;
+              button.className = originalButtonClass;
+              button.disabled = false;
+            }
+          }, 2000);
           
         } catch (e) {
           console.error("Error adding to cart:", e);
-          if (window.showNotification) {
-            window.showNotification("Error adding to cart. Please try again.", 'error');
+          
+          // Show error state on button
+          if (button) {
+            button.innerHTML = `
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+              Error
+            `;
+            button.className = originalButtonClass.replace('bg-green-600 hover:bg-green-700', 'bg-red-500');
+            button.classList.remove('opacity-75');
           }
+          
+          showErrorModal("Error adding to cart. Please try again.");
+          
+          // Reset button after 3 seconds
+          setTimeout(() => {
+            if (button) {
+              button.innerHTML = originalButtonContent;
+              button.className = originalButtonClass;
+              button.disabled = false;
+            }
+          }, 3000);
         }
       }
 
       // Toggle description visibility
-    </script><script src="../javascript/cart-utils.js"></script><script src="../javascript/button-refresh.js"></script></body></html>
+    </script>
+
+    <!-- Modern Notification System -->
+    <div id="notificationContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+    <!-- Add to Cart Success Modal -->
+    <div id="addToCartSuccessModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full transform transition-all duration-300 scale-95 opacity-0" id="cartSuccessModalContent">
+            <div class="p-6">
+                <!-- Success Icon -->
+                <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                
+                <!-- Success Message -->
+                <div class="text-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Added to Cart!</h3>
+                    <p class="text-gray-600 mb-4">Your item has been successfully added to your shopping cart.</p>
+                    <div class="bg-gray-50 rounded-lg p-3">
+                        <p class="text-sm text-gray-700">
+                            <span class="font-semibold">Item:</span> 
+                            <span id="cartItemName" class="text-blue-600"></span>
+                        </p>
+                        <p class="text-sm text-gray-700">
+                            <span class="font-semibold">Quantity:</span> 
+                            <span id="cartItemQuantity" class="text-blue-600"></span>
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex gap-3">
+                    <button 
+                        onclick="closeAddToCartSuccessModal()" 
+                        class="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors"
+                    >
+                        Continue Shopping
+                    </button>
+                    <button 
+                        onclick="viewCart()" 
+                        class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors"
+                    >
+                        View Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full transform transition-all duration-300 scale-95 opacity-0" id="errorModalContent">
+            <div class="p-6">
+                <!-- Error Icon -->
+                <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full">
+                    <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </div>
+                
+                <!-- Error Message -->
+                <div class="text-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Something Went Wrong</h3>
+                    <p id="errorMessage" class="text-gray-600 mb-4">We encountered an error while processing your request.</p>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex gap-3">
+                    <button 
+                        onclick="closeErrorModal()" 
+                        class="flex-1 bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 transition-colors"
+                    >
+                        Try Again
+                    </button>
+                    <button 
+                        onclick="closeErrorModal()" 
+                        class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors"
+                    >
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      // Modern Notification System
+      function showNotification(message, type = 'info', duration = 5000) {
+        const container = document.getElementById('notificationContainer');
+        const notification = document.createElement('div');
+        
+        const colors = {
+          success: 'bg-green-500',
+          error: 'bg-red-500',
+          warning: 'bg-yellow-500',
+          info: 'bg-blue-500'
+        };
+        
+        const icons = {
+          success: '✓',
+          error: '✕',
+          warning: '⚠',
+          info: 'ℹ'
+        };
+        
+        notification.className = `${colors[type]} text-white px-6 py-4 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full opacity-0`;
+        notification.innerHTML = `
+          <div class="flex items-center">
+            <span class="text-xl mr-3">${icons[type]}</span>
+            <span class="flex-1">${message}</span>
+            <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+        `;
+        
+        container.appendChild(notification);
+        
+        // Animate in
+        setTimeout(() => {
+          notification.classList.remove('translate-x-full', 'opacity-0');
+        }, 100);
+        
+        // Auto remove
+        setTimeout(() => {
+          notification.classList.add('translate-x-full', 'opacity-0');
+          setTimeout(() => notification.remove(), 300);
+        }, duration);
+      }
+
+      // Make showNotification globally available
+      window.showNotification = showNotification;
+
+      // Add to Cart Success Modal Functions
+      function showAddToCartSuccessModal(itemName, quantity) {
+        const modal = document.getElementById('addToCartSuccessModal');
+        const content = document.getElementById('cartSuccessModalContent');
+        const itemNameElement = document.getElementById('cartItemName');
+        const quantityElement = document.getElementById('cartItemQuantity');
+        
+        itemNameElement.textContent = itemName;
+        quantityElement.textContent = quantity;
+        modal.classList.remove('hidden');
+        
+        // Animate in
+        setTimeout(() => {
+          content.classList.remove('scale-95', 'opacity-0');
+          content.classList.add('scale-100', 'opacity-100');
+        }, 100);
+      }
+
+      function closeAddToCartSuccessModal() {
+        const modal = document.getElementById('addToCartSuccessModal');
+        const content = document.getElementById('cartSuccessModalContent');
+        
+        content.classList.remove('scale-100', 'opacity-100');
+        content.classList.add('scale-95', 'opacity-0');
+        
+        setTimeout(() => {
+          modal.classList.add('hidden');
+        }, 300);
+      }
+
+      function viewCart() {
+        closeAddToCartSuccessModal();
+        // Redirect to cart page
+        window.location.href = 'cart.html';
+      }
+
+      // Error Modal Functions
+      function showErrorModal(message) {
+        const modal = document.getElementById('errorModal');
+        const content = document.getElementById('errorModalContent');
+        const messageElement = document.getElementById('errorMessage');
+        
+        messageElement.textContent = message;
+        modal.classList.remove('hidden');
+        
+        // Animate in
+        setTimeout(() => {
+          content.classList.remove('scale-95', 'opacity-0');
+          content.classList.add('scale-100', 'opacity-100');
+        }, 100);
+      }
+
+      function closeErrorModal() {
+        const modal = document.getElementById('errorModal');
+        const content = document.getElementById('errorModalContent');
+        
+        content.classList.remove('scale-100', 'opacity-100');
+        content.classList.add('scale-95', 'opacity-0');
+        
+        setTimeout(() => {
+          modal.classList.add('hidden');
+        }, 300);
+      }
+    </script>
+
+    <script src="../javascript/cart-utils.js"></script><script src="../javascript/button-refresh.js"></script></body></html>

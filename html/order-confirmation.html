@@ -57,6 +57,37 @@
             background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
         }
         
+        /* Modal Animations */
+        .modal-enter {
+            animation: modalEnter 0.3s ease-out;
+        }
+        
+        .modal-exit {
+            animation: modalExit 0.3s ease-in;
+        }
+        
+        @keyframes modalEnter {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        @keyframes modalExit {
+            from {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.8) translateY(-20px);
+            }
+        }
+        
         .step-indicator {
             position: relative;
         }
@@ -447,8 +478,8 @@
                     `;
                     confirmBtn.disabled = true;
                     
-                    // Show success message
-                    alert('Order confirmed successfully! Your cart has been cleared. Your invoice will be downloaded automatically.');
+                    // Show success modal
+                    showOrderConfirmationSuccessModal(orderData.orderNumber || orderData._id);
                     
                     // Automatically generate and download invoice
                     setTimeout(() => {
@@ -460,7 +491,7 @@
                 
             } catch (error) {
                 console.error('Error confirming order:', error);
-                alert('Failed to confirm order. Please try again.');
+                showErrorModal('Failed to confirm order. Please try again.');
                 
                 // Reset button
                 const confirmBtn = document.getElementById('confirmOrderBtn');
@@ -666,4 +697,202 @@
             loadOrderData();
             updateCartCount();
         });
-    </script></body></html>
+    </script>
+
+    <!-- Modern Notification System -->
+    <div id="notificationContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+    <!-- Order Confirmation Success Modal -->
+    <div id="orderConfirmationSuccessModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full transform transition-all duration-300 scale-95 opacity-0" id="orderSuccessModalContent">
+            <div class="p-6">
+                <!-- Success Icon -->
+                <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                
+                <!-- Success Message -->
+                <div class="text-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Order Confirmed!</h3>
+                    <p class="text-gray-600 mb-4">Your order has been successfully confirmed and your cart has been cleared.</p>
+                    <div class="bg-gray-50 rounded-lg p-3">
+                        <p class="text-sm text-gray-700">
+                            <span class="font-semibold">Order ID:</span> 
+                            <span id="orderIdDisplay" class="font-mono text-blue-600"></span>
+                        </p>
+                        <p class="text-sm text-gray-700 mt-1">
+                            <span class="font-semibold">Invoice:</span> 
+                            <span class="text-green-600">Downloading automatically...</span>
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex gap-3">
+                    <button 
+                        onclick="closeOrderConfirmationSuccessModal()" 
+                        class="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors"
+                    >
+                        Continue Shopping
+                    </button>
+                    <button 
+                        onclick="goHome()" 
+                        class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors"
+                    >
+                        Go to Home
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full transform transition-all duration-300 scale-95 opacity-0" id="errorModalContent">
+            <div class="p-6">
+                <!-- Error Icon -->
+                <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full">
+                    <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </div>
+                
+                <!-- Error Message -->
+                <div class="text-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Something Went Wrong</h3>
+                    <p id="errorMessage" class="text-gray-600 mb-4">We encountered an error while processing your order.</p>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex gap-3">
+                    <button 
+                        onclick="closeErrorModal()" 
+                        class="flex-1 bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 transition-colors"
+                    >
+                        Try Again
+                    </button>
+                    <button 
+                        onclick="closeErrorModal()" 
+                        class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors"
+                    >
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modern Notification System
+        function showNotification(message, type = 'info', duration = 5000) {
+            const container = document.getElementById('notificationContainer');
+            const notification = document.createElement('div');
+            
+            const colors = {
+                success: 'bg-green-500',
+                error: 'bg-red-500',
+                warning: 'bg-yellow-500',
+                info: 'bg-blue-500'
+            };
+            
+            const icons = {
+                success: '✓',
+                error: '✕',
+                warning: '⚠',
+                info: 'ℹ'
+            };
+            
+            notification.className = `${colors[type]} text-white px-6 py-4 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full opacity-0`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <span class="text-xl mr-3">${icons[type]}</span>
+                    <span class="flex-1">${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            `;
+            
+            container.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full', 'opacity-0');
+            }, 100);
+            
+            // Auto remove
+            setTimeout(() => {
+                notification.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => notification.remove(), 300);
+            }, duration);
+        }
+
+        // Order Confirmation Success Modal Functions
+        function showOrderConfirmationSuccessModal(orderId) {
+            const modal = document.getElementById('orderConfirmationSuccessModal');
+            const content = document.getElementById('orderSuccessModalContent');
+            const orderIdElement = document.getElementById('orderIdDisplay');
+            
+            orderIdElement.textContent = orderId || 'N/A';
+            modal.classList.remove('hidden');
+            
+            // Animate in
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 100);
+        }
+
+        function closeOrderConfirmationSuccessModal() {
+            const modal = document.getElementById('orderConfirmationSuccessModal');
+            const content = document.getElementById('orderSuccessModalContent');
+            
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Error Modal Functions
+        function showErrorModal(message) {
+            const modal = document.getElementById('errorModal');
+            const content = document.getElementById('errorModalContent');
+            const messageElement = document.getElementById('errorMessage');
+            
+            messageElement.textContent = message;
+            modal.classList.remove('hidden');
+            
+            // Animate in
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 100);
+        }
+
+        function closeErrorModal() {
+            const modal = document.getElementById('errorModal');
+            const content = document.getElementById('errorModalContent');
+            
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Make functions globally available
+        window.showNotification = showNotification;
+        window.showOrderConfirmationSuccessModal = showOrderConfirmationSuccessModal;
+        window.closeOrderConfirmationSuccessModal = closeOrderConfirmationSuccessModal;
+        window.showErrorModal = showErrorModal;
+        window.closeErrorModal = closeErrorModal;
+    </script>
+
+    </body></html>
