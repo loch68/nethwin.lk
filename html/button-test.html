@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Refresh System Test - NethwinLK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../javascript/button-refresh.js"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-800 mb-8">Button Refresh System Test</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Test Buttons -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-semibold mb-4">Test Buttons</h2>
+                
+                <div class="space-y-4">
+                    <button id="testGenerate" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+                        Generate Test Data
+                    </button>
+                    
+                    <button id="testCreate" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">
+                        Create New Item
+                    </button>
+                    
+                    <button id="testSubmit" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg">
+                        Submit Form
+                    </button>
+                    
+                    <button id="testProcess" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg">
+                        Process Data
+                    </button>
+                    
+                    <button onclick="testRefresh()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg">
+                        Test Refresh All
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Status Display -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-semibold mb-4">Status</h2>
+                <div id="statusDisplay" class="space-y-2">
+                    <p class="text-gray-600">Button refresh system initialized</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Instructions -->
+        <div class="mt-8 bg-blue-50 p-6 rounded-lg">
+            <h3 class="text-lg font-semibold text-blue-800 mb-2">Test Instructions:</h3>
+            <ul class="list-disc list-inside text-blue-700 space-y-1">
+                <li>Click any button to see loading state and refresh functionality</li>
+                <li>Buttons should show loading spinner and disable during processing</li>
+                <li>Click "Test Refresh All" to refresh all buttons at once</li>
+                <li>Check console for refresh system logs</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Test button functionality
+        document.getElementById('testGenerate').onclick = function() {
+            addStatus('Generate button clicked - simulating data generation...');
+            setTimeout(() => {
+                addStatus('Data generation completed!');
+            }, 2000);
+        };
+        
+        document.getElementById('testCreate').onclick = function() {
+            addStatus('Create button clicked - simulating item creation...');
+            setTimeout(() => {
+                addStatus('Item created successfully!');
+            }, 1500);
+        };
+        
+        document.getElementById('testSubmit').onclick = function() {
+            addStatus('Submit button clicked - simulating form submission...');
+            setTimeout(() => {
+                addStatus('Form submitted successfully!');
+            }, 1000);
+        };
+        
+        document.getElementById('testProcess').onclick = function() {
+            addStatus('Process button clicked - simulating data processing...');
+            setTimeout(() => {
+                addStatus('Data processing completed!');
+            }, 3000);
+        };
+        
+        function testRefresh() {
+            addStatus('Refreshing all buttons...');
+            if (window.refreshAllButtons) {
+                window.refreshAllButtons();
+                addStatus('All buttons refreshed!');
+            } else {
+                addStatus('Refresh function not available');
+            }
+        }
+        
+        function addStatus(message) {
+            const statusDisplay = document.getElementById('statusDisplay');
+            const timestamp = new Date().toLocaleTimeString();
+            const statusItem = document.createElement('p');
+            statusItem.className = 'text-sm text-gray-600';
+            statusItem.textContent = `[${timestamp}] ${message}`;
+            statusDisplay.appendChild(statusItem);
+            statusDisplay.scrollTop = statusDisplay.scrollHeight;
+        }
+        
+        // Initialize test
+        document.addEventListener('DOMContentLoaded', function() {
+            addStatus('Button refresh system test page loaded');
+            addStatus('System should auto-detect and enhance all buttons');
+        });
+    </script>
+</body>
+</html>

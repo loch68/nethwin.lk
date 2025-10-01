@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const Product = require('../src/models/Product');
 
 async function main() {
-  const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://Cluster28608:nethwinlk@cluster28608.qqqrppl.mongodb.net/bookstore';
+  const mongoUri = process.env.MONGODB_URI;
   await mongoose.connect(mongoUri, { serverSelectionTimeoutMS: 5000 });
 
   const dataPath = path.join(__dirname, '..', '..', 'data', 'products.json');

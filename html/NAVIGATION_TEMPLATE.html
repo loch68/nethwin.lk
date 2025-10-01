@@ -8,9 +8,11 @@ REQUIRED FILES TO INCLUDE:
    <link rel="stylesheet" href="../css/navbar.css">
    <link rel="stylesheet" href="../css/responsive.css">
    <link rel="stylesheet" href="../css/hover-effects.css">
+   <link rel="stylesheet" href="../css/cart-styles.css">
 
 2. Before closing </body>:
    <script src="../javascript/navbar.js"></script>
+   <script src="../javascript/cart-utils.js"></script>
 
 USAGE:
 1. Copy the navbar HTML below
@@ -39,11 +41,12 @@ USAGE:
     
     <!-- Desktop Auth Area -->
     <div class="navbar-auth" id="navbarAuth">
-      <a href="cart.html" class="nav-auth-btn">
+      <a href="cart.html" class="nav-auth-btn cart-container relative">
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
         </svg>
-        Cart
+        <span>Cart</span>
+        <span class="cart-count hidden" id="cartCount">0</span>
       </a>
       <a href="search.html" class="nav-auth-btn">
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,10 +64,11 @@ USAGE:
     
     <!-- Mobile Auth Icons (hidden on desktop) -->
     <div class="mobile-auth-icons hidden md:hidden">
-      <a href="cart.html" class="mobile-icon-btn">
+      <a href="cart.html" class="mobile-icon-btn mobile-cart-container relative">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
         </svg>
+        <span class="mobile-cart-count hidden" id="mobileCartCount">0</span>
       </a>
       <a href="search.html" class="mobile-icon-btn">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

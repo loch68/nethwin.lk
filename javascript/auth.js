@@ -32,6 +32,8 @@ class AuthManager {
     localStorage.removeItem('authToken');
     localStorage.removeItem('userData');
     localStorage.removeItem('adminMode');
+    // Clear cart when user logs out
+    localStorage.removeItem('nethwin_cart');
   }
 
   // Check if user is logged in
@@ -82,7 +84,7 @@ class AuthManager {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, username: email, password }),
       });
 
       const data = await response.json();
@@ -95,6 +97,9 @@ class AuthManager {
       this.token = data.token;
       this.saveUserToStorage(data.user);
       localStorage.setItem('authToken', data.token);
+      
+      // Clear cart when user logs in (fresh session)
+      localStorage.removeItem('nethwin_cart');
 
       return data;
     } catch (error) {
@@ -106,6 +111,8 @@ class AuthManager {
   // Logout
   logout() {
     this.clearUserData();
+    // Update cart count after clearing cart
+    updateCartCountAfterAuth();
     window.location.href = 'index.html';
   }
 
@@ -130,6 +137,17 @@ function initializeAuth() {
   } else {
     // User is not logged in, show login/signup UI
     updateUIForGuestUser();
+  }
+  
+  // Update cart count after auth check
+  updateCartCountAfterAuth();
+}
+
+// Update cart count after authentication changes
+function updateCartCountAfterAuth() {
+  // Check if updateCartCount function exists on the page
+  if (typeof updateCartCount === 'function') {
+    updateCartCount();
   }
 }
 
@@ -209,6 +227,10 @@ document.addEventListener('DOMContentLoaded', function() {
       try {
         await window.authManager.signup(userData);
         alert('Signup successful! You are now logged in.');
+        
+        // Update cart count after signup (cart will be cleared)
+        updateCartCountAfterAuth();
+        
         window.location.href = 'index.html';
       } catch (error) {
         alert('Signup failed: ' + error.message);
@@ -229,6 +251,9 @@ document.addEventListener('DOMContentLoaded', function() {
       try {
         await window.authManager.login(email, password);
         alert('Login successful!');
+        
+        // Update cart count after login (cart will be cleared)
+        updateCartCountAfterAuth();
         
         // Check if user is admin
         if (window.authManager.isAdmin()) {

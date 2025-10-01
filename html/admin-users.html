@@ -23,8 +23,171 @@
         .sidebar-hidden {
             transform: translateX(-100%);
         }
+        
+        /* Enhanced table styling */
+        .admin-table {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .admin-table thead {
+            background: linear-gradient(135deg, #f8fbfa 0%, #e8f2ec 100%);
+        }
+        
+        .admin-table tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .admin-table tbody tr:hover {
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .admin-table tbody tr:last-child {
+            border-bottom: none;
+        }
+        
+        /* Enhanced button styling */
+        .btn-enhanced {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-enhanced:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-enhanced:active {
+            transform: translateY(0);
+        }
+        
+        /* Card styling */
+        .admin-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+        }
+        
+        /* Animation for loading */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        /* Horizontal scroll styling */
+        .table-container {
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e0 #f7fafc;
+            position: relative;
+        }
+        
+        .table-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .table-container::-webkit-scrollbar-track {
+            background: #f7fafc;
+            border-radius: 4px;
+        }
+        
+        .table-container::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 4px;
+        }
+        
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0;
+        }
+        
+        /* Scroll shadow indicators */
+        .table-container::before,
+        .table-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 20px;
+            pointer-events: none;
+            z-index: 5;
+            transition: opacity 0.3s ease;
+        }
+        
+        .table-container::before {
+            left: 0;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.8), transparent);
+        }
+        
+        .table-container::after {
+            right: 0;
+            background: linear-gradient(to left, rgba(255, 255, 255, 0.8), transparent);
+        }
+        
+        .table-container.scrolled-left::before {
+            opacity: 0;
+        }
+        
+        .table-container.scrolled-right::after {
+            opacity: 0;
+        }
+        
+        /* Mobile touch scroll improvements */
+        @media (max-width: 768px) {
+            .table-container {
+                -webkit-overflow-scrolling: touch;
+                scroll-behavior: smooth;
+            }
+            
+            .table-container table {
+                min-width: 1000px;
+            }
+        }
+        
+        /* Smooth scrolling for all devices */
+        .table-container {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Enhanced header styling */
+        .dashboard-header {
+            background: linear-gradient(135deg, #f8fbfa 0%, #e8f2ec 100%);
+            border-radius: 16px;
+            border: 1px solid #d1e6d9;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Enhanced statistics cards */
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
     </style>
     <script src="../javascript/auth.js"></script>
+    <script src="../javascript/button-refresh.js"></script>
 </head>
 <body>
     <div class="relative flex size-full min-h-screen flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden" style="font-family: Inter, 'Noto Sans', sans-serif;">
@@ -74,6 +237,12 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
                             </svg>
                             Print Orders
+                        </a>
+                        <a href="admin-print-queue.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                            </svg>
+                            Queue Management
                         </a>
                         <a href="admin-products.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -136,53 +305,113 @@
                 <div class="px-40 flex flex-1 justify-center py-5">
                     <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
                         <!-- Header Section -->
-                        <div class="flex flex-wrap justify-between gap-3 p-4">
-                            <p class="text-[#0e1a13] tracking-light text-[32px] font-bold leading-tight min-w-72">Customers</p>
-                            <button
-                                onclick="openAddUserModal()"
-                                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#e8f2ec] text-[#0e1a13] text-sm font-medium leading-normal"
-                            >
-                                <span class="truncate">Add customer</span>
-                            </button>
+                        <div class="flex flex-wrap justify-between items-center gap-6 p-6 dashboard-header mb-6">
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-[#0e1a13] p-3 rounded-xl">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h1 class="text-[#0e1a13] tracking-light text-3xl font-bold leading-tight">User Management</h1>
+                                    <p class="text-[#51946c] text-lg font-medium">Manage all system users and customers</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="bg-white px-4 py-2 rounded-lg border border-[#d1e6d9]">
+                                    <span class="text-sm text-gray-600">Total Users:</span>
+                                    <span class="ml-2 font-bold text-[#0e1a13]" id="totalUsersCount">0</span>
+                                </div>
+                                
+                                <!-- Export Buttons -->
+                                <div class="flex items-center space-x-2">
+                                    <button
+                                        onclick="exportUsersCSV()"
+                                        class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced flex items-center space-x-2"
+                                        title="Export all users to CSV"
+                                    >
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                        <span>Export CSV</span>
+                                    </button>
+                                    <button
+                                        onclick="exportUsersPDF()"
+                                        class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced flex items-center space-x-2"
+                                        title="Export all users to PDF"
+                                    >
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                        </svg>
+                                        <span>Export PDF</span>
+                                    </button>
+                                </div>
+                                
+                                <button
+                                    onclick="openAddUserModal()"
+                                    class="bg-gradient-to-r from-[#0ad167] to-[#078829] hover:from-[#078829] hover:to-[#0ad167] text-white px-6 py-3 rounded-lg text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced flex items-center space-x-2"
+                                >
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                    </svg>
+                                    <span>Add User</span>
+                                </button>
+                            </div>
                         </div>
 
                         <!-- Search Section -->
-                        <div class="px-4 py-3">
-                            <label class="flex flex-col min-w-40 h-12 w-full">
-                                <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
-                                    <div
-                                        class="text-[#51946c] flex border-none bg-[#e8f2ec] items-center justify-center pl-4 rounded-l-lg border-r-0"
-                                        data-icon="MagnifyingGlass"
-                                        data-size="24px"
-                                        data-weight="regular"
+                        <div class="px-6 py-4">
+                            <div class="relative">
+                                <div class="flex w-full items-center rounded-xl border-2 border-[#d1e6d9] bg-white px-6 py-4 shadow-sm focus-within:border-[#0ad167] focus-within:ring-2 focus-within:ring-[#0ad167]/20 transition-all duration-200">
+                                    <svg
+                                        class="mr-4 h-5 w-5 text-[#51946c]"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
                                     >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                                            <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
-                                        </svg>
-                                    </div>
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                        ></path>
+                                    </svg>
                                     <input
                                         id="searchInput"
-                                        placeholder="Search customers"
-                                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0e1a13] focus:outline-0 focus:ring-0 border-none bg-[#e8f2ec] focus:border-none h-full placeholder:text-[#51946c] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                                        placeholder="Search users by name, email, or phone..."
+                                        class="flex-1 border-none outline-none text-base placeholder-gray-400 bg-transparent"
                                         value=""
                                     />
                                 </div>
-                            </label>
+                            </div>
                         </div>
 
                         <!-- Users Table -->
-                        <div class="px-4 py-3 @container">
-                            <div class="flex overflow-hidden rounded-lg border border-[#d1e6d9] bg-[#f8fbfa]">
-                                <table class="flex-1">
+                        <div class="px-6 py-6 @container">
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="flex items-center space-x-4">
+                                    <div class="bg-[#0e1a13] p-3 rounded-xl">
+                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h2 class="text-[#0e1a13] text-2xl font-bold leading-tight">All Users</h2>
+                                        <p class="text-[#51946c] text-base font-medium">Manage user accounts and permissions</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="overflow-x-auto rounded-xl border-2 border-[#d1e6d9] bg-white shadow-lg admin-table table-container">
+                                <table class="w-full min-w-[1200px]">
                                     <thead>
-                                        <tr class="bg-[#f8fbfa]">
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[300px] text-sm font-medium leading-normal">Name</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[300px] text-sm font-medium leading-normal">Email</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[200px] text-sm font-medium leading-normal">Phone</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[150px] text-sm font-medium leading-normal">Role</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[150px] text-sm font-medium leading-normal">Type</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[120px] text-sm font-medium leading-normal">Status</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[120px] text-sm font-medium leading-normal">Actions</th>
+                                        <tr class="bg-gradient-to-r from-[#f8fbfa] to-[#e8f2ec]">
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[250px] text-base font-semibold leading-normal">Name</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[280px] text-base font-semibold leading-normal">Email</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[180px] text-base font-semibold leading-normal">Phone</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[140px] text-base font-semibold leading-normal">Role</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[140px] text-base font-semibold leading-normal">Type</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[120px] text-base font-semibold leading-normal">Status</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[150px] text-base font-semibold leading-normal">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="usersTableBody">
@@ -226,8 +455,8 @@
                 </div>
                 
                 <div>
-                    <label class="block text-sm font-medium text-[#0e1a13] mb-1">Phone Number</label>
-                    <input type="tel" id="addPhone" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:ring-2 focus:ring-[#19e619] focus:border-[#19e619]">
+                    <label class="block text-sm font-medium text-[#0e1a13] mb-1">Mobile Number</label>
+                    <input type="tel" id="addPhone" placeholder="071 234 5678" class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:ring-2 focus:ring-[#19e619] focus:border-[#19e619]">
                 </div>
                 
                 <div>
@@ -243,7 +472,7 @@
                     </select>
                 </div>
                 
-                <div>
+                <div id="customerTypeField">
                     <label class="block text-sm font-medium text-[#0e1a13] mb-1">Customer Type *</label>
                     <select id="addCustomerType" required class="w-full px-3 py-2 border border-[#d1e6d9] rounded-lg focus:ring-2 focus:ring-[#19e619] focus:border-[#19e619]">
                         <option value="online">Online Customer</option>
@@ -311,6 +540,83 @@
                 return;
             }
             
+            // Phone number validation and formatting
+            const phoneInput = document.getElementById('addPhone');
+            if (phoneInput) {
+                const phoneLabel = phoneInput.closest('div').querySelector('label');
+                
+                phoneInput.addEventListener('input', function() {
+                    const value = this.value.replace(/\s/g, ''); // Remove spaces
+                    
+                    // Remove existing validation classes
+                    this.classList.remove('border-red-500', 'border-green-500');
+                    if (phoneLabel) {
+                        phoneLabel.classList.remove('text-red-500', 'text-green-500');
+                    }
+                    
+                    // Only validate when user has entered all 10 digits
+                    if (value.length === 10) {
+                        if (value.startsWith('07')) {
+                            // Valid phone number - starts with 07
+                            this.classList.add('border-green-500');
+                            if (phoneLabel) {
+                                phoneLabel.classList.add('text-green-500');
+                            }
+                        } else {
+                            // Invalid format - doesn't start with 07
+                            this.classList.add('border-red-500');
+                            if (phoneLabel) {
+                                phoneLabel.classList.add('text-red-500');
+                            }
+                        }
+                    }
+                });
+                
+                // Format phone number as user types (add spaces for readability)
+                phoneInput.addEventListener('input', function() {
+                    let value = this.value.replace(/\D/g, ''); // Remove non-digits
+                    
+                    // Limit to 10 digits
+                    if (value.length > 10) {
+                        value = value.substring(0, 10);
+                    }
+                    
+                    // Add spaces for readability: 07X XXX XXXX
+                    if (value.length > 3) {
+                        value = value.substring(0, 3) + ' ' + value.substring(3);
+                    }
+                    if (value.length > 7) {
+                        value = value.substring(0, 7) + ' ' + value.substring(7);
+                    }
+                    
+                    this.value = value;
+                });
+            }
+            
+            // Show/hide customer type field based on role selection
+            const roleSelect = document.getElementById('addRole');
+            const customerTypeField = document.getElementById('customerTypeField');
+            const customerTypeSelect = document.getElementById('addCustomerType');
+            
+            if (roleSelect && customerTypeField && customerTypeSelect) {
+                function toggleCustomerTypeField() {
+                    if (roleSelect.value === 'admin') {
+                        customerTypeField.style.display = 'none';
+                        customerTypeSelect.removeAttribute('required');
+                        customerTypeSelect.value = 'online'; // Set default value for backend
+                    } else {
+                        customerTypeField.style.display = 'block';
+                        customerTypeSelect.setAttribute('required', 'required');
+                    }
+                }
+                
+                // Initial state
+                toggleCustomerTypeField();
+                
+                // Listen for role changes
+                roleSelect.addEventListener('change', toggleCustomerTypeField);
+            }
+            
             if (!window.authManager.isAdmin()) {
                 window.location.href = 'profile.html';
                 return;
@@ -348,33 +654,282 @@
             const tbody = document.getElementById('usersTableBody');
             tbody.innerHTML = '';
 
+            if (filteredUsers.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="px-6 py-12 text-center text-[#51946c]">
+                            <div class="flex flex-col items-center">
+                                <svg class="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                                </svg>
+                                <p class="text-lg font-medium">No users found</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
             filteredUsers.forEach(user => {
                 const row = document.createElement('tr');
-                row.className = 'border-t border-t-[#d1e6d9] hover:bg-gray-50 cursor-pointer';
+                row.className = 'border-t border-t-[#d1e6d9] hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 transition-all duration-200 fade-in-up cursor-pointer';
                 row.onclick = () => showUserDetails(user);
+                
+                // Get role color classes
+                const roleColor = user.role === 'admin' ? 'blue' : 'green';
+                const statusColor = user.status === 'active' ? 'green' : user.status === 'inactive' ? 'yellow' : 'red';
+                
                 row.innerHTML = `
-                    <td class="h-[72px] px-4 py-2 w-[300px] text-[#0e1a13] text-sm font-normal leading-normal">${user.fullName || 'N/A'}</td>
-                    <td class="h-[72px] px-4 py-2 w-[300px] text-[#51946c] text-sm font-normal leading-normal">${user.email || 'N/A'}</td>
-                    <td class="h-[72px] px-4 py-2 w-[200px] text-[#51946c] text-sm font-normal leading-normal">${user.phoneNumber || 'N/A'}</td>
-                    <td class="h-[72px] px-4 py-2 w-[150px] text-sm">
-                        <span class="bg-${user.role === 'admin' ? 'blue' : 'green'}-100 text-${user.role === 'admin' ? 'blue' : 'green'}-800 px-2 py-1 rounded text-xs font-medium">${user.role || 'customer'}</span>
+                    <td class="px-6 py-4 text-[#0e1a13] text-base font-medium">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-gradient-to-r from-[#0ad167] to-[#078829] rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold text-sm">${(user.fullName || 'U').charAt(0).toUpperCase()}</span>
+                            </div>
+                            <div>
+                                <div class="font-semibold">${user.fullName || 'N/A'}</div>
+                                <div class="text-sm text-gray-500">${user.username || 'N/A'}</div>
+                            </div>
+                        </div>
                     </td>
-                    <td class="h-[72px] px-4 py-2 w-[150px] text-sm">
-                        <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs font-medium">${user.customerType || 'online'}</span>
+                    <td class="px-6 py-4 text-[#51946c] text-base">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                            <span class="truncate max-w-[250px]" title="${user.email || 'N/A'}">${user.email || 'N/A'}</span>
+                        </div>
                     </td>
-                    <td class="h-[72px] px-4 py-2 w-[120px] text-sm">
-                        <span class="bg-${user.status === 'active' ? 'green' : user.status === 'inactive' ? 'yellow' : 'red'}-100 text-${user.status === 'active' ? 'green' : user.status === 'inactive' ? 'yellow' : 'red'}-800 px-2 py-1 rounded text-xs font-medium">${user.status || 'active'}</span>
+                    <td class="px-6 py-4 text-[#51946c] text-base">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                            </svg>
+                            <span>${user.phoneNumber || 'N/A'}</span>
+                        </div>
                     </td>
-                    <td class="h-[72px] px-4 py-2 w-[120px] text-sm">
-                        <button onclick="event.stopPropagation(); deleteUser('${user._id}')" class="text-red-600 hover:text-red-800 text-xs">Delete</button>
+                    <td class="px-6 py-4 text-base">
+                        <span class="px-3 py-1 text-sm font-medium rounded-full bg-${roleColor}-100 text-${roleColor}-800">
+                            ${user.role || 'customer'}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-base">
+                        <span class="px-3 py-1 text-sm font-medium rounded-full bg-purple-100 text-purple-800">
+                            ${user.customerType || 'online'}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-base">
+                        <span class="px-3 py-1 text-sm font-medium rounded-full bg-${statusColor}-100 text-${statusColor}-800">
+                            ${user.status || 'active'}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-base">
+                        <div class="flex items-center space-x-2">
+                            <button onclick="event.stopPropagation(); editUser('${user._id}')" 
+                                    class="bg-blue-100 hover:bg-blue-200 text-blue-700 px-3 py-1 rounded-lg text-sm font-medium transition-colors duration-200 btn-enhanced">
+                                Edit
+                            </button>
+                            <button onclick="event.stopPropagation(); deleteUser('${user._id}')" 
+                                    class="bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1 rounded-lg text-sm font-medium transition-colors duration-200 btn-enhanced">
+                                Delete
+                            </button>
+                        </div>
                     </td>
                 `;
                 tbody.appendChild(row);
+            });
+            
+            // Update total users count
+            updateTotalUsersCount();
+            
+            // Setup scroll functionality
+            setupScrollShadows();
+        }
+
+        // Update total users count
+        function updateTotalUsersCount() {
+            const totalUsersElement = document.getElementById('totalUsersCount');
+            if (totalUsersElement) {
+                totalUsersElement.textContent = filteredUsers.length;
+            }
+        }
+
+        // Setup scroll shadow indicators
+        function setupScrollShadows() {
+            const tableContainers = document.querySelectorAll('.table-container');
+            tableContainers.forEach(container => {
+                const updateScrollShadows = () => {
+                    const scrollLeft = container.scrollLeft;
+                    const maxScrollLeft = container.scrollWidth - container.clientWidth;
+                    
+                    // Update shadow classes based on scroll position
+                    if (scrollLeft <= 0) {
+                        container.classList.remove('scrolled-left');
+                    } else {
+                        container.classList.add('scrolled-left');
+                    }
+                    
+                    if (scrollLeft >= maxScrollLeft) {
+                        container.classList.remove('scrolled-right');
+                    } else {
+                        container.classList.add('scrolled-right');
+                    }
+                };
+                
+                // Initial check
+                updateScrollShadows();
+                
+                // Add scroll event listener
+                container.addEventListener('scroll', updateScrollShadows);
             });
         }
 
         function openAddUserModal() {
             document.getElementById('addUserModal').classList.remove('hidden');
+        }
+
+// Export Functions
+async function exportUsersCSV() {
+    try {
+        // Show loading state
+        const button = document.querySelector('button[onclick="exportUsersCSV()"]');
+        const originalText = button.innerHTML;
+        button.innerHTML = `
+            <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            </svg>
+            <span>Exporting...</span>
+        `;
+        button.disabled = true;
+
+        // Make API call to export CSV
+        const response = await fetch('/api/users/export/csv', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to export CSV');
+        }
+
+        // Get the CSV content
+        const csvContent = await response.text();
+
+        // Create and download the file
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `users_export_${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+
+        // Show success message
+        showNotification('CSV export completed successfully!', 'success');
+
+    } catch (error) {
+        console.error('CSV export error:', error);
+        showNotification('Failed to export CSV. Please try again.', 'error');
+    } finally {
+        // Restore button state
+        const button = document.querySelector('button[onclick="exportUsersCSV()"]');
+        button.innerHTML = originalText;
+        button.disabled = false;
+    }
+}
+
+        async function exportUsersPDF() {
+            try {
+                // Show loading state
+                const button = document.querySelector('button[onclick="exportUsersPDF()"]');
+                const originalText = button.innerHTML;
+                button.innerHTML = `
+                    <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    <span>Exporting...</span>
+                `;
+                button.disabled = true;
+
+                // Make API call to export PDF
+                const response = await fetch('/api/users/export/pdf', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to export PDF');
+                }
+
+                // Get the HTML content
+                const htmlContent = await response.text();
+
+                // Create and download the file
+                const blob = new Blob([htmlContent], { type: 'text/html' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `users_export_${new Date().toISOString().split('T')[0]}.html`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+                // Show success message
+                showNotification('PDF export completed successfully!', 'success');
+
+            } catch (error) {
+                console.error('PDF export error:', error);
+                showNotification('Failed to export PDF. Please try again.', 'error');
+            } finally {
+                // Restore button state
+                const button = document.querySelector('button[onclick="exportUsersPDF()"]');
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }
+        }
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-lg text-white font-medium transition-all duration-300 transform translate-x-full ${
+                type === 'success' ? 'bg-green-500' : 
+                type === 'error' ? 'bg-red-500' : 
+                'bg-blue-500'
+            }`;
+            notification.textContent = message;
+
+            // Add to page
+            document.body.appendChild(notification);
+
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        function editUser(userId) {
+            // Find the user by ID
+            const user = users.find(u => u._id === userId);
+            if (user) {
+                // For now, just show an alert - this can be enhanced with a proper edit modal
+                alert(`Edit functionality for user: ${user.fullName || user.email}`);
+                // TODO: Implement edit user modal
+            }
         }
 
         function closeAddUserModal() {
@@ -430,14 +985,32 @@
         }
 
         async function addUser() {
+            const phoneNumber = document.getElementById('addPhone').value;
+            
+            // Validate Sri Lankan phone number
+            const cleanPhone = phoneNumber.replace(/\s/g, ''); // Remove spaces for validation
+            
+            if (cleanPhone.length !== 10) {
+                alert('Phone number must be exactly 10 digits');
+                return;
+            }
+            
+            if (!cleanPhone.startsWith('07')) {
+                alert('Phone number must start with 07 (Sri Lankan mobile number)');
+                return;
+            }
+            
+            const role = document.getElementById('addRole').value;
+            const customerType = role === 'admin' ? 'online' : document.getElementById('addCustomerType').value;
+            
             const formData = {
                 fullName: document.getElementById('addFullName').value,
                 email: document.getElementById('addEmail').value,
                 username: document.getElementById('addUsername').value,
-                phoneNumber: document.getElementById('addPhone').value,
+                phoneNumber: phoneNumber,
                 password: document.getElementById('addPassword').value,
-                role: document.getElementById('addRole').value,
-                customerType: document.getElementById('addCustomerType').value,
+                role: role,
+                customerType: customerType,
                 status: document.getElementById('addStatus').value
             };
 

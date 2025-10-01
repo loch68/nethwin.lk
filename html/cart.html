@@ -1,195 +1,164 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Cart - NethwinLK</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
-    <link
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Your Cart - NethwinLK</title><link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" /><link
       rel="stylesheet"
       as="style"
       onload="this.rel='stylesheet'"
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
-    />
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link rel="stylesheet" href="../css/hover-effects.css" />
-    <link rel="stylesheet" href="../css/navbar.css" />
-    <link rel="stylesheet" href="../css/background-animations.css" />
-    <link rel="stylesheet" href="../css/responsive.css" />
-</head>
-<body>
-    <div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient">
-      <!-- Background Animation Container -->
-      <div class="particles-container fixed inset-0 pointer-events-none z-0" id="particlesContainer"></div>
-      <div class="layout-container flex flex-col grow h-full relative z-10">
-      <!-- Modern Seamless Navbar -->
-      <nav class="modern-navbar fixed top-0 left-0 right-0 z-30">
-        <div class="navbar-container">
-          <!-- Logo/Brand -->
-          <div class="navbar-brand">
-            <a href="index.html" class="flex items-center">
-              <img src="../assets/fLogo.png" alt="NethwinLK" class="navbar-logo">
-            </a>
-          </div>
-          
-          <!-- Navigation Links -->
-          <div class="navbar-links" id="navbarLinks">
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="print.html" class="nav-link">Print Services</a>
-            <a href="bookshop.html" class="nav-link">Bookshop</a>
-            <a href="aboutus.html" class="nav-link">About</a>
-            <a href="contactus.html" class="nav-link">Contact</a>
-          </div>
-          
-          <!-- Desktop Auth Area -->
-          <div class="navbar-auth" id="navbarAuth">
-            <a href="cart.html" class="nav-auth-btn active">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
-              </svg>
-              Cart
-            </a>
-            <a href="search.html" class="nav-auth-btn">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-              </svg>
-              Search
-            </a>
-            <a href="login.html" class="nav-auth-btn">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path>
-              </svg>
-              Login
-            </a>
-          </div>
-          
-          <!-- Mobile Auth Icons (hidden on desktop) -->
-          <div class="mobile-auth-icons hidden md:hidden">
-            <a href="cart.html" class="mobile-icon-btn">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
-              </svg>
-            </a>
-            <a href="search.html" class="mobile-icon-btn">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-              </svg>
-            </a>
-            <a href="login.html" class="mobile-icon-btn">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path>
-              </svg>
-            </a>
-          </div>
-          
-          <!-- Mobile Menu Toggle -->
-          <button class="mobile-menu-toggle" id="mobileToggle">
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-          </button>
-        </div>
-      </nav>
-      
-      <!-- Navbar Spacer -->
-      <div style="height: 4rem;"></div>
-        <div class="px-40 flex flex-1 justify-center py-5">
-          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
-            <div class="flex flex-wrap gap-2 p-4">
-              <a class="text-[#60708a] text-base font-medium leading-normal" href="#">Shop</a>
-              <span class="text-[#60708a] text-base font-medium leading-normal">/</span>
-              <span class="text-[#111418] text-base font-medium leading-normal">Cart</span>
-            </div>
-            <h2 class="text-[#111418] tracking-light text-[28px] font-bold leading-tight px-4 text-left pb-3 pt-5">Your Cart</h2>
-            <h3 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Cart Items</h3>
-            <div id="cartItems" class="flex flex-col gap-2"></div>
-            <h3 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Delivery Options</h3>
-            <div class="flex flex-col gap-3 p-4">
-              <label class="flex items-center gap-4 rounded-xl border border-solid border-[#dbdfe6] p-[15px]">
-                <input
-                  type="radio"
-                  class="h-5 w-5 border-2 border-[#dbdfe6] bg-transparent text-transparent checked:border-[#111418] checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#111418]"
-                  name="03efdab5-a2d6-434e-9fd1-9bca7f7cecd7"
-                  checked=""
-                />
-                <div class="flex grow flex-col"><p class="text-[#111418] text-sm font-medium leading-normal">Local Delivery (within 10km)</p></div>
-              </label>
-              <label class="flex items-center gap-4 rounded-xl border border-solid border-[#dbdfe6] p-[15px]">
-                <input
-                  type="radio"
-                  class="h-5 w-5 border-2 border-[#dbdfe6] bg-transparent text-transparent checked:border-[#111418] checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#111418]"
-                  name="03efdab5-a2d6-434e-9fd1-9bca7f7cecd7"
-                />
-                <div class="flex grow flex-col"><p class="text-[#111418] text-sm font-medium leading-normal">Store Pickup</p></div>
-              </label>
-            </div>
-            <h3 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Payment Method</h3>
-            <div class="flex flex-col gap-3 p-4">
-              <label class="flex items-center gap-4 rounded-xl border border-solid border-[#dbdfe6] p-[15px]">
-                <input
-                  type="radio"
-                  class="h-5 w-5 border-2 border-[#dbdfe6] bg-transparent text-transparent checked:border-[#111418] checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#111418]"
-                  name="b63d2aa0-54a1-4ffd-95f7-581ed9e2b787"
-                  checked=""
-                />
-                <div class="flex grow flex-col"><p class="text-[#111418] text-sm font-medium leading-normal">Credit/Debit Card</p></div>
-              </label>
-              <label class="flex items-center gap-4 rounded-xl border border-solid border-[#dbdfe6] p-[15px]">
-                <input
-                  type="radio"
-                  class="h-5 w-5 border-2 border-[#dbdfe6] bg-transparent text-transparent checked:border-[#111418] checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#111418]"
-                  name="b63d2aa0-54a1-4ffd-95f7-581ed9e2b787"
-                />
-                <div class="flex grow flex-col"><p class="text-[#111418] text-sm font-medium leading-normal">PayPal</p></div>
-              </label>
-              <label class="flex items-center gap-4 rounded-xl border border-solid border-[#dbdfe6] p-[15px]">
-                <input
-                  type="radio"
-                  class="h-5 w-5 border-2 border-[#dbdfe6] bg-transparent text-transparent checked:border-[#111418] checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#111418]"
-                  name="b63d2aa0-54a1-4ffd-95f7-581ed9e2b787"
-                />
-                <div class="flex grow flex-col"><p class="text-[#111418] text-sm font-medium leading-normal">Cash on Delivery</p></div>
-              </label>
-            </div>
-            <h3 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Order Summary</h3>
-            <div class="p-4">
-              <div class="flex justify-between gap-x-6 py-2">
-                <p class="text-[#60708a] text-sm font-normal leading-normal">Subtotal</p>
-                <p id="subtotal" class="text-[#111418] text-sm font-normal leading-normal text-right">LKR 0.00</p>
-              </div>
-              <div class="flex justify-between gap-x-6 py-2">
-                <p class="text-[#60708a] text-sm font-normal leading-normal">Delivery</p>
-                <p id="delivery" class="text-[#111418] text-sm font-normal leading-normal text-right">LKR 0.00</p>
-              </div>
-              <div class="flex justify-between gap-x-6 py-2">
-                <p class="text-[#60708a] text-sm font-normal leading-normal">Total</p>
-                <p id="total" class="text-[#111418] text-sm font-normal leading-normal text-right">LKR 0.00</p>
-              </div>
-            </div>
-            <div class="flex px-4 py-3 justify-between">
-              <a href="bookshop.html">
-                <button
-                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f2f4f1] text-[#151612] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out hover:bg-[#e8ebe8] hover:scale-105 hover:shadow-md"
-                >
-                  <span class="truncate">Continue Shopping</span>
-                </button>
-              </a>
-              <a href="contactus.html">
-                <button
-                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#0ad167] text-[#151612] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ease-in-out hover:bg-[#08b85a] hover:scale-105 hover:shadow-lg hover:shadow-[#0ad167]/25"
-                >
-                  <span class="truncate">Proceed to Checkout</span>
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <script src="../javascript/navbar.js"></script>
-    <script src="../javascript/background-animations.js"></script>
+    /><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script>
+        // Suppress Tailwind CDN warning
+        (function() {
+            const originalWarn = console.warn;
+            console.warn = function(...args) {
+                const message = args.join(' ');
+                if (message.includes('cdn.tailwindcss.com should not be used in production')) {
+                    return;
+                }
+                originalWarn.apply(console, args);
+            };
+        })();
+    </script>
+    <link rel="stylesheet" href="../css/hover-effects.css" /><link rel="stylesheet" href="../css/navbar.css" /><link rel="stylesheet" href="../css/cart-styles.css" /><link rel="stylesheet" href="../css/background-animations.css" /><link rel="stylesheet" href="../css/responsive.css" /><style>
+        /* Modern Cart Styles */
+        .cart-container {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(10px);
+        }
+        
+        .cart-item {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            border: 1px solid #f1f5f9;
+        }
+        
+        .cart-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .quantity-btn {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+        
+        .quantity-btn:hover {
+            background: linear-gradient(135deg, #19e619 0%, #16d616 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .remove-btn {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            color: #dc2626;
+            border: 1px solid #fecaca;
+            transition: all 0.2s ease;
+        }
+        
+        .remove-btn:hover {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .option-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .option-card:hover {
+            border-color: #19e619;
+            box-shadow: 0 4px 20px rgba(25, 230, 25, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        .option-card.selected {
+            border-color: #19e619;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            box-shadow: 0 4px 20px rgba(25, 230, 25, 0.15);
+        }
+        
+        
+        .summary-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .checkout-btn {
+            background: linear-gradient(135deg, #19e619 0%, #16d616 100%);
+            box-shadow: 0 4px 20px rgba(25, 230, 25, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(25, 230, 25, 0.4);
+        }
+        
+        .continue-btn {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .continue-btn:hover {
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            transform: translateY(-1px);
+        }
+        
+        .empty-cart {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 20px;
+            border: 2px dashed #cbd5e1;
+        }
+        
+        .breadcrumb {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            padding: 12px 20px;
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, #19e619 0%, #16d616 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+    </style></head><body><div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient"><!-- Background Animation Container --><div class="particles-container fixed inset-0 pointer-events-none z-0" id="particlesContainer"></div><div class="layout-container flex flex-col grow h-full relative z-10"><!-- Modern Seamless Navbar --><nav class="modern-navbar fixed top-0 left-0 right-0 z-30"><div class="navbar-container"><!-- Logo/Brand --><div class="navbar-brand"><a href="index.html" class="flex items-center"><img src="../assets/fLogo.png" alt="NethwinLK" class="navbar-logo"></a></div><!-- Navigation Links --><div class="navbar-links" id="navbarLinks"><a href="index.html" class="nav-link">Home</a><a href="print.html" class="nav-link">Print Services</a><a href="bookshop.html" class="nav-link">Bookshop</a><a href="aboutus.html" class="nav-link">About</a><a href="contactus.html" class="nav-link">Contact</a></div><!-- Desktop Auth Area --><div class="navbar-auth" id="navbarAuth"><a href="cart.html" class="nav-auth-btn cart-container relative"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+        </svg>
+        <span>Cart</span>
+        <span class="cart-count hidden" id="cartCount">0</span></a><a href="search.html" class="nav-auth-btn"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+              Search</a><a href="login.html" class="nav-auth-btn"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path></svg>
+              Login</a></div><!-- Mobile Auth Icons (hidden on desktop) --><div class="mobile-auth-icons hidden md:hidden"><a href="cart.html" class="mobile-icon-btn mobile-cart-container relative"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+        </svg>
+        <span class="mobile-cart-count hidden" id="mobileCartCount">0</span></a><a href="search.html" class="mobile-icon-btn"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></a><a href="login.html" class="mobile-icon-btn"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path></svg></a></div><!-- Mobile Menu Toggle --><button class="mobile-menu-toggle" id="mobileToggle"><span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span></button></div></nav><!-- Navbar Spacer --><div style="height: 4rem;"></div><!-- Main Content --><div class="px-4 md:px-10 flex flex-1 justify-center py-8"><div class="layout-content-container flex flex-col max-w-[1200px] flex-1"><!-- Breadcrumb --><div class="breadcrumb mb-6"><div class="flex items-center gap-2 text-sm"><a href="bookshop.html" class="text-gray-600 hover:text-[#19e619] transition-colors">Shop</a><span class="text-gray-400">/</span><span class="text-gray-800 font-medium">Cart</span></div></div><!-- Page Title --><div class="text-center mb-8"><h1 class="text-4xl font-bold text-gray-800 mb-2">Your Shopping Cart</h1><p class="text-gray-600">Review your items and proceed to checkout</p></div><!-- Cart Content --><div class="grid grid-cols-1 lg:grid-cols-3 gap-8"><!-- Cart Items Section --><div class="lg:col-span-2"><div class="cart-container p-6"><h2 class="section-title text-2xl font-bold mb-6 flex items-center gap-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path></svg>
+                                    Cart Items
+                                </h2><!-- Cart Items Container --><div id="cartItems" class="space-y-4"><!-- Items will be dynamically inserted here --></div><!-- Empty Cart State --><div id="emptyCart" class="empty-cart p-12 text-center hidden"><div class="mb-6"><svg class="w-24 h-24 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path></svg></div><h3 class="text-xl font-semibold text-gray-700 mb-2">Your cart is empty</h3><p class="text-gray-500 mb-6">Looks like you haven't added any items to your cart yet.</p><a href="bookshop.html" class="inline-flex items-center gap-2 px-6 py-3 bg-[#19e619] text-white rounded-xl font-semibold hover:bg-[#16d616] transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                                        Start Shopping</a></div></div></div><!-- Order Summary --><div class="lg:col-span-1"><div class="summary-card p-6 sticky top-24"><h3 class="section-title text-xl font-bold mb-6 flex items-center gap-3"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                                    Order Summary
+                                </h3><div class="space-y-4 mb-6"><div class="flex justify-between items-center py-2"><span class="text-gray-600">Subtotal</span><span id="subtotal" class="font-semibold text-gray-800">LKR 0.00</span></div><div class="flex justify-between items-center py-2"><span class="text-gray-600">Delivery</span><span id="delivery" class="font-semibold text-gray-800">LKR 0.00</span></div><div class="border-t border-gray-200 pt-4"><div class="flex justify-between items-center"><span class="text-lg font-bold text-gray-800">Total</span><span id="total" class="text-xl font-bold text-[#19e619]">LKR 0.00</span></div></div></div><div class="space-y-3"><a href="bookshop.html" class="block"><button class="continue-btn w-full py-3 px-4 rounded-xl font-semibold text-gray-700 flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                                            Continue Shopping
+                </button></a><button id="checkoutBtn" class="checkout-btn w-full py-3 px-4 rounded-xl font-semibold text-white flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        Proceed to Checkout
+                                    </button>
+                                    <button id="downloadCartSummaryBtn" class="w-full py-3 px-4 rounded-xl font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 flex items-center justify-center gap-2 transition-all duration-200">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                        Download Cart Summary
+                                    </button>
+                                </div></div></div></div></div></div></div></div><script src="../javascript/navbar.js"></script><script src="../javascript/cart-utils.js"></script><script src="../javascript/background-animations.js"></script><script src="../javascript/auth.js"></script><script>
       // Initialize auth system
       document.addEventListener('DOMContentLoaded', function() {
           initializeAuth();
@@ -201,7 +170,7 @@
         theme: {
           extend: {
             colors: {
-              'nethwin-green': '#0ad167',
+                        'nethwin-green': '#19e619',
               'nethwin-dark': '#0e1b0e',
             },
           },
@@ -211,57 +180,124 @@
       // Cart rendering
       document.addEventListener('DOMContentLoaded', () => {
         renderCart();
+            updateCartCount();
       });
 
       function getCart() {
         try {
-          return JSON.parse(localStorage.getItem('cart') || '[]');
+                return JSON.parse(localStorage.getItem('nethwin_cart') || '[]');
         } catch { return []; }
       }
 
       function setCart(items) {
-        localStorage.setItem('cart', JSON.stringify(items));
-      }
+            localStorage.setItem('nethwin_cart', JSON.stringify(items));
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            const items = getCart();
+            const totalItems = items.reduce((sum, item) => sum + (item.qty || item.quantity || 1), 0);
+            
+            const cartCount = document.getElementById('cartCount');
+            const mobileCartCount = document.getElementById('mobileCartCount');
+            
+            if (totalItems > 0) {
+                if (cartCount) {
+                    cartCount.textContent = totalItems;
+                    cartCount.classList.remove('hidden');
+                }
+                if (mobileCartCount) {
+                    mobileCartCount.textContent = totalItems;
+                    mobileCartCount.classList.remove('hidden');
+                }
+            } else {
+                if (cartCount) {
+                    cartCount.classList.add('hidden');
+                }
+                if (mobileCartCount) {
+                    mobileCartCount.classList.add('hidden');
+                }
+            }
+        }
+
 
       function renderCart() {
         const container = document.getElementById('cartItems');
+            const emptyCart = document.getElementById('emptyCart');
         const items = getCart();
+            
+            if (items.length === 0) {
+                container.innerHTML = '';
+                emptyCart.classList.remove('hidden');
+                updateSummary(0);
+                return;
+            }
+            
+            emptyCart.classList.add('hidden');
         container.innerHTML = '';
         let subtotal = 0;
+            
         items.forEach((item, idx) => {
-          const quantity = Number(item.quantity || 1);
+                const quantity = Number(item.qty || item.quantity || 1);
           const price = Number(item.price || 0);
           const lineTotal = quantity * price;
           subtotal += lineTotal;
-          const row = document.createElement('div');
-          row.className = 'flex items-center gap-4 bg-white/80 backdrop-blur-sm px-4 min-h-[72px] py-2 justify-between rounded-lg border border-white/20 shadow-sm';
-          row.innerHTML = `
-            <div class="flex items-center gap-4">
-              <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-14" style="background-image:url('${item.image || '../assets/fLogo.png'}')"></div>
-              <div class="flex flex-col justify-center">
-                <p class="text-[#111418] text-base font-medium leading-normal line-clamp-1">${item.name || 'Item'}</p>
-                <p class="text-[#60708a] text-sm font-normal leading-normal line-clamp-2">Quantity: ${quantity} · LKR ${price.toFixed(2)}</p>
-              </div>
-            </div>
-            <div class="shrink-0 flex items-center gap-2">
-              <button onclick="changeQty(${idx}, -1)" class="text-base font-medium leading-normal flex h-7 w-7 items-center justify-center rounded-full bg-[#f0f2f5] cursor-pointer hover:bg-[#e8ebe8] transition-colors">-</button>
-              <span class="w-6 text-center font-medium">${quantity}</span>
-              <button onclick="changeQty(${idx}, 1)" class="text-base font-medium leading-normal flex h-7 w-7 items-center justify-center rounded-full bg-[#f0f2f5] cursor-pointer hover:bg-[#e8ebe8] transition-colors">+</button>
-              <button onclick="removeItem(${idx})" class="ml-3 text-red-600 text-sm hover:text-red-700 transition-colors">Remove</button>
-            </div>
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item p-4';
+                cartItem.innerHTML = `
+            <div class="flex items-center gap-4"><div class="w-20 h-20 bg-gray-100 rounded-xl overflow-hidden flex-shrink-0"><img src="${item.image || (item.images && item.images.length > 0 ? item.images[0] : '../assets/fLogo.png')}" alt="${item.name}" class="w-full h-full object-cover"></div><div class="flex-1 min-w-0"><h4 class="font-semibold text-gray-800 text-lg mb-1 truncate">${item.name || 'Item'}</h4><p class="text-gray-600 text-sm mb-2">LKR ${price.toFixed(2)} each</p><div class="flex items-center gap-3"><div class="flex items-center gap-2"><button onclick="changeQty(${idx}, -1)" class="quantity-btn w-8 h-8 rounded-lg flex items-center justify-center text-sm font-semibold">-</button><span class="w-8 text-center font-semibold text-gray-800">${quantity}</span><button onclick="changeQty(${idx}, 1)" class="quantity-btn w-8 h-8 rounded-lg flex items-center justify-center text-sm font-semibold">+</button></div><span class="text-[#19e619] font-bold text-lg">LKR ${lineTotal.toFixed(2)}</span></div></div><button onclick="removeItem(${idx})" class="remove-btn px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            Remove
+                        </button></div>
           `;
-          container.appendChild(row);
+                container.appendChild(cartItem);
         });
-        document.getElementById('subtotal').textContent = `LKR ${subtotal.toFixed(2)}`;
-        const delivery = items.length > 0 ? 5 : 0;
-        document.getElementById('delivery').textContent = `LKR ${delivery.toFixed(2)}`;
-        document.getElementById('total').textContent = `LKR ${(subtotal + delivery).toFixed(2)}`;
+            
+            updateSummary(subtotal);
+        }
+
+        function updateSummary(subtotal) {
+            document.getElementById('subtotal').textContent = `LKR ${subtotal.toFixed(2)}`;
+            
+            // No delivery cost in cart - will be calculated at checkout
+            document.getElementById('delivery').textContent = `LKR 0.00`;
+            document.getElementById('total').textContent = `LKR ${subtotal.toFixed(2)}`;
+        }
+        
+        function calculateTotal() {
+            const items = getCart();
+            let total = 0;
+            items.forEach(item => {
+                const quantity = Number(item.qty || item.quantity || 1);
+                const price = Number(item.price || 0);
+                total += quantity * price;
+            });
+            return total;
+        }
+
+
+        async function updateOrderSummary() {
+            // Recalculate subtotal and update summary
+            const items = getCart();
+            let subtotal = 0;
+            items.forEach(item => {
+                const price = parseFloat(item.price) || 0;
+                const qty = item.qty || item.quantity || 1;
+                subtotal += price * qty;
+            });
+            await updateSummary(subtotal);
       }
 
       function changeQty(index, delta) {
         const items = getCart();
         if (!items[index]) return;
-        items[index].quantity = Math.max(1, Number(items[index].quantity || 1) + delta);
+            const currentQty = items[index].qty || items[index].quantity || 1;
+            const newQty = Math.max(1, Number(currentQty) + delta);
+            if (items[index].qty !== undefined) {
+                items[index].qty = newQty;
+            } else {
+                items[index].quantity = newQty;
+            }
         setCart(items);
         renderCart();
       }
@@ -272,6 +308,233 @@
         setCart(items);
         renderCart();
       }
-    </script>
-  </body>
-</html>
+
+
+        // Checkout functionality
+        async function handleCheckout() {
+            const cart = getCart();
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            
+            // Delivery and payment options will be selected on checkout page
+            
+            // Get user details (try to fetch from database first, fallback to token)
+            let userDetails = getCurrentUser();
+            if (!userDetails || !userDetails.name) {
+                userDetails = await fetchUserDetails() || getCurrentUser() || {};
+            }
+            
+            // Prepare order data
+            const subtotal = calculateTotal();
+            
+            const orderData = {
+                items: cart.map(item => ({
+                    productId: item.id,
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.qty || item.quantity || 1,
+                    image: item.image
+                })),
+                subtotal: subtotal, // Subtotal without delivery (will be calculated on checkout)
+                customerName: userDetails.name || '',
+                customerEmail: userDetails.email || '',
+                customerPhone: userDetails.phoneNumber || userDetails.phone || ''
+            };
+            
+            // Save order data to localStorage
+            localStorage.setItem('pendingOrder', JSON.stringify(orderData));
+            
+            // Redirect to checkout page
+            window.location.href = 'checkout.html';
+        }
+        
+        // Get current user info
+        function getCurrentUser() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) return null;
+                
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                return {
+                    name: payload.name || '',
+                    email: payload.email || '',
+                    phone: payload.phoneNumber || payload.phone || ''
+                };
+            } catch (error) {
+                console.error('Error getting user info:', error);
+                return null;
+            }
+        }
+        
+        // Fetch user details from database
+        async function fetchUserDetails() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) return null;
+                
+                const response = await fetch('/api/profile', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    return result.data;
+                }
+            } catch (error) {
+                console.error('Error fetching user details:', error);
+            }
+            return null;
+        }
+        
+        // Get delivery fee
+        function getDeliveryFee() {
+            const deliverySettings = JSON.parse(localStorage.getItem('deliverySettings') || '{}');
+            return deliverySettings.deliveryFee || 0;
+        }
+
+        // Download cart summary as PDF
+        async function downloadCartSummary() {
+            const cart = getCart();
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            const button = document.getElementById('downloadCartSummaryBtn');
+            const originalText = button.innerHTML;
+            
+            try {
+                // Show loading state
+                button.innerHTML = `
+                    <svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    <span>Generating...</span>
+                `;
+                button.disabled = true;
+
+                // Prepare cart data
+                const cartData = {
+                    items: cart.map(item => ({
+                        name: item.name || 'Unknown Item',
+                        quantity: item.quantity || 0,
+                        price: item.price || 0,
+                        subtotal: (item.price || 0) * (item.quantity || 0)
+                    })),
+                    subtotal: cart.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 0)), 0),
+                    deliveryFee: getDeliveryFee() || 0,
+                    total: cart.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 0)), 0) + (getDeliveryFee() || 0)
+                };
+
+                console.log('Cart data being sent:', cartData);
+
+                // Make API call to generate cart summary
+                const response = await fetch('/api/cart/export/summary', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    },
+                    body: JSON.stringify(cartData)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Server error:', response.status, errorText);
+                    throw new Error(`Failed to generate cart summary: ${response.status} ${errorText}`);
+                }
+
+                // Get the HTML content
+                const htmlContent = await response.text();
+
+                // Create and download the file
+                const blob = new Blob([htmlContent], { type: 'text/html' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `cart_summary_${new Date().toISOString().split('T')[0]}.html`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+                // Show success message
+                showNotification('Cart summary downloaded successfully!', 'success');
+
+            } catch (error) {
+                console.error('Cart summary export error:', error);
+                showNotification('Failed to download cart summary. Please try again.', 'error');
+            } finally {
+                // Restore button state
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }
+        }
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm ${
+                type === 'success' ? 'bg-green-500 text-white' :
+                type === 'error' ? 'bg-red-500 text-white' :
+                type === 'warning' ? 'bg-yellow-500 text-white' :
+                'bg-blue-500 text-white'
+            }`;
+            
+            notification.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        ${type === 'success' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>' :
+                          type === 'error' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>' :
+                          type === 'warning' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>' :
+                          '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>'}
+                    </svg>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            // Add to page
+            document.body.appendChild(notification);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 5000);
+        }
+        
+        // Add event listener for checkout button
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            if (checkoutBtn) {
+                checkoutBtn.addEventListener('click', handleCheckout);
+            }
+            
+            // Add event listener for cart summary download button
+            const downloadCartSummaryBtn = document.getElementById('downloadCartSummaryBtn');
+            if (downloadCartSummaryBtn) {
+                downloadCartSummaryBtn.addEventListener('click', downloadCartSummary);
+            }
+        });
+
+        // Initialize selected states
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set Local Delivery as selected by default
+            const localDeliveryCard = document.querySelector('.delivery-option-card[onclick*="local"]');
+            if (localDeliveryCard) {
+                localDeliveryCard.classList.add('selected');
+            }
+            
+            // Set Card Payment as selected by default
+            const cardPaymentCard = document.querySelector('.payment-option-card[onclick*="card"]');
+            if (cardPaymentCard) {
+                cardPaymentCard.classList.add('selected');
+            }
+        });
+    </script></body></html>

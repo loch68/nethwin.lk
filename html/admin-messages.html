@@ -23,8 +23,63 @@
         .sidebar-hidden {
             transform: translateX(-100%);
         }
+        
+        /* Enhanced styling */
+        .admin-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Enhanced button styling */
+        .btn-enhanced {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-enhanced:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-enhanced:active {
+            transform: translateY(0);
+        }
+        
+        /* Enhanced header styling */
+        .dashboard-header {
+            background: linear-gradient(135deg, #f8fbfa 0%, #e8f2ec 100%);
+            border-radius: 16px;
+            border: 1px solid #d1e6d9;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Animation for loading */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
     </style>
     <script src="../javascript/auth.js"></script>
+    <script src="../javascript/button-refresh.js"></script>
 </head>
 <body>
     <div class="relative flex size-full min-h-screen flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden" style="font-family: Inter, 'Noto Sans', sans-serif;">
@@ -74,6 +129,12 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
                             </svg>
                             Print Orders
+                        </a>
+                        <a href="admin-print-queue.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                            </svg>
+                            Queue Management
                         </a>
                         <a href="admin-products.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -136,15 +197,110 @@
                 <div class="px-40 flex flex-1 justify-center py-5">
                     <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
                         <!-- Header Section -->
-                        <div class="flex flex-wrap justify-between gap-3 p-4">
-                            <p class="text-[#0e1a13] tracking-light text-[32px] font-bold leading-tight min-w-72">Messages</p>
+                        <div class="flex flex-wrap justify-between items-center gap-6 p-6 dashboard-header mb-6">
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-[#0e1a13] p-3 rounded-xl">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4-.8L3 20l.8-4A8.94 8.94 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h1 class="text-[#0e1a13] tracking-light text-3xl font-bold leading-tight">Messages</h1>
+                                    <p class="text-[#51946c] text-lg font-medium">Manage customer inquiries and support messages</p>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Messages Content -->
-                        <div class="px-4 py-3">
-                            <div class="bg-white rounded-lg p-6 shadow-sm">
-                                <h3 class="text-lg font-semibold text-[#0e1a13] mb-4">Message Management</h3>
-                                <p class="text-[#51946c]">Message management functionality will be implemented here.</p>
+                        <div class="px-6 py-6">
+                            <!-- Conversations List -->
+                            <div class="admin-card p-6 mb-6">
+                                <div class="flex items-center justify-between mb-6">
+                                    <h3 class="text-xl font-bold text-[#0e1a13]">Customer Conversations</h3>
+                                    <button onclick="loadConversations()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                                        <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                        </svg>
+                                        Refresh
+                                    </button>
+                                </div>
+                                
+                                <!-- Conversations Table -->
+                                <div class="overflow-x-auto">
+                                    <table class="w-full">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Customer</th>
+                                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Last Message</th>
+                                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Messages</th>
+                                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Unread</th>
+                                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Last Activity</th>
+                                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="conversationsTableBody">
+                                            <tr>
+                                                <td colspan="6" class="px-4 py-8 text-center text-gray-500">
+                                                    <div class="flex flex-col items-center">
+                                                        <svg class="w-12 h-12 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4-.8L3 20l.8-4A8.94 8.94 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                                        </svg>
+                                                        <p>Loading conversations...</p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Chat Interface -->
+                            <div id="chatInterface" class="admin-card p-6 hidden">
+                                <div class="flex items-center justify-between mb-6">
+                                    <div class="flex items-center space-x-3">
+                                        <button onclick="closeChat()" class="text-gray-500 hover:text-gray-700">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                            </svg>
+                                        </button>
+                                        <div>
+                                            <h3 id="chatCustomerName" class="text-lg font-bold text-[#0e1a13]">Customer Name</h3>
+                                            <p id="chatCustomerEmail" class="text-sm text-gray-600">customer@example.com</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span id="chatUnreadCount" class="bg-red-500 text-white text-xs px-2 py-1 rounded-full hidden">0</span>
+                                        <button onclick="markAllAsRead()" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
+                                            Mark as Read
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Messages Display -->
+                                <div id="chatMessages" class="h-96 overflow-y-auto border border-gray-200 rounded-lg p-4 mb-4 bg-gray-50">
+                                    <div class="text-center text-gray-500">
+                                        <p>Loading conversation...</p>
+                                    </div>
+                                </div>
+
+                                <!-- Message Input -->
+                                <div class="flex space-x-2">
+                                    <input 
+                                        type="text" 
+                                        id="adminMessageInput" 
+                                        placeholder="Type your reply..." 
+                                        class="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        maxlength="1000"
+                                    >
+                                    <button 
+                                        id="sendAdminMessageBtn" 
+                                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+                                    >
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -154,6 +310,9 @@
     </div>
 
     <script>
+        let currentConversation = null;
+        let socket = null;
+
         // Authentication check
         document.addEventListener('DOMContentLoaded', function() {
             // Check if user is logged in and is admin
@@ -174,7 +333,306 @@
                     window.location.href = 'index.html';
                 }
             });
+
+        // Initialize messaging system
+        initializeSocket();
+        loadConversations();
+        bindEventListeners();
+        
+        // Test function to verify JavaScript is working
+        window.testClick = function() {
+            console.log('Test click function is working!');
+            alert('JavaScript is working! Click events should be functional.');
+        };
+        
+        // Emergency chat interface opener
+        window.forceOpenChat = function() {
+            const chat = document.getElementById('chatInterface');
+            if (chat) {
+                chat.style.display = 'block';
+                chat.style.visibility = 'visible';
+                chat.style.opacity = '1';
+                chat.style.position = 'relative';
+                chat.style.zIndex = '1000';
+                chat.style.marginTop = '20px';
+                chat.style.backgroundColor = 'white';
+                chat.style.border = '2px solid #19e619';
+                chat.classList.remove('hidden');
+                console.log('Chat interface forced open with positioning!');
+                alert('Chat interface should now be visible with green border!');
+            } else {
+                alert('Chat interface element not found!');
+            }
+        };
         });
+
+        // Messaging system functions
+        function initializeSocket() {
+            if (typeof io === 'undefined') {
+                const script = document.createElement('script');
+                script.src = '/socket.io/socket.io.js';
+                script.onload = () => connectSocket();
+                document.head.appendChild(script);
+            } else {
+                connectSocket();
+            }
+        }
+
+        function connectSocket() {
+            socket = io();
+            socket.on('connect', () => {
+                console.log('Admin connected to chat server');
+                socket.emit('join_user_room', 'admin');
+            });
+            socket.on('new_message', (data) => handleNewMessage(data));
+            socket.on('disconnect', () => console.log('Admin disconnected'));
+        }
+
+        function bindEventListeners() {
+            document.getElementById('sendAdminMessageBtn').addEventListener('click', sendAdminMessage);
+            document.getElementById('adminMessageInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendAdminMessage();
+            });
+        }
+
+        async function loadConversations() {
+            try {
+                const response = await fetch('/api/admin/messages/conversations', {
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    displayConversations(data.conversations);
+                } else {
+                    showError('Failed to load conversations');
+                }
+            } catch (error) {
+                console.error('Error loading conversations:', error);
+                showError('Error loading conversations');
+            }
+        }
+
+        function displayConversations(conversations) {
+            const tbody = document.getElementById('conversationsTableBody');
+            if (conversations.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="px-4 py-8 text-center text-gray-500">No conversations yet</td></tr>';
+                return;
+            }
+            tbody.innerHTML = conversations.map(conv => `
+                <tr class="hover:bg-gray-50 cursor-pointer" onclick="console.log('Row clicked:', '${conv.threadId}', '${conv.otherUserId}'); openConversation('${conv.threadId}', '${conv.otherUserId}')">
+                    <td class="px-4 py-3">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                                ${conv.userDetails.name.charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-900">${conv.userDetails.name}</p>
+                                <p class="text-sm text-gray-500">${conv.userDetails.email}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-4 py-3">
+                        <p class="text-sm text-gray-900 truncate max-w-xs">${conv.lastMessage.text}</p>
+                        <p class="text-xs text-gray-500">by ${conv.lastMessage.senderName}</p>
+                    </td>
+                    <td class="px-4 py-3 text-center">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">${conv.messageCount}</span>
+                    </td>
+                    <td class="px-4 py-3 text-center">
+                        ${conv.unreadCount > 0 ? `<span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full">${conv.unreadCount}</span>` : '<span class="text-gray-400 text-xs">0</span>'}
+                    </td>
+                    <td class="px-4 py-3 text-sm text-gray-500">${new Date(conv.lastMessage.createdAt).toLocaleDateString()}</td>
+                    <td class="px-4 py-3">
+                        <button onclick="event.stopPropagation(); console.log('Button clicked:', '${conv.threadId}', '${conv.otherUserId}'); openConversation('${conv.threadId}', '${conv.otherUserId}')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">View Chat</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function openConversation(threadId, userId) {
+            console.log('openConversation called with:', threadId, userId);
+            try {
+                console.log('Making API call to:', `/api/admin/messages/conversation/${threadId}`);
+                const response = await fetch(`/api/admin/messages/conversation/${threadId}`, {
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
+                });
+                console.log('API response status:', response.status);
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('API response data:', data);
+                    currentConversation = { threadId, userId, ...data };
+                    console.log('Calling displayChatInterface with:', data);
+                    displayChatInterface(data);
+                } else {
+                    console.error('Failed to load conversation, response:', response.status);
+                    const errorText = await response.text();
+                    console.error('Error response:', errorText);
+                    showError('Failed to load conversation');
+                }
+            } catch (error) {
+                console.error('Error loading conversation:', error);
+                showError('Error loading conversation');
+            }
+        }
+
+        function displayChatInterface(conversationData) {
+            console.log('displayChatInterface called with:', conversationData);
+            try {
+                document.getElementById('chatCustomerName').textContent = conversationData.userDetails.name;
+                document.getElementById('chatCustomerEmail').textContent = conversationData.userDetails.email;
+                
+                const unreadCount = conversationData.messages.filter(msg => msg.status === 'sent' && msg.receiverId === 'admin').length;
+                const unreadElement = document.getElementById('chatUnreadCount');
+                if (unreadCount > 0) {
+                    unreadElement.textContent = unreadCount;
+                    unreadElement.classList.remove('hidden');
+                } else {
+                    unreadElement.classList.add('hidden');
+                }
+
+                displayMessages(conversationData.messages);
+                const chatInterface = document.getElementById('chatInterface');
+                console.log('Chat interface element:', chatInterface);
+                console.log('Classes before removing hidden:', chatInterface.className);
+                chatInterface.classList.remove('hidden');
+                console.log('Classes after removing hidden:', chatInterface.className);
+                console.log('Is hidden class still present?', chatInterface.classList.contains('hidden'));
+                console.log('Element display style:', window.getComputedStyle(chatInterface).display);
+                console.log('Element visibility style:', window.getComputedStyle(chatInterface).visibility);
+                
+                // Force visibility as a test
+                chatInterface.style.display = 'block';
+                chatInterface.style.visibility = 'visible';
+                chatInterface.style.opacity = '1';
+                chatInterface.style.position = 'relative';
+                chatInterface.style.zIndex = '1000';
+                chatInterface.style.marginTop = '20px';
+                chatInterface.style.backgroundColor = 'white';
+                chatInterface.style.border = '2px solid #19e619';
+                console.log('Forced visibility with positioning - chat interface should now be visible');
+                
+                const messagesContainer = document.getElementById('chatMessages');
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            } catch (error) {
+                console.error('Error in displayChatInterface:', error);
+            }
+        }
+
+        function displayMessages(messages) {
+            const messagesContainer = document.getElementById('chatMessages');
+            if (messages.length === 0) {
+                messagesContainer.innerHTML = '<div class="text-center text-gray-500"><p>No messages yet. Start the conversation!</p></div>';
+                return;
+            }
+            messagesContainer.innerHTML = messages.map(message => {
+                const isAdminMessage = message.senderId === 'admin';
+                const time = new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                return `
+                    <div class="flex ${isAdminMessage ? 'justify-end' : 'justify-start'} mb-3">
+                        <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${isAdminMessage ? 'bg-blue-600 text-white' : 'bg-white text-gray-800 border border-gray-200'}">
+                            <p class="text-sm">${escapeHtml(message.text)}</p>
+                            <p class="text-xs mt-1 opacity-75">${time}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function sendAdminMessage() {
+            if (!currentConversation) return;
+            const messageInput = document.getElementById('adminMessageInput');
+            const text = messageInput.value.trim();
+            if (!text) return;
+
+            try {
+                const response = await fetch('/api/messages/send', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    },
+                    body: JSON.stringify({
+                        senderId: 'admin',
+                        receiverId: currentConversation.userId,
+                        text: text,
+                        senderName: 'Admin',
+                        receiverName: currentConversation.userDetails.name
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    messageInput.value = '';
+                    const messageElement = createMessageElement(data.message);
+                    const messagesContainer = document.getElementById('chatMessages');
+                    messagesContainer.appendChild(messageElement);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                } else {
+                    showError('Failed to send message');
+                }
+            } catch (error) {
+                console.error('Error sending message:', error);
+                showError('Error sending message');
+            }
+        }
+
+        function createMessageElement(message) {
+            const isAdminMessage = message.senderId === 'admin';
+            const time = new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex ${isAdminMessage ? 'justify-end' : 'justify-start'} mb-3`;
+            messageDiv.innerHTML = `
+                <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${isAdminMessage ? 'bg-blue-600 text-white' : 'bg-white text-gray-800 border border-gray-200'}">
+                    <p class="text-sm">${escapeHtml(message.text)}</p>
+                    <p class="text-xs mt-1 opacity-75">${time}</p>
+                </div>
+            `;
+            return messageDiv;
+        }
+
+        function closeChat() {
+            document.getElementById('chatInterface').classList.add('hidden');
+            currentConversation = null;
+        }
+
+        async function markAllAsRead() {
+            if (!currentConversation) return;
+            try {
+                const unreadMessages = currentConversation.messages.filter(msg => msg.status === 'sent' && msg.receiverId === 'admin');
+                for (const message of unreadMessages) {
+                    await fetch(`/api/messages/${message.messageId}/read`, {
+                        method: 'PATCH',
+                        headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
+                    });
+                }
+                document.getElementById('chatUnreadCount').classList.add('hidden');
+                loadConversations();
+            } catch (error) {
+                console.error('Error marking messages as read:', error);
+                showError('Error marking messages as read');
+            }
+        }
+
+        function handleNewMessage(data) {
+            if (!currentConversation || data.threadId !== currentConversation.threadId) return;
+            if (!document.getElementById('chatInterface').classList.contains('hidden')) {
+                const messageElement = createMessageElement(data);
+                const messagesContainer = document.getElementById('chatMessages');
+                messagesContainer.appendChild(messageElement);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+            loadConversations();
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showError(message) {
+            alert(message);
+        }
 
         // Logout function
         function logout() {

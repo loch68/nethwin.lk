@@ -12,6 +12,19 @@
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
     />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        // Suppress Tailwind CDN warning
+        (function() {
+            const originalWarn = console.warn;
+            console.warn = function(...args) {
+                const message = args.join(' ');
+                if (message.includes('cdn.tailwindcss.com should not be used in production')) {
+                    return;
+                }
+                originalWarn.apply(console, args);
+            };
+        })();
+    </script>
     <link rel="stylesheet" href="../css/hover-effects.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/background-animations.css" />
@@ -24,9 +37,172 @@
         .sidebar-hidden {
             transform: translateX(-100%);
         }
+        
+        /* Enhanced table styling */
+        .admin-table {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .admin-table thead {
+            background: linear-gradient(135deg, #f8fbfa 0%, #e8f2ec 100%);
+        }
+        
+        .admin-table tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .admin-table tbody tr:hover {
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .admin-table tbody tr:last-child {
+            border-bottom: none;
+        }
+        
+        /* Enhanced button styling */
+        .btn-enhanced {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-enhanced:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-enhanced:active {
+            transform: translateY(0);
+        }
+        
+        /* Card styling */
+        .admin-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+        }
+        
+        /* Animation for loading */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        /* Horizontal scroll styling */
+        .table-container {
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e0 #f7fafc;
+            position: relative;
+        }
+        
+        .table-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .table-container::-webkit-scrollbar-track {
+            background: #f7fafc;
+            border-radius: 4px;
+        }
+        
+        .table-container::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 4px;
+        }
+        
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0;
+        }
+        
+        /* Scroll shadow indicators */
+        .table-container::before,
+        .table-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 20px;
+            pointer-events: none;
+            z-index: 5;
+            transition: opacity 0.3s ease;
+        }
+        
+        .table-container::before {
+            left: 0;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.8), transparent);
+        }
+        
+        .table-container::after {
+            right: 0;
+            background: linear-gradient(to left, rgba(255, 255, 255, 0.8), transparent);
+        }
+        
+        .table-container.scrolled-left::before {
+            opacity: 0;
+        }
+        
+        .table-container.scrolled-right::after {
+            opacity: 0;
+        }
+        
+        /* Mobile touch scroll improvements */
+        @media (max-width: 768px) {
+            .table-container {
+                -webkit-overflow-scrolling: touch;
+                scroll-behavior: smooth;
+            }
+            
+            .table-container table {
+                min-width: 1000px;
+            }
+        }
+        
+        /* Smooth scrolling for all devices */
+        .table-container {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Enhanced header styling */
+        .dashboard-header {
+            background: linear-gradient(135deg, #f8fbfa 0%, #e8f2ec 100%);
+            border-radius: 16px;
+            border: 1px solid #d1e6d9;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Enhanced statistics cards */
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
     </style>
     <link rel="stylesheet" href="../css/responsive.css" />
     <script src="../javascript/auth.js"></script>
+    <script src="../javascript/button-refresh.js"></script>
 </head>
 <body>
     <div class="relative flex size-full min-h-screen flex-col bg-[#f8fbfa] group/design-root overflow-x-hidden" style="font-family: Inter, 'Noto Sans', sans-serif;">
@@ -76,6 +252,12 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
                             </svg>
                             Print Orders
+                        </a>
+                        <a href="admin-print-queue.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                            </svg>
+                            Queue Management
                         </a>
                         <a href="admin-products.html" class="flex items-center gap-3 px-4 py-3 text-[#4e974e] hover:text-[#19e619] hover:bg-[#e8f2ec] rounded-lg font-medium transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -138,62 +320,370 @@
                 <div class="px-40 flex flex-1 justify-center py-5">
                     <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
                         <!-- Welcome Section -->
-                        <div class="flex flex-wrap justify-between gap-3 p-4">
-                            <div class="flex min-w-72 flex-col gap-3">
-                                <p class="text-[#0e1a13] tracking-light text-[32px] font-bold leading-tight">Dashboard</p>
-                                <p class="text-[#51946c] text-sm font-normal leading-normal" id="welcomeMessage">Welcome back, Admin</p>
-                            </div>
-                            <div class="flex items-center gap-4">
-                                <div class="text-right">
-                                    <p class="text-[#0e1a13] text-sm font-medium" id="adminName">Admin User</p>
-                                    <p class="text-[#51946c] text-xs">Administrator</p>
+                        <div class="flex flex-wrap justify-between items-center gap-6 p-6 dashboard-header mb-6">
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-[#0e1a13] p-3 rounded-xl">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                    </svg>
                                 </div>
+                                <div>
+                                    <h1 class="text-[#0e1a13] tracking-light text-3xl font-bold leading-tight">Admin Dashboard</h1>
+                                    <p class="text-[#51946c] text-lg font-medium" id="welcomeMessage">Welcome back, Admin</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="bg-white px-4 py-2 rounded-lg border border-[#d1e6d9]">
+                                    <span class="text-sm text-gray-600">Last Updated:</span>
+                                    <span class="ml-2 font-bold text-[#0e1a13]" id="lastUpdated">Just now</span>
+                                </div>
+                                <button onclick="refreshDashboard()" class="bg-gradient-to-r from-[#0ad167] to-[#078829] hover:from-[#078829] hover:to-[#0ad167] text-white px-6 py-3 rounded-lg text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced flex items-center space-x-2" id="refreshBtn">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                    </svg>
+                                    <span>Refresh Data</span>
+                                </button>
                             </div>
                         </div>
 
                         <!-- Statistics Cards -->
-                        <div class="flex flex-wrap gap-4 p-4">
-                            <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 bg-[#e8f2ec]">
-                                <p class="text-[#0e1a13] text-base font-medium leading-normal">Total Sales</p>
-                                <p id="cardSales" class="text-[#0e1a13] tracking-light text-2xl font-bold leading-tight">LKR 0</p>
-                                <p class="text-[#078829] text-base font-medium leading-normal">&nbsp;</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
+                            <div class="stat-card flex flex-col gap-4 p-6">
+                                <div class="flex items-center justify-between">
+                                    <div class="p-3 bg-green-100 rounded-xl">
+                                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                                        </svg>
+                                    </div>
+                                    <span id="salesPercentage" class="text-gray-600 text-sm font-medium">0%</span>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600 text-sm font-medium">Total Sales</p>
+                                    <p id="cardSales" class="text-[#0e1a13] text-2xl font-bold leading-tight">LKR 0</p>
+                                </div>
                             </div>
-                            <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 bg-[#e8f2ec]">
-                                <p class="text-[#0e1a13] text-base font-medium leading-normal">Orders</p>
-                                <p id="cardOrders" class="text-[#0e1a13] tracking-light text-2xl font-bold leading-tight">0</p>
-                                <p class="text-[#078829] text-base font-medium leading-normal">&nbsp;</p>
+                            <div class="stat-card flex flex-col gap-4 p-6">
+                                <div class="flex items-center justify-between">
+                                    <div class="p-3 bg-blue-100 rounded-xl">
+                                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                        </svg>
+                                    </div>
+                                    <span id="ordersPercentage" class="text-gray-600 text-sm font-medium">0%</span>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600 text-sm font-medium">Total Orders</p>
+                                    <p id="cardOrders" class="text-[#0e1a13] text-2xl font-bold leading-tight">0</p>
+                                </div>
                             </div>
-                            <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 bg-[#e8f2ec]">
-                                <p class="text-[#0e1a13] text-base font-medium leading-normal">Users</p>
-                                <p id="cardUsers" class="text-[#0e1a13] tracking-light text-2xl font-bold leading-tight">0</p>
-                                <p class="text-[#078829] text-base font-medium leading-normal">&nbsp;</p>
+                            <div class="stat-card flex flex-col gap-4 p-6">
+                                <div class="flex items-center justify-between">
+                                    <div class="p-3 bg-purple-100 rounded-xl">
+                                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <span id="usersPercentage" class="text-gray-600 text-sm font-medium">0%</span>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600 text-sm font-medium">Total Users</p>
+                                    <p id="cardUsers" class="text-[#0e1a13] text-2xl font-bold leading-tight">0</p>
+                                </div>
                             </div>
-                            <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 bg-[#e8f2ec]">
-                                <p class="text-[#0e1a13] text-base font-medium leading-normal">Print Jobs</p>
-                                <p id="cardPrintJobs" class="text-[#0e1a13] tracking-light text-2xl font-bold leading-tight">0</p>
-                                <p class="text-[#078829] text-base font-medium leading-normal">&nbsp;</p>
+                            <div class="stat-card flex flex-col gap-4 p-6">
+                                <div class="flex items-center justify-between">
+                                    <div class="p-3 bg-orange-100 rounded-xl">
+                                        <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                                        </svg>
+                                    </div>
+                                    <span id="printJobsPercentage" class="text-gray-600 text-sm font-medium">0%</span>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600 text-sm font-medium">Print Jobs</p>
+                                    <p id="cardPrintJobs" class="text-[#0e1a13] text-2xl font-bold leading-tight">0</p>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Recent Orders Table -->
-                        <h2 class="text-[#0e1a13] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Recent Orders</h2>
-                        <div class="px-4 py-3 @container">
-                            <div class="flex overflow-hidden rounded-lg border border-[#d1e6d9] bg-[#f8fbfa]">
-                                <table class="flex-1">
+                        <!-- Analytics Export Section -->
+                        <div class="px-6 py-6">
+                            <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-xl border border-gray-200 p-8 transform hover:scale-[1.02] transition-all duration-300">
+                                <div class="flex items-center justify-between mb-8">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="bg-gradient-to-br from-[#0e1a13] to-[#2d4a3a] p-4 rounded-2xl shadow-lg">
+                                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h2 class="text-[#0e1a13] text-2xl font-bold bg-gradient-to-r from-[#0e1a13] to-[#2d4a3a] bg-clip-text text-transparent">Analytics & Reports</h2>
+                                            <p class="text-gray-600 text-base">Export comprehensive business analytics and sales reports with professional formatting</p>
+                                        </div>
+                                    </div>
+                                    <div class="hidden md:block">
+                                        <div class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium">
+                                            📊 Real-time Data
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Custom Date Range Bar -->
+                                <div class="mb-8">
+                                    <div class="bg-gradient-to-r from-teal-500 to-cyan-600 rounded-xl p-6 shadow-lg">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-4">
+                                                <div class="bg-white/20 p-3 rounded-lg">
+                                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div>
+                                                    <h3 class="text-xl font-bold text-white">Custom Date Range</h3>
+                                                    <p class="text-teal-100 text-sm">Select any custom date range for detailed analysis</p>
+                                                </div>
+                                            </div>
+                                            <button onclick="showCustomDateModal()" class="bg-white text-teal-600 hover:bg-teal-50 px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 flex items-center gap-2">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                                </svg>
+                                                Select Dates
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sales Report Section -->
+                                <div class="mb-8">
+                                    <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                                        <div class="bg-gradient-to-br from-green-500 to-emerald-600 p-2 rounded-lg mr-3">
+                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                                            </svg>
+                                        </div>
+                                        Sales Reports
+                                    </h3>
+                                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                                        <!-- Daily Sales Report -->
+                                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 border border-blue-200 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
+                                            <div class="flex items-center justify-between mb-6">
+                                                <h4 class="font-bold text-gray-800 text-xl">Daily Sales</h4>
+                                                <div class="bg-blue-100 p-3 rounded-xl">
+                                                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <p class="text-gray-600 mb-6 leading-relaxed">Today's sales data with detailed order information and customer insights</p>
+                                            <div class="space-y-3">
+                                                <button onclick="exportSalesReport('daily', 'pdf', this)" class="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-4 rounded-xl text-sm font-bold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-3">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                    Download PDF Report
+                                                </button>
+                                                <button onclick="exportSalesReport('daily', 'excel', this)" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-4 rounded-xl text-sm font-bold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-3">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                    </svg>
+                                                    Download CSV Report
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Monthly Sales Report -->
+                                        <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-8 border border-purple-200 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
+                                            <div class="flex items-center justify-between mb-6">
+                                                <h4 class="font-bold text-gray-800 text-xl">Monthly Sales</h4>
+                                                <div class="bg-purple-100 p-3 rounded-xl">
+                                                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <p class="text-gray-600 mb-6 leading-relaxed">This month's comprehensive sales data with trends and analysis</p>
+                                            <div class="space-y-3">
+                                                <button onclick="exportSalesReport('monthly', 'pdf', this)" class="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-4 rounded-xl text-sm font-bold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-3">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                    Download PDF Report
+                                                </button>
+                                                <button onclick="exportSalesReport('monthly', 'excel', this)" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-4 rounded-xl text-sm font-bold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-3">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                    </svg>
+                                                    Download CSV Report
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Yearly Sales Report -->
+                                        <div class="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-2xl p-8 border border-orange-200 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
+                                            <div class="flex items-center justify-between mb-6">
+                                                <h4 class="font-bold text-gray-800 text-xl">Yearly Sales</h4>
+                                                <div class="bg-orange-100 p-3 rounded-xl">
+                                                    <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <p class="text-gray-600 mb-6 leading-relaxed">Annual sales performance with comprehensive trends and insights</p>
+                                            <div class="space-y-3">
+                                                <button onclick="exportSalesReport('yearly', 'pdf', this)" class="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-4 rounded-xl text-sm font-bold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-3">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                    Download PDF Report
+                                                </button>
+                                                <button onclick="exportSalesReport('yearly', 'excel', this)" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-4 rounded-xl text-sm font-bold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-3">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                    </svg>
+                                                    Download CSV Report
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Analytics Report Section -->
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                                        <div class="bg-gradient-to-br from-blue-500 to-indigo-600 p-2 rounded-lg mr-3">
+                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                            </svg>
+                                        </div>
+                                        Analytics Reports
+                                    </h3>
+                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                                        <!-- Business Analytics -->
+                                        <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-8 border border-indigo-200 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
+                                            <div class="flex items-center justify-between mb-6">
+                                                <h4 class="font-bold text-gray-800 text-xl">Business Analytics</h4>
+                                                <div class="bg-indigo-100 p-3 rounded-xl">
+                                                    <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <p class="text-gray-600 mb-6 leading-relaxed">Complete business overview with comprehensive charts, insights, and key performance indicators</p>
+                                            <div class="space-y-3">
+                                                <button onclick="exportAnalyticsReport('pdf', this)" class="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-4 rounded-xl text-sm font-bold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-3">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                    Download PDF Report
+                                                </button>
+                                                <button onclick="exportAnalyticsReport('excel', this)" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-4 rounded-xl text-sm font-bold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-3">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                    </svg>
+                                                    Download CSV Report
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Performance Summary -->
+                                        <div class="bg-gradient-to-br from-emerald-50 to-green-50 rounded-2xl p-8 border border-emerald-200 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
+                                            <div class="flex items-center justify-between mb-6">
+                                                <h4 class="font-bold text-gray-800 text-xl">Performance Summary</h4>
+                                                <div class="bg-emerald-100 p-3 rounded-xl">
+                                                    <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <p class="text-gray-600 mb-6 leading-relaxed">Key metrics, top-selling products, revenue analysis, and performance trends</p>
+                                            <div class="space-y-3">
+                                                <button onclick="exportPerformanceReport('pdf', this)" class="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-4 rounded-xl text-sm font-bold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-3">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                    Download PDF Report
+                                                </button>
+                                                <button onclick="exportPerformanceReport('excel', this)" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-4 rounded-xl text-sm font-bold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-3">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                    </svg>
+                                                    Download CSV Report
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Print Orders Table -->
+                        <div class="px-6 py-6 @container">
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="flex items-center space-x-4">
+                                    <div class="bg-[#0e1a13] p-3 rounded-xl">
+                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h2 class="text-[#0e1a13] text-2xl font-bold leading-tight">Print Orders</h2>
+                                        <p class="text-[#51946c] text-base font-medium">Recent print job orders</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="overflow-x-auto rounded-xl border-2 border-[#d1e6d9] bg-white shadow-lg admin-table table-container">
+                                <table class="w-full min-w-[1200px]">
                                     <thead>
-                                        <tr class="bg-[#f8fbfa]">
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[400px] text-sm font-medium leading-normal">Order ID</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[400px] text-sm font-medium leading-normal">Customer</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[400px] text-sm font-medium leading-normal">Date</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-60 text-sm font-medium leading-normal">Status</th>
-                                            <th class="px-4 py-3 text-left text-[#0e1a13] w-[400px] text-sm font-medium leading-normal">Total</th>
+                                        <tr class="bg-gradient-to-r from-[#f8fbfa] to-[#e8f2ec]">
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[180px] text-base font-semibold leading-normal">Order ID</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[220px] text-base font-semibold leading-normal">Customer</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[120px] text-base font-semibold leading-normal">Document</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[200px] text-base font-semibold leading-normal">Specifications</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[160px] text-base font-semibold leading-normal">Date</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[140px] text-base font-semibold leading-normal">Status</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[120px] text-base font-semibold leading-normal">Total</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[120px] text-base font-semibold leading-normal">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="recentOrdersBody">
+                                    <tbody id="printOrdersBody">
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+
+                        <!-- Bookshop Orders Table -->
+                        <div class="px-6 py-6 @container">
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="flex items-center space-x-4">
+                                    <div class="bg-[#0e1a13] p-3 rounded-xl">
+                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h2 class="text-[#0e1a13] text-2xl font-bold leading-tight">Bookshop Orders</h2>
+                                        <p class="text-[#51946c] text-base font-medium">Recent book orders</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="overflow-x-auto rounded-xl border-2 border-[#d1e6d9] bg-white shadow-lg admin-table table-container">
+                                <table class="w-full min-w-[1000px]">
+                                    <thead>
+                                        <tr class="bg-gradient-to-r from-[#f8fbfa] to-[#e8f2ec]">
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[180px] text-base font-semibold leading-normal">Order ID</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[220px] text-base font-semibold leading-normal">Customer</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[200px] text-base font-semibold leading-normal">Items</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[160px] text-base font-semibold leading-normal">Date</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[140px] text-base font-semibold leading-normal">Status</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] w-[120px] text-base font-semibold leading-normal">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bookshopOrdersBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -264,8 +754,10 @@
             // Display user info
             const userData = window.authManager.getCurrentUser();
             if (userData) {
-                document.getElementById('welcomeMessage').textContent = `Welcome back, ${userData.fullName}`;
-                document.getElementById('adminName').textContent = userData.fullName;
+                const welcomeElement = document.getElementById('welcomeMessage');
+                if (welcomeElement) {
+                    welcomeElement.textContent = `Welcome back, ${userData.fullName}`;
+                }
             }
             
             // User Mode functionality
@@ -279,45 +771,818 @@
             });
         });
 
+        // Global variables for auto-refresh
+        let refreshInterval;
+        let isRefreshing = false;
+        let previousData = {
+            totalSales: 0,
+            totalOrders: 0,
+            totalUsers: 0,
+            totalPrintJobs: 0
+        };
+
         document.addEventListener('DOMContentLoaded', async () => {
+            await loadDashboardData();
+            loadDeliverySettings();
+            
+            // Set up auto-refresh every 30 seconds
+            refreshInterval = setInterval(async () => {
+                if (!isRefreshing) {
+                    await loadDashboardData();
+                    loadDeliverySettings();
+                }
+            }, 30000);
+        });
+
+        // Calculate percentage change
+        function calculatePercentageChange(current, previous) {
+            if (previous === 0) {
+                return current > 0 ? 100 : 0;
+            }
+            const change = ((current - previous) / previous) * 100;
+            return Math.round(change);
+        }
+
+        // Update percentage display
+        function updatePercentageDisplay(elementId, current, previous) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            // If this is the first load (previous is 0), show a neutral indicator
+            if (previous === 0) {
+                element.textContent = 'New';
+                element.className = 'text-blue-600 text-sm font-medium';
+                return;
+            }
+            
+            const percentage = calculatePercentageChange(current, previous);
+            
+            if (percentage > 0) {
+                element.textContent = `+${percentage}%`;
+                element.className = 'text-green-600 text-sm font-medium';
+            } else if (percentage < 0) {
+                element.textContent = `${percentage}%`;
+                element.className = 'text-red-600 text-sm font-medium';
+            } else {
+                element.textContent = '0%';
+                element.className = 'text-gray-600 text-sm font-medium';
+            }
+        }
+
+        // Load dashboard data
+        async function loadDashboardData() {
             try {
-                const [ordersRes, usersRes] = await Promise.all([
+                isRefreshing = true;
+                const refreshBtn = document.getElementById('refreshBtn');
+                if (refreshBtn) {
+                    refreshBtn.disabled = true;
+                    refreshBtn.innerHTML = `
+                        <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        Refreshing...
+                    `;
+                }
+
+                const [bookshopOrdersRes, printOrdersRes, usersRes] = await Promise.all([
                     fetch('/api/orders'),
+                    fetch('/api/admin/print-orders'),
                     fetch('/api/users')
                 ]);
-                const ordersData = await ordersRes.json();
+                
+                const bookshopOrdersData = await bookshopOrdersRes.json();
+                const printOrdersData = await printOrdersRes.json();
                 const usersData = await usersRes.json();
 
-                const orders = ordersData.orders || ordersData || [];
+                const bookshopOrders = bookshopOrdersData.orders || bookshopOrdersData || [];
+                const printOrders = printOrdersData.data?.orders || printOrdersData.orders || printOrdersData || [];
                 const users = usersData.users || usersData || [];
 
-                const totalSales = orders.reduce((sum, o) => sum + Number(o.total || 0), 0);
-                const printJobs = orders.filter(o => o.type === 'print').length;
+                // Calculate totals
+                const bookshopSales = bookshopOrders.reduce((sum, o) => sum + Number(o.total || 0), 0);
+                const printSales = printOrders.reduce((sum, o) => sum + Number(o.estimatedPrice || 0), 0);
+                const totalSales = bookshopSales + printSales;
+                const totalOrders = bookshopOrders.length + printOrders.length;
 
+                // Update statistics cards
                 document.getElementById('cardSales').textContent = `LKR ${totalSales.toFixed(2)}`;
-                document.getElementById('cardOrders').textContent = String(orders.length);
+                document.getElementById('cardOrders').textContent = String(totalOrders);
                 document.getElementById('cardUsers').textContent = String(users.length);
-                document.getElementById('cardPrintJobs').textContent = String(printJobs);
+                document.getElementById('cardPrintJobs').textContent = String(printOrders.length);
 
-                const tbody = document.getElementById('recentOrdersBody');
-                tbody.innerHTML = '';
-                orders.slice(0,5).forEach(o => {
-                    const tr = document.createElement('tr');
-                    tr.className = 'border-t border-t-[#d1e6d9]';
-                    const date = (o.createdAt || '').slice(0,10);
-                    tr.innerHTML = `
-                        <td class="h-[72px] px-4 py-2 w-[400px] text-[#0e1a13] text-sm">#${o._id}</td>
-                        <td class="h-[72px] px-4 py-2 w-[400px] text-[#51946c] text-sm">${o.customer?.name || o.customerName || 'Customer'}</td>
-                        <td class="h-[72px] px-4 py-2 w-[400px] text-[#51946c] text-sm">${date}</td>
-                        <td class="h-[72px] px-4 py-2 w-60 text-sm"><span class="bg-[#e8f2ec] px-3 py-1 rounded">${o.status || 'to-fulfill'}</span></td>
-                        <td class="h-[72px] px-4 py-2 w-[400px] text-[#51946c] text-sm">LKR ${(Number(o.total||0)).toFixed(2)}</td>
-                    `;
-                    tbody.appendChild(tr);
+                // Update percentage changes
+                console.log('Updating percentages:', {
+                    sales: { current: totalSales, previous: previousData.totalSales },
+                    orders: { current: totalOrders, previous: previousData.totalOrders },
+                    users: { current: users.length, previous: previousData.totalUsers },
+                    printJobs: { current: printOrders.length, previous: previousData.totalPrintJobs }
                 });
+                
+                updatePercentageDisplay('salesPercentage', totalSales, previousData.totalSales);
+                updatePercentageDisplay('ordersPercentage', totalOrders, previousData.totalOrders);
+                updatePercentageDisplay('usersPercentage', users.length, previousData.totalUsers);
+                updatePercentageDisplay('printJobsPercentage', printOrders.length, previousData.totalPrintJobs);
+
+                // Store current data for next comparison
+                previousData = {
+                    totalSales,
+                    totalOrders,
+                    totalUsers: users.length,
+                    totalPrintJobs: printOrders.length
+                };
+
+                // Load print orders table
+                loadPrintOrdersTable(printOrders);
+                
+                // Load bookshop orders table
+                loadBookshopOrdersTable(bookshopOrders);
+                
+                // Setup scroll functionality
+                setupScrollShadows();
+                
+                // Update last updated time
+                updateLastUpdatedTime();
+
             } catch (e) {
                 console.error('Failed to load dashboard data', e);
+            } finally {
+                isRefreshing = false;
+                const refreshBtn = document.getElementById('refreshBtn');
+                if (refreshBtn) {
+                    refreshBtn.disabled = false;
+                    refreshBtn.innerHTML = `
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        Refresh
+                    `;
+                }
+            }
+        }
+
+        // Manual refresh function
+        async function refreshDashboard() {
+            await loadDashboardData();
+        }
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
             }
         });
+
+        // Load print orders table
+        function loadPrintOrdersTable(printOrders) {
+            const tbody = document.getElementById('printOrdersBody');
+            tbody.innerHTML = '';
+            
+            if (printOrders.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="px-6 py-12 text-center text-[#51946c]">
+                            <div class="flex flex-col items-center">
+                                <svg class="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                                </svg>
+                                <p class="text-lg font-medium">No print orders yet</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            printOrders.slice(0, 10).forEach(order => {
+                const tr = document.createElement('tr');
+                tr.className = 'border-t border-t-[#d1e6d9] hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 transition-all duration-200 fade-in-up';
+                const date = new Date(order.createdAt).toLocaleDateString();
+                const specs = `${order.paperSize} - ${order.colorOption.replace('_', ' ')} (${order.copies} copies)`;
+                
+                tr.innerHTML = `
+                    <td class="px-6 py-4 text-[#0e1a13] text-base font-medium" title="${order._id}">
+                        <div class="flex items-center">
+                            <span class="bg-gray-100 px-3 py-1 rounded-full text-sm font-mono">${order._id.substring(0, 8)}...</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-[#51946c] text-base">
+                        <div class="flex flex-col">
+                            <span class="font-semibold">${order.userName || 'Customer'}</span>
+                            <span class="text-sm text-gray-500">${order.email || ''}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-[#51946c] text-base">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <span class="truncate max-w-[100px]" title="${order.originalFileName || 'Document'}">${order.originalFileName || 'Document'}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-[#51946c] text-base">
+                        <div class="flex flex-col space-y-1">
+                            <span class="font-medium">${order.paperSize}</span>
+                            <span class="text-sm text-gray-600">${order.colorOption.replace('_', ' ')}</span>
+                            <span class="text-sm text-gray-500">${order.copies} copies</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-[#51946c] text-base">
+                        <div class="flex flex-col">
+                            <span class="font-medium">${date}</span>
+                            <span class="text-sm text-gray-500">${new Date(order.createdAt).toLocaleTimeString()}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-base">
+                        <span class="px-3 py-1 text-sm font-medium rounded-full ${getStatusColor(order.status)}">
+                            ${order.status || 'pending'}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-[#51946c] text-base font-bold">
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">LKR ${(Number(order.estimatedPrice || 0)).toFixed(2)}</span>
+                    </td>
+                    <td class="px-6 py-4 text-base">
+                        <button onclick="viewDocument('${order._id}', '${order.originalFileName}')" 
+                                class="bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center space-x-2 btn-enhanced">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                            <span>View</span>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Helper function to get status color classes
+        function getStatusColor(status) {
+            switch (status) {
+                case 'pending':
+                    return 'bg-yellow-100 text-yellow-800';
+                case 'processing':
+                    return 'bg-blue-100 text-blue-800';
+                case 'completed':
+                    return 'bg-green-100 text-green-800';
+                case 'cancelled':
+                    return 'bg-red-100 text-red-800';
+                case 'shipped':
+                    return 'bg-purple-100 text-purple-800';
+                default:
+                    return 'bg-gray-100 text-gray-800';
+            }
+        }
+
+        // View document function
+        function viewDocument(orderId, fileName) {
+            const documentUrl = `/api/print-orders/${orderId}/document`;
+            window.open(documentUrl, '_blank');
+        }
+
+        // Load bookshop orders table
+        function loadBookshopOrdersTable(bookshopOrders) {
+            const tbody = document.getElementById('bookshopOrdersBody');
+            tbody.innerHTML = '';
+            
+            if (bookshopOrders.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="px-6 py-12 text-center text-[#51946c]">
+                            <div class="flex flex-col items-center">
+                                <svg class="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                </svg>
+                                <p class="text-lg font-medium">No bookshop orders yet</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            bookshopOrders.slice(0, 10).forEach(order => {
+                const tr = document.createElement('tr');
+                tr.className = 'border-t border-t-[#d1e6d9] hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 transition-all duration-200 fade-in-up';
+                const date = new Date(order.createdAt).toLocaleDateString();
+                const items = order.items ? order.items.map(item => item.name || item.title).join(', ') : 'Items';
+                
+                tr.innerHTML = `
+                    <td class="px-6 py-4 text-[#0e1a13] text-base font-medium" title="${order._id}">
+                        <div class="flex items-center">
+                            <span class="bg-gray-100 px-3 py-1 rounded-full text-sm font-mono">${order._id.substring(0, 8)}...</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-[#51946c] text-base">
+                        <div class="flex flex-col">
+                            <span class="font-semibold">${order.customer?.name || order.customerName || 'Customer'}</span>
+                            <span class="text-sm text-gray-500">${order.customer?.email || order.customerEmail || ''}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-[#51946c] text-base">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                            <span class="truncate max-w-[150px]" title="${items}">${items}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-[#51946c] text-base">
+                        <div class="flex flex-col">
+                            <span class="font-medium">${date}</span>
+                            <span class="text-sm text-gray-500">${new Date(order.createdAt).toLocaleTimeString()}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-base">
+                        <span class="px-3 py-1 text-sm font-medium rounded-full ${getStatusColor(order.status)}">
+                            ${order.status || 'pending'}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-[#51946c] text-base font-bold">
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">LKR ${(Number(order.total || 0)).toFixed(2)}</span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Setup scroll shadow indicators
+        function setupScrollShadows() {
+            const tableContainers = document.querySelectorAll('.table-container');
+            tableContainers.forEach(container => {
+                const updateScrollShadows = () => {
+                    const scrollLeft = container.scrollLeft;
+                    const maxScrollLeft = container.scrollWidth - container.clientWidth;
+                    
+                    // Update shadow classes based on scroll position
+                    if (scrollLeft <= 0) {
+                        container.classList.remove('scrolled-left');
+                    } else {
+                        container.classList.add('scrolled-left');
+                    }
+                    
+                    if (scrollLeft >= maxScrollLeft) {
+                        container.classList.remove('scrolled-right');
+                    } else {
+                        container.classList.add('scrolled-right');
+                    }
+                };
+                
+                // Initial check
+                updateScrollShadows();
+                
+                // Add scroll event listener
+                container.addEventListener('scroll', updateScrollShadows);
+            });
+        }
+
+        // Update last updated time
+        function updateLastUpdatedTime() {
+            const lastUpdatedElement = document.getElementById('lastUpdated');
+            if (lastUpdatedElement) {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString();
+                lastUpdatedElement.textContent = timeString;
+            }
+        }
+
+        // Load delivery settings for dashboard display
+        function loadDeliverySettings() {
+            try {
+                const settings = JSON.parse(localStorage.getItem('nethwin_delivery_settings') || '{}');
+                
+                const price = settings.localDeliveryPrice || 0;
+                const radius = settings.deliveryRadius || 10;
+                const lastUpdated = settings.lastUpdated ? new Date(settings.lastUpdated).toLocaleString() : 'Never';
+                
+                // Update delivery price display
+                const priceElement = document.getElementById('currentDeliveryPrice');
+                if (priceElement) {
+                    priceElement.textContent = price > 0 ? `LKR ${price.toFixed(2)}` : 'Free';
+                }
+                
+                // Update delivery radius display
+                const radiusElement = document.getElementById('currentDeliveryRadius');
+                if (radiusElement) {
+                    radiusElement.textContent = `${radius} km`;
+                }
+                
+                // Update last updated display
+                const lastUpdateElement = document.getElementById('lastDeliveryUpdate');
+                if (lastUpdateElement) {
+                    lastUpdateElement.textContent = lastUpdated;
+                }
+                
+            } catch (e) {
+                console.error('Error loading delivery settings:', e);
+            }
+        }
+
+        // Listen for delivery settings updates from admin panel
+        window.addEventListener('deliverySettingsUpdated', function(event) {
+            console.log('Delivery settings updated, refreshing dashboard...');
+            loadDeliverySettings();
+        });
+
+        // ==================== ANALYTICS EXPORT FUNCTIONS ====================
+
+        // Export Sales Report
+        async function exportSalesReport(period, format, buttonElement) {
+            const button = buttonElement || event?.target;
+            const originalText = button.textContent;
+            let timeoutId;
+            
+            try {
+                console.log(`Exporting ${period} sales report in ${format} format...`);
+                
+                // Show loading state
+                button.textContent = 'Generating...';
+                button.disabled = true;
+
+                // Set timeout fallback (30 seconds)
+                timeoutId = setTimeout(() => {
+                    if (button.textContent === 'Generating...') {
+                        button.textContent = originalText;
+                        button.disabled = false;
+                        showNotification('Report generation timed out. Please try again.', 'error');
+                    }
+                }, 30000);
+
+                // Make API call to generate sales report
+                const response = await fetch(`/api/admin/analytics/sales-report`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    },
+                    body: JSON.stringify({
+                        period: period,
+                        format: format
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Failed to generate sales report: ${response.status} ${errorText}`);
+                }
+
+                // Handle different response types
+                if (format === 'pdf') {
+                    // For PDF, we'll get HTML content
+                    const htmlContent = await response.text();
+                    downloadReport(htmlContent, `sales-report-${period}-${new Date().toISOString().split('T')[0]}.html`, 'text/html');
+                } else {
+                    // For CSV, we'll get text data
+                    const csvContent = await response.text();
+                    downloadReport(csvContent, `sales-report-${period}-${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+                }
+
+                showNotification(`${period.charAt(0).toUpperCase() + period.slice(1)} sales report downloaded successfully!`, 'success');
+
+                // Auto-refresh button state after successful download
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.disabled = false;
+                }, 2000);
+
+            } catch (error) {
+                console.error('Sales report export error:', error);
+                showNotification('Failed to generate sales report. Please try again.', 'error');
+                
+                // Restore button state immediately on error
+                button.textContent = originalText;
+                button.disabled = false;
+            } finally {
+                // Clear timeout if it was set
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+            }
+        }
+
+        // Export Analytics Report
+        async function exportAnalyticsReport(format, buttonElement) {
+            const button = buttonElement || event?.target;
+            const originalText = button.textContent;
+            let timeoutId;
+            
+            try {
+                console.log(`Exporting analytics report in ${format} format...`);
+                
+                // Show loading state
+                button.textContent = 'Generating...';
+                button.disabled = true;
+
+                // Set timeout fallback (30 seconds)
+                timeoutId = setTimeout(() => {
+                    if (button.textContent === 'Generating...') {
+                        button.textContent = originalText;
+                        button.disabled = false;
+                        showNotification('Report generation timed out. Please try again.', 'error');
+                    }
+                }, 30000);
+
+                // Make API call to generate analytics report
+                const response = await fetch(`/api/admin/analytics/analytics-report`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    },
+                    body: JSON.stringify({
+                        format: format
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Failed to generate analytics report: ${response.status} ${errorText}`);
+                }
+
+                // Handle different response types
+                if (format === 'pdf') {
+                    const htmlContent = await response.text();
+                    downloadReport(htmlContent, `analytics-report-${new Date().toISOString().split('T')[0]}.html`, 'text/html');
+                } else {
+                    const csvContent = await response.text();
+                    downloadReport(csvContent, `analytics-report-${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+                }
+
+                showNotification('Analytics report downloaded successfully!', 'success');
+
+                // Auto-refresh button state after successful download
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.disabled = false;
+                }, 2000);
+
+            } catch (error) {
+                console.error('Analytics report export error:', error);
+                showNotification('Failed to generate analytics report. Please try again.', 'error');
+                
+                // Restore button state immediately on error
+                button.textContent = originalText;
+                button.disabled = false;
+            } finally {
+                // Clear timeout if it was set
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+            }
+        }
+
+        // Export Performance Report
+        async function exportPerformanceReport(format, buttonElement) {
+            const button = buttonElement || event?.target;
+            const originalText = button.textContent;
+            let timeoutId;
+            
+            try {
+                console.log(`Exporting performance report in ${format} format...`);
+                
+                // Show loading state
+                button.textContent = 'Generating...';
+                button.disabled = true;
+
+                // Set timeout fallback (30 seconds)
+                timeoutId = setTimeout(() => {
+                    if (button.textContent === 'Generating...') {
+                        button.textContent = originalText;
+                        button.disabled = false;
+                        showNotification('Report generation timed out. Please try again.', 'error');
+                    }
+                }, 30000);
+
+                // Make API call to generate performance report
+                const response = await fetch(`/api/admin/analytics/performance-report`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    },
+                    body: JSON.stringify({
+                        format: format
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Failed to generate performance report: ${response.status} ${errorText}`);
+                }
+
+                // Handle different response types
+                if (format === 'pdf') {
+                    const htmlContent = await response.text();
+                    downloadReport(htmlContent, `performance-report-${new Date().toISOString().split('T')[0]}.html`, 'text/html');
+                } else {
+                    const csvContent = await response.text();
+                    downloadReport(csvContent, `performance-report-${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+                }
+
+                showNotification('Performance report downloaded successfully!', 'success');
+
+                // Auto-refresh button state after successful download
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.disabled = false;
+                }, 2000);
+
+            } catch (error) {
+                console.error('Performance report export error:', error);
+                showNotification('Failed to generate performance report. Please try again.', 'error');
+                
+                // Restore button state immediately on error
+                button.textContent = originalText;
+                button.disabled = false;
+            } finally {
+                // Clear timeout if it was set
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+            }
+        }
+
+        // Show Custom Date Modal
+        function showCustomDateModal() {
+            const modal = document.getElementById('customDateModal');
+            modal.classList.remove('hidden');
+            
+            // Set default dates (last 30 days)
+            const endDate = new Date();
+            const startDate = new Date();
+            startDate.setDate(startDate.getDate() - 30);
+            
+            document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
+            document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
+        }
+
+        // Close Custom Date Modal
+        function closeCustomDateModal() {
+            const modal = document.getElementById('customDateModal');
+            modal.classList.add('hidden');
+        }
+
+        // Export Custom Sales Report
+        async function exportCustomSalesReport() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const button = event.target;
+            const originalText = button.textContent;
+            let timeoutId;
+            
+            if (!startDate || !endDate) {
+                showNotification('Please select both start and end dates.', 'error');
+                return;
+            }
+            
+            if (new Date(startDate) > new Date(endDate)) {
+                showNotification('Start date cannot be after end date.', 'error');
+                return;
+            }
+
+            try {
+                console.log(`Exporting custom sales report from ${startDate} to ${endDate}...`);
+                
+                // Show loading state
+                button.textContent = 'Generating...';
+                button.disabled = true;
+
+                // Set timeout fallback (30 seconds)
+                timeoutId = setTimeout(() => {
+                    if (button.textContent === 'Generating...') {
+                        button.textContent = originalText;
+                        button.disabled = false;
+                        showNotification('Report generation timed out. Please try again.', 'error');
+                    }
+                }, 30000);
+
+                // Make API call to generate custom sales report
+                const response = await fetch(`/api/admin/analytics/sales-report`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    },
+                    body: JSON.stringify({
+                        period: 'custom',
+                        startDate: startDate,
+                        endDate: endDate,
+                        format: 'pdf' // Default to PDF for custom reports
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Failed to generate custom sales report: ${response.status} ${errorText}`);
+                }
+
+                const htmlContent = await response.text();
+                downloadReport(htmlContent, `sales-report-custom-${startDate}-to-${endDate}.html`, 'text/html');
+
+                showNotification('Custom sales report downloaded successfully!', 'success');
+                closeCustomDateModal();
+
+                // Auto-refresh button state after successful download
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.disabled = false;
+                }, 2000);
+
+            } catch (error) {
+                console.error('Custom sales report export error:', error);
+                showNotification('Failed to generate custom sales report. Please try again.', 'error');
+                
+                // Restore button state immediately on error
+                button.textContent = originalText;
+                button.disabled = false;
+            } finally {
+                // Clear timeout if it was set
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+            }
+        }
+
+        // Download Report Helper Function
+        function downloadReport(content, filename, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Show Notification Helper Function
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm ${
+                type === 'success' ? 'bg-green-500 text-white' :
+                type === 'error' ? 'bg-red-500 text-white' :
+                type === 'warning' ? 'bg-yellow-500 text-white' :
+                'bg-blue-500 text-white'
+            }`;
+            
+            notification.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        ${type === 'success' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>' :
+                          type === 'error' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>' :
+                          type === 'warning' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>' :
+                          '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>'}
+                    </svg>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            // Add to page
+            document.body.appendChild(notification);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 5000);
+        }
     </script>
+
+    <!-- Custom Date Range Modal -->
+    <div id="customDateModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md mx-4">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold text-gray-800">Select Date Range</h3>
+                <button onclick="closeCustomDateModal()" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Start Date</label>
+                    <input type="date" id="startDate" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">End Date</label>
+                    <input type="date" id="endDate" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                </div>
+            </div>
+            
+            <div class="flex gap-3 mt-6">
+                <button onclick="closeCustomDateModal()" class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                    Cancel
+                </button>
+                <button onclick="exportCustomSalesReport()" class="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                    Export Report
+                </button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

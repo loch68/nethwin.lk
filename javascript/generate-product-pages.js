@@ -76,17 +76,17 @@ function generateProductPage(product) {
                     <!-- Product Image -->
                     <div class="space-y-4">
                         <div class="aspect-square bg-white rounded-lg border border-[#d1e6d9] overflow-hidden">
-                            <img src="${product.image || 'https://via.placeholder.com/600x600?text=No+Image'}" alt="${product.name}" class="w-full h-full object-cover">
+                            <img src="${product.image || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDYwMCA2MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0zMDAgMjAwQzMzMC45MjggMjAwIDM1NCAyMjMuMDcyIDM1NCAyNTRDMzU0IDI4NC45MjggMzMwLjkyOCAzMDggMzAwIDMwOEMyNjkuMDcyIDMwOCAyNDYgMjg0LjkyOCAyNDYgMjU0QzI0NiAyMjMuMDcyIDI2OS4wNzIgMjAwIDMwMCAyMDBaIiBmaWxsPSIjOUI5QkE1Ii8+CjxwYXRoIGQ9Ik0yNDYgMzU0SDM1NFY0MDBIMjQ2VjM1NFoiIGZpbGw9IiM5QjlCQTUiLz4KPC9zdmc+'}" alt="${product.name}" class="w-full h-full object-cover">
                         </div>
                         <div class="flex gap-2">
                             <button class="w-20 h-20 bg-white border border-[#d1e6d9] rounded-lg overflow-hidden hover:border-[#19e619] transition-colors">
-                                <img src="${product.image || 'https://via.placeholder.com/80x80?text=No+Image'}" alt="Thumbnail 1" class="w-full h-full object-cover">
+                                <img src="${product.image || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik00MCAyNkM0NC40MTggMjYgNDggMjkuNTgyIDQ4IDM0QzQ4IDM4LjQxOCA0NC40MTggNDIgNDAgNDJDMzUuNTgyIDQyIDMyIDM4LjQxOCAzMiAzNEMzMiAyOS41ODIgMzUuNTgyIDI2IDQwIDI2WiIgZmlsbD0iIzlCOUJBNSIvPgo8cGF0aCBkPSJNMzIgNDdINDhWNTNIMzJWNDdaIiBmaWxsPSIjOUI5QkE1Ii8+Cjwvc3ZnPg=='}" alt="Thumbnail 1" class="w-full h-full object-cover">
                             </button>
                             <button class="w-20 h-20 bg-white border border-[#d1e6d9] rounded-lg overflow-hidden hover:border-[#19e619] transition-colors">
-                                <img src="${product.image || 'https://via.placeholder.com/80x80?text=No+Image'}" alt="Thumbnail 2" class="w-full h-full object-cover">
+                                <img src="${product.image || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik00MCAyNkM0NC40MTggMjYgNDggMjkuNTgyIDQ4IDM0QzQ4IDM4LjQxOCA0NC40MTggNDIgNDAgNDJDMzUuNTgyIDQyIDMyIDM4LjQxOCAzMiAzNEMzMiAyOS41ODIgMzUuNTgyIDI2IDQwIDI2WiIgZmlsbD0iIzlCOUJBNSIvPgo8cGF0aCBkPSJNMzIgNDdINDhWNTNIMzJWNDdaIiBmaWxsPSIjOUI5QkE1Ii8+Cjwvc3ZnPg=='}" alt="Thumbnail 2" class="w-full h-full object-cover">
                             </button>
                             <button class="w-20 h-20 bg-white border border-[#d1e6d9] rounded-lg overflow-hidden hover:border-[#19e619] transition-colors">
-                                <img src="${product.image || 'https://via.placeholder.com/80x80?text=No+Image'}" alt="Thumbnail 3" class="w-full h-full object-cover">
+                                <img src="${product.image || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik00MCAyNkM0NC40MTggMjYgNDggMjkuNTgyIDQ4IDM0QzQ4IDM4LjQxOCA0NC40MTggNDIgNDAgNDJDMzUuNTgyIDQyIDMyIDM4LjQxOCAzMiAzNEMzMiAyOS41ODIgMzUuNTgyIDI2IDQwIDI2WiIgZmlsbD0iIzlCOUJBNSIvPgo8cGF0aCBkPSJNMzIgNDdINDhWNTNIMzJWNDdaIiBmaWxsPSIjOUI5QkE1Ii8+Cjwvc3ZnPg=='}" alt="Thumbnail 3" class="w-full h-full object-cover">
                             </button>
                         </div>
                     </div>
