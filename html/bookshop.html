@@ -2532,8 +2532,10 @@
             button.classList.remove('opacity-75');
           }
           
-          // Show success modal
-          showAddToCartSuccessModal(product.name, quantity);
+          // Show non-blocking toast instead of modal
+          if (window.showNotification) {
+            showNotification(`Added ${quantity} × ${product.name} to cart`, 'success', 3000);
+          }
           
           // Reset button after 2 seconds
           setTimeout(() => {

@@ -1,4 +1,5 @@
-<!-- Save as: print.html --><!DOCTYPE html><html lang="en"><head><meta name="viewport" content="width=device-width, initial-scale=1" /><meta charset="UTF-8" /><title>Print on Demand - NethwinLK</title><link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" /><link
+<!-- Save as: print.html -->
+ <!DOCTYPE html><html lang="en"><head><meta name="viewport" content="width=device-width, initial-scale=1" /><meta charset="UTF-8" /><title>Print on Demand - NethwinLK</title><link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" /><link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?display=swap&family=Inter:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900"
     /><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -896,6 +897,10 @@
                     <span class="font-medium" id="basePrice">Select paper size</span>
                   </div>
                   <div class="flex justify-between items-center py-1">
+                    <span class="text-gray-600">Pages Detected:</span>
+                    <span class="font-medium" id="pagesDetected">1</span>
+                  </div>
+                  <div class="flex justify-between items-center py-1">
                     <span class="text-gray-600">Color Upgrade:</span>
                     <span class="font-medium" id="colorUpgrade">Select color option</span>
                   </div>
@@ -1602,6 +1607,9 @@
           
           if (filePreviewContent) filePreviewContent.appendChild(pdfPreview);
           
+          // Detect page count for PDFs and update pricing
+          detectPdfPageCount(file);
+
           // Show fullscreen button for PDFs
           const viewFullscreenBtn = document.getElementById('viewFullscreen');
           if (viewFullscreenBtn) {
@@ -1702,6 +1710,12 @@
         
         // Clear file input
         if (fileInput) fileInput.value = '';
+        // Clear detected page count
+        if (fileInput) delete fileInput.dataset.pageCount;
+        const pageInfo = document.getElementById('detectedPageInfo');
+        if (pageInfo) pageInfo.remove();
+        const pagesDetectedEl = document.getElementById('pagesDetected');
+        if (pagesDetectedEl) pagesDetectedEl.textContent = '1';
       }
     </script><script>
       // Update cart count function
@@ -1806,6 +1820,17 @@
           
           // Check if form is valid before proceeding
           if (!form.checkValidity()) {
+          // If a PDF is uploaded, require a valid detected page count
+          const fileInputEl = document.getElementById('document');
+          const uploadedFile = fileInputEl && fileInputEl.files && fileInputEl.files[0] ? fileInputEl.files[0] : null;
+          if (uploadedFile && uploadedFile.type === 'application/pdf') {
+            const pages = parseInt(fileInputEl.dataset.pageCount || '0');
+            if (!pages || pages < 1) {
+              showNotification('Please wait for page count detection or re-upload the PDF.', 'warning', 4000);
+              isSubmitting = false;
+              return;
+            }
+          }
             console.log('Form validation failed');
             // Find all invalid fields and log them
             const invalidFields = form.querySelectorAll(':invalid');
@@ -1901,6 +1926,12 @@
               formData.append('estimatedPrice', calculatedPrice);
               console.log('Adding calculated estimated price:', calculatedPrice);
             }
+          }
+
+          // Include detected page count if available
+          const detectedPages = parseInt((document.getElementById('document')?.dataset.pageCount) || '0');
+          if (detectedPages > 0) {
+            formData.append('detectedPages', detectedPages);
           }
 
           // Debug: Log form data being sent
@@ -2192,6 +2223,21 @@
                 const binding = bindingSelect.value;
                 const copies = parseInt(copiesInput.value) || 1;
                 const finishing = finishingSelect.value;
+                // Read detected pages once and reflect in UI immediately
+                let pages = 1;
+                const fileInputForPagesTop = document.getElementById('document');
+                if (fileInputForPagesTop && fileInputForPagesTop.dataset.pageCount) {
+                    const parsedTop = parseInt(fileInputForPagesTop.dataset.pageCount);
+                    if (!Number.isNaN(parsedTop) && parsedTop > 0) pages = parsedTop;
+                }
+                // Fallback to visible UI text if dataset missing but UI shows pages
+                if (pages === 1) {
+                    const pagesDetectedText = document.getElementById('pagesDetected')?.textContent?.trim();
+                    const parsedFromUi = pagesDetectedText ? parseInt(pagesDetectedText) : NaN;
+                    if (!Number.isNaN(parsedFromUi) && parsedFromUi > 0) pages = parsedFromUi;
+                }
+                const pagesDetectedElTop = document.getElementById('pagesDetected');
+                if (pagesDetectedElTop) pagesDetectedElTop.textContent = String(pages);
 
                 // Check if at least one option is selected
                 if (!paperSize && !colorOption && !binding && !finishing) {
@@ -2237,7 +2283,7 @@
                             // If no color selected, show the cheapest option (bw_single)
                             printCostPerCopy = sizeData.bw_single;
                         }
-                        totalPrice += printCostPerCopy * copies;
+                        totalPrice += printCostPerCopy * copies * pages;
                     }
                 }
 
@@ -2343,7 +2389,7 @@
                 // Update estimated price for form submission
                 const estimatedPriceEl = document.getElementById('estimatedPrice');
                 if (estimatedPriceEl) {
-                    estimatedPriceEl.textContent = `Rs. ${totalPrice}`;
+                    estimatedPriceEl.textContent = `Rs. ${totalPrice} (for ${pages} page${pages>1?'s':''} × ${copies} copy${copies>1?'ies':'y'})`;
                 }
             }
 
@@ -2535,6 +2581,60 @@
                 URL.revokeObjectURL(pdfUrl);
             }
         }
+
+      // Detect PDF page count using PDF.js (CDN) and update UI/pricing
+      async function detectPdfPageCount(file) {
+        try {
+          // Lazy-load PDF.js only when needed
+          if (!window.pdfjsLib) {
+            await new Promise((resolve, reject) => {
+              const script = document.createElement('script');
+              // Use jsDelivr (allowed by CSP) instead of cdnjs
+              script.src = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js';
+              script.onload = resolve;
+              script.onerror = reject;
+              document.head.appendChild(script);
+            });
+          }
+          if (window.pdfjsLib && !window.pdfjsLib.GlobalWorkerOptions.workerSrc) {
+            window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+          }
+
+          const arrayBuffer = await file.arrayBuffer();
+          const loadingTask = window.pdfjsLib.getDocument({ data: arrayBuffer });
+          const pdf = await loadingTask.promise;
+          const numPages = pdf.numPages || 1;
+
+          // Persist on input for later usage
+          const fileInput = document.getElementById('document');
+          if (fileInput) fileInput.dataset.pageCount = String(numPages);
+
+          // Show small inline info near file preview
+          let pageInfo = document.getElementById('detectedPageInfo');
+          if (!pageInfo) {
+            pageInfo = document.createElement('div');
+            pageInfo.id = 'detectedPageInfo';
+            pageInfo.className = 'mt-2 text-sm text-gray-600';
+            const fileDetails = document.getElementById('fileDetails');
+            if (fileDetails) fileDetails.classList.remove('hidden');
+            const filePreview = document.getElementById('filePreview');
+            if (filePreview) filePreview.appendChild(pageInfo);
+          }
+          pageInfo.textContent = `Detected ${numPages} page${numPages > 1 ? 's' : ''}`;
+          const pagesDetectedEl = document.getElementById('pagesDetected');
+          if (pagesDetectedEl) pagesDetectedEl.textContent = String(numPages);
+
+          // Recalculate price if calculator present – multiply per-copy by pages
+          if (typeof calculatePrice === 'function') {
+            calculatePrice();
+          }
+        } catch (err) {
+          console.warn('Failed to detect PDF pages:', err);
+          showNotification('Could not read PDF pages. Pricing may be inaccurate.', 'warning', 4000);
+        }
+      }
+      // Also expose globally for safety
+      window.detectPdfPageCount = detectPdfPageCount;
 
         // DOCX Fullscreen function
         function openDOCXFullscreen(file) {

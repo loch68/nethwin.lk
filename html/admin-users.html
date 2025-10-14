@@ -323,27 +323,17 @@
                                     <span class="ml-2 font-bold text-[#0e1a13]" id="totalUsersCount">0</span>
                                 </div>
                                 
-                                <!-- Export Buttons -->
+                                <!-- Enhanced Export Buttons -->
                                 <div class="flex items-center space-x-2">
                                     <button
-                                        onclick="exportUsersCSV()"
-                                        class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced flex items-center space-x-2"
-                                        title="Export all users to CSV"
+                                        onclick="exportUsersEnhanced()"
+                                        class="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced flex items-center space-x-2"
+                                        title="Export users with visual charts"
                                     >
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                         </svg>
-                                        <span>Export CSV</span>
-                                    </button>
-                                    <button
-                                        onclick="exportUsersPDF()"
-                                        class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced flex items-center space-x-2"
-                                        title="Export all users to PDF"
-                                    >
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
-                                        </svg>
-                                        <span>Export PDF</span>
+                                        <span>📊 Export with Charts</span>
                                     </button>
                                 </div>
                                 
@@ -787,59 +777,70 @@
             document.getElementById('addUserModal').classList.remove('hidden');
         }
 
-// Export Functions
-async function exportUsersCSV() {
-    try {
-        // Show loading state
-        const button = document.querySelector('button[onclick="exportUsersCSV()"]');
-        const originalText = button.innerHTML;
-        button.innerHTML = `
-            <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-            </svg>
-            <span>Exporting...</span>
-        `;
-        button.disabled = true;
-
-        // Make API call to export CSV
-        const response = await fetch('/api/users/export/csv', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        // Enhanced Export Function with Charts
+        function exportUsersEnhanced() {
+            // Use the enhanced export manager
+            if (typeof enhancedExportManager !== 'undefined') {
+                enhancedExportManager.showExportModal('users', '/api/users/export/enhanced');
+            } else {
+                // Fallback to direct download if enhanced export manager not loaded
+                window.location.href = '/api/users/export/enhanced?format=pdf&includeCharts=true&chartTypes=pie,line,doughnut';
             }
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to export CSV');
         }
 
-        // Get the CSV content
-        const csvContent = await response.text();
+        // Export Functions
+        async function exportUsersCSV() {
+            try {
+                // Show loading state
+                const button = document.querySelector('button[onclick="exportUsersCSV()"]');
+                const originalText = button.innerHTML;
+                button.innerHTML = `
+                    <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    <span>Exporting...</span>
+                `;
+                button.disabled = true;
 
-        // Create and download the file
-        const blob = new Blob([csvContent], { type: 'text/csv' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `users_export_${new Date().toISOString().split('T')[0]}.csv`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
+                // Make API call to export CSV
+                const response = await fetch('/api/users/export/csv', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    }
+                });
 
-        // Show success message
-        showNotification('CSV export completed successfully!', 'success');
+                if (!response.ok) {
+                    throw new Error('Failed to export CSV');
+                }
 
-    } catch (error) {
-        console.error('CSV export error:', error);
-        showNotification('Failed to export CSV. Please try again.', 'error');
-    } finally {
-        // Restore button state
-        const button = document.querySelector('button[onclick="exportUsersCSV()"]');
-        button.innerHTML = originalText;
-        button.disabled = false;
-    }
-}
+                // Get the CSV content
+                const csvContent = await response.text();
+
+                // Create and download the file
+                const blob = new Blob([csvContent], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `users_export_${new Date().toISOString().split('T')[0]}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+                // Show success message
+                showNotification('CSV export completed successfully!', 'success');
+
+            } catch (error) {
+                console.error('CSV export error:', error);
+                showNotification('Failed to export CSV. Please try again.', 'error');
+            } finally {
+                // Restore button state
+                const button = document.querySelector('button[onclick="exportUsersCSV()"]');
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }
+        }
 
         async function exportUsersPDF() {
             try {
@@ -1102,5 +1103,8 @@ async function exportUsersCSV() {
             }
         }
     </script>
+    
+    <!-- Enhanced Export Script -->
+    <script src="/javascript/enhancedExport.js"></script>
 </body>
 </html>

@@ -1058,6 +1058,19 @@ app.get('/api/users', async (req, res) => {
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const jsPDF = require('jspdf');
 
+// Enhanced Export Modules with Chart Support
+const { renderChart, renderMultipleCharts } = require('./src/charts/chartRenderer');
+const { 
+  aggregateProductData, 
+  aggregateUserData, 
+  aggregateOrderData, 
+  aggregatePrintOrderData,
+  generateChartSpecs 
+} = require('./src/charts/chartDataAggregator');
+const { createPdfWithCharts, createHtmlForPdf } = require('./src/exporters/pdfExporter');
+const { createExcelWithCharts } = require('./src/exporters/excelExporter');
+const { createCsvWithCompanion, sendCsvResponse } = require('./src/exporters/csvExporter');
+
 // Export all users to CSV
 app.get('/api/users/export/csv', async (req, res) => {
   try {
@@ -1599,6 +1612,319 @@ app.get('/api/products/export/low-stock/pdf', async (req, res) => {
   }
 });
 
+// ==================== ENHANCED EXPORT ENDPOINTS WITH CHARTS ====================
+
+// Enhanced Product Catalog Export with Charts
+app.get('/api/products/export/catalog/enhanced', async (req, res) => {
+  try {
+    console.log('Starting enhanced product catalog export with charts...');
+    const { format = 'pdf', includeCharts = 'true', chartTypes = 'pie,bar' } = req.query;
+    
+    const products = await Product.find({}).sort({ createdAt: -1 }).lean();
+    console.log(`Found ${products.length} products for enhanced export`);
+
+    // Prepare table data
+    const tableData = products.map(p => ({
+      'Book ID': p.productId,
+      'Title': p.name,
+      'Author': p.brand || 'N/A',
+      'Genre': p.category,
+      'Price (LKR)': p.sellingPrice,
+      'Stock': p.stock,
+      'Status': p.status
+    }));
+
+    const metadata = {
+      title: 'NethwinLK - Book Catalog Report',
+      date: new Date().toLocaleString(),
+      totalRecords: products.length
+    };
+
+    let charts = [];
+    if (includeCharts === 'true') {
+      // Aggregate data for charts
+      const aggregated = aggregateProductData(products);
+      const requestedTypes = chartTypes.split(',');
+      
+      // Generate chart specs
+      const chartSpecs = [];
+      if (requestedTypes.includes('pie') && aggregated.categoryDistribution) {
+        chartSpecs.push({
+          type: 'pie',
+          title: 'Product Distribution by Category',
+          labels: aggregated.categoryDistribution.labels,
+          datasets: [{ label: 'Products', data: aggregated.categoryDistribution.data }]
+        });
+      }
+      if (requestedTypes.includes('bar') && aggregated.categoryStock) {
+        chartSpecs.push({
+          type: 'bar',
+          title: 'Total Stock by Category',
+          labels: aggregated.categoryStock.labels,
+          datasets: [{ label: 'Stock Units', data: aggregated.categoryStock.data }]
+        });
+      }
+      if (requestedTypes.includes('bar') && aggregated.priceDistribution) {
+        chartSpecs.push({
+          type: 'bar',
+          title: 'Price Range Distribution',
+          labels: aggregated.priceDistribution.labels,
+          datasets: [{ label: 'Number of Products', data: aggregated.priceDistribution.data }]
+        });
+      }
+
+      // Render charts
+      charts = await renderMultipleCharts(chartSpecs);
+      console.log(`Generated ${charts.length} charts`);
+    }
+
+    // Generate export based on format
+    if (format === 'pdf') {
+      const pdfBuffer = await createPdfWithCharts({
+        title: metadata.title,
+        tableData,
+        charts,
+        metadata
+      });
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="book_catalog_enhanced_${new Date().toISOString().split('T')[0]}.pdf"`);
+      res.send(pdfBuffer);
+    } else if (format === 'excel' || format === 'xlsx') {
+      const excelBuffer = await createExcelWithCharts({
+        title: metadata.title,
+        tableData,
+        charts,
+        metadata
+      });
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', `attachment; filename="book_catalog_enhanced_${new Date().toISOString().split('T')[0]}.xlsx"`);
+      res.send(excelBuffer);
+    } else if (format === 'csv') {
+      const result = await createCsvWithCompanion({
+        filename: `book_catalog_${new Date().toISOString().split('T')[0]}`,
+        data: tableData,
+        charts,
+        companionFormat: 'pdf',
+        metadata
+      });
+      await sendCsvResponse(res, result, `book_catalog_${new Date().toISOString().split('T')[0]}`);
+    } else {
+      res.status(400).json({ error: 'Invalid format. Use pdf, excel, or csv' });
+    }
+
+    console.log('Enhanced export completed successfully');
+  } catch (error) {
+    console.error('Enhanced product catalog export error:', error);
+    res.status(500).json({ error: 'Failed to generate enhanced export', details: error.message });
+  }
+});
+
+// Enhanced User Export with Charts
+app.get('/api/users/export/enhanced', async (req, res) => {
+  try {
+    console.log('Starting enhanced user export with charts...');
+    const { format = 'pdf', includeCharts = 'true', chartTypes = 'pie,line' } = req.query;
+    
+    const users = await User.find({}).sort({ createdAt: -1 }).lean();
+    console.log(`Found ${users.length} users for enhanced export`);
+
+    // Prepare table data
+    const tableData = users.map(u => ({
+      'User ID': u._id,
+      'Full Name': u.fullName || '',
+      'Email': u.email || '',
+      'Phone': u.phoneNumber || '',
+      'Role': u.role || 'customer',
+      'Status': u.status || 'active',
+      'Customer Type': u.customerType || 'N/A',
+      'Created At': u.createdAt ? new Date(u.createdAt).toLocaleDateString() : ''
+    }));
+
+    const metadata = {
+      title: 'NethwinLK - User Management Report',
+      date: new Date().toLocaleString(),
+      totalRecords: users.length
+    };
+
+    let charts = [];
+    if (includeCharts === 'true') {
+      const aggregated = aggregateUserData(users);
+      const requestedTypes = chartTypes.split(',');
+      
+      const chartSpecs = [];
+      if (requestedTypes.includes('pie') && aggregated.roleDistribution) {
+        chartSpecs.push({
+          type: 'pie',
+          title: 'User Distribution by Role',
+          labels: aggregated.roleDistribution.labels,
+          datasets: [{ label: 'Users', data: aggregated.roleDistribution.data }]
+        });
+      }
+      if (requestedTypes.includes('doughnut') && aggregated.statusDistribution) {
+        chartSpecs.push({
+          type: 'doughnut',
+          title: 'User Status Distribution',
+          labels: aggregated.statusDistribution.labels,
+          datasets: [{ label: 'Users', data: aggregated.statusDistribution.data }]
+        });
+      }
+      if (requestedTypes.includes('line') && aggregated.userGrowth) {
+        chartSpecs.push({
+          type: 'line',
+          title: 'User Growth Over Time (Last 12 Months)',
+          labels: aggregated.userGrowth.labels,
+          datasets: [{ label: 'New Users', data: aggregated.userGrowth.data, fill: true }]
+        });
+      }
+
+      charts = await renderMultipleCharts(chartSpecs);
+      console.log(`Generated ${charts.length} charts`);
+    }
+
+    // Generate export based on format
+    if (format === 'pdf') {
+      const pdfBuffer = await createPdfWithCharts({
+        title: metadata.title,
+        tableData,
+        charts,
+        metadata
+      });
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="users_enhanced_${new Date().toISOString().split('T')[0]}.pdf"`);
+      res.send(pdfBuffer);
+    } else if (format === 'excel' || format === 'xlsx') {
+      const excelBuffer = await createExcelWithCharts({
+        title: metadata.title,
+        tableData,
+        charts,
+        metadata
+      });
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', `attachment; filename="users_enhanced_${new Date().toISOString().split('T')[0]}.xlsx"`);
+      res.send(excelBuffer);
+    } else if (format === 'csv') {
+      const result = await createCsvWithCompanion({
+        filename: `users_${new Date().toISOString().split('T')[0]}`,
+        data: tableData,
+        charts,
+        companionFormat: 'pdf',
+        metadata
+      });
+      await sendCsvResponse(res, result, `users_${new Date().toISOString().split('T')[0]}`);
+    } else {
+      res.status(400).json({ error: 'Invalid format. Use pdf, excel, or csv' });
+    }
+
+    console.log('Enhanced user export completed successfully');
+  } catch (error) {
+    console.error('Enhanced user export error:', error);
+    res.status(500).json({ error: 'Failed to generate enhanced export', details: error.message });
+  }
+});
+
+// Enhanced Print Orders Export with Charts
+app.get('/api/admin/print-orders/export/enhanced', async (req, res) => {
+  try {
+    console.log('Starting enhanced print orders export with charts...');
+    const { format = 'pdf', includeCharts = 'true', chartTypes = 'pie,bar' } = req.query;
+    
+    const printOrders = await PrintOrder.find({}).sort({ createdAt: -1 }).lean();
+    console.log(`Found ${printOrders.length} print orders for enhanced export`);
+
+    // Prepare table data with correct field names
+    const tableData = printOrders.map(po => ({
+      'Order ID': String(po._id).substring(0, 8) + '...',
+      'Customer Name': po.userName || 'N/A',
+      'Paper Size': po.paperSize || 'N/A',
+      'Color': po.colorOption || 'N/A',
+      'Copies': po.copies || 0,
+      'Status': po.status || 'pending',
+      'Price (LKR)': po.finalPrice || po.estimatedPrice || 0,
+      'Created At': po.createdAt ? new Date(po.createdAt).toLocaleDateString() : ''
+    }));
+
+    const metadata = {
+      title: 'NethwinLK - Print Orders Report',
+      date: new Date().toLocaleString(),
+      totalRecords: printOrders.length
+    };
+
+    let charts = [];
+    if (includeCharts === 'true') {
+      const aggregated = aggregatePrintOrderData(printOrders);
+      const requestedTypes = chartTypes.split(',');
+      
+      const chartSpecs = [];
+      if (requestedTypes.includes('pie') && aggregated.jobTypeDistribution) {
+        chartSpecs.push({
+          type: 'pie',
+          title: 'Print Job Type Distribution',
+          labels: aggregated.jobTypeDistribution.labels,
+          datasets: [{ label: 'Jobs', data: aggregated.jobTypeDistribution.data }]
+        });
+      }
+      if (requestedTypes.includes('doughnut') && aggregated.statusDistribution) {
+        chartSpecs.push({
+          type: 'doughnut',
+          title: 'Print Job Status Distribution',
+          labels: aggregated.statusDistribution.labels,
+          datasets: [{ label: 'Jobs', data: aggregated.statusDistribution.data }]
+        });
+      }
+      if (requestedTypes.includes('bar') && aggregated.revenueByType) {
+        chartSpecs.push({
+          type: 'bar',
+          title: 'Revenue by Job Type',
+          labels: aggregated.revenueByType.labels,
+          datasets: [{ label: 'Revenue (LKR)', data: aggregated.revenueByType.data }]
+        });
+      }
+
+      charts = await renderMultipleCharts(chartSpecs);
+      console.log(`Generated ${charts.length} charts`);
+    }
+
+    // Generate export based on format
+    if (format === 'pdf') {
+      const pdfBuffer = await createPdfWithCharts({
+        title: metadata.title,
+        tableData,
+        charts,
+        metadata
+      });
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="print_orders_enhanced_${new Date().toISOString().split('T')[0]}.pdf"`);
+      res.send(pdfBuffer);
+    } else if (format === 'excel' || format === 'xlsx') {
+      const excelBuffer = await createExcelWithCharts({
+        title: metadata.title,
+        tableData,
+        charts,
+        metadata
+      });
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', `attachment; filename="print_orders_enhanced_${new Date().toISOString().split('T')[0]}.xlsx"`);
+      res.send(excelBuffer);
+    } else if (format === 'csv') {
+      const result = await createCsvWithCompanion({
+        filename: `print_orders_${new Date().toISOString().split('T')[0]}`,
+        data: tableData,
+        charts,
+        companionFormat: 'pdf',
+        metadata
+      });
+      await sendCsvResponse(res, result, `print_orders_${new Date().toISOString().split('T')[0]}`);
+    } else {
+      res.status(400).json({ error: 'Invalid format. Use pdf, excel, or csv' });
+    }
+
+    console.log('Enhanced print orders export completed successfully');
+  } catch (error) {
+    console.error('Enhanced print orders export error:', error);
+    res.status(500).json({ error: 'Failed to generate enhanced export', details: error.message });
+  }
+});
+
 // Cart Export Endpoints
 
 // Export cart summary to PDF (HTML)
@@ -1939,17 +2265,70 @@ app.patch('/api/users/:id/status', async (req, res) => {
 app.delete('/api/users/:id', async (req, res) => {
   try { const del = await User.findByIdAndDelete(req.params.id).lean(); if (!del) return res.status(404).json({ error: 'Not found' }); res.json({ success: true }); } catch (e) { res.status(400).json({ error: e.message }); }
 });
-
-// Orders CRUD
 app.get('/api/orders', async (req, res) => {
   const type = req.query.type;
   const customerEmail = req.query.customerEmail;
+  const includeCancelled = req.query.includeCancelled === 'true';
+  
   const filter = {
-    ...(type ? { type } : {}),
-    ...(customerEmail ? { customerEmail } : {}),
+    ...(type && { type }),
+    ...(customerEmail && { customerEmail }),
+    // Exclude cancelled orders by default unless specifically requested
+    ...(!includeCancelled && { status: { $ne: 'cancelled' } })
   };
+  
   const orders = await Order.find(filter).sort({ createdAt: -1 }).lean();
-  res.json({ orders });
+  res.json(orders);
+});
+
+// Admin: Get all cancelled orders
+app.get('/api/admin/orders/cancelled', async (req, res) => {
+  try {
+    const cancelledOrders = await Order.find({ status: 'cancelled' })
+      .sort({ cancelledAt: -1 })
+      .lean();
+    
+    res.json({
+      total: cancelledOrders.length,
+      orders: cancelledOrders
+    });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
+
+// Admin: Get cancellation statistics
+app.get('/api/admin/orders/cancelled/stats', async (req, res) => {
+  try {
+    const stats = await Order.aggregate([
+      { $match: { status: 'cancelled' } },
+      {
+        $group: {
+          _id: '$cancelledBy',
+          count: { $sum: 1 },
+          totalValue: { $sum: '$total' }
+        }
+      }
+    ]);
+    
+    const last24Hours = await Order.countDocuments({
+      status: 'cancelled',
+      cancelledAt: { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000) }
+    });
+    
+    const last7Days = await Order.countDocuments({
+      status: 'cancelled',
+      cancelledAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) }
+    });
+    
+    res.json({
+      byUser: stats,
+      last24Hours,
+      last7Days
+    });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
 });
 
 // GET /api/orders/:id - Get individual order by ID
@@ -2016,8 +2395,107 @@ app.post('/api/orders', async (req, res) => {
 app.patch('/api/orders/:id/status', async (req, res) => {
   try { const o = await Order.findByIdAndUpdate(req.params.id, { $set: { status: req.body?.status } }, { new: true }).lean(); if (!o) return res.status(404).json({ error: 'Not found' }); res.json(o); } catch (e) { res.status(400).json({ error: e.message }); }
 });
+
+// SOFT DELETE - Cancel order (only within 24 hours)
+app.post('/api/orders/:id/cancel', async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    
+    // Check if already cancelled
+    if (order.status === 'cancelled') {
+      return res.status(400).json({ error: 'Order is already cancelled' });
+    }
+    
+    // Check if delivered (can't cancel delivered orders)
+    if (order.status === 'delivered') {
+      return res.status(400).json({ error: 'Cannot cancel delivered orders' });
+    }
+    
+    // Check 24-hour window
+    if (!order.canBeCancelled()) {
+      const hoursSinceCreation = (Date.now() - order.createdAt.getTime()) / (1000 * 60 * 60);
+      return res.status(403).json({ 
+        error: 'Cancellation period expired',
+        message: 'Orders can only be cancelled within 24 hours of placement',
+        hoursElapsed: Math.round(hoursSinceCreation)
+      });
+    }
+    
+    // Perform soft delete
+    order.status = 'cancelled';
+    order.cancelledAt = new Date();
+    order.cancellationReason = req.body.reason || 'Customer requested cancellation';
+    order.cancelledBy = req.body.cancelledBy || 'customer';
+    
+    await order.save();
+    
+    res.json({
+      success: true,
+      message: 'Order cancelled successfully',
+      order: order
+    });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
+
+// Check if order can be cancelled
+app.get('/api/orders/:id/can-cancel', async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    
+    const canCancel = order.canBeCancelled();
+    const hoursSinceCreation = (Date.now() - order.createdAt.getTime()) / (1000 * 60 * 60);
+    const hoursRemaining = Math.max(0, 24 - hoursSinceCreation);
+    
+    res.json({
+      canCancel,
+      status: order.status,
+      hoursSinceCreation: Math.round(hoursSinceCreation * 10) / 10,
+      hoursRemaining: Math.round(hoursRemaining * 10) / 10,
+      createdAt: order.createdAt
+    });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
+
+// Legacy DELETE endpoint - redirects to cancel
 app.delete('/api/orders/:id', async (req, res) => {
-  try { const del = await Order.findByIdAndDelete(req.params.id).lean(); if (!del) return res.status(404).json({ error: 'Not found' }); res.json({ success: true }); } catch (e) { res.status(400).json({ error: e.message }); }
+  try {
+    const order = await Order.findById(req.params.id);
+    
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    
+    // Check if can be cancelled
+    if (!order.canBeCancelled()) {
+      return res.status(403).json({ 
+        error: 'Cannot delete order',
+        message: 'Orders can only be cancelled within 24 hours. Use admin panel to manage old orders.'
+      });
+    }
+    
+    // Soft delete
+    order.status = 'cancelled';
+    order.cancelledAt = new Date();
+    order.cancellationReason = 'Deleted by customer';
+    order.cancelledBy = 'customer';
+    await order.save();
+    
+    res.json({ success: true, message: 'Order cancelled (soft delete)' });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
 });
 
 // Invoice generation route
@@ -5058,10 +5536,10 @@ app.post('/api/admin/analytics/sales-report', async (req, res) => {
   }
 });
 
-// POST /api/admin/analytics/analytics-report - Generate comprehensive analytics report
+// POST /api/admin/analytics/analytics-report - Generate comprehensive analytics report WITH CHARTS
 app.post('/api/admin/analytics/analytics-report', async (req, res) => {
   try {
-    console.log('Generating analytics report...');
+    console.log('Generating analytics report with charts...');
     const { format } = req.body;
     
     // Fetch all data
@@ -5103,41 +5581,89 @@ app.post('/api/admin/analytics/analytics-report', async (req, res) => {
       .filter(order => ['delivered', 'completed'].includes(order.status))
       .reduce((sum, order) => sum + (order.total || order.estimatedPrice || 0), 0);
     
-    const analyticsData = {
-      totalUsers,
-      activeUsers,
-      totalOrders,
-      completedOrders,
-      topSellingProducts,
-      totalRevenue,
-      generatedAt: new Date()
+    // Prepare table data
+    const tableData = topSellingProducts.map(p => ({
+      'Product Name': p.name,
+      'Quantity Sold': p.quantity,
+      'Revenue': `Rs. ${p.revenue.toFixed(2)}`
+    }));
+
+    const metadata = {
+      title: 'NethwinLK - Analytics Report',
+      date: new Date().toLocaleString(),
+      totalRecords: topSellingProducts.length
     };
+
+    // Generate charts
+    const aggregatedUsers = aggregateUserData(users);
+    const aggregatedOrders = aggregateOrderData(orders);
+    
+    const chartSpecs = [
+      {
+        type: 'pie',
+        title: 'User Distribution by Role',
+        labels: aggregatedUsers.roleDistribution.labels,
+        datasets: [{ label: 'Users', data: aggregatedUsers.roleDistribution.data }]
+      },
+      {
+        type: 'doughnut',
+        title: 'Order Status Distribution',
+        labels: aggregatedOrders.statusDistribution.labels,
+        datasets: [{ label: 'Orders', data: aggregatedOrders.statusDistribution.data }]
+      },
+      {
+        type: 'bar',
+        title: 'Top 10 Selling Products',
+        labels: topSellingProducts.slice(0, 10).map(p => p.name.substring(0, 20)),
+        datasets: [{ label: 'Quantity Sold', data: topSellingProducts.slice(0, 10).map(p => p.quantity) }]
+      }
+    ];
+
+    const charts = await renderMultipleCharts(chartSpecs);
+    console.log(`Generated ${charts.length} charts for analytics report`);
     
     // Generate report based on format
     if (format === 'pdf') {
-      const htmlContent = generateAnalyticsReportHTML(analyticsData);
-      res.setHeader('Content-Type', 'text/html');
-      res.setHeader('Content-Disposition', `attachment; filename="analytics-report-${new Date().toISOString().split('T')[0]}.html"`);
-      res.send(htmlContent);
-            } else if (format === 'excel') {
-                const csvBuffer = generateAnalyticsReportExcel(analyticsData);
-                res.setHeader('Content-Type', 'text/csv');
-                res.setHeader('Content-Disposition', `attachment; filename="analytics-report-${new Date().toISOString().split('T')[0]}.csv"`);
-                res.send(csvBuffer);
+      const pdfBuffer = await createPdfWithCharts({
+        title: metadata.title,
+        tableData,
+        charts,
+        metadata: {
+          ...metadata,
+          totalUsers,
+          activeUsers,
+          totalOrders,
+          completedOrders,
+          totalRevenue: `Rs. ${totalRevenue.toFixed(2)}`
+        }
+      });
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="analytics-report-${new Date().toISOString().split('T')[0]}.pdf"`);
+      res.send(pdfBuffer);
+    } else if (format === 'excel') {
+      const excelBuffer = await createExcelWithCharts({
+        title: metadata.title,
+        tableData,
+        charts,
+        metadata
+      });
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', `attachment; filename="analytics-report-${new Date().toISOString().split('T')[0]}.xlsx"`);
+      res.send(excelBuffer);
     } else {
       res.status(400).json({ error: 'Invalid format. Use "pdf" or "excel".' });
     }
     
   } catch (error) {
     console.error('Analytics report generation error:', error);
-    res.status(500).json({ error: 'Failed to generate analytics report' });
+    res.status(500).json({ error: 'Failed to generate analytics report', details: error.message });
   }
 });
 
-// POST /api/admin/analytics/performance-report - Generate performance summary report
+// POST /api/admin/analytics/performance-report - Generate performance summary report WITH CHARTS
 app.post('/api/admin/analytics/performance-report', async (req, res) => {
   try {
-    console.log('Generating performance report...');
+    console.log('Generating performance report with charts...');
     const { format } = req.body;
     
     // Fetch data for the last 30 days
@@ -5177,35 +5703,73 @@ app.post('/api/admin/analytics/performance-report', async (req, res) => {
       const method = order.deliveryMethod || 'Unknown';
       deliveryMethods[method] = (deliveryMethods[method] || 0) + 1;
     });
-    
-    const performanceData = {
-      totalRevenue,
-      averageOrderValue,
-      lowStockProducts,
-      paymentMethods,
-      deliveryMethods,
+
+    // Prepare table data
+    const tableData = [{
+      'Metric': 'Total Revenue',
+      'Value': `Rs. ${totalRevenue.toFixed(2)}`
+    }, {
+      'Metric': 'Average Order Value',
+      'Value': `Rs. ${averageOrderValue.toFixed(2)}`
+    }, {
+      'Metric': 'Low Stock Products',
+      'Value': lowStockProducts.length
+    }];
+
+    const metadata = {
+      title: 'NethwinLK - Performance Summary',
+      date: new Date().toLocaleString(),
       period: 'Last 30 Days',
-      generatedAt: new Date()
+      totalRecords: recentOrders.length + recentPrintOrders.length
     };
+
+    // Generate charts
+    const chartSpecs = [
+      {
+        type: 'pie',
+        title: 'Payment Method Distribution',
+        labels: Object.keys(paymentMethods),
+        datasets: [{ label: 'Orders', data: Object.values(paymentMethods) }]
+      },
+      {
+        type: 'doughnut',
+        title: 'Delivery Method Distribution',
+        labels: Object.keys(deliveryMethods),
+        datasets: [{ label: 'Orders', data: Object.values(deliveryMethods) }]
+      }
+    ];
+
+    const charts = await renderMultipleCharts(chartSpecs);
+    console.log(`Generated ${charts.length} charts for performance report`);
     
     // Generate report based on format
     if (format === 'pdf') {
-      const htmlContent = generatePerformanceReportHTML(performanceData);
-      res.setHeader('Content-Type', 'text/html');
-      res.setHeader('Content-Disposition', `attachment; filename="performance-report-${new Date().toISOString().split('T')[0]}.html"`);
-      res.send(htmlContent);
-            } else if (format === 'excel') {
-                const csvBuffer = generatePerformanceReportExcel(performanceData);
-                res.setHeader('Content-Type', 'text/csv');
-                res.setHeader('Content-Disposition', `attachment; filename="performance-report-${new Date().toISOString().split('T')[0]}.csv"`);
-                res.send(csvBuffer);
+      const pdfBuffer = await createPdfWithCharts({
+        title: metadata.title,
+        tableData,
+        charts,
+        metadata
+      });
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="performance-report-${new Date().toISOString().split('T')[0]}.pdf"`);
+      res.send(pdfBuffer);
+    } else if (format === 'excel') {
+      const excelBuffer = await createExcelWithCharts({
+        title: metadata.title,
+        tableData,
+        charts,
+        metadata
+      });
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', `attachment; filename="performance-report-${new Date().toISOString().split('T')[0]}.xlsx"`);
+      res.send(excelBuffer);
     } else {
       res.status(400).json({ error: 'Invalid format. Use "pdf" or "excel".' });
     }
     
   } catch (error) {
     console.error('Performance report generation error:', error);
-    res.status(500).json({ error: 'Failed to generate performance report' });
+    res.status(500).json({ error: 'Failed to generate performance report', details: error.message });
   }
 });
 

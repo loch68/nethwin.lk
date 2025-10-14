@@ -144,7 +144,7 @@ class ButtonRefreshSystem {
             spinner.style.animation = 'spin 1s linear infinite';
             
             button.insertBefore(spinner, button.firstChild);
-            button.textContent = 'Processing...';
+            // Keep original button text; only show spinner
             
             // Add CSS for spinner animation
             if (!document.getElementById('button-refresh-styles')) {

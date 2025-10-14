@@ -807,14 +807,26 @@
                         </span>
                     </td>
                     <td class="px-8 py-6 text-sm">
-                        <button onclick="downloadPrintQuotation('${order._id}')" 
-                                class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-1"
-                                title="Download Print Quotation">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
-                            </svg>
-                            <span>Quote</span>
-                        </button>
+                        <div class="flex flex-col gap-2">
+                            <button onclick="downloadPrintQuotation('${order._id}')" 
+                                    class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center space-x-1"
+                                    title="Download Print Quotation">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                </svg>
+                                <span>Quote</span>
+                            </button>
+                            ${order.status !== 'cancelled' && order.status !== 'completed' ? `
+                            <button onclick="checkAndCancelOrder('${order._id}', 'print')" 
+                                    class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center space-x-1"
+                                    title="Cancel Order">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                                <span>Cancel</span>
+                            </button>
+                            ` : ''}
+                        </div>
                     </td>
                 </tr>
             `).join('');
@@ -910,14 +922,26 @@
                         </span>
                     </td>
                     <td class="px-8 py-6 text-sm">
-                        <button onclick="downloadBookOrderQuotation('${order._id}')" 
-                                class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-1"
-                                title="Download Book Order Quotation">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                            </svg>
-                            <span>Quote</span>
-                        </button>
+                        <div class="flex flex-col gap-2">
+                            <button onclick="downloadBookOrderQuotation('${order._id}')" 
+                                    class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center space-x-1"
+                                    title="Download Book Order Quotation">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <span>Quote</span>
+                            </button>
+                            ${order.status !== 'cancelled' && order.status !== 'delivered' ? `
+                            <button onclick="checkAndCancelOrder('${order._id}', 'bookshop')" 
+                                    class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center space-x-1"
+                                    title="Cancel Order (Available within 24 hours)">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                                <span>Cancel</span>
+                            </button>
+                            ` : ''}
+                        </div>
                     </td>
                 </tr>
             `).join('');
@@ -1257,46 +1281,187 @@ async function exportMyProfile() {
 
                 // Show success notification
                 showNotification('Book order quotation downloaded successfully!', 'success');
-
             } catch (error) {
-                console.error('Book order quotation download error:', error);
-                showNotification('Failed to download quotation. Please try again.', 'error');
-            } finally {
-                // Restore button state
-                const button = event.target.closest('button');
-                button.innerHTML = originalText;
-                button.disabled = false;
+                console.error('Error downloading book order quotation:', error);
+                showNotification('Failed to download book order quotation', 'error');
             }
         }
 
-        // Notification function
-        function showNotification(message, type = 'info') {
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.className = `fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-lg text-white font-medium transition-all duration-300 transform translate-x-full ${
-                type === 'success' ? 'bg-green-500' : 
-                type === 'error' ? 'bg-red-500' : 
-                type === 'warning' ? 'bg-yellow-500' : 'bg-blue-500'
-            }`;
-            notification.textContent = message;
+        // Check if order can be cancelled and show confirmation
+        async function checkAndCancelOrder(orderId, orderType) {
+            try {
+                // First check if order can be cancelled
+                const checkResponse = await fetch(`/api/orders/${orderId}/can-cancel`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    }
+                });
 
-            // Add to page
-            document.body.appendChild(notification);
+                if (!checkResponse.ok) {
+                    showNotification('Failed to check order status', 'error');
+                    return;
+                }
 
-            // Animate in
-            setTimeout(() => {
-                notification.classList.remove('translate-x-full');
-            }, 100);
+                const checkData = await checkResponse.json();
 
-            // Remove after 3 seconds
-            setTimeout(() => {
-                notification.classList.add('translate-x-full');
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 3000);
+                if (!checkData.canCancel) {
+                    const reason = checkData.status === 'cancelled' ? 'Order is already cancelled' :
+                                 checkData.status === 'delivered' ? 'Delivered orders cannot be cancelled' :
+                                 `Cancellation period expired (${checkData.hoursSinceCreation.toFixed(1)} hours ago). Orders can only be cancelled within 24 hours.`;
+
+                    showNotification(reason, 'warning');
+                    return;
+                }
+
+                // Show the custom modal instead of browser confirm
+                showCancelModal(orderId, orderType, checkData);
+
+            } catch (error) {
+                console.error('Error checking order cancellation:', error);
+                showNotification('Error checking order status', 'error');
+            }
         }
-    </script><!-- Chat System JavaScript --><script src="../javascript/chat-system.js"></script><script src="../javascript/button-refresh.js"></script><script>
+
+        // Show the custom cancel modal
+        function showCancelModal(orderId, orderType, checkData) {
+            const modal = document.getElementById('cancelOrderModal');
+            const infoDiv = document.getElementById('cancelModalInfo');
+            const hoursRemaining = checkData.hoursRemaining.toFixed(1);
+
+            // Update info section with time remaining
+            infoDiv.innerHTML = `
+                <div class="flex items-start">
+                    <svg class="w-5 h-5 text-blue-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <div class="text-sm text-blue-800">
+                        <strong>Time remaining:</strong> You have ${hoursRemaining} hours left to cancel this order.
+                    </div>
+                </div>
+            `;
+
+            // Store order info for later use
+            modal.dataset.orderId = orderId;
+            modal.dataset.orderType = orderType;
+            modal.dataset.hoursRemaining = hoursRemaining;
+
+            // Show modal
+            modal.classList.remove('hidden');
+        }
+
+        // Close the cancel modal
+        function closeCancelModal() {
+            const modal = document.getElementById('cancelOrderModal');
+            modal.classList.add('hidden');
+
+            // Clear form
+            document.getElementById('cancelReason').value = '';
+        }
+
+        // Confirm and cancel the order
+        function confirmCancelOrder() {
+            const modal = document.getElementById('cancelOrderModal');
+            const orderId = modal.dataset.orderId;
+            const orderType = modal.dataset.orderType;
+            const reason = document.getElementById('cancelReason').value;
+
+            // Close modal first
+            closeCancelModal();
+
+            // Proceed with cancellation
+            cancelOrder(orderId, reason, orderType);
+        }
+
+        // Cancel the order
+        async function cancelOrder(orderId, reason, orderType) {
+            try {
+                showNotification('Cancelling order...', 'info');
+
+                const response = await fetch(`/api/orders/${orderId}/cancel`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    },
+                    body: JSON.stringify({
+                        reason: reason || 'Customer requested cancellation',
+                        cancelledBy: 'customer'
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || errorData.error || 'Failed to cancel order');
+                }
+
+                const data = await response.json();
+
+                showNotification('✓ Order cancelled successfully!', 'success');
+
+                // Refresh the orders display
+                setTimeout(() => {
+                    refreshOrders();
+                }, 1000);
+
+            } catch (error) {
+                console.error('Error cancelling order:', error);
+                showNotification(error.message || 'Failed to cancel order', 'error');
+            }
+        }
+
+        // Load and refresh orders data
+        async function refreshOrders() {
+            try {
+                // Load user's orders (both bookshop and print orders)
+                const [bookshopResponse, printResponse] = await Promise.all([
+                    fetch('/api/orders?type=shop', {
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                        }
+                    }),
+                    fetch('/api/users/me/print-orders', {
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                        }
+                    })
+                ]);
+
+                if (bookshopResponse.ok) {
+                    const bookshopOrders = await bookshopResponse.json();
+                    updateBookshopOrdersDisplay(bookshopOrders);
+                    updateLastRefreshTime('Bookshop');
+                }
+
+                if (printResponse.ok) {
+                    const printOrders = await printResponse.json();
+                    updatePrintOrdersDisplay(printOrders);
+                    updateLastRefreshTime('Print');
+                }
+
+            } catch (error) {
+                console.error('Error refreshing orders:', error);
+                showNotification('Failed to refresh orders', 'error');
+            }
+        }
+    </script>
+    <!-- Cancel Order Modal -->
+    <div id="cancelOrderModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full transform transition-all duration-300 scale-95 opacity-100" id="cancelModalContent">
+            <div class="p-6">
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Cancel Order</h3>
+                <div id="cancelModalInfo" class="mb-4 text-sm text-gray-700"></div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Reason (optional)</label>
+                <textarea id="cancelReason" class="w-full border rounded-lg p-3 mb-4" rows="3" placeholder="Enter a reason (optional)"></textarea>
+                <div class="flex gap-3">
+                    <button onclick="closeCancelModal()" class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors">Close</button>
+                    <button onclick="confirmCancelOrder()" class="flex-1 bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 transition-colors">Confirm Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Chat System JavaScript -->
+    <script src="../javascript/chat-system.js"></script><script src="../javascript/button-refresh.js"></script><script>
         // Message Admin button event handler
         document.addEventListener('DOMContentLoaded', function() {
             const messageAdminBtn = document.getElementById('messageAdminBtn');

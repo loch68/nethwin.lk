@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Export Demo - NethwinLK</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: #1f2937;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .card-stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 8px;
+        }
+
+        .stat {
+            flex: 1;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .features {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .features h2 {
+            color: #1f2937;
+            font-size: 28px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .feature {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .feature-content h3 {
+            color: #1f2937;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .feature-content p {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .api-reference {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-top: 30px;
+        }
+
+        .api-reference h2 {
+            color: #1f2937;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .endpoint {
+            background: #f9fafb;
+            border-left: 4px solid #4f46e5;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .endpoint-method {
+            display: inline-block;
+            background: #4f46e5;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .endpoint-url {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+
+        .endpoint-params {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        code {
+            background: #e5e7eb;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Enhanced Export System</h1>
+            <p>Download reports with beautiful visual charts in PDF, Excel, or CSV format</p>
+        </div>
+
+        <div class="cards-grid">
+            <!-- Product Catalog Card -->
+            <div class="card">
+                <div class="card-icon">📚</div>
+                <h2>Product Catalog</h2>
+                <p>Export complete book catalog with distribution charts, stock analysis, and price range visualizations.</p>
+                
+                <div class="card-stats">
+                    <div class="stat">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Charts</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">PDF</div>
+                        <div class="stat-label">Excel</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">CSV</div>
+                        <div class="stat-label">Formats</div>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="exportProductsEnhanced()">
+                    <span>📊</span>
+                    <span>Export Products</span>
+                </button>
+            </div>
+
+            <!-- Users Card -->
+            <div class="card">
+                <div class="card-icon">👥</div>
+                <h2>User Management</h2>
+                <p>Export user data with role distribution, status breakdown, and growth trends over the last 12 months.</p>
+                
+                <div class="card-stats">
+                    <div class="stat">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Charts</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">PDF</div>
+                        <div class="stat-label">Excel</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">CSV</div>
+                        <div class="stat-label">Formats</div>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="exportUsersEnhanced()">
+                    <span>📊</span>
+                    <span>Export Users</span>
+                </button>
+            </div>
+
+            <!-- Print Orders Card -->
+            <div class="card">
+                <div class="card-icon">🖨️</div>
+                <h2>Print Orders</h2>
+                <p>Export print job reports with job type distribution, status analysis, and revenue breakdown by category.</p>
+                
+                <div class="card-stats">
+                    <div class="stat">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Charts</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">PDF</div>
+                        <div class="stat-label">Excel</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">CSV</div>
+                        <div class="stat-label">Formats</div>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="exportPrintOrdersEnhanced()">
+                    <span>📊</span>
+                    <span>Export Print Orders</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features">
+            <h2>✨ Key Features</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">📈</div>
+                    <div class="feature-content">
+                        <h3>Multiple Chart Types</h3>
+                        <p>Pie, bar, line, and doughnut charts for comprehensive data visualization</p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">📄</div>
+                    <div class="feature-content">
+                        <h3>PDF Reports</h3>
+                        <p>Professional PDFs with embedded charts and styled tables</p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-content">
+                        <h3>Excel Workbooks</h3>
+                        <p>Multi-sheet Excel files with data, summary, and chart images</p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">📦</div>
+                    <div class="feature-content">
+                        <h3>CSV with Visuals</h3>
+                        <p>CSV data bundled with companion PDF containing charts</p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-content">
+                        <h3>Server-Side Rendering</h3>
+                        <p>Fast, consistent chart generation using Chart.js on the server</p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">🎨</div>
+                    <div class="feature-content">
+                        <h3>Customizable Options</h3>
+                        <p>Choose format, chart types, and visual preferences per export</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Reference -->
+        <div class="api-reference">
+            <h2>🔌 API Reference</h2>
+            
+            <div class="endpoint">
+                <span class="endpoint-method">GET</span>
+                <div class="endpoint-url">/api/products/export/catalog/enhanced</div>
+                <div class="endpoint-params">
+                    <strong>Parameters:</strong><br>
+                    <code>format</code> - pdf, excel, csv (default: pdf)<br>
+                    <code>includeCharts</code> - true, false (default: true)<br>
+                    <code>chartTypes</code> - pie,bar,line,doughnut (default: pie,bar)
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <span class="endpoint-method">GET</span>
+                <div class="endpoint-url">/api/users/export/enhanced</div>
+                <div class="endpoint-params">
+                    <strong>Parameters:</strong><br>
+                    <code>format</code> - pdf, excel, csv (default: pdf)<br>
+                    <code>includeCharts</code> - true, false (default: true)<br>
+                    <code>chartTypes</code> - pie,line,doughnut (default: pie,line)
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <span class="endpoint-method">GET</span>
+                <div class="endpoint-url">/api/admin/print-orders/export/enhanced</div>
+                <div class="endpoint-params">
+                    <strong>Parameters:</strong><br>
+                    <code>format</code> - pdf, excel, csv (default: pdf)<br>
+                    <code>includeCharts</code> - true, false (default: true)<br>
+                    <code>chartTypes</code> - pie,bar,doughnut (default: pie,bar)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Enhanced Export Script -->
+    <script src="/javascript/enhancedExport.js"></script>
+</body>
+</html>

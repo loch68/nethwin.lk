@@ -230,19 +230,13 @@
                                     <span>Bulk Upload</span>
                                 </button>
                                 
-                                <!-- Export Buttons -->
+                                <!-- Enhanced Export Buttons -->
                                 <div class="flex flex-col sm:flex-row gap-2">
-                                    <button id="exportCatalogBtn" class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-3 px-4 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced flex items-center space-x-2">
+                                    <button onclick="exportProductsEnhanced()" class="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white py-3 px-4 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced flex items-center space-x-2">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                         </svg>
-                                        <span>Export Catalog</span>
-                                    </button>
-                                    <button id="exportLowStockBtn" class="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-3 px-4 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced flex items-center space-x-2">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                                        </svg>
-                                        <span>Low Stock Report</span>
+                                        <span>📊 Export Catalog with Charts</span>
                                     </button>
                                 </div>
                                 <button id="bulkDeleteBtn" class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white py-3 px-6 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg btn-enhanced flex items-center space-x-2">
@@ -1014,13 +1008,16 @@
             document.getElementById('cancelBulkDeleteBtn').addEventListener('click', hideBulkDeleteModal);
             document.getElementById('confirmDeleteCheckbox').addEventListener('change', handleDeleteCheckboxChange);
             
-            // Export event listeners
-            document.getElementById('exportCatalogBtn').addEventListener('click', () => openExportModal('catalog'));
-            document.getElementById('exportLowStockBtn').addEventListener('click', () => openExportModal('low-stock'));
-            document.getElementById('closeExportModalBtn').addEventListener('click', closeExportModal);
-            document.getElementById('cancelExportBtn').addEventListener('click', closeExportModal);
-            document.getElementById('exportExcelBtn').addEventListener('click', handleExport);
-            document.getElementById('exportPdfBtn').addEventListener('click', handleExport);
+            // Export event listeners (only for modal if it exists)
+            const closeExportModalBtn = document.getElementById('closeExportModalBtn');
+            const cancelExportBtn = document.getElementById('cancelExportBtn');
+            const exportExcelBtn = document.getElementById('exportExcelBtn');
+            const exportPdfBtn = document.getElementById('exportPdfBtn');
+            
+            if (closeExportModalBtn) closeExportModalBtn.addEventListener('click', closeExportModal);
+            if (cancelExportBtn) cancelExportBtn.addEventListener('click', closeExportModal);
+            if (exportExcelBtn) exportExcelBtn.addEventListener('click', handleExport);
+            if (exportPdfBtn) exportPdfBtn.addEventListener('click', handleExport);
             document.getElementById('proceedDeleteBtn').addEventListener('click', proceedToDeleteStep2);
             document.getElementById('deleteConfirmationInput').addEventListener('input', handleDeleteConfirmationInput);
             document.getElementById('confirmDeleteBtn').addEventListener('click', confirmBulkDelete);
@@ -2266,5 +2263,8 @@
             }, 5000);
         }
     </script>
+    
+    <!-- Enhanced Export Script -->
+    <script src="/javascript/enhancedExport.js"></script>
 </body>
 </html>

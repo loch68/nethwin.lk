@@ -369,6 +369,59 @@
                                 </table>
                             </div>
                         </div>
+                        
+                        <!-- Cancelled Orders Section -->
+                        <div class="px-6 py-6 @container mt-10">
+                            <div class="mb-6 flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="p-2 bg-red-100 rounded-lg">
+                                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-[#0e1a13]">Cancelled Orders</h3>
+                                        <p class="text-[#51946c] text-sm">Orders cancelled by customers or admins (read-only)</p>
+                                    </div>
+                                    <div class="bg-white px-3 py-1 rounded-lg border border-[#d1e6d9] ml-4">
+                                        <span class="text-sm text-[#51946c] font-medium">Total Cancelled: </span>
+                                        <span id="cancelledOrdersCount" class="text-[#0e1a13] font-bold">0</span>
+                                    </div>
+                                </div>
+                                <button onclick="loadCancelledOrders()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                    </svg>
+                                    <span>Refresh</span>
+                                </button>
+                            </div>
+                            <div class="overflow-x-auto rounded-xl border-2 border-[#d1e6d9] bg-white shadow-lg admin-table table-container">
+                                <table class="w-full min-w-[1000px]">
+                                    <thead>
+                                        <tr class="bg-gradient-to-r from-[#fef2f2] to-[#fee2e2]">
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] text-base font-semibold">Order ID</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] text-base font-semibold">Customer</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] text-base font-semibold">Total</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] text-base font-semibold">Status</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] text-base font-semibold">Cancelled At</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] text-base font-semibold">Cancelled By</th>
+                                            <th class="px-6 py-4 text-left text-[#0e1a13] text-base font-semibold">Reason</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cancelledOrdersTableBody">
+                                        <tr>
+                                            <td colspan="7" class="px-6 py-12 text-center text-[#51946c]">
+                                                <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                                <h4 class="text-lg font-semibold text-[#0e1a13] mb-2">No Cancelled Orders</h4>
+                                                <p class="text-[#51946c]">When orders are cancelled, they will appear here.</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -458,6 +511,7 @@
             
             // Load orders and setup scroll functionality
             loadOrders();
+            loadCancelledOrders();
             setupScrollShadows();
             
             // Add keyboard support for modal
@@ -477,7 +531,8 @@
                 
                 console.log('Admin bookshop orders API response:', data);
                 
-                const orders = data.orders || [];
+                // API returns array directly, not an object with orders property
+                const orders = Array.isArray(data) ? data : (data.orders || []);
                 console.log('Bookshop orders found:', orders.length);
                 displayOrders(orders);
                 updateTotalOrdersCount(orders.length);
@@ -487,6 +542,67 @@
             }
         }
         
+        // Load cancelled orders (admin view)
+        async function loadCancelledOrders() {
+            try {
+                const response = await fetch('/api/admin/orders/cancelled');
+                const data = await response.json();
+                const orders = Array.isArray(data) ? data : (data.orders || []);
+                updateCancelledOrdersCount(orders.length);
+                displayCancelledOrders(orders);
+            } catch (error) {
+                console.error('Error loading cancelled orders:', error);
+                updateCancelledOrdersCount(0);
+                displayCancelledOrders([]);
+            }
+        }
+
+        function updateCancelledOrdersCount(count) {
+            const el = document.getElementById('cancelledOrdersCount');
+            if (el) el.textContent = count;
+        }
+
+        // Render cancelled orders table
+        function displayCancelledOrders(orders) {
+            const tbody = document.getElementById('cancelledOrdersTableBody');
+            if (!tbody) return;
+
+            if (!orders || orders.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="px-6 py-12 text-center text-[#51946c]">
+                            <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            <h4 class="text-lg font-semibold text-[#0e1a13] mb-2">No Cancelled Orders</h4>
+                            <p class="text-[#51946c]">When orders are cancelled, they will appear here.</p>
+                        </td>
+                    </tr>`;
+                return;
+            }
+
+            tbody.innerHTML = orders.map(order => `
+                <tr class="border-t border-t-[#f3a6a6] hover:bg-red-50 transition-all duration-200 fade-in-up">
+                    <td class="px-6 py-4">
+                        <div class="bg-gray-100 px-3 py-1 rounded-full text-sm font-mono">#${order.orderNumber || String(order._id).slice(-8)}</div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="font-semibold text-[#0e1a13]">${order.customerName || order.recipientName || 'Unknown'}</div>
+                        <div class="text-sm text-gray-500">${order.customerEmail || ''}</div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium inline-block">Rs. ${(order.total || 0).toFixed(2)}</div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="px-3 py-1 text-sm font-medium rounded-full bg-red-100 text-red-800">${order.status || 'cancelled'}</span>
+                    </td>
+                    <td class="px-6 py-4 text-sm text-gray-700">${order.cancelledAt ? new Date(order.cancelledAt).toLocaleString() : '-'}</td>
+                    <td class="px-6 py-4 text-sm text-gray-700">${order.cancelledBy || '-'}</td>
+                    <td class="px-6 py-4 text-sm text-gray-700 truncate max-w-[300px]" title="${order.cancellationReason || ''}">${order.cancellationReason || '-'}</td>
+                </tr>
+            `).join('');
+        }
+
         // Display orders in table
         function displayOrders(orders) {
             const tbody = document.getElementById('ordersTableBody');

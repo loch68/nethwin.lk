@@ -1259,30 +1259,22 @@
             }
         }
 
-        // Export Analytics Report
+        // Enhanced Analytics Report Export
         async function exportAnalyticsReport(format, buttonElement) {
             const button = buttonElement || event?.target;
             const originalText = button.textContent;
-            let timeoutId;
             
             try {
-                console.log(`Exporting analytics report in ${format} format...`);
+                console.log(`Exporting analytics report with charts in ${format} format...`);
                 
                 // Show loading state
-                button.textContent = 'Generating...';
+                button.textContent = 'Generating Charts...';
                 button.disabled = true;
 
-                // Set timeout fallback (30 seconds)
-                timeoutId = setTimeout(() => {
-                    if (button.textContent === 'Generating...') {
-                        button.textContent = originalText;
-                        button.disabled = false;
-                        showNotification('Report generation timed out. Please try again.', 'error');
-                    }
-                }, 30000);
-
-                // Make API call to generate analytics report
-                const response = await fetch(`/api/admin/analytics/analytics-report`, {
+                // Use enhanced export endpoint with charts
+                const url = `/api/admin/analytics/analytics-report?format=${format}&includeCharts=true&chartTypes=pie,doughnut,bar`;
+                
+                const response = await fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1298,16 +1290,24 @@
                     throw new Error(`Failed to generate analytics report: ${response.status} ${errorText}`);
                 }
 
-                // Handle different response types
+                // Handle binary response for PDF/Excel
+                const blob = await response.blob();
+                const downloadUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                
                 if (format === 'pdf') {
-                    const htmlContent = await response.text();
-                    downloadReport(htmlContent, `analytics-report-${new Date().toISOString().split('T')[0]}.html`, 'text/html');
+                    a.download = `analytics-report-${new Date().toISOString().split('T')[0]}.pdf`;
                 } else {
-                    const csvContent = await response.text();
-                    downloadReport(csvContent, `analytics-report-${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+                    a.download = `analytics-report-${new Date().toISOString().split('T')[0]}.xlsx`;
                 }
+                
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(downloadUrl);
 
-                showNotification('Analytics report downloaded successfully!', 'success');
+                showNotification('📊 Analytics report with charts downloaded successfully!', 'success');
 
                 // Auto-refresh button state after successful download
                 setTimeout(() => {
@@ -1322,37 +1322,22 @@
                 // Restore button state immediately on error
                 button.textContent = originalText;
                 button.disabled = false;
-            } finally {
-                // Clear timeout if it was set
-                if (timeoutId) {
-                    clearTimeout(timeoutId);
-                }
             }
         }
 
-        // Export Performance Report
+        // Enhanced Performance Report Export
         async function exportPerformanceReport(format, buttonElement) {
             const button = buttonElement || event?.target;
             const originalText = button.textContent;
-            let timeoutId;
             
             try {
-                console.log(`Exporting performance report in ${format} format...`);
+                console.log(`Exporting performance report with charts in ${format} format...`);
                 
                 // Show loading state
-                button.textContent = 'Generating...';
+                button.textContent = 'Generating Charts...';
                 button.disabled = true;
 
-                // Set timeout fallback (30 seconds)
-                timeoutId = setTimeout(() => {
-                    if (button.textContent === 'Generating...') {
-                        button.textContent = originalText;
-                        button.disabled = false;
-                        showNotification('Report generation timed out. Please try again.', 'error');
-                    }
-                }, 30000);
-
-                // Make API call to generate performance report
+                // Use enhanced export endpoint with charts
                 const response = await fetch(`/api/admin/analytics/performance-report`, {
                     method: 'POST',
                     headers: {
@@ -1369,16 +1354,24 @@
                     throw new Error(`Failed to generate performance report: ${response.status} ${errorText}`);
                 }
 
-                // Handle different response types
+                // Handle binary response for PDF/Excel
+                const blob = await response.blob();
+                const downloadUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                
                 if (format === 'pdf') {
-                    const htmlContent = await response.text();
-                    downloadReport(htmlContent, `performance-report-${new Date().toISOString().split('T')[0]}.html`, 'text/html');
+                    a.download = `performance-report-${new Date().toISOString().split('T')[0]}.pdf`;
                 } else {
-                    const csvContent = await response.text();
-                    downloadReport(csvContent, `performance-report-${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+                    a.download = `performance-report-${new Date().toISOString().split('T')[0]}.xlsx`;
                 }
+                
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(downloadUrl);
 
-                showNotification('Performance report downloaded successfully!', 'success');
+                showNotification('📊 Performance report with charts downloaded successfully!', 'success');
 
                 // Auto-refresh button state after successful download
                 setTimeout(() => {
@@ -1393,11 +1386,6 @@
                 // Restore button state immediately on error
                 button.textContent = originalText;
                 button.disabled = false;
-            } finally {
-                // Clear timeout if it was set
-                if (timeoutId) {
-                    clearTimeout(timeoutId);
-                }
             }
         }
 
