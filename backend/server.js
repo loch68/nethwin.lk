@@ -33,7 +33,7 @@ const { cloudinary, upload: cloudinaryUpload } = require('./src/config/cloudinar
 const { heroUpload } = require('./src/config/hero-cloudinary');
 const morgan = require('morgan');
 const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
+const { rateLimit } = require('express-rate-limit');
 const XLSX = require('xlsx');
 const yauzl = require('yauzl');
 const { createServer } = require('http');
@@ -53,10 +53,10 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdn.tailwindcss.com", "https://cdnjs.cloudflare.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdn.tailwindcss.com"],
       scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com", "https://cdn.jsdelivr.net"],
       scriptSrcAttr: ["'unsafe-inline'"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
       imgSrc: ["'self'", "data:", "blob:", "https:", "https://api.qrserver.com", "https://via.placeholder.com", "https://res.cloudinary.com"],
       connectSrc: ["'self'"],
       objectSrc: ["'none'"],
@@ -66,9 +66,56 @@ app.use(helmet({
   },
 }));
 app.use(morgan('combined'));
-app.use(cors());
+// Tighten CORS: allow only same-origin and optional env-specified origins
+const allowedOrigins = new Set([
+  'http://localhost:4000',
+  process.env.FRONTEND_ORIGIN
+].filter(Boolean));
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); // allow same-origin/non-browser
+    if (allowedOrigins.has(origin)) return callback(null, true);
+    return callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization']
+}));
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+// Basic rate limiting for auth and uploads
+const authLimiter = rateLimit({ windowMs: 10 * 60 * 1000, max: 50, standardHeaders: true, legacyHeaders: false });
+const writeLimiter = rateLimit({ windowMs: 10 * 60 * 1000, max: 120, standardHeaders: true, legacyHeaders: false });
+
+app.use(['/api/auth/login','/api/auth/signup'], authLimiter);
+app.use(['/api/print-orders','/api/products','/api/products/upload-image','/api/products/bulk-upload'], writeLimiter);
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ extended: true, limit: '100mb' }));
+// Trust proxy for secure cookies if behind a proxy
+if (process.env.TRUST_PROXY === 'true') {
+  app.set('trust proxy', 1);
+}
+
+// Cookie helpers
+function setAuthCookies(res, token) {
+  const isSecure = process.env.NODE_ENV !== 'development';
+  res.cookie('access_token', token, {
+    httpOnly: true,
+    secure: isSecure,
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 15 * 60 * 1000 // 15 minutes
+  });
+}
+
+function getTokenFromRequest(req) {
+  const cookieToken = req.cookies && req.cookies.access_token;
+  if (cookieToken) return cookieToken;
+  const auth = req.headers.authorization || '';
+  return auth.startsWith('Bearer ') ? auth.slice(7) : '';
+}
 
 // Rate limiting - More lenient for development
 const limiter = rateLimit({
@@ -579,7 +626,21 @@ app.post('/api/products/import', async (req, res) => {
 app.post('/api/products/upload-image', (req, res) => {
   // Use multer memory storage for upload
   const multer = require('multer');
-  const upload = multer({ storage: multer.memoryStorage() });
+  const upload = multer({ 
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB image cap
+    fileFilter: (req, file, cb) => {
+      try {
+        const allowed = ['image/jpeg','image/jpg','image/png','image/gif','image/webp'];
+        const hasValidMime = allowed.includes(file.mimetype);
+        const hasValidExt = /(\.jpe?g|\.png|\.gif|\.webp)$/i.test(file.originalname || '');
+        if (hasValidMime && hasValidExt) return cb(null, true);
+        return cb(new Error('Only JPG, JPEG, PNG, GIF, and WEBP image files are allowed'));
+      } catch (e) {
+        return cb(new Error('Invalid file'), false);
+      }
+    }
+  });
   
   upload.single('image')(req, res, async (err) => {
     try {
@@ -3412,9 +3473,11 @@ app.post('/api/auth/login', async (req, res) => {
     if (!user) return res.status(401).json({ error: 'Invalid credentials' });
     const ok = await require('bcryptjs').compare(password || '', user.passwordHash || '');
     if (!ok) return res.status(401).json({ error: 'Invalid credentials' });
-    const token = require('jsonwebtoken').sign({ sub: user._id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
+    const token = require('jsonwebtoken').sign({ sub: user._id, email: user.email }, JWT_SECRET, { expiresIn: '15m' });
+    // Set httpOnly cookie while keeping JSON response for backward compatibility
+    setAuthCookies(res, token);
     res.json({ 
-      token, 
+      token, // temporary during migration
       user: { 
         _id: user._id, 
         fullName: user.fullName, 
@@ -3432,8 +3495,7 @@ app.post('/api/auth/login', async (req, res) => {
 
 app.get('/api/me', async (req, res) => {
   try {
-    const auth = req.headers.authorization || '';
-    const token = auth.startsWith('Bearer ') ? auth.slice(7) : '';
+    const token = getTokenFromRequest(req);
     if (!token) return res.status(401).json({ error: 'Unauthorized' });
     const payload = require('jsonwebtoken').verify(token, JWT_SECRET);
     const user = await User.findById(payload.sub).lean();
@@ -3458,8 +3520,7 @@ app.get('/api/me', async (req, res) => {
 
 app.put('/api/me', async (req, res) => {
   try {
-    const auth = req.headers.authorization || '';
-    const token = auth.startsWith('Bearer ') ? auth.slice(7) : '';
+    const token = getTokenFromRequest(req);
     const payload = require('jsonwebtoken').verify(token, JWT_SECRET);
     
     // Allow updating all user fields except password and email
@@ -3561,14 +3622,18 @@ app.post('/api/print-orders',
   ],
   async (req, res) => {
     try {
+    if (process.env.NODE_ENV !== 'production') {
       console.log('Print order submission started');
-      console.log('Request body:', req.body);
-      console.log('Request file:', req.file);
+      console.log('Request body keys:', Object.keys(req.body || {}));
+      console.log('File present:', !!req.file, req.file ? { name: req.file.originalname, size: req.file.size } : {});
+    }
       
       // Check validation errors
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        console.log('Validation errors:', errors.array());
+        if (process.env.NODE_ENV !== 'production') {
+          console.log('Validation errors:', errors.array());
+        }
         return res.status(400).json({
           success: false,
           error: 'Validation failed',
@@ -3578,14 +3643,18 @@ app.post('/api/print-orders',
 
       // Check if file was uploaded
       if (!req.file) {
-        console.log('No file uploaded');
+        if (process.env.NODE_ENV !== 'production') {
+          console.log('No file uploaded');
+        }
         return res.status(400).json({
           success: false,
           error: 'Document file is required'
         });
       }
       
-      console.log('File validation passed, proceeding with order creation');
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('File validation passed, proceeding with order creation');
+      }
 
       // Validate additionalNotes if finishing is custom
       if (req.body.finishing === 'custom' && !req.body.additionalNotes) {
@@ -3595,21 +3664,39 @@ app.post('/api/print-orders',
         });
       }
 
-      // Use frontend calculated price if provided, otherwise calculate on backend
-      let estimatedPrice;
-      if (req.body.estimatedPrice) {
-        estimatedPrice = parseInt(req.body.estimatedPrice);
-        console.log('Using frontend calculated price:', estimatedPrice);
-      } else {
-        estimatedPrice = calculatePrintPrice(
-          req.body.paperSize,
-          req.body.colorOption,
-          parseInt(req.body.copies),
-          req.body.binding,
-          req.body.finishing,
-          req.body.deliveryMethod
-        );
-        console.log('Using backend calculated price:', estimatedPrice);
+      // Server-side revalidation of detected pages and price
+      const copiesInt = parseInt(req.body.copies) || 1;
+      const detectedPagesInt = parseInt(req.body.detectedPages) || 1;
+      const safePages = detectedPagesInt > 0 && detectedPagesInt < 2000 ? detectedPagesInt : 1; // sane cap
+
+      // Base per-copy price
+      const basePricePerCopy = calculatePrintPrice(
+        req.body.paperSize,
+        req.body.colorOption,
+        1,
+        req.body.binding,
+        req.body.finishing,
+        req.body.deliveryMethod
+      );
+
+      // binding/finishing are added inside calculatePrintPrice for 1 copy; avoid double counting
+      // Compute adjusted print total: (per-page print portion only) × pages × copies, plus fixed add-ons
+      // For simplicity and safety, fall back to full backend calculation if pages not provided
+      let estimatedPrice = calculatePrintPrice(
+        req.body.paperSize,
+        req.body.colorOption,
+        copiesInt,
+        req.body.binding,
+        req.body.finishing,
+        req.body.deliveryMethod
+      );
+
+      if (detectedPagesInt && detectedPagesInt > 0) {
+        // Recompute: estimate per-page component by removing binding/finishing approximations is complex; trust backend calc per copy and scale by pages conservatively
+        // Minimal-risk approach: multiply the per-copy print component by pages. Here we approximate by scaling total by pages when paper/color chosen.
+        if (req.body.paperSize && req.body.colorOption) {
+          estimatedPrice = estimatedPrice * safePages; // conservative scale
+        }
       }
 
       // Convert delivery method to match schema
@@ -3698,7 +3785,9 @@ app.get('/api/admin/print-orders', async (req, res) => {
     });
 
   } catch (error) {
+  if (process.env.NODE_ENV !== 'production') {
     console.error('Get print orders error:', error);
+  }
     res.status(500).json({
       success: false,
       error: 'Failed to fetch print orders'
@@ -4882,9 +4971,9 @@ const bulkUpload = multer({
         cb(new Error('Only Excel files (.xlsx, .xls) are allowed for Excel upload!'), false);
       }
     } else if (file.fieldname === 'zipFile') {
-      if (file.mimetype === 'application/zip' || 
-          file.mimetype === 'application/x-zip-compressed' ||
-          file.originalname.endsWith('.zip')) {
+      if ((file.mimetype === 'application/zip' || 
+           file.mimetype === 'application/x-zip-compressed') &&
+          file.originalname.toLowerCase().endsWith('.zip')) {
         cb(null, true);
       } else {
         cb(new Error('Only ZIP files are allowed for image upload!'), false);
@@ -5075,6 +5164,12 @@ function extractImagesFromZip(zipPath) {
       zipfile.on('entry', (entry) => {
         // Check if it's an image file
         const fileName = entry.fileName.toLowerCase();
+        // Prevent Zip Slip: reject entries with path traversal or absolute paths
+        if (fileName.includes('..') || fileName.startsWith('/') || fileName.startsWith('\\')) {
+          console.warn('Zip entry rejected due to path traversal risk:', entry.fileName);
+          zipfile.readEntry();
+          return;
+        }
         if (fileName.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
           zipfile.openReadStream(entry, (err, readStream) => {
             if (err) {

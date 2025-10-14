@@ -739,6 +739,9 @@
                 return false;
             }
             
+            // Get delivery method
+            const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked')?.value;
+
             // If gift option is selected, validate recipient fields
             if (giftOption === 'gift') {
                 const recipientName = document.getElementById('recipientName').value.trim();
@@ -746,7 +749,9 @@
                 const recipientPhone = document.getElementById('recipientPhone').value.trim();
                 const deliveryAddress = document.getElementById('deliveryAddress').value.trim();
                 
-                if (!recipientName || !recipientEmail || !recipientPhone || !deliveryAddress) {
+                // For Store Pickup, do not require a delivery address
+                const needsAddress = deliveryMethod !== 'Store Pickup';
+                if (!recipientName || !recipientEmail || !recipientPhone || (needsAddress && !deliveryAddress)) {
                     alert('Please fill in all recipient information fields');
                     return false;
                 }
@@ -770,9 +775,9 @@
                     return false;
                 }
             } else {
-                // For self orders, validate delivery address
+                // For self orders, validate delivery address only if not Store Pickup
                 const deliveryAddressSelf = document.getElementById('deliveryAddressSelf').value.trim();
-                if (!deliveryAddressSelf) {
+                if (deliveryMethod !== 'Store Pickup' && !deliveryAddressSelf) {
                     alert('Please enter your delivery address');
                     return false;
                 }

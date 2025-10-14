@@ -197,9 +197,42 @@ function updateUIForGuestUser() {
 
 // Handle logout
 function handleLogout() {
-  if (confirm('Are you sure you want to logout?')) {
-    window.authManager.logout();
+  // Use shared themed confirm dialog
+  if (!window.showConfirmDialog) {
+    window.showConfirmDialog = function ({ title, message, confirmText = 'Confirm', cancelText = 'Cancel', confirmColor = 'bg-red-600 hover:bg-red-700' }, onConfirm, onCancel) {
+      const overlay = document.createElement('div');
+      overlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4';
+      overlay.innerHTML = `
+        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 text-center">
+          <div class="mx-auto mb-4 w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-1">${title || 'Are you sure?'}</h3>
+          <p class="text-sm text-gray-600 mb-6">${message || ''}</p>
+          <div class="flex gap-3">
+            <button id="confirmCancelBtn" class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors">${cancelText}</button>
+            <button id="confirmOkBtn" class="flex-1 ${confirmColor} text-white px-4 py-2 rounded-lg font-medium transition-colors">${confirmText}</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+      document.getElementById('confirmCancelBtn').onclick = () => { overlay.remove(); onCancel && onCancel(); };
+      document.getElementById('confirmOkBtn').onclick = () => { overlay.remove(); onConfirm && onConfirm(); };
+    };
   }
+
+  function themedLogout() {
+    window.showConfirmDialog(
+      { title: 'Are you sure you want to logout?', message: 'You can sign in again anytime.', confirmText: 'Logout' },
+      () => window.authManager.logout()
+    );
+  }
+  // Immediately show for direct calls to this function
+  themedLogout();
+  // Ensure any page-defined logout() is overridden after DOM is loaded
+  window.addEventListener('DOMContentLoaded', () => {
+    window.logout = themedLogout;
+  });
 }
 
 // Handle form submissions

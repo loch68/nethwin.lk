@@ -782,7 +782,7 @@
                     </td>
                     <td class="px-8 py-6 text-sm text-gray-700">${new Date(order.createdAt).toLocaleDateString()}</td>
                     <td class="px-8 py-6 text-sm text-gray-700">
-                        <div class="font-medium text-gray-900" title="${order.originalFileName}">${order.originalFileName}</div>
+                        <div class="font-medium text-gray-900" title="${safeHtml(order.originalFileName)}">${safeHtml(order.originalFileName)}</div>
                     </td>
                     <td class="px-8 py-6 text-sm text-gray-700">
                         <div class="space-y-2">
@@ -847,7 +847,7 @@
                         </div>
                         <div class="space-y-2">
                             <div>
-                                <div class="text-sm font-medium text-gray-900">${order.originalFileName}</div>
+                                <div class="text-sm font-medium text-gray-900">${safeHtml(order.originalFileName)}</div>
                                 <div class="text-xs text-gray-500">${order.paperSize} - ${order.colorOption.replace('_', ' ')}</div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -1171,12 +1171,23 @@ async function exportMyProfile() {
         }
 
         function logout() {
+            if (window.showConfirmDialog) {
+                window.showConfirmDialog(
+                    { title: 'Are you sure you want to logout?', confirmText: 'Logout' },
+                    () => {
+                        localStorage.removeItem('authToken');
+                        localStorage.removeItem('userData');
+                        localStorage.removeItem('adminMode');
+                        window.location.href = 'index.html';
+                    }
+                );
+                return;
+            }
+            // Fallback
             if (confirm('Are you sure you want to logout?')) {
-                // Clear all authentication data
                 localStorage.removeItem('authToken');
                 localStorage.removeItem('userData');
                 localStorage.removeItem('adminMode');
-                // Redirect to main website
                 window.location.href = 'index.html';
             }
         }
@@ -1475,4 +1486,4 @@ async function exportMyProfile() {
                 });
             }
         });
-    </script></body></html>
+    </script><script src="../javascript/sanitize.js"></script></body></html>

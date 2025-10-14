@@ -2585,20 +2585,35 @@
       // Detect PDF page count using PDF.js (CDN) and update UI/pricing
       async function detectPdfPageCount(file) {
         try {
-          // Lazy-load PDF.js only when needed
-          if (!window.pdfjsLib) {
+          // Lazy-load PDF.js only when needed, with local fallback
+          async function loadPdfJs() {
+            if (window.pdfjsLib) return;
+            // Try local (self-hosted) first
+            try {
+              await new Promise((resolve, reject) => {
+                const s = document.createElement('script');
+                s.src = '/javascript/vendor/pdfjs/pdf.min.js';
+                s.onload = resolve; s.onerror = reject; document.head.appendChild(s);
+              });
+              if (window.pdfjsLib && !window.pdfjsLib.GlobalWorkerOptions.workerSrc) {
+                window.pdfjsLib.GlobalWorkerOptions.workerSrc = '/javascript/vendor/pdfjs/pdf.worker.min.js';
+              }
+              return;
+            } catch (e) {
+              // ignore and try CDN below
+            }
+            // Fallback to jsDelivr (per CSP)
             await new Promise((resolve, reject) => {
-              const script = document.createElement('script');
-              // Use jsDelivr (allowed by CSP) instead of cdnjs
-              script.src = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js';
-              script.onload = resolve;
-              script.onerror = reject;
-              document.head.appendChild(script);
+              const s = document.createElement('script');
+              s.src = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js';
+              s.onload = resolve; s.onerror = reject; document.head.appendChild(s);
             });
+            if (window.pdfjsLib && !window.pdfjsLib.GlobalWorkerOptions.workerSrc) {
+              window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+            }
           }
-          if (window.pdfjsLib && !window.pdfjsLib.GlobalWorkerOptions.workerSrc) {
-            window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
-          }
+
+          await loadPdfJs();
 
           const arrayBuffer = await file.arrayBuffer();
           const loadingTask = window.pdfjsLib.getDocument({ data: arrayBuffer });
