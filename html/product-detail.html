@@ -27,12 +27,12 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
         </svg>
         <span>Cart</span>
-        <span class="cart-count hidden" id="cartCount">0</span></a><a href="search.html" class="nav-auth-btn"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        <span class="cart-count hidden" id="cartCount">0</span></a><a href="wishlist.html" class="nav-auth-btn wishlist-container relative"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg><span>Wishlist</span><span class="cart-count hidden" id="wishlistCount">0</span></a><a href="search.html" class="nav-auth-btn"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 Search</a><a href="login.html" class="nav-auth-btn"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path></svg>
                 Login</a></div><!-- Mobile Menu Toggle --><button class="mobile-menu-toggle" id="mobileMenuToggle"><span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span></button><!-- Mobile Auth Icons --><div class="mobile-auth-icons"><a href="cart.html" class="mobile-icon-btn mobile-cart-container relative"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
         </svg>
-        <span class="mobile-cart-count hidden" id="mobileCartCount">0</span></a><a href="search.html" class="mobile-icon-btn"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></a><a href="login.html" class="mobile-icon-btn"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path></svg></a></div></div></nav><!-- Main Content --><div class="px-4 md:px-10 flex flex-1 justify-center py-5 pt-20"><div class="layout-content-container flex flex-col max-w-[1200px] flex-1"><!-- Breadcrumb --><nav class="mb-8"><ol class="flex items-center space-x-2 text-sm text-[#51946c]"><li><a href="index.html" class="hover:text-[#19e619]">Home</a></li><li><span class="mx-2">/</span></li><li><a href="bookshop.html" class="hover:text-[#19e619]">Shop</a></li><li><span class="mx-2">/</span></li><li class="text-[#0e1a13] font-medium" id="productNameBreadcrumb">Product</li></ol></nav><!-- Product Details - Compact Side by Side Layout --><div id="productContainer" class="bg-white rounded-xl shadow-lg overflow-hidden"><div class="grid grid-cols-1 lg:grid-cols-2 gap-0"><!-- Product Image - Compact --><div class="bg-gray-50 p-4"><div class="aspect-square max-w-sm mx-auto bg-white rounded-xl shadow-lg overflow-hidden mb-4 relative group"><img id="productImage" src="" alt="Product" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"><!-- Discount Badge --><div id="productImageDiscountBadge" class="absolute top-3 right-3 hidden"><span class="inline-flex items-center px-3 py-2 rounded-lg text-sm font-bold bg-red-500 text-white shadow-lg"><span id="productImageDiscountText">-20%</span></span></div></div><!-- Thumbnail Gallery --><div class="flex gap-2 justify-center"><button class="w-12 h-12 bg-white border-2 border-gray-200 rounded-lg overflow-hidden hover:border-green-500 transition-all duration-200"><img id="productImageThumb1" src="" alt="Thumbnail 1" class="w-full h-full object-cover"></button><button class="w-12 h-12 bg-white border-2 border-gray-200 rounded-lg overflow-hidden hover:border-green-500 transition-all duration-200"><img id="productImageThumb2" src="" alt="Thumbnail 2" class="w-full h-full object-cover"></button><button class="w-12 h-12 bg-white border-2 border-gray-200 rounded-lg overflow-hidden hover:border-green-500 transition-all duration-200"><img id="productImageThumb3" src="" alt="Thumbnail 3" class="w-full h-full object-cover"></button></div></div><!-- Product Info - Compact --><div class="p-6 flex flex-col justify-between"><!-- Product Header --><div class="mb-6"><!-- Special Offer Banner --><div id="specialOfferBanner" class="hidden mb-4"><div class="inline-flex items-center px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-bold">
+        <span class="mobile-cart-count hidden" id="mobileCartCount">0</span></a><a href="wishlist.html" class="mobile-icon-btn mobile-wishlist-container relative"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg><span class="mobile-cart-count hidden" id="mobileWishlistCount">0</span></a><a href="search.html" class="mobile-icon-btn"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></a><a href="login.html" class="mobile-icon-btn"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path></svg></a></div></div></nav><!-- Main Content --><div class="px-4 md:px-10 flex flex-1 justify-center py-5 pt-20"><div class="layout-content-container flex flex-col max-w-[1200px] flex-1"><!-- Breadcrumb --><nav class="mb-8"><ol class="flex items-center space-x-2 text-sm text-[#51946c]"><li><a href="index.html" class="hover:text-[#19e619]">Home</a></li><li><span class="mx-2">/</span></li><li><a href="bookshop.html" class="hover:text-[#19e619]">Shop</a></li><li><span class="mx-2">/</span></li><li class="text-[#0e1a13] font-medium" id="productNameBreadcrumb">Product</li></ol></nav><!-- Product Details - Compact Side by Side Layout --><div id="productContainer" class="bg-white rounded-xl shadow-lg overflow-hidden"><div class="grid grid-cols-1 lg:grid-cols-2 gap-0"><!-- Product Image - Compact --><div class="bg-gray-50 p-4"><div class="aspect-square max-w-sm mx-auto bg-white rounded-xl shadow-lg overflow-hidden mb-4 relative group"><img id="productImage" src="" alt="Product" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"><!-- Discount Badge --><div id="productImageDiscountBadge" class="absolute top-3 right-3 hidden"><span class="inline-flex items-center px-3 py-2 rounded-lg text-sm font-bold bg-red-500 text-white shadow-lg"><span id="productImageDiscountText">-20%</span></span></div></div><!-- Thumbnail Gallery --><div class="flex gap-2 justify-center"><button class="w-12 h-12 bg-white border-2 border-gray-200 rounded-lg overflow-hidden hover:border-green-500 transition-all duration-200"><img id="productImageThumb1" src="" alt="Thumbnail 1" class="w-full h-full object-cover"></button><button class="w-12 h-12 bg-white border-2 border-gray-200 rounded-lg overflow-hidden hover:border-green-500 transition-all duration-200"><img id="productImageThumb2" src="" alt="Thumbnail 2" class="w-full h-full object-cover"></button><button class="w-12 h-12 bg-white border-2 border-gray-200 rounded-lg overflow-hidden hover:border-green-500 transition-all duration-200"><img id="productImageThumb3" src="" alt="Thumbnail 3" class="w-full h-full object-cover"></button></div></div><!-- Product Info - Compact --><div class="p-6 flex flex-col justify-between"><!-- Product Header --><div class="mb-6"><!-- Special Offer Banner --><div id="specialOfferBanner" class="hidden mb-4"><div class="inline-flex items-center px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-bold">
                                         🔥 Special Offer - Limited Time!
                         </div></div><h1 id="productTitle" class="text-2xl font-bold text-gray-900 mb-2">Product Title</h1><p id="productSKU" class="text-gray-500 text-sm font-mono bg-gray-100 px-3 py-1 rounded-lg inline-block">SKU: BOOK-001</p></div><!-- Price Section --><div class="mb-6 p-4 bg-green-50 rounded-lg border border-green-200"><div class="flex items-center gap-4 mb-2"><span id="productPrice" class="text-3xl font-bold text-green-600">LKR 12.99</span><span id="productOriginalPrice" class="text-xl text-gray-400 line-through hidden">LKR 15.99</span><span id="productDiscount" class="bg-red-500 text-white px-3 py-1 rounded-lg text-sm font-bold hidden">-20%</span></div><p class="text-gray-600 text-sm">Including all taxes • Free shipping on orders over LKR 500</p></div><!-- Product Details --><div class="mb-4"><div class="flex gap-4 text-sm"><span class="text-gray-600">Brand: <span id="productBrand" class="font-semibold text-gray-900">Brand Name</span></span><span class="text-gray-600">Category: <span id="productCategory" class="font-semibold text-gray-900">Books</span></span></div></div><!-- Quantity and Actions --><div class="space-y-3"><!-- Quantity Selector --><div class="flex items-center gap-3"><span class="text-sm font-medium text-gray-900">Quantity:</span><div class="flex items-center bg-gray-100 rounded-lg overflow-hidden"><button onclick="changeQuantityDetail(-1)" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-200 transition-colors duration-200">
                                             −
@@ -44,7 +44,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
           </svg>
                                 Add to Cart
-                            </button><button id="buyNowBtn" class="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            </button><button id="addToWishlistBtn" class="w-full bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg><span id="wishlistBtnText">Add to Wishlist</span></button><button id="buyNowBtn" class="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                                 Buy Now
                             </button><button id="messageAdminBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4-.8L3 20l.8-4A8.94 8.94 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
                                 Message Admin
@@ -138,6 +138,9 @@
             setupEventListeners();
             setupTabs();
             initializeReviewSystem();
+            
+            // Update wishlist button after product loads
+            setTimeout(updateWishlistButton, 100);
         });
 
         // Load product data into the page
@@ -261,9 +264,14 @@
         function setupEventListeners() {
             const addToCartBtn = document.getElementById('addToCartBtn');
             const buyNowBtn = document.getElementById('buyNowBtn');
+            const addToWishlistBtn = document.getElementById('addToWishlistBtn');
 
             addToCartBtn.addEventListener('click', addToCart);
             buyNowBtn.addEventListener('click', buyNow);
+            addToWishlistBtn.addEventListener('click', toggleWishlist);
+            
+            // Update wishlist button state
+            updateWishlistButton();
         }
 
         // Change quantity function for product detail page
@@ -421,6 +429,56 @@
             
             // Redirect to checkout page for proper e-commerce flow
             window.location.href = 'checkout.html';
+        }
+        
+        // Wishlist functionality
+        function toggleWishlist() {
+            if (!productData || !productData.name) {
+                alert('Product data is still loading. Please wait a moment and try again.');
+                return;
+            }
+            
+            const hasDiscount = productData.discountPrice && productData.discountPrice < productData.sellingPrice;
+            const finalPrice = hasDiscount ? productData.discountPrice : productData.sellingPrice;
+            const productImage = (productData.images && productData.images.length > 0) 
+                ? productData.images[0] 
+                : '';
+            
+            const product = {
+                id: productData.productId || productData._id,
+                name: productData.name,
+                price: finalPrice,
+                image: productImage,
+                category: productData.category || '',
+                brand: productData.brand || ''
+            };
+            
+            const wasAdded = window.wishlistManager.toggleWishlist(product);
+            updateWishlistButton();
+            
+            const message = wasAdded ? 
+                `${productData.name} added to wishlist!` : 
+                `${productData.name} removed from wishlist!`;
+            
+            showWishlistNotification(message, wasAdded);
+        }
+        
+        function updateWishlistButton() {
+            if (!productData) return;
+            
+            const addToWishlistBtn = document.getElementById('addToWishlistBtn');
+            const wishlistBtnText = document.getElementById('wishlistBtnText');
+            const productId = productData.productId || productData._id;
+            
+            if (window.wishlistManager && window.wishlistManager.isInWishlist(productId)) {
+                addToWishlistBtn.classList.remove('bg-red-500', 'hover:bg-red-600');
+                addToWishlistBtn.classList.add('bg-gray-500', 'hover:bg-gray-600');
+                wishlistBtnText.textContent = 'Remove from Wishlist';
+            } else {
+                addToWishlistBtn.classList.remove('bg-gray-500', 'hover:bg-gray-600');
+                addToWishlistBtn.classList.add('bg-red-500', 'hover:bg-red-600');
+                wishlistBtnText.textContent = 'Add to Wishlist';
+            }
         }
 
         // Review System
@@ -760,7 +818,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             updateCartCount();
         });
-    </script><!-- Navbar JavaScript --><script src="../javascript/navbar.js"></script><script src="../javascript/cart-utils.js"></script><!-- Chat System JavaScript --><script src="../javascript/chat-system.js"></script><!-- Background Animations JavaScript --><script src="../javascript/background-animations.js"></script><script src="../javascript/button-refresh.js"></script><script>
+    </script><!-- Navbar JavaScript --><script src="../javascript/navbar.js"></script><script src="../javascript/cart-utils.js"></script><script src="../javascript/wishlist-utils.js"></script><!-- Chat System JavaScript --><script src="../javascript/chat-system.js"></script><!-- Background Animations JavaScript --><script src="../javascript/background-animations.js"></script><script src="../javascript/button-refresh.js"></script><script>
         // Message Admin button event handler
         document.addEventListener('DOMContentLoaded', function() {
             const messageAdminBtn = document.getElementById('messageAdminBtn');

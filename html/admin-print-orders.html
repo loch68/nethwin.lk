@@ -12,6 +12,7 @@
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
     />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="../css/hover-effects.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/background-animations.css" />
@@ -1218,19 +1219,217 @@
     </div>
 
     <script>
-        // Enhanced Export Function for Print Orders
-        function exportPrintOrdersEnhanced() {
-            // Use the enhanced export manager
-            if (typeof enhancedExportManager !== 'undefined') {
-                enhancedExportManager.showExportModal('printOrders', '/api/admin/print-orders/export/enhanced');
-            } else {
-                // Fallback to direct download if enhanced export manager not loaded
-                window.location.href = '/api/admin/print-orders/export/enhanced?format=pdf&includeCharts=true&chartTypes=pie,bar,doughnut';
+        // Create temporary charts for export
+        async function createExportCharts(printOrders) {
+            const charts = [];
+            
+            // Create a hidden canvas container
+            const container = document.createElement('div');
+            container.style.display = 'none';
+            container.style.position = 'absolute';
+            container.style.left = '-9999px';
+            document.body.appendChild(container);
+            
+            try {
+                if (!printOrders || printOrders.length === 0) {
+                    console.warn('No print orders data available for charts');
+                    return charts;
+                }
+                
+                console.log('Creating charts for', printOrders.length, 'print orders...');
+                // Chart 1: Status Distribution (Pie)
+                const statusCanvas = document.createElement('canvas');
+                statusCanvas.width = 800;
+                statusCanvas.height = 600;
+                container.appendChild(statusCanvas);
+                
+                const statusDist = {};
+                printOrders.forEach(order => {
+                    const status = order.status || 'pending';
+                    statusDist[status] = (statusDist[status] || 0) + 1;
+                });
+                
+                const statusChart = new Chart(statusCanvas, {
+                    type: 'pie',
+                    data: {
+                        labels: Object.keys(statusDist),
+                        datasets: [{
+                            data: Object.values(statusDist),
+                            backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6']
+                        }]
+                    },
+                    options: {
+                        responsive: false,
+                        animation: false,
+                        plugins: {
+                            title: { display: true, text: 'Print Orders by Status', font: { size: 18 } },
+                            legend: { position: 'bottom' }
+                        }
+                    }
+                });
+                
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                const statusDataUrl = statusCanvas.toDataURL('image/png', 1.0);
+                console.log('Status chart data URL length:', statusDataUrl.length);
+                charts.push({
+                    name: 'Print Orders Status Distribution',
+                    data: statusDataUrl
+                });
+                
+                // Chart 2: Paper Size Distribution (Bar)
+                const paperCanvas = document.createElement('canvas');
+                paperCanvas.width = 800;
+                paperCanvas.height = 600;
+                container.appendChild(paperCanvas);
+                
+                const paperDist = {};
+                printOrders.forEach(order => {
+                    const size = order.paperSize || 'Unknown';
+                    paperDist[size] = (paperDist[size] || 0) + 1;
+                });
+                
+                const paperChart = new Chart(paperCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(paperDist),
+                        datasets: [{
+                            label: 'Number of Orders',
+                            data: Object.values(paperDist),
+                            backgroundColor: '#3b82f6',
+                            borderColor: '#1d4ed8',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: false,
+                        animation: false,
+                        plugins: {
+                            title: { display: true, text: 'Orders by Paper Size', font: { size: 18 } },
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { 
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                const paperDataUrl = paperCanvas.toDataURL('image/png', 1.0);
+                console.log('Paper size chart data URL length:', paperDataUrl.length);
+                charts.push({
+                    name: 'Orders by Paper Size',
+                    data: paperDataUrl
+                });
+                
+                // Chart 3: Color Options (Doughnut)
+                const colorCanvas = document.createElement('canvas');
+                colorCanvas.width = 800;
+                colorCanvas.height = 600;
+                container.appendChild(colorCanvas);
+                
+                const colorDist = {};
+                printOrders.forEach(order => {
+                    const color = order.colorOption || 'Unknown';
+                    colorDist[color] = (colorDist[color] || 0) + 1;
+                });
+                
+                const colorChart = new Chart(colorCanvas, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(colorDist),
+                        datasets: [{
+                            data: Object.values(colorDist),
+                            backgroundColor: ['#06b6d4', '#8b5cf6', '#ec4899', '#f59e0b']
+                        }]
+                    },
+                    options: {
+                        responsive: false,
+                        animation: false,
+                        plugins: {
+                            title: { display: true, text: 'Color Options Distribution', font: { size: 18 } },
+                            legend: { position: 'bottom' }
+                        }
+                    }
+                });
+                
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                const colorDataUrl = colorCanvas.toDataURL('image/png', 1.0);
+                console.log('Color options chart data URL length:', colorDataUrl.length);
+                charts.push({
+                    name: 'Color Options Distribution',
+                    data: colorDataUrl
+                });
+                
+                console.log('Generated', charts.length, 'charts:', charts.map(c => c.name));
+                return charts;
+            } catch (error) {
+                console.error('Error creating print orders charts:', error);
+                return charts; // Return whatever charts were created successfully
+            } finally {
+                if (container && container.parentNode) {
+                    document.body.removeChild(container);
+                }
+            }
+        }
+        
+        // Enhanced Export Function for Print Orders with Charts
+        async function exportPrintOrdersEnhanced() {
+            try {
+                // Show loading notification
+                showNotification('Generating print orders report with charts...', 'info');
+                
+                // Fetch print orders data
+                const ordersResponse = await fetch('/api/admin/print-orders', {
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
+                });
+                const ordersData = await ordersResponse.json();
+                const printOrders = ordersData.data?.orders || ordersData.orders || ordersData || [];
+                
+                // Generate charts
+                console.log('Creating charts for', printOrders.length, 'print orders...');
+                const charts = await createExportCharts(printOrders);
+                console.log('Generated', charts.length, 'charts:', charts.map(c => c.name));
+                
+                // Call backend API to generate PDF with charts
+                const response = await fetch('/api/admin/print-orders/export/enhanced', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    },
+                    body: JSON.stringify({
+                        format: 'pdf',
+                        charts: charts
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to generate report: ${response.status}`);
+                }
+
+                // Download the PDF
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `print-orders-report-with-charts-${new Date().toISOString().split('T')[0]}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+                showNotification('📊 Print orders report with charts downloaded successfully!', 'success');
+
+            } catch (error) {
+                console.error('Enhanced export error:', error);
+                showNotification('Failed to generate report. Please try again.', 'error');
             }
         }
     </script>
-    
-    <!-- Enhanced Export Script -->
-    <script src="/javascript/enhancedExport.js"></script>
 </body>
 </html>

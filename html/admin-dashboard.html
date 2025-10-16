@@ -198,6 +198,16 @@
         .stat-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }        
+        /* Fix chart container heights - prevent infinite expansion */
+        canvas {
+            max-height: 180px !important;
+        }
+        
+        /* Prevent page auto-scroll and infinite scrolling */
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
         }
     </style>
     <link rel="stylesheet" href="../css/responsive.css" />
@@ -406,6 +416,95 @@
                             </div>
                         </div>
 
+<!-- Real-Time Analytics Charts Section - INSERT THIS AFTER LINE 408 in admin-dashboard.html -->
+                        <div class="px-6 py-4">
+                            <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-5">
+                                <div class="flex items-center justify-between mb-6">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="bg-gradient-to-br from-blue-500 to-indigo-600 p-3 rounded-xl shadow-lg">
+                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h2 class="text-[#0e1a13] text-xl font-bold">Real-Time Analytics</h2>
+                                            <p class="text-gray-600 text-sm">Interactive charts with filtering</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <select id="chartTimeFilter" onchange="updateCharts()" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                            <option value="7">Last 7 Days</option>
+                                            <option value="30" selected>Last 30 Days</option>
+                                            <option value="90">Last 90 Days</option>
+                                            <option value="365">Last Year</option>
+                                            <option value="all">All Time</option>
+                                        </select>
+                                        <button onclick="updateCharts()" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-2">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                            </svg>
+                                            <span>Refresh</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Charts Grid -->
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                    <!-- Sales Trend Chart -->
+                                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200">
+                                        <h3 class="text-base font-bold text-gray-800 mb-3 flex items-center">
+                                            <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                            </svg>
+                                            Sales Trend
+                                        </h3>
+                                        <div style="position: relative; height: 180px; max-height: 180px;">
+                                            <canvas id="salesTrendChart"></canvas>
+                                        </div>
+                                    </div>
+
+                                    <!-- Order Status Distribution -->
+                                    <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-200">
+                                        <h3 class="text-base font-bold text-gray-800 mb-3 flex items-center">
+                                            <svg class="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+                                            </svg>
+                                            Order Status Distribution
+                                        </h3>
+                                        <div style="position: relative; height: 180px; max-height: 180px;">
+                                            <canvas id="orderStatusChart"></canvas>
+                                        </div>
+                                    </div>
+
+                                    <!-- Top Products Chart -->
+                                    <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200">
+                                        <h3 class="text-base font-bold text-gray-800 mb-3 flex items-center">
+                                            <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                            </svg>
+                                            Top Selling Products
+                                        </h3>
+                                        <div style="position: relative; height: 180px; max-height: 180px;">
+                                            <canvas id="topProductsChart"></canvas>
+                                        </div>
+                                    </div>
+
+                                    <!-- Revenue by Category -->
+                                    <div class="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-xl p-4 border border-orange-200">
+                                        <h3 class="text-base font-bold text-gray-800 mb-3 flex items-center">
+                                            <svg class="w-5 h-5 mr-2 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                                            </svg>
+                                            Revenue by Category
+                                        </h3>
+                                        <div style="position: relative; height: 180px; max-height: 180px;">
+                                            <canvas id="revenueCategoryChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- Analytics Export Section -->
                         <div class="px-6 py-6">
                             <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-xl border border-gray-200 p-8 transform hover:scale-[1.02] transition-all duration-300">
@@ -651,6 +750,119 @@
                             </div>
                         </div>
 
+                        <!-- Wishlist Analytics Section -->
+                        <div class="px-6 py-6">
+                            <div class="bg-gradient-to-br from-white to-red-50 rounded-2xl shadow-xl border border-red-200 p-8 transform hover:scale-[1.02] transition-all duration-300">
+                                <div class="flex items-center justify-between mb-8">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="bg-gradient-to-br from-red-500 to-pink-600 p-4 rounded-2xl shadow-lg">
+                                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h2 class="text-[#0e1a13] text-2xl font-bold bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent">Wishlist Analytics</h2>
+                                            <p class="text-gray-600 text-base">Monitor popular products and apply strategic discounts</p>
+                                        </div>
+                                    </div>
+                                    <div class="hidden md:block">
+                                        <div class="bg-red-100 text-red-800 px-4 py-2 rounded-full text-sm font-medium">
+                                            ❤️ Customer Insights
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Wishlist Stats Cards -->
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                                    <div class="bg-gradient-to-br from-red-50 to-pink-50 rounded-xl p-6 border border-red-200">
+                                        <div class="flex items-center justify-between mb-4">
+                                            <div class="bg-red-100 p-3 rounded-xl">
+                                                <svg class="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                                </svg>
+                                            </div>
+                                            <span class="text-red-600 text-sm font-medium">+12%</span>
+                                        </div>
+                                        <h3 class="text-gray-700 text-sm font-medium mb-1">Total Wishlist Items</h3>
+                                        <p class="text-2xl font-bold text-gray-900" id="totalWishlistItems">0</p>
+                                    </div>
+                                    
+                                    <div class="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-xl p-6 border border-orange-200">
+                                        <div class="flex items-center justify-between mb-4">
+                                            <div class="bg-orange-100 p-3 rounded-xl">
+                                                <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                                </svg>
+                                            </div>
+                                            <span class="text-orange-600 text-sm font-medium">+8%</span>
+                                        </div>
+                                        <h3 class="text-gray-700 text-sm font-medium mb-1">Most Wishlisted</h3>
+                                        <p class="text-2xl font-bold text-gray-900" id="mostWishlistedCount">0</p>
+                                    </div>
+                                    
+                                    <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
+                                        <div class="flex items-center justify-between mb-4">
+                                            <div class="bg-green-100 p-3 rounded-xl">
+                                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                                                </svg>
+                                            </div>
+                                            <span class="text-green-600 text-sm font-medium">+15%</span>
+                                        </div>
+                                        <h3 class="text-gray-700 text-sm font-medium mb-1">Conversion Rate</h3>
+                                        <p class="text-2xl font-bold text-gray-900" id="wishlistConversionRate">0%</p>
+                                    </div>
+                                </div>
+
+                                <!-- Popular Wishlist Products Table -->
+                                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-red-500 to-pink-600 px-6 py-4">
+                                        <div class="flex items-center justify-between">
+                                            <h3 class="text-xl font-bold text-white flex items-center">
+                                                <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                                </svg>
+                                                Most Wishlisted Products
+                                            </h3>
+                                            <button onclick="refreshWishlistAnalytics()" class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-2">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                                </svg>
+                                                Refresh
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full">
+                                            <thead class="bg-gray-50">
+                                                <tr>
+                                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Product</th>
+                                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Category</th>
+                                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Current Price</th>
+                                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Wishlist Count</th>
+                                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Discount</th>
+                                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="wishlistProductsTable" class="divide-y divide-gray-200">
+                                                <!-- Wishlist products will be loaded here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                    <!-- Empty State -->
+                                    <div id="wishlistEmptyState" class="text-center py-12 hidden">
+                                        <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                        </svg>
+                                        <h4 class="text-lg font-semibold text-gray-700 mb-2">No Wishlist Data</h4>
+                                        <p class="text-gray-500">No products have been added to wishlists yet.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Bookshop Orders Table -->
                         <div class="px-6 py-6 @container">
                             <div class="flex items-center justify-between mb-6">
@@ -781,14 +993,23 @@
             totalPrintJobs: 0
         };
 
+        // Global chart instances
+        let salesTrendChart = null;
+        let orderStatusChart = null;
+        let topProductsChart = null;
+        let revenueCategoryChart = null;
+
         document.addEventListener('DOMContentLoaded', async () => {
+            initializeCharts();
             await loadDashboardData();
+            await loadChartData();
             loadDeliverySettings();
             
             // Set up auto-refresh every 30 seconds
             refreshInterval = setInterval(async () => {
                 if (!isRefreshing) {
                     await loadDashboardData();
+                    await loadChartData();
                     loadDeliverySettings();
                 }
             }, 30000);
@@ -923,6 +1144,154 @@
         // Manual refresh function
         async function refreshDashboard() {
             await loadDashboardData();
+            await loadChartData();
+        }
+
+        // Initialize all charts
+        function initializeCharts() {
+            // Sales Trend Chart
+            const salesTrendCtx = document.getElementById('salesTrendChart');
+            if (salesTrendCtx) {
+                salesTrendChart = new Chart(salesTrendCtx, {
+                    type: 'line',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            label: 'Sales',
+                            data: [],
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+
+            // Order Status Chart
+            const orderStatusCtx = document.getElementById('orderStatusChart');
+            if (orderStatusCtx) {
+                orderStatusChart = new Chart(orderStatusCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            data: [],
+                            backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom' }
+                        }
+                    }
+                });
+            }
+
+            // Top Products Chart
+            const topProductsCtx = document.getElementById('topProductsChart');
+            if (topProductsCtx) {
+                topProductsChart = new Chart(topProductsCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            label: 'Quantity Sold',
+                            data: [],
+                            backgroundColor: '#3b82f6'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+
+            // Revenue Category Chart
+            const revenueCategoryCtx = document.getElementById('revenueCategoryChart');
+            if (revenueCategoryCtx) {
+                revenueCategoryChart = new Chart(revenueCategoryCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            data: [],
+                            backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom' }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Load and update chart data
+        async function loadChartData() {
+            try {
+                // Fetch analytics data from backend
+                const response = await fetch('/api/admin/analytics/dashboard-charts');
+                if (!response.ok) {
+                    console.error('Failed to fetch chart data');
+                    return;
+                }
+                
+                const data = await response.json();
+
+                // Update Sales Trend Chart
+                if (salesTrendChart && data.salesTrend) {
+                    salesTrendChart.data.labels = data.salesTrend.labels;
+                    salesTrendChart.data.datasets[0].data = data.salesTrend.data;
+                    salesTrendChart.update();
+                }
+
+                // Update Order Status Chart
+                if (orderStatusChart && data.orderStatus) {
+                    orderStatusChart.data.labels = data.orderStatus.labels;
+                    orderStatusChart.data.datasets[0].data = data.orderStatus.data;
+                    orderStatusChart.update();
+                }
+
+                // Update Top Products Chart
+                if (topProductsChart && data.topProducts) {
+                    topProductsChart.data.labels = data.topProducts.labels;
+                    topProductsChart.data.datasets[0].data = data.topProducts.data;
+                    topProductsChart.update();
+                }
+
+                // Update Revenue Category Chart
+                if (revenueCategoryChart && data.revenueCategory) {
+                    revenueCategoryChart.data.labels = data.revenueCategory.labels;
+                    revenueCategoryChart.data.datasets[0].data = data.revenueCategory.data;
+                    revenueCategoryChart.update();
+                }
+
+            } catch (error) {
+                console.error('Error loading chart data:', error);
+            }
         }
 
         // Cleanup on page unload
@@ -1192,22 +1561,29 @@
             let timeoutId;
             
             try {
-                console.log(`Exporting ${period} sales report in ${format} format...`);
+                console.log(`Exporting ${period} sales report with charts in ${format} format...`);
                 
                 // Show loading state
-                button.textContent = 'Generating...';
+                button.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Generating...
+                `;
                 button.disabled = true;
 
                 // Set timeout fallback (30 seconds)
                 timeoutId = setTimeout(() => {
-                    if (button.textContent === 'Generating...') {
-                        button.textContent = originalText;
+                    if (button.innerHTML.includes('Generating')) {
+                        button.innerHTML = originalText;
                         button.disabled = false;
                         showNotification('Report generation timed out. Please try again.', 'error');
                     }
                 }, 30000);
 
                 // Make API call to generate sales report
+                // Backend will generate period-specific charts based on filtered data
                 const response = await fetch(`/api/admin/analytics/sales-report`, {
                     method: 'POST',
                     headers: {
@@ -1225,31 +1601,29 @@
                     throw new Error(`Failed to generate sales report: ${response.status} ${errorText}`);
                 }
 
-                // Handle different response types
-                if (format === 'pdf') {
-                    // For PDF, we'll get HTML content
-                    const htmlContent = await response.text();
-                    downloadReport(htmlContent, `sales-report-${period}-${new Date().toISOString().split('T')[0]}.html`, 'text/html');
-                } else {
-                    // For CSV, we'll get text data
-                    const csvContent = await response.text();
-                    downloadReport(csvContent, `sales-report-${period}-${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
-                }
+                // Handle binary response for PDF
+                const blob = await response.blob();
+                const downloadUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = `sales-report-${period}-${new Date().toISOString().split('T')[0]}.${format}`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(downloadUrl);
 
-                showNotification(`${period.charAt(0).toUpperCase() + period.slice(1)} sales report downloaded successfully!`, 'success');
+                showNotification(`📊 ${period.charAt(0).toUpperCase() + period.slice(1)} sales report with charts downloaded successfully!`, 'success');
 
-                // Auto-refresh button state after successful download
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.disabled = false;
-                }, 2000);
+                // Restore button state
+                button.innerHTML = originalText;
+                button.disabled = false;
 
             } catch (error) {
                 console.error('Sales report export error:', error);
                 showNotification('Failed to generate sales report. Please try again.', 'error');
                 
-                // Restore button state immediately on error
-                button.textContent = originalText;
+                // Restore button state on error
+                button.innerHTML = originalText;
                 button.disabled = false;
             } finally {
                 // Clear timeout if it was set
@@ -1268,26 +1642,66 @@
                 console.log(`Exporting analytics report with charts in ${format} format...`);
                 
                 // Show loading state
-                button.textContent = 'Generating Charts...';
+                button.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Generating...
+                `;
                 button.disabled = true;
 
-                // Use enhanced export endpoint with charts
-                const url = `/api/admin/analytics/analytics-report?format=${format}&includeCharts=true&chartTypes=pie,doughnut,bar`;
-                
-                const response = await fetch(url, {
+                // Get all chart data
+                const charts = [];
+                const chartElements = [
+                    { id: 'salesTrendChart', name: 'Sales Trend' },
+                    { id: 'orderStatusChart', name: 'Order Status' },
+                    { id: 'topProductsChart', name: 'Top Products' },
+                    { id: 'revenueCategoryChart', name: 'Revenue by Category' }
+                ];
+
+                // Get chart data as base64 images
+                for (const chart of chartElements) {
+                    const canvas = document.getElementById(chart.id);
+                    if (canvas) {
+                        const chartInstance = Chart.getChart(canvas);
+                        if (chartInstance) {
+                            const imageData = chartInstance.toBase64Image('image/png', 1);
+                            charts.push({
+                                name: chart.name,
+                                data: imageData
+                            });
+                        }
+                    }
+                }
+
+                // Prepare report data
+                const reportData = {
+                    title: 'Analytics Report',
+                    charts: charts,
+                    metadata: {
+                        generatedAt: new Date().toISOString(),
+                        timeRange: document.getElementById('chartTimeFilter')?.value || '30 days',
+                        reportType: 'analytics'
+                    }
+                };
+
+                // Send to server for PDF generation
+                const response = await fetch('/api/admin/analytics/analytics-report', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                     },
                     body: JSON.stringify({
-                        format: format
+                        format: format,
+                        data: reportData
                     })
                 });
 
                 if (!response.ok) {
                     const errorText = await response.text();
-                    throw new Error(`Failed to generate analytics report: ${response.status} ${errorText}`);
+                    throw new Error(`Failed to generate report: ${response.status} ${errorText}`);
                 }
 
                 // Handle binary response for PDF/Excel
@@ -1295,13 +1709,7 @@
                 const downloadUrl = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = downloadUrl;
-                
-                if (format === 'pdf') {
-                    a.download = `analytics-report-${new Date().toISOString().split('T')[0]}.pdf`;
-                } else {
-                    a.download = `analytics-report-${new Date().toISOString().split('T')[0]}.xlsx`;
-                }
-                
+                a.download = `analytics-report-${new Date().toISOString().split('T')[0]}.${format}`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -1309,18 +1717,16 @@
 
                 showNotification('📊 Analytics report with charts downloaded successfully!', 'success');
 
-                // Auto-refresh button state after successful download
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.disabled = false;
-                }, 2000);
+                // Restore button state
+                button.innerHTML = originalText;
+                button.disabled = false;
 
             } catch (error) {
                 console.error('Analytics report export error:', error);
                 showNotification('Failed to generate analytics report. Please try again.', 'error');
                 
-                // Restore button state immediately on error
-                button.textContent = originalText;
+                // Restore button state on error
+                button.innerHTML = originalText;
                 button.disabled = false;
             }
         }
@@ -1334,8 +1740,48 @@
                 console.log(`Exporting performance report with charts in ${format} format...`);
                 
                 // Show loading state
-                button.textContent = 'Generating Charts...';
+                button.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Generating...
+                `;
                 button.disabled = true;
+
+                // Get all chart data
+                const charts = [];
+                const chartElements = [
+                    { id: 'salesTrendChart', name: 'Sales Trend' },
+                    { id: 'orderStatusChart', name: 'Order Status' },
+                    { id: 'topProductsChart', name: 'Top Products' },
+                    { id: 'revenueCategoryChart', name: 'Revenue by Category' }
+                ];
+
+                // Get chart data as base64 images
+                for (const chart of chartElements) {
+                    const canvas = document.getElementById(chart.id);
+                    if (canvas) {
+                        const chartInstance = Chart.getChart(canvas);
+                        if (chartInstance) {
+                            const imageData = chartInstance.toBase64Image('image/png', 1);
+                            charts.push({
+                                name: chart.name,
+                                data: imageData
+                            });
+                        }
+                    }
+                }
+
+                // Prepare report data
+                const reportData = {
+                    title: 'Performance Report',
+                    charts: charts,
+                    metadata: {
+                        generatedAt: new Date().toISOString(),
+                        reportType: 'performance'
+                    }
+                };
 
                 // Use enhanced export endpoint with charts
                 const response = await fetch(`/api/admin/analytics/performance-report`, {
@@ -1345,7 +1791,8 @@
                         'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                     },
                     body: JSON.stringify({
-                        format: format
+                        format: format,
+                        data: reportData
                     })
                 });
 
@@ -1359,13 +1806,7 @@
                 const downloadUrl = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = downloadUrl;
-                
-                if (format === 'pdf') {
-                    a.download = `performance-report-${new Date().toISOString().split('T')[0]}.pdf`;
-                } else {
-                    a.download = `performance-report-${new Date().toISOString().split('T')[0]}.xlsx`;
-                }
-                
+                a.download = `performance-report-${new Date().toISOString().split('T')[0]}.${format}`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -1373,18 +1814,16 @@
 
                 showNotification('📊 Performance report with charts downloaded successfully!', 'success');
 
-                // Auto-refresh button state after successful download
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.disabled = false;
-                }, 2000);
+                // Restore button state
+                button.innerHTML = originalText;
+                button.disabled = false;
 
             } catch (error) {
                 console.error('Performance report export error:', error);
                 showNotification('Failed to generate performance report. Please try again.', 'error');
                 
-                // Restore button state immediately on error
-                button.textContent = originalText;
+                // Restore button state on error
+                button.innerHTML = originalText;
                 button.disabled = false;
             }
         }
@@ -1565,12 +2004,272 @@
             <div class="flex gap-3 mt-6">
                 <button onclick="closeCustomDateModal()" class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                     Cancel
-                </button>
                 <button onclick="exportCustomSalesReport()" class="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
                     Export Report
                 </button>
             </div>
         </div>
     </div>
-</body>
-</html>
+    <script src="../javascript/admin-charts.js"></script>
+    <script>
+        // Export Custom Sales Report
+        async function exportCustomSalesReport() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const button = event.target;
+            const originalText = button.textContent;
+            let timeoutId;
+            
+            if (!startDate || !endDate) {
+                showNotification('Please select both start and end dates.', 'error');
+                return;
+            }
+            
+            if (new Date(startDate) > new Date(endDate)) {
+                showNotification('Start date cannot be after end date.', 'error');
+                return;
+            }
+
+            try {
+                console.log(`Exporting custom sales report from ${startDate} to ${endDate}...`);
+                
+                // Show loading state
+                button.textContent = 'Generating...';
+                button.disabled = true;
+
+                // Set timeout fallback (30 seconds)
+                timeoutId = setTimeout(() => {
+                    if (button.textContent === 'Generating...') {
+                        button.textContent = originalText;
+                        button.disabled = false;
+                        showNotification('Report generation timed out. Please try again.', 'error');
+                    }
+                }, 30000);
+
+                // Make API call to generate custom sales report
+                const response = await fetch(`/api/admin/analytics/sales-report`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    },
+                    body: JSON.stringify({
+                        period: 'custom',
+                        startDate: startDate,
+                        endDate: endDate,
+                        format: 'pdf' // Default to PDF for custom reports
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Failed to generate custom sales report: ${response.status} ${errorText}`);
+                }
+
+                const htmlContent = await response.text();
+                downloadReport(htmlContent, `sales-report-custom-${startDate}-to-${endDate}.html`, 'text/html');
+
+                showNotification('Custom sales report downloaded successfully!', 'success');
+                closeCustomDateModal();
+
+                // Auto-refresh button state after successful download
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.disabled = false;
+                }, 2000);
+
+            } catch (error) {
+                console.error('Custom sales report export error:', error);
+                showNotification('Failed to generate custom sales report. Please try again.', 'error');
+                
+                // Restore button state immediately on error
+                button.textContent = originalText;
+                button.disabled = false;
+            } finally {
+                // Clear timeout if it was set
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+            }
+        }
+
+        // Wishlist Analytics Functions
+        let wishlistData = [];
+
+        // Load wishlist analytics data
+        async function loadWishlistAnalytics() {
+            try {
+                // Fetch real wishlist analytics data from API
+                const response = await fetch('/api/admin/wishlist/analytics');
+                const result = await response.json();
+                
+                if (!result.success) {
+                    throw new Error(result.error || 'Failed to load wishlist analytics');
+                }
+                
+                const analyticsData = result.data;
+                wishlistData = analyticsData.popularProducts.sort((a, b) => b.wishlistCount - a.wishlistCount);
+                
+                // Update stats with real data
+                document.getElementById('totalWishlistItems').textContent = analyticsData.totalWishlistItems;
+                document.getElementById('mostWishlistedCount').textContent = analyticsData.mostWishlistedCount;
+                document.getElementById('wishlistConversionRate').textContent = `${analyticsData.conversionRate}%`;
+                
+                updateWishlistDisplay();
+                
+            } catch (error) {
+                console.error('Error loading wishlist analytics:', error);
+                showWishlistEmptyState();
+                showNotification('Failed to load wishlist analytics', 'error');
+            }
+        }
+
+        // Update wishlist display
+        function updateWishlistDisplay() {
+            const tableBody = document.getElementById('wishlistProductsTable');
+            const emptyState = document.getElementById('wishlistEmptyState');
+            
+            if (!tableBody) return;
+
+            if (wishlistData.length === 0) {
+                showWishlistEmptyState();
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            
+            tableBody.innerHTML = wishlistData.map(product => {
+                const discountBadge = product.discount > 0 
+                    ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                         ${product.discount}% OFF
+                       </span>`
+                    : `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                         No Discount
+                       </span>`;
+
+                return `
+                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <img src="${product.image}" alt="${product.name}" class="w-12 h-12 rounded-lg object-cover mr-4" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yNCAxNkMyNi4yMDkxIDE2IDI4IDE3Ljc5MDkgMjggMjBDMjggMjIuMjA5MSAyNi4yMDkxIDI0IDI0IDI0QzIxLjc5MDkgMjQgMjAgMjIuMjA5MSAyMCAyMEMyMCAxNy43OTA5IDIxLjc5MDkgMTYgMjQgMTZaIiBmaWxsPSIjOUI5QkE1Ii8+CjxwYXRoIGQ9Ik0yMCAyOEgyOFYzMkgyMFYyOFoiIGZpbGw9IiM5QjlCQTUiLz4KPC9zdmc+'">
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">${product.name}</div>
+                                    <div class="text-sm text-gray-500">ID: ${product.id}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                ${product.category}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-gray-900">LKR ${product.currentPrice.toFixed(2)}</div>
+                            ${product.discount > 0 ? `<div class="text-xs text-gray-500 line-through">LKR ${product.originalPrice.toFixed(2)}</div>` : ''}
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 text-red-500 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                                <span class="text-sm font-medium text-gray-900">${product.wishlistCount}</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            ${discountBadge}
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center space-x-2">
+                                <button onclick="applyDiscount('${product.id}')" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-xs font-medium transition-colors duration-200">
+                                    Apply Discount
+                                </button>
+                                <button onclick="viewProductDetails('${product.id}')" class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded-md text-xs font-medium transition-colors duration-200">
+                                    View Details
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+
+        // Show empty state
+        function showWishlistEmptyState() {
+            const tableBody = document.getElementById('wishlistProductsTable');
+            const emptyState = document.getElementById('wishlistEmptyState');
+            
+            if (tableBody) tableBody.innerHTML = '';
+            if (emptyState) emptyState.classList.remove('hidden');
+        }
+
+        // Apply discount to product
+        async function applyDiscount(productId) {
+            const product = wishlistData.find(p => p.id === productId);
+            if (!product) return;
+
+            const discount = prompt(`Apply discount to "${product.name}":\nCurrent Price: LKR ${product.currentPrice.toFixed(2)}\n\nEnter discount percentage (0-50):`, product.discount);
+            
+            if (discount === null) return; // User cancelled
+            
+            const discountNum = parseFloat(discount);
+            if (isNaN(discountNum) || discountNum < 0 || discountNum > 50) {
+                alert('Please enter a valid discount percentage between 0 and 50.');
+                return;
+            }
+
+            try {
+                // Make API call to update the product in the database
+                const response = await fetch(`/api/admin/products/${productId}/discount`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    },
+                    body: JSON.stringify({ discount: discountNum })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Update local data
+                    product.discount = discountNum;
+                    product.currentPrice = product.originalPrice * (1 - discountNum / 100);
+                    
+                    // Update display
+                    updateWishlistDisplay();
+                    
+                    // Show success message
+                    showNotification(`Discount of ${discountNum}% applied to "${product.name}"!`, 'success');
+                } else {
+                    throw new Error(result.error || 'Failed to apply discount');
+                }
+                
+            } catch (error) {
+                console.error('Apply discount error:', error);
+                showNotification('Failed to apply discount. Please try again.', 'error');
+            }
+        }
+
+        // View product details
+        function viewProductDetails(productId) {
+            const product = wishlistData.find(p => p.id === productId);
+            if (!product) return;
+
+            alert(`Product Details:\n\nName: ${product.name}\nCategory: ${product.category}\nOriginal Price: LKR ${product.originalPrice.toFixed(2)}\nCurrent Price: LKR ${product.currentPrice.toFixed(2)}\nDiscount: ${product.discount}%\nWishlist Count: ${product.wishlistCount}\nProduct ID: ${product.id}`);
+        }
+
+        // Refresh wishlist analytics
+        function refreshWishlistAnalytics() {
+            loadWishlistAnalytics();
+            showNotification('Wishlist analytics refreshed!', 'success');
+        }
+
+        // Initialize wishlist analytics on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add wishlist analytics to the existing initialization
+            setTimeout(() => {
+                loadWishlistAnalytics();
+            }, 1000);
+        });
+    </script>

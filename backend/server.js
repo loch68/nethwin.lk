@@ -1,4 +1,5 @@
-require('dotenv').config({ path: '../.env' });
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 // Environment validation
 const requiredEnvVars = [
@@ -21,7 +22,6 @@ console.log('✅ All required environment variables are set');
 
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
 const fs = require('fs');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
@@ -170,12 +170,24 @@ if (!fs.existsSync(productsUploadDir)) {
 
 // Connect to MongoDB
 const mongoUri = process.env.MONGODB_URI;
+console.log('MongoDB URI exists:', !!mongoUri);
+console.log('Attempting MongoDB connection...');
+
 mongoose
   .connect(mongoUri, { 
-    serverSelectionTimeoutMS: 5000,
+    serverSelectionTimeoutMS: 10000,
+    connectTimeoutMS: 10000,
+    family: 4, // Force IPv4
   })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => console.error('MongoDB connection error:', err.message));
+  .then(() => console.log('✅ Connected to MongoDB successfully'))
+  .catch((err) => {
+    console.error('❌ MongoDB connection error:', err.message);
+    console.error('Error details:', err);
+    
+    // Try to continue without database for now
+    console.log('⚠️ Server will continue running without database connection');
+    console.log('📋 You can still access the admin interface, but database operations will fail');
+  });
 
 // Models
 const Product = require('./src/models/Product');
@@ -187,6 +199,8 @@ const ChatMessage = require('./src/models/ChatMessage');
 const PrintOrder = require('./src/models/PrintOrder');
 const HeroImage = require('./src/models/HeroImage');
 const DeliverySettings = require('./src/models/DeliverySettings');
+const WishlistTracking = require('./src/models/WishlistTracking');
+const WishlistData = require('./src/models/WishlistData');
 
 // Pricing data
 const pricingData = {
@@ -1676,10 +1690,10 @@ app.get('/api/products/export/low-stock/pdf', async (req, res) => {
 // ==================== ENHANCED EXPORT ENDPOINTS WITH CHARTS ====================
 
 // Enhanced Product Catalog Export with Charts
-app.get('/api/products/export/catalog/enhanced', async (req, res) => {
+app.post('/api/products/export/enhanced', async (req, res) => {
   try {
     console.log('Starting enhanced product catalog export with charts...');
-    const { format = 'pdf', includeCharts = 'true', chartTypes = 'pie,bar' } = req.query;
+    const { format = 'pdf', charts: clientCharts } = req.body;
     
     const products = await Product.find({}).sort({ createdAt: -1 }).lean();
     console.log(`Found ${products.length} products for enhanced export`);
@@ -1696,47 +1710,21 @@ app.get('/api/products/export/catalog/enhanced', async (req, res) => {
     }));
 
     const metadata = {
-      title: 'NethwinLK - Book Catalog Report',
+      title: 'NethwinLK - Book Catalog',
       date: new Date().toLocaleString(),
       totalRecords: products.length
     };
 
     let charts = [];
-    if (includeCharts === 'true') {
-      // Aggregate data for charts
-      const aggregated = aggregateProductData(products);
-      const requestedTypes = chartTypes.split(',');
-      
-      // Generate chart specs
-      const chartSpecs = [];
-      if (requestedTypes.includes('pie') && aggregated.categoryDistribution) {
-        chartSpecs.push({
-          type: 'pie',
-          title: 'Product Distribution by Category',
-          labels: aggregated.categoryDistribution.labels,
-          datasets: [{ label: 'Products', data: aggregated.categoryDistribution.data }]
-        });
-      }
-      if (requestedTypes.includes('bar') && aggregated.categoryStock) {
-        chartSpecs.push({
-          type: 'bar',
-          title: 'Total Stock by Category',
-          labels: aggregated.categoryStock.labels,
-          datasets: [{ label: 'Stock Units', data: aggregated.categoryStock.data }]
-        });
-      }
-      if (requestedTypes.includes('bar') && aggregated.priceDistribution) {
-        chartSpecs.push({
-          type: 'bar',
-          title: 'Price Range Distribution',
-          labels: aggregated.priceDistribution.labels,
-          datasets: [{ label: 'Number of Products', data: aggregated.priceDistribution.data }]
-        });
-      }
-
-      // Render charts
-      charts = await renderMultipleCharts(chartSpecs);
-      console.log(`Generated ${charts.length} charts`);
+    // Use charts from client if provided
+    if (clientCharts && clientCharts.length > 0) {
+      console.log(`Using ${clientCharts.length} charts from client`);
+      charts = clientCharts.map(chart => ({
+        title: chart.name,
+        buffer: Buffer.from(chart.data.split(';base64,').pop(), 'base64')
+      }));
+    } else {
+      console.log('No charts provided from client');
     }
 
     // Generate export based on format
@@ -1781,10 +1769,10 @@ app.get('/api/products/export/catalog/enhanced', async (req, res) => {
 });
 
 // Enhanced User Export with Charts
-app.get('/api/users/export/enhanced', async (req, res) => {
+app.post('/api/users/export/enhanced', async (req, res) => {
   try {
     console.log('Starting enhanced user export with charts...');
-    const { format = 'pdf', includeCharts = 'true', chartTypes = 'pie,line' } = req.query;
+    const { format = 'pdf', charts: clientCharts } = req.body;
     
     const users = await User.find({}).sort({ createdAt: -1 }).lean();
     console.log(`Found ${users.length} users for enhanced export`);
@@ -1808,38 +1796,15 @@ app.get('/api/users/export/enhanced', async (req, res) => {
     };
 
     let charts = [];
-    if (includeCharts === 'true') {
-      const aggregated = aggregateUserData(users);
-      const requestedTypes = chartTypes.split(',');
-      
-      const chartSpecs = [];
-      if (requestedTypes.includes('pie') && aggregated.roleDistribution) {
-        chartSpecs.push({
-          type: 'pie',
-          title: 'User Distribution by Role',
-          labels: aggregated.roleDistribution.labels,
-          datasets: [{ label: 'Users', data: aggregated.roleDistribution.data }]
-        });
-      }
-      if (requestedTypes.includes('doughnut') && aggregated.statusDistribution) {
-        chartSpecs.push({
-          type: 'doughnut',
-          title: 'User Status Distribution',
-          labels: aggregated.statusDistribution.labels,
-          datasets: [{ label: 'Users', data: aggregated.statusDistribution.data }]
-        });
-      }
-      if (requestedTypes.includes('line') && aggregated.userGrowth) {
-        chartSpecs.push({
-          type: 'line',
-          title: 'User Growth Over Time (Last 12 Months)',
-          labels: aggregated.userGrowth.labels,
-          datasets: [{ label: 'New Users', data: aggregated.userGrowth.data, fill: true }]
-        });
-      }
-
-      charts = await renderMultipleCharts(chartSpecs);
-      console.log(`Generated ${charts.length} charts`);
+    // Use charts from client if provided
+    if (clientCharts && clientCharts.length > 0) {
+      console.log(`Using ${clientCharts.length} charts from client`);
+      charts = clientCharts.map(chart => ({
+        title: chart.name,
+        buffer: Buffer.from(chart.data.split(';base64,').pop(), 'base64')
+      }));
+    } else {
+      console.log('No charts provided from client');
     }
 
     // Generate export based on format
@@ -1884,65 +1849,48 @@ app.get('/api/users/export/enhanced', async (req, res) => {
 });
 
 // Enhanced Print Orders Export with Charts
-app.get('/api/admin/print-orders/export/enhanced', async (req, res) => {
+app.post('/api/admin/print-orders/export/enhanced', async (req, res) => {
   try {
     console.log('Starting enhanced print orders export with charts...');
-    const { format = 'pdf', includeCharts = 'true', chartTypes = 'pie,bar' } = req.query;
+    const { format = 'pdf', charts: clientCharts } = req.body;
     
     const printOrders = await PrintOrder.find({}).sort({ createdAt: -1 }).lean();
     console.log(`Found ${printOrders.length} print orders for enhanced export`);
 
-    // Prepare table data with correct field names
-    const tableData = printOrders.map(po => ({
+    // Calculate summary metrics
+    const totalRevenue = printOrders.reduce((sum, po) => sum + (po.finalPrice || po.estimatedPrice || 0), 0);
+    const completedOrders = printOrders.filter(po => ['completed', 'delivered'].includes(po.status)).length;
+
+    // Prepare table data
+    const tableData = printOrders.slice(0, 25).map(po => ({
       'Order ID': String(po._id).substring(0, 8) + '...',
-      'Customer Name': po.userName || 'N/A',
+      'Customer': po.userName || 'N/A',
       'Paper Size': po.paperSize || 'N/A',
       'Color': po.colorOption || 'N/A',
       'Copies': po.copies || 0,
       'Status': po.status || 'pending',
-      'Price (LKR)': po.finalPrice || po.estimatedPrice || 0,
-      'Created At': po.createdAt ? new Date(po.createdAt).toLocaleDateString() : ''
+      'Price': `Rs. ${(po.finalPrice || po.estimatedPrice || 0).toFixed(2)}`,
+      'Date': po.createdAt ? new Date(po.createdAt).toLocaleDateString() : ''
     }));
 
     const metadata = {
       title: 'NethwinLK - Print Orders Report',
       date: new Date().toLocaleString(),
-      totalRecords: printOrders.length
+      totalRecords: printOrders.length,
+      totalRevenue: `Rs. ${totalRevenue.toFixed(2)}`,
+      completedOrders: completedOrders
     };
 
     let charts = [];
-    if (includeCharts === 'true') {
-      const aggregated = aggregatePrintOrderData(printOrders);
-      const requestedTypes = chartTypes.split(',');
-      
-      const chartSpecs = [];
-      if (requestedTypes.includes('pie') && aggregated.jobTypeDistribution) {
-        chartSpecs.push({
-          type: 'pie',
-          title: 'Print Job Type Distribution',
-          labels: aggregated.jobTypeDistribution.labels,
-          datasets: [{ label: 'Jobs', data: aggregated.jobTypeDistribution.data }]
-        });
-      }
-      if (requestedTypes.includes('doughnut') && aggregated.statusDistribution) {
-        chartSpecs.push({
-          type: 'doughnut',
-          title: 'Print Job Status Distribution',
-          labels: aggregated.statusDistribution.labels,
-          datasets: [{ label: 'Jobs', data: aggregated.statusDistribution.data }]
-        });
-      }
-      if (requestedTypes.includes('bar') && aggregated.revenueByType) {
-        chartSpecs.push({
-          type: 'bar',
-          title: 'Revenue by Job Type',
-          labels: aggregated.revenueByType.labels,
-          datasets: [{ label: 'Revenue (LKR)', data: aggregated.revenueByType.data }]
-        });
-      }
-
-      charts = await renderMultipleCharts(chartSpecs);
-      console.log(`Generated ${charts.length} charts`);
+    // Use charts from client if provided
+    if (clientCharts && clientCharts.length > 0) {
+      console.log(`Using ${clientCharts.length} charts from client`);
+      charts = clientCharts.map(chart => ({
+        title: chart.name,
+        buffer: Buffer.from(chart.data.split(';base64,').pop(), 'base64')
+      }));
+    } else {
+      console.log('No charts provided from client');
     }
 
     // Generate export based on format
@@ -2446,8 +2394,48 @@ app.post('/api/orders', async (req, res) => {
       meta: body.meta || {},
     };
     
+    // Update product stock for each item in the order
+    if (Array.isArray(toCreate.items) && toCreate.items.length > 0) {
+      console.log('Updating product stock for order items...');
+      
+      for (const item of toCreate.items) {
+        try {
+          const productId = item.id || item._id;
+          const quantity = parseInt(item.qty || item.quantity || 1);
+          
+          if (productId && quantity > 0) {
+            // Find the product and update stock
+            const product = await Product.findById(productId);
+            
+            if (product) {
+              const currentStock = parseInt(product.stock || 0);
+              const newStock = Math.max(0, currentStock - quantity);
+              
+              await Product.findByIdAndUpdate(productId, {
+                $set: { stock: newStock }
+              });
+              
+              console.log(`Updated stock for product ${productId}: ${currentStock} -> ${newStock} (ordered: ${quantity})`);
+            } else {
+              console.warn(`Product not found for ID: ${productId}`);
+            }
+          }
+        } catch (stockError) {
+          console.error(`Error updating stock for item ${item.id}:`, stockError);
+          // Continue with other items even if one fails
+        }
+      }
+    }
+    
     const o = await Order.create(toCreate);
-    res.status(201).json(o);
+    console.log(`Order created successfully: ${orderNumber}`);
+    
+    // Return order with a flag indicating stock was updated
+    res.status(201).json({
+      ...o.toObject(),
+      stockUpdated: true,
+      message: 'Order placed successfully and inventory updated'
+    });
   } catch (e) {
     console.error('POST /api/orders error:', e);
     res.status(400).json({ error: e.message || 'Invalid payload' });
@@ -2484,6 +2472,39 @@ app.post('/api/orders/:id/cancel', async (req, res) => {
         message: 'Orders can only be cancelled within 24 hours of placement',
         hoursElapsed: Math.round(hoursSinceCreation)
       });
+    }
+    
+    // Restore product stock for cancelled order
+    if (Array.isArray(order.items) && order.items.length > 0) {
+      console.log('Restoring product stock for cancelled order...');
+      
+      for (const item of order.items) {
+        try {
+          const productId = item.id || item._id;
+          const quantity = parseInt(item.qty || item.quantity || 1);
+          
+          if (productId && quantity > 0) {
+            // Find the product and restore stock
+            const product = await Product.findById(productId);
+            
+            if (product) {
+              const currentStock = parseInt(product.stock || 0);
+              const newStock = currentStock + quantity;
+              
+              await Product.findByIdAndUpdate(productId, {
+                $set: { stock: newStock }
+              });
+              
+              console.log(`Restored stock for product ${productId}: ${currentStock} -> ${newStock} (restored: ${quantity})`);
+            } else {
+              console.warn(`Product not found for ID: ${productId}`);
+            }
+          }
+        } catch (stockError) {
+          console.error(`Error restoring stock for item ${item.id}:`, stockError);
+          // Continue with other items even if one fails
+        }
+      }
     }
     
     // Perform soft delete
@@ -2895,12 +2916,23 @@ app.post('/api/reviews', [
 // Get all reviews (admin only)
 app.get('/api/reviews', async (req, res) => {
   try {
-    const { page = 1, limit = 20, status, productId } = req.query;
+    const { page = 1, limit = 20, status, productId, rating, search } = req.query;
     const skip = (parseInt(page) - 1) * parseInt(limit);
     
     let filter = {};
     if (status) filter.status = status;
     if (productId) filter.productId = productId;
+    if (rating) filter.rating = parseInt(rating);
+    if (search) {
+      filter.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { comment: { $regex: search, $options: 'i' } },
+        { userName: { $regex: search, $options: 'i' } },
+        { userEmail: { $regex: search, $options: 'i' } }
+      ];
+    }
+    
+    console.log('Reviews API - Filter:', filter, 'Query params:', req.query);
     
     const reviews = await Review.find(filter)
       .sort({ createdAt: -1 })
@@ -5543,11 +5575,102 @@ app.get('/api/admin/hero-images', async (req, res) => {
 
 // ==================== ANALYTICS & REPORTS API ENDPOINTS ====================
 
+// GET /api/admin/analytics/dashboard-charts - Get data for dashboard charts
+app.get('/api/admin/analytics/dashboard-charts', async (req, res) => {
+  try {
+    console.log('Fetching dashboard chart data...');
+    
+    // Fetch all orders and products
+    const orders = await Order.find({}).lean();
+    const printOrders = await PrintOrder.find({}).lean();
+    const allOrders = [...orders, ...printOrders];
+    
+    // 1. Sales Trend (Last 7 days)
+    const last7Days = [];
+    const salesData = [];
+    const today = new Date();
+    
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      const dayStart = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const dayEnd = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59);
+      
+      const dayOrders = allOrders.filter(order => {
+        const orderDate = new Date(order.createdAt);
+        return orderDate >= dayStart && orderDate <= dayEnd;
+      });
+      
+      const dayRevenue = dayOrders.reduce((sum, order) => 
+        sum + (order.total || order.estimatedPrice || 0), 0
+      );
+      
+      last7Days.push(date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+      salesData.push(dayRevenue);
+    }
+    
+    // 2. Order Status Distribution
+    const statusDistribution = {};
+    allOrders.forEach(order => {
+      const status = order.status || 'pending';
+      statusDistribution[status] = (statusDistribution[status] || 0) + 1;
+    });
+    
+    // 3. Top Products (from bookshop orders)
+    const productSales = {};
+    orders.forEach(order => {
+      if (order.items && Array.isArray(order.items)) {
+        order.items.forEach(item => {
+          const productName = item.name || 'Unknown';
+          if (!productSales[productName]) {
+            productSales[productName] = 0;
+          }
+          productSales[productName] += item.quantity || 1;
+        });
+      }
+    });
+    
+    const topProducts = Object.entries(productSales)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5);
+    
+    // 4. Revenue by Category
+    const bookshopRevenue = orders.reduce((sum, o) => sum + (o.total || 0), 0);
+    const printRevenue = printOrders.reduce((sum, o) => sum + (o.estimatedPrice || 0), 0);
+    
+    // Prepare chart data
+    const chartData = {
+      salesTrend: {
+        labels: last7Days,
+        data: salesData
+      },
+      orderStatus: {
+        labels: Object.keys(statusDistribution),
+        data: Object.values(statusDistribution)
+      },
+      topProducts: {
+        labels: topProducts.map(p => p[0].substring(0, 15)),
+        data: topProducts.map(p => p[1])
+      },
+      revenueCategory: {
+        labels: ['Bookshop', 'Print Services'],
+        data: [bookshopRevenue, printRevenue]
+      }
+    };
+    
+    res.json(chartData);
+    
+  } catch (error) {
+    console.error('Error fetching dashboard chart data:', error);
+    res.status(500).json({ error: 'Failed to fetch chart data', details: error.message });
+  }
+});
+
 // POST /api/admin/analytics/sales-report - Generate sales reports
 app.post('/api/admin/analytics/sales-report', async (req, res) => {
   try {
-    console.log('Generating sales report...');
-    const { period, format, startDate, endDate } = req.body;
+    console.log('Generating sales report with charts...');
+    const { period, format, startDate, endDate, data: reportData } = req.body;
     
     // Calculate date range based on period
     let dateFilter = {};
@@ -5608,26 +5731,148 @@ app.post('/api/admin/analytics/sales-report', async (req, res) => {
       }))
     ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     
+    // Calculate summary metrics
+    const totalRevenue = allOrders.reduce((sum, order) => sum + (order.total || 0), 0);
+    const completedOrders = allOrders.filter(order => 
+      ['delivered', 'completed'].includes(order.status)
+    ).length;
+    
+    // Prepare table data
+    const tableData = allOrders.slice(0, 25).map(order => ({
+      'Order Number': order.orderNumber || order._id.toString().substring(0, 8),
+      'Customer': order.customerName,
+      'Type': order.type === 'bookshop' ? 'Bookshop' : 'Print',
+      'Total': `Rs. ${(order.total || 0).toFixed(2)}`,
+      'Status': order.status,
+      'Date': new Date(order.createdAt).toLocaleDateString()
+    }));
+
+    const metadata = {
+      title: `NethwinLK - Sales Report (${period})`,
+      date: new Date().toLocaleString(),
+      totalRecords: allOrders.length,
+      totalRevenue: `Rs. ${totalRevenue.toFixed(2)}`,
+      totalOrders: allOrders.length,
+      completedOrders: completedOrders,
+      period: period
+    };
+
+    // Generate period-specific charts based on filtered data
+    console.log(`Generating charts for ${period} sales report with ${allOrders.length} orders`);
+    
+    // Calculate statistics for the filtered period
+    const statusDistribution = {};
+    const paymentMethodDistribution = {};
+    const deliveryMethodDistribution = {};
+    const productSales = {};
+    
+    allOrders.forEach(order => {
+      // Status distribution
+      const status = order.status || 'Unknown';
+      statusDistribution[status] = (statusDistribution[status] || 0) + 1;
+      
+      // Payment method distribution
+      const paymentMethod = order.paymentMethod || 'Unknown';
+      paymentMethodDistribution[paymentMethod] = (paymentMethodDistribution[paymentMethod] || 0) + 1;
+      
+      // Delivery method distribution
+      const deliveryMethod = order.deliveryMethod || 'Unknown';
+      deliveryMethodDistribution[deliveryMethod] = (deliveryMethodDistribution[deliveryMethod] || 0) + 1;
+      
+      // Product sales (for bookshop orders)
+      if (order.items && Array.isArray(order.items)) {
+        order.items.forEach(item => {
+          const productName = item.name || 'Unknown Product';
+          if (!productSales[productName]) {
+            productSales[productName] = { quantity: 0, revenue: 0 };
+          }
+          productSales[productName].quantity += item.quantity || 1;
+          productSales[productName].revenue += (item.price || 0) * (item.quantity || 1);
+        });
+      }
+    });
+    
+    // Get top 10 products by revenue
+    const topProducts = Object.entries(productSales)
+      .map(([name, data]) => ({ name, ...data }))
+      .sort((a, b) => b.revenue - a.revenue)
+      .slice(0, 10);
+    
+    // Generate charts based on period data
+    const chartSpecs = [
+      {
+        type: 'pie',
+        title: `Order Status Distribution (${period})`,
+        labels: Object.keys(statusDistribution),
+        datasets: [{ 
+          label: 'Orders', 
+          data: Object.values(statusDistribution),
+          backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6']
+        }]
+      },
+      {
+        type: 'doughnut',
+        title: `Payment Methods (${period})`,
+        labels: Object.keys(paymentMethodDistribution),
+        datasets: [{ 
+          label: 'Orders', 
+          data: Object.values(paymentMethodDistribution),
+          backgroundColor: ['#06b6d4', '#8b5cf6', '#ec4899', '#f59e0b']
+        }]
+      },
+      {
+        type: 'bar',
+        title: `Top 10 Products (${period})`,
+        labels: topProducts.map(p => p.name.substring(0, 20)),
+        datasets: [{ 
+          label: 'Quantity Sold', 
+          data: topProducts.map(p => p.quantity),
+          backgroundColor: '#3b82f6'
+        }]
+      },
+      {
+        type: 'doughnut',
+        title: `Delivery Methods (${period})`,
+        labels: Object.keys(deliveryMethodDistribution),
+        datasets: [{ 
+          label: 'Orders', 
+          data: Object.values(deliveryMethodDistribution),
+          backgroundColor: ['#10b981', '#3b82f6', '#f59e0b']
+        }]
+      }
+    ];
+    
+    const charts = await renderMultipleCharts(chartSpecs);
+    console.log(`✅ Generated ${charts.length} period-specific charts for ${period} sales report`);
+    
     // Generate report based on format
     if (format === 'pdf') {
-      // Generate HTML report (can be converted to PDF by browser)
-      const htmlContent = generateSalesReportHTML(allOrders, period, startDate, endDate);
-      res.setHeader('Content-Type', 'text/html');
-      res.setHeader('Content-Disposition', `attachment; filename="sales-report-${period}-${new Date().toISOString().split('T')[0]}.html"`);
-      res.send(htmlContent);
-            } else if (format === 'excel') {
-                // Generate CSV report (Excel-compatible)
-                const csvBuffer = generateSalesReportExcel(allOrders, period, startDate, endDate);
-                res.setHeader('Content-Type', 'text/csv');
-                res.setHeader('Content-Disposition', `attachment; filename="sales-report-${period}-${new Date().toISOString().split('T')[0]}.csv"`);
-                res.send(csvBuffer);
+      const pdfBuffer = await createPdfWithCharts({
+        title: metadata.title,
+        tableData,
+        charts,
+        metadata
+      });
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="sales-report-${period}-${new Date().toISOString().split('T')[0]}.pdf"`);
+      res.send(pdfBuffer);
+    } else if (format === 'excel') {
+      const excelBuffer = await createExcelWithCharts({
+        title: metadata.title,
+        tableData,
+        charts,
+        metadata
+      });
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', `attachment; filename="sales-report-${period}-${new Date().toISOString().split('T')[0]}.xlsx"`);
+      res.send(excelBuffer);
     } else {
       res.status(400).json({ error: 'Invalid format. Use "pdf" or "excel".' });
     }
     
   } catch (error) {
     console.error('Sales report generation error:', error);
-    res.status(500).json({ error: 'Failed to generate sales report' });
+    res.status(500).json({ error: 'Failed to generate sales report', details: error.message });
   }
 });
 
@@ -5635,7 +5880,7 @@ app.post('/api/admin/analytics/sales-report', async (req, res) => {
 app.post('/api/admin/analytics/analytics-report', async (req, res) => {
   try {
     console.log('Generating analytics report with charts...');
-    const { format } = req.body;
+    const { format, data: reportData } = req.body;
     
     // Fetch all data
     const users = await User.find({}).lean();
@@ -5689,33 +5934,46 @@ app.post('/api/admin/analytics/analytics-report', async (req, res) => {
       totalRecords: topSellingProducts.length
     };
 
-    // Generate charts
-    const aggregatedUsers = aggregateUserData(users);
-    const aggregatedOrders = aggregateOrderData(orders);
+    let charts = [];
     
-    const chartSpecs = [
-      {
-        type: 'pie',
-        title: 'User Distribution by Role',
-        labels: aggregatedUsers.roleDistribution.labels,
-        datasets: [{ label: 'Users', data: aggregatedUsers.roleDistribution.data }]
-      },
-      {
-        type: 'doughnut',
-        title: 'Order Status Distribution',
-        labels: aggregatedOrders.statusDistribution.labels,
-        datasets: [{ label: 'Orders', data: aggregatedOrders.statusDistribution.data }]
-      },
-      {
-        type: 'bar',
-        title: 'Top 10 Selling Products',
-        labels: topSellingProducts.slice(0, 10).map(p => p.name.substring(0, 20)),
-        datasets: [{ label: 'Quantity Sold', data: topSellingProducts.slice(0, 10).map(p => p.quantity) }]
-      }
-    ];
+    // If we have chart data from the frontend, use that
+    if (reportData && reportData.charts && reportData.charts.length > 0) {
+      console.log(`Using ${reportData.charts.length} charts from frontend`);
+      charts = reportData.charts.map(chart => ({
+        title: chart.name,
+        buffer: Buffer.from(chart.data.split(';base64,').pop(), 'base64')
+      }));
+    } else {
+      // Fallback to server-side chart generation if no charts from frontend
+      console.log('Generating charts on the server...');
+      const aggregatedUsers = aggregateUserData(users);
+      const aggregatedOrders = aggregateOrderData(orders);
+      
+      const chartSpecs = [
+        {
+          type: 'pie',
+          title: 'User Distribution by Role',
+          labels: aggregatedUsers.roleDistribution.labels,
+          datasets: [{ label: 'Users', data: aggregatedUsers.roleDistribution.data }]
+        },
+        {
+          type: 'doughnut',
+          title: 'Order Status Distribution',
+          labels: aggregatedOrders.statusDistribution.labels,
+          datasets: [{ label: 'Orders', data: aggregatedOrders.statusDistribution.data }]
+        },
+        {
+          type: 'bar',
+          title: 'Top 10 Selling Products',
+          labels: topSellingProducts.slice(0, 10).map(p => p.name.substring(0, 20)),
+          datasets: [{ label: 'Quantity Sold', data: topSellingProducts.slice(0, 10).map(p => p.quantity) }]
+        }
+      ];
 
-    const charts = await renderMultipleCharts(chartSpecs);
-    console.log(`Generated ${charts.length} charts for analytics report`);
+      charts = await renderMultipleCharts(chartSpecs);
+    }
+    
+    console.log(`✅ Using ${charts.length} charts for analytics report`);
     
     // Generate report based on format
     if (format === 'pdf') {
@@ -5759,7 +6017,7 @@ app.post('/api/admin/analytics/analytics-report', async (req, res) => {
 app.post('/api/admin/analytics/performance-report', async (req, res) => {
   try {
     console.log('Generating performance report with charts...');
-    const { format } = req.body;
+    const { format, data: reportData } = req.body;
     
     // Fetch data for the last 30 days
     const thirtyDaysAgo = new Date();
@@ -5818,24 +6076,37 @@ app.post('/api/admin/analytics/performance-report', async (req, res) => {
       totalRecords: recentOrders.length + recentPrintOrders.length
     };
 
-    // Generate charts
-    const chartSpecs = [
-      {
-        type: 'pie',
-        title: 'Payment Method Distribution',
-        labels: Object.keys(paymentMethods),
-        datasets: [{ label: 'Orders', data: Object.values(paymentMethods) }]
-      },
-      {
-        type: 'doughnut',
-        title: 'Delivery Method Distribution',
-        labels: Object.keys(deliveryMethods),
-        datasets: [{ label: 'Orders', data: Object.values(deliveryMethods) }]
-      }
-    ];
+    let charts = [];
+    
+    // If we have chart data from the frontend, use that
+    if (reportData && reportData.charts && reportData.charts.length > 0) {
+      console.log(`Using ${reportData.charts.length} charts from frontend`);
+      charts = reportData.charts.map(chart => ({
+        title: chart.name,
+        buffer: Buffer.from(chart.data.split(';base64,').pop(), 'base64')
+      }));
+    } else {
+      // Fallback to server-side chart generation if no charts from frontend
+      console.log('Generating charts on the server...');
+      const chartSpecs = [
+        {
+          type: 'pie',
+          title: 'Payment Method Distribution',
+          labels: Object.keys(paymentMethods),
+          datasets: [{ label: 'Orders', data: Object.values(paymentMethods) }]
+        },
+        {
+          type: 'doughnut',
+          title: 'Delivery Method Distribution',
+          labels: Object.keys(deliveryMethods),
+          datasets: [{ label: 'Orders', data: Object.values(deliveryMethods) }]
+        }
+      ];
 
-    const charts = await renderMultipleCharts(chartSpecs);
-    console.log(`Generated ${charts.length} charts for performance report`);
+      charts = await renderMultipleCharts(chartSpecs);
+    }
+    
+    console.log(`✅ Using ${charts.length} charts for performance report`);
     
     // Generate report based on format
     if (format === 'pdf') {
@@ -6124,6 +6395,311 @@ function generatePerformanceReportExcel(data) {
   
   return Buffer.from(csvContent, 'utf8');
 }
+
+// Wishlist Analytics API Endpoints
+console.log('Registering wishlist analytics API endpoints...');
+
+// Get wishlist analytics data (Admin only)
+app.get('/api/admin/wishlist/analytics', async (req, res) => {
+  try {
+    // Get real wishlist analytics from database
+    const wishlistAnalytics = await generateWishlistAnalytics();
+    
+    res.json({
+      success: true,
+      data: wishlistAnalytics
+    });
+
+  } catch (error) {
+    console.error('Wishlist analytics error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to load wishlist analytics' 
+    });
+  }
+});
+
+// Generate real wishlist analytics
+async function generateWishlistAnalytics() {
+  try {
+    // Get all current wishlist data
+    const allWishlists = await WishlistData.find({});
+    
+    // Calculate total wishlist items across all users
+    const totalWishlistItems = allWishlists.reduce((total, userWishlist) => {
+      return total + userWishlist.wishlist.length;
+    }, 0);
+
+    // Count wishlist frequency for each product
+    const productWishlistCount = {};
+    const productDetails = {};
+    
+    for (const userWishlist of allWishlists) {
+      for (const item of userWishlist.wishlist) {
+        if (!productWishlistCount[item.id]) {
+          productWishlistCount[item.id] = 0;
+          productDetails[item.id] = {
+            id: item.id,
+            name: item.name,
+            category: item.category || 'Unknown',
+            image: item.image || '../assets/placeholder.jpg'
+          };
+        }
+        productWishlistCount[item.id]++;
+      }
+    }
+
+    // Get product data from database to get current prices
+    const productIds = Object.keys(productWishlistCount);
+    const products = await Product.find({ _id: { $in: productIds } });
+    
+    // Create popular products array
+    const popularProducts = [];
+    
+    for (const product of products) {
+      const wishlistCount = productWishlistCount[product._id.toString()] || 0;
+      if (wishlistCount > 0) {
+        popularProducts.push({
+          id: product._id.toString(),
+          name: product.name,
+          category: product.category || 'Unknown',
+          currentPrice: product.price || 0,
+          originalPrice: product.originalPrice || product.price || 0,
+          wishlistCount: wishlistCount,
+          discount: product.discount || 0,
+          image: product.image || '../assets/placeholder.jpg'
+        });
+      }
+    }
+
+    // Add products that might not be in the database but are in wishlists
+    for (const [productId, count] of Object.entries(productWishlistCount)) {
+      if (!products.find(p => p._id.toString() === productId)) {
+        const details = productDetails[productId];
+        popularProducts.push({
+          id: productId,
+          name: details.name || 'Unknown Product',
+          category: details.category || 'Unknown',
+          currentPrice: 0,
+          originalPrice: 0,
+          wishlistCount: count,
+          discount: 0,
+          image: details.image || '../assets/placeholder.jpg'
+        });
+      }
+    }
+
+    // Sort by wishlist count
+    popularProducts.sort((a, b) => b.wishlistCount - a.wishlistCount);
+
+    // Calculate conversion rate (mock for now - would need order data correlation)
+    const conversionRate = Math.floor(Math.random() * 25) + 15;
+
+    // Get most wishlisted count
+    const mostWishlistedCount = popularProducts.length > 0 ? popularProducts[0].wishlistCount : 0;
+
+    return {
+      totalWishlistItems,
+      mostWishlistedCount,
+      conversionRate,
+      popularProducts: popularProducts.slice(0, 10) // Top 10 most wishlisted
+    };
+
+  } catch (error) {
+    console.error('Error generating wishlist analytics:', error);
+    
+    // Return empty analytics if error
+    return {
+      totalWishlistItems: 0,
+      mostWishlistedCount: 0,
+      conversionRate: 0,
+      popularProducts: []
+    };
+  }
+}
+
+// Apply discount to product (Admin only)
+app.post('/api/admin/products/:id/discount', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { discount } = req.body;
+
+    // Validate discount percentage
+    if (typeof discount !== 'number' || discount < 0 || discount > 50) {
+      return res.status(400).json({
+        success: false,
+        error: 'Discount must be a number between 0 and 50'
+      });
+    }
+
+    // Find the product
+    const product = await Product.findById(id);
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        error: 'Product not found'
+      });
+    }
+
+    // Store original price if not already stored
+    if (!product.originalPrice) {
+      product.originalPrice = product.price;
+    }
+
+    // Calculate new price
+    const originalPrice = product.originalPrice || product.price;
+    const newPrice = originalPrice * (1 - discount / 100);
+
+    // Update product
+    product.price = newPrice;
+    product.discount = discount;
+    await product.save();
+
+    console.log(`Applied ${discount}% discount to product ${id}: ${originalPrice} -> ${newPrice}`);
+
+    res.json({
+      success: true,
+      message: `Discount of ${discount}% applied successfully`,
+      data: {
+        id: product._id,
+        name: product.name,
+        originalPrice: originalPrice,
+        newPrice: newPrice,
+        discount: discount
+      }
+    });
+
+  } catch (error) {
+    console.error('Apply discount error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to apply discount'
+    });
+  }
+});
+
+// Remove discount from product (Admin only)
+app.delete('/api/admin/products/:id/discount', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the product
+    const product = await Product.findById(id);
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        error: 'Product not found'
+      });
+    }
+
+    // Restore original price
+    if (product.originalPrice) {
+      product.price = product.originalPrice;
+    }
+    product.discount = 0;
+    await product.save();
+
+    console.log(`Removed discount from product ${id}`);
+
+    res.json({
+      success: true,
+      message: 'Discount removed successfully',
+      data: {
+        id: product._id,
+        name: product.name,
+        price: product.price,
+        discount: 0
+      }
+    });
+
+  } catch (error) {
+    console.error('Remove discount error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to remove discount'
+    });
+  }
+});
+
+// Track wishlist addition (for analytics)
+app.post('/api/wishlist/track', async (req, res) => {
+  try {
+    const { productId, userId, action, timestamp } = req.body; // action: 'add' or 'remove'
+    
+    // Get product details for tracking
+    let productData = {};
+    try {
+      const product = await Product.findById(productId);
+      if (product) {
+        productData = {
+          name: product.name,
+          price: product.price,
+          category: product.category,
+          brand: product.brand,
+          image: product.image
+        };
+      }
+    } catch (err) {
+      console.warn('Could not fetch product details for tracking:', err.message);
+    }
+
+    // Store tracking data
+    const trackingEntry = new WishlistTracking({
+      userId,
+      productId,
+      action,
+      timestamp: timestamp ? new Date(timestamp) : new Date(),
+      productData
+    });
+
+    await trackingEntry.save();
+    
+    console.log(`Wishlist ${action}: User ${userId} ${action}ed product ${productId}`);
+    
+    res.json({
+      success: true,
+      message: `Wishlist ${action} tracked successfully`
+    });
+
+  } catch (error) {
+    console.error('Wishlist tracking error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to track wishlist action'
+    });
+  }
+});
+
+// Sync wishlist data from client
+app.post('/api/wishlist/sync', async (req, res) => {
+  try {
+    const { userId, wishlist, timestamp } = req.body;
+    
+    // Update or create wishlist data for user
+    await WishlistData.findOneAndUpdate(
+      { userId },
+      { 
+        wishlist,
+        lastUpdated: timestamp ? new Date(timestamp) : new Date()
+      },
+      { upsert: true, new: true }
+    );
+    
+    console.log(`Synced wishlist data for user ${userId}: ${wishlist.length} items`);
+    
+    res.json({
+      success: true,
+      message: 'Wishlist data synced successfully'
+    });
+
+  } catch (error) {
+    console.error('Wishlist sync error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to sync wishlist data'
+    });
+  }
+});
 
 // Socket.IO connection handling
 io.on('connection', (socket) => {

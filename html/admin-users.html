@@ -12,6 +12,7 @@
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900"
     />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="../css/hover-effects.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/background-animations.css" />
@@ -777,14 +778,277 @@
             document.getElementById('addUserModal').classList.remove('hidden');
         }
 
+        // Create temporary charts for export
+        async function createUserExportCharts(users) {
+            const charts = [];
+            const container = document.createElement('div');
+            container.style.display = 'none';
+            container.style.position = 'absolute';
+            container.style.left = '-9999px';
+            document.body.appendChild(container);
+            
+            try {
+                if (!users || users.length === 0) {
+                    console.warn('No users data available for charts');
+                    return charts;
+                }
+                // Chart 1: Role Distribution (Pie)
+                const roleCanvas = document.createElement('canvas');
+                roleCanvas.width = 800;
+                roleCanvas.height = 600;
+                container.appendChild(roleCanvas);
+                
+                const roleDist = {};
+                users.forEach(user => {
+                    const role = user.role || 'customer';
+                    roleDist[role] = (roleDist[role] || 0) + 1;
+                });
+                
+                const roleChart = new Chart(roleCanvas, {
+                    type: 'pie',
+                    data: {
+                        labels: Object.keys(roleDist),
+                        datasets: [{
+                            data: Object.values(roleDist),
+                            backgroundColor: ['#3b82f6', '#10b981', '#f59e0b']
+                        }]
+                    },
+                    options: {
+                        responsive: false,
+                        animation: false,
+                        plugins: {
+                            title: { display: true, text: 'User Distribution by Role', font: { size: 18 } },
+                            legend: { position: 'bottom' }
+                        }
+                    }
+                });
+                
+                // Wait for chart to render completely
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                const roleDataUrl = roleCanvas.toDataURL('image/png', 1.0);
+                console.log('Role chart data URL length:', roleDataUrl.length);
+                charts.push({
+                    name: 'User Distribution by Role',
+                    data: roleDataUrl
+                });
+                
+                // Chart 2: Status Distribution (Doughnut)
+                const statusCanvas = document.createElement('canvas');
+                statusCanvas.width = 800;
+                statusCanvas.height = 600;
+                container.appendChild(statusCanvas);
+                
+                const statusDist = {};
+                users.forEach(user => {
+                    const status = user.status || 'active';
+                    statusDist[status] = (statusDist[status] || 0) + 1;
+                });
+                
+                const statusChart = new Chart(statusCanvas, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(statusDist),
+                        datasets: [{
+                            data: Object.values(statusDist),
+                            backgroundColor: ['#10b981', '#ef4444', '#f59e0b']
+                        }]
+                    },
+                    options: {
+                        responsive: false,
+                        animation: false,
+                        plugins: {
+                            title: { display: true, text: 'User Status Distribution', font: { size: 18 } },
+                            legend: { position: 'bottom' }
+                        }
+                    }
+                });
+                
+                // Wait for chart to render completely
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                const statusDataUrl = statusCanvas.toDataURL('image/png', 1.0);
+                console.log('Status chart data URL length:', statusDataUrl.length);
+                charts.push({
+                    name: 'User Status Distribution',
+                    data: statusDataUrl
+                });
+                
+                // Chart 3: Customer Type Distribution (Bar Chart)
+                const customerTypeCanvas = document.createElement('canvas');
+                customerTypeCanvas.width = 800;
+                customerTypeCanvas.height = 600;
+                container.appendChild(customerTypeCanvas);
+                
+                const customerTypeDist = {};
+                users.forEach(user => {
+                    const customerType = user.customerType || 'online';
+                    customerTypeDist[customerType] = (customerTypeDist[customerType] || 0) + 1;
+                });
+                
+                const customerTypeChart = new Chart(customerTypeCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(customerTypeDist),
+                        datasets: [{
+                            label: 'Number of Users',
+                            data: Object.values(customerTypeDist),
+                            backgroundColor: ['#8b5cf6', '#06b6d4', '#10b981', '#f59e0b'],
+                            borderColor: ['#7c3aed', '#0891b2', '#059669', '#d97706'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: false,
+                        animation: false,
+                        plugins: {
+                            title: { display: true, text: 'Users by Customer Type', font: { size: 18 } },
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                const customerTypeDataUrl = customerTypeCanvas.toDataURL('image/png', 1.0);
+                console.log('Customer type chart data URL length:', customerTypeDataUrl.length);
+                charts.push({
+                    name: 'Users by Customer Type',
+                    data: customerTypeDataUrl
+                });
+                
+                // Chart 4: Monthly Registration Trends (Bar Chart)
+                const monthlyCanvas = document.createElement('canvas');
+                monthlyCanvas.width = 800;
+                monthlyCanvas.height = 600;
+                container.appendChild(monthlyCanvas);
+                
+                // Group users by month
+                const monthlyData = {};
+                const currentDate = new Date();
+                
+                // Initialize last 6 months
+                for (let i = 5; i >= 0; i--) {
+                    const date = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
+                    const monthKey = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+                    monthlyData[monthKey] = 0;
+                }
+                
+                users.forEach(user => {
+                    if (user.createdAt) {
+                        const userDate = new Date(user.createdAt);
+                        const monthKey = userDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+                        if (monthlyData.hasOwnProperty(monthKey)) {
+                            monthlyData[monthKey]++;
+                        }
+                    }
+                });
+                
+                const monthlyChart = new Chart(monthlyCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(monthlyData),
+                        datasets: [{
+                            label: 'New Registrations',
+                            data: Object.values(monthlyData),
+                            backgroundColor: '#3b82f6',
+                            borderColor: '#1d4ed8',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: false,
+                        animation: false,
+                        plugins: {
+                            title: { display: true, text: 'Monthly User Registrations (Last 6 Months)', font: { size: 18 } },
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                const monthlyDataUrl = monthlyCanvas.toDataURL('image/png', 1.0);
+                console.log('Monthly registration chart data URL length:', monthlyDataUrl.length);
+                charts.push({
+                    name: 'Monthly User Registrations',
+                    data: monthlyDataUrl
+                });
+                
+                return charts;
+            } catch (error) {
+                console.error('Error creating charts:', error);
+                return charts; // Return whatever charts were created successfully
+            } finally {
+                if (container && container.parentNode) {
+                    document.body.removeChild(container);
+                }
+            }
+        }
+        
         // Enhanced Export Function with Charts
-        function exportUsersEnhanced() {
-            // Use the enhanced export manager
-            if (typeof enhancedExportManager !== 'undefined') {
-                enhancedExportManager.showExportModal('users', '/api/users/export/enhanced');
-            } else {
-                // Fallback to direct download if enhanced export manager not loaded
-                window.location.href = '/api/users/export/enhanced?format=pdf&includeCharts=true&chartTypes=pie,line,doughnut';
+        async function exportUsersEnhanced() {
+            try {
+                // Show loading notification
+                showNotification('Generating users report with charts...', 'info');
+                
+                // Fetch users data
+                const usersResponse = await fetch('/api/users', {
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
+                });
+                const usersData = await usersResponse.json();
+                const users = usersData.users || usersData || [];
+                
+                // Generate charts
+                console.log('Creating charts for', users.length, 'users...');
+                const charts = await createUserExportCharts(users);
+                console.log('Generated', charts.length, 'charts:', charts.map(c => c.name));
+                
+                // Call backend API to generate PDF with charts
+                const response = await fetch('/api/users/export/enhanced', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    },
+                    body: JSON.stringify({
+                        format: 'pdf',
+                        charts: charts
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to generate report: ${response.status}`);
+                }
+
+                // Download the PDF
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `users-report-with-charts-${new Date().toISOString().split('T')[0]}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+                showNotification('📊 Users report with charts downloaded successfully!', 'success');
+
+            } catch (error) {
+                console.error('Enhanced export error:', error);
+                showNotification('Failed to generate report. Please try again.', 'error');
             }
         }
 
@@ -1104,7 +1368,7 @@
         }
     </script>
     
-    <!-- Enhanced Export Script -->
-    <script src="/javascript/enhancedExport.js"></script>
+    <!-- Enhanced Export Script - Commented out to avoid function conflicts -->
+    <!-- <script src="/javascript/enhancedExport.js"></script> -->
 </body>
 </html>

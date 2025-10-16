@@ -327,13 +327,13 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
         </svg>
         <span>Cart</span>
-        <span class="cart-count hidden" id="cartCount">0</span></a><a href="search.html" class="nav-auth-btn"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        <span class="cart-count hidden" id="cartCount">0</span></a><a href="wishlist.html" class="nav-auth-btn wishlist-container relative"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg><span>Wishlist</span><span class="cart-count hidden" id="wishlistCount">0</span></a><a href="search.html" class="nav-auth-btn"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                             Search</a><button onclick="logout()" class="nav-auth-btn"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                             Logout
                         </button></div><!-- Mobile Auth Icons (hidden on desktop) --><div class="mobile-auth-icons hidden md:hidden"><a href="cart.html" class="mobile-icon-btn mobile-cart-container relative"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
         </svg>
-        <span class="mobile-cart-count hidden" id="mobileCartCount">0</span></a><a href="search.html" class="mobile-icon-btn"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></a><button onclick="logout()" class="mobile-icon-btn"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg></button></div><!-- Mobile Menu Toggle --><button class="mobile-menu-toggle" id="mobileToggle"><span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span></button></div></nav><!-- Navbar Spacer --><div style="height: 4rem;"></div><!-- Main Content --><div class="px-4 md:px-6 lg:px-10 flex flex-1 justify-center py-8 page-transition"><div class="layout-content-container flex flex-col max-w-7xl flex-1"><!-- Profile Header --><div class="profile-card p-8 mb-8"><div class="flex flex-col md:flex-row items-center md:items-start gap-6"><!-- Profile Avatar --><div class="profile-avatar w-24 h-24 bg-gradient-to-br from-[#19e619] to-[#0ad167] rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg"><span id="userInitials">U</span></div><!-- Profile Info --><div class="flex-1 text-center md:text-left"><h1 id="userName" class="text-3xl font-bold text-[#0e1a13] mb-2">Loading...</h1><p id="userEmail" class="text-[#51946c] text-lg mb-4">Loading...</p><div class="flex flex-wrap gap-2 justify-center md:justify-start"><span id="userRole" class="px-3 py-1 bg-[#e8f2ec] text-[#0e1a13] rounded-full text-sm font-medium">Customer</span><span id="memberSince" class="px-3 py-1 bg-[#f2f4f1] text-[#51946c] rounded-full text-sm">Member since 2025</span></div></div><!-- Quick Actions --><div class="flex gap-3"><button onclick="editProfile()" class="btn-primary"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+        <span class="mobile-cart-count hidden" id="mobileCartCount">0</span></a><a href="wishlist.html" class="mobile-icon-btn mobile-wishlist-container relative"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg><span class="mobile-cart-count hidden" id="mobileWishlistCount">0</span></a><a href="search.html" class="mobile-icon-btn"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></a><button onclick="logout()" class="mobile-icon-btn"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg></button></div><!-- Mobile Menu Toggle --><button class="mobile-menu-toggle" id="mobileToggle"><span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span></button></div></nav><!-- Navbar Spacer --><div style="height: 4rem;"></div><!-- Main Content --><div class="px-4 md:px-6 lg:px-10 flex flex-1 justify-center py-8 page-transition"><div class="layout-content-container flex flex-col max-w-7xl flex-1"><!-- Profile Header --><div class="profile-card p-8 mb-8"><div class="flex flex-col md:flex-row items-center md:items-start gap-6"><!-- Profile Avatar --><div class="profile-avatar w-24 h-24 bg-gradient-to-br from-[#19e619] to-[#0ad167] rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg"><span id="userInitials">U</span></div><!-- Profile Info --><div class="flex-1 text-center md:text-left"><h1 id="userName" class="text-3xl font-bold text-[#0e1a13] mb-2">Loading...</h1><p id="userEmail" class="text-[#51946c] text-lg mb-4">Loading...</p><div class="flex flex-wrap gap-2 justify-center md:justify-start"><span id="userRole" class="px-3 py-1 bg-[#e8f2ec] text-[#0e1a13] rounded-full text-sm font-medium">Customer</span><span id="memberSince" class="px-3 py-1 bg-[#f2f4f1] text-[#51946c] rounded-full text-sm">Member since 2025</span></div></div><!-- Quick Actions --><div class="flex gap-3"><button onclick="editProfile()" class="btn-primary"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                     Edit Profile
                                 </button>
                                 <button
@@ -383,7 +383,65 @@
                                         <span>Refresh</span>
                                     </button>
                                 </div>
-                            </div><div class="rounded-xl border-2 border-gray-200 shadow-lg overflow-x-auto"><table class="order-table w-full"><thead class="bg-gradient-to-r from-gray-50 to-gray-100"><tr><th class="px-8 py-6 text-left text-base font-semibold text-gray-700 w-[10%]">Order ID</th><th class="px-8 py-6 text-left text-base font-semibold text-gray-700 w-[8%]">Date</th><th class="px-8 py-6 text-left text-base font-semibold text-gray-700 w-[20%]">Books</th><th class="px-8 py-6 text-left text-base font-semibold text-gray-700 w-[6%]">Quantity</th><th class="px-8 py-6 text-left text-base font-semibold text-gray-700 w-[8%]">Total</th><th class="px-8 py-6 text-left text-base font-semibold text-gray-700 w-[12%]">Delivery</th><th class="px-8 py-6 text-left text-base font-semibold text-gray-700 w-[10%]">Payment</th><th class="px-8 py-6 text-left text-base font-semibold text-gray-700 w-[8%]">Status</th><th class="px-8 py-6 text-left text-base font-semibold text-gray-700 w-[10%]">Actions</th></tr></thead><tbody id="bookshopOrdersTable" class="bg-white divide-y divide-gray-200"><!-- Bookshop orders will be loaded here --></tbody></table></div><!-- Mobile Cards for Bookshop Orders --><div id="bookshopOrdersMobile" class="mobile-order-cards"><!-- Mobile bookshop orders will be loaded here --></div></div></div></div></div><!-- Footer --><footer class="flex justify-center"><div class="flex max-w-[960px] flex-1 flex-col"><footer class="flex flex-col gap-6 px-5 py-10 text-center @container"><div class="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around"><a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="aboutus.html">About Us</a><a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="contactus.html">Contact</a><a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="#">FAQ</a><a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="#">Terms of Service</a><a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="#">Privacy Policy</a></div><p class="text-[#76816a] text-base font-normal leading-normal">@2025 NethwinLK. All rights reserved.</p></footer></div></footer></div></div><script src="../javascript/navbar.js"></script><script src="../javascript/cart-utils.js"></script><script src="../javascript/background-animations.js"></script><script>
+                            </div><div class="rounded-xl border-2 border-gray-200 shadow-lg overflow-x-auto"><table class="order-table w-full"><thead class="bg-gradient-to-r from-gray-50 to-gray-100"><tr><th class="px-8 py-6 text-left text-base font-semibold text-gray-700 w-[10%]">Order ID</th><th class="px-8 py-6 text-left text-base font-semibold text-gray-700 w-[8%]">Date</th><th class="px-8 py-6 text-left text-base font-semibold text-gray-700 w-[20%]">Books</th><th class="px-8 py-6 text-left text-base font-semibold text-gray-700 w-[6%]">Quantity</th><th class="px-8 py-6 text-left text-base font-semibold text-gray-700 w-[8%]">Total</th><th class="px-8 py-6 text-left text-base font-semibold text-gray-700 w-[12%]">Delivery</th><th class="px-8 py-6 text-left text-base font-semibold text-gray-700 w-[10%]">Payment</th><th class="px-8 py-6 text-left text-base font-semibold text-gray-700 w-[8%]">Status</th><th class="px-8 py-6 text-left text-base font-semibold text-gray-700 w-[10%]">Actions</th></tr></thead><tbody id="bookshopOrdersTable" class="bg-white divide-y divide-gray-200"><!-- Bookshop orders will be loaded here --></tbody></table></div><!-- Mobile Cards for Bookshop Orders --><div id="bookshopOrdersMobile" class="mobile-order-cards"><!-- Mobile bookshop orders will be loaded here --></div></div>
+
+                        <!-- My Wishlist Section -->
+                        <div class="mb-12">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-xl font-semibold text-[#0e1a13] flex items-center">
+                                    <svg class="w-6 h-6 mr-3 text-[#ef4444]" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                    </svg>
+                                    My Wishlist
+                                </h3>
+                                <div class="flex items-center space-x-3">
+                                    <span id="wishlistItemsCount" class="text-sm text-gray-500">0 items saved</span>
+                                    <a href="wishlist.html" class="bg-[#ef4444] hover:bg-[#dc2626] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                        </svg>
+                                        <span>View All</span>
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <!-- Wishlist Items Grid -->
+                            <div id="profileWishlistContent">
+                                <!-- Empty Wishlist State -->
+                                <div id="profileEmptyWishlist" class="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
+                                    <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                    </svg>
+                                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Your wishlist is empty</h4>
+                                    <p class="text-gray-500 mb-4">Start adding items you love to your wishlist</p>
+                                    <a href="bookshop.html" class="inline-flex items-center gap-2 px-6 py-3 bg-[#19e619] text-white rounded-lg font-semibold hover:bg-[#16c914] transition-colors">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                        </svg>
+                                        Browse Products
+                                    </a>
+                                </div>
+                                
+                                <!-- Wishlist Items Grid -->
+                                <div id="profileWishlistItems" class="hidden">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="profileWishlistGrid">
+                                        <!-- Wishlist items will be populated here -->
+                                    </div>
+                                    
+                                    <!-- Show More Button -->
+                                    <div class="text-center mt-6" id="showMoreWishlist">
+                                        <a href="wishlist.html" class="inline-flex items-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium transition-colors">
+                                            <span>View All Wishlist Items</span>
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        </div></div></div><!-- Footer --><footer class="flex justify-center"><div class="flex max-w-[960px] flex-1 flex-col"><footer class="flex flex-col gap-6 px-5 py-10 text-center @container"><div class="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around"><a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="aboutus.html">About Us</a><a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="contactus.html">Contact</a><a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="#">FAQ</a><a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="#">Terms of Service</a><a class="text-[#76816a] text-base font-normal leading-normal min-w-40" href="#">Privacy Policy</a></div><p class="text-[#76816a] text-base font-normal leading-normal">@2025 NethwinLK. All rights reserved.</p></footer></div></footer></div></div><script src="../javascript/navbar.js"></script><script src="../javascript/cart-utils.js"></script><script src="../javascript/background-animations.js"></script><script>
         let currentUser = null;
         let printOrders = [];
         let bookshopOrders = [];
@@ -564,6 +622,7 @@
             loadUserData().then(() => {
                 loadPrintOrders();
                 loadBookshopOrders();
+                loadProfileWishlist();
             });
             setupEventListeners();
 
@@ -990,6 +1049,87 @@
                         </div>
                     </div>
                 `).join('');
+            }
+        }
+
+        // Load and display wishlist items in profile
+        function loadProfileWishlist() {
+            const wishlist = window.wishlistManager.getWishlist();
+            const wishlistItemsCount = document.getElementById('wishlistItemsCount');
+            const profileEmptyWishlist = document.getElementById('profileEmptyWishlist');
+            const profileWishlistItems = document.getElementById('profileWishlistItems');
+            const profileWishlistGrid = document.getElementById('profileWishlistGrid');
+            
+            // Update count
+            if (wishlistItemsCount) {
+                wishlistItemsCount.textContent = `${wishlist.length} item${wishlist.length !== 1 ? 's' : ''} saved`;
+            }
+            
+            if (wishlist.length === 0) {
+                // Show empty state
+                if (profileEmptyWishlist) profileEmptyWishlist.classList.remove('hidden');
+                if (profileWishlistItems) profileWishlistItems.classList.add('hidden');
+            } else {
+                // Show wishlist items (limit to 6 for profile preview)
+                if (profileEmptyWishlist) profileEmptyWishlist.classList.add('hidden');
+                if (profileWishlistItems) profileWishlistItems.classList.remove('hidden');
+                
+                const itemsToShow = wishlist.slice(0, 6); // Show only first 6 items
+                
+                if (profileWishlistGrid) {
+                    profileWishlistGrid.innerHTML = itemsToShow.map(item => {
+                        const addedDate = new Date(item.addedAt).toLocaleDateString();
+                        
+                        return `
+                            <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-200">
+                                <div class="relative">
+                                    <img src="${item.image || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xNTAgMTAwQzE2NS40NjQgMTAwIDE3NyAxMTEuNTM2IDE3NyAxMjdDMTc3IDE0Mi40NjQgMTY1LjQ2NCAxNTQgMTUwIDE1NEMxMzQuNTM2IDE1NCAxMjMgMTQyLjQ2NCAxMjMgMTI3QzEyMyAxMTEuNTM2IDEzNC41MzYgMTAwIDE1MCAxMDBaIiBmaWxsPSIjOUI5QkE1Ii8+CjxwYXRoIGQ9Ik0xMjMgMTc3SDE3N1YyMDBIMTIzVjE3N1oiIGZpbGw9IiM5QjlCQTUiLz4KPC9zdmc+'}" 
+                                         alt="${item.name}" 
+                                         class="w-full h-40 object-cover">
+                                    
+                                    <!-- Remove from Wishlist Button -->
+                                    <button class="absolute top-2 right-2 w-7 h-7 bg-white/90 hover:bg-white rounded-full shadow-md flex items-center justify-center transition-all duration-200 hover:scale-110"
+                                            onclick="removeFromProfileWishlist('${item.id}')">
+                                        <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                
+                                <div class="p-4">
+                                    <h4 class="font-semibold text-gray-900 text-sm mb-1 line-clamp-2">${item.name}</h4>
+                                    <p class="text-xs text-gray-500 mb-2">${item.category || 'Product'}</p>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm font-bold text-[#19e619]">LKR ${item.price.toFixed(2)}</span>
+                                        <button onclick="moveToCartFromProfile('${item.id}')" 
+                                                class="text-xs bg-[#19e619] hover:bg-[#16c914] text-white px-3 py-1 rounded-md transition-colors duration-200">
+                                            Add to Cart
+                                        </button>
+                                    </div>
+                                    <div class="mt-2">
+                                        <span class="text-xs text-gray-400">Added ${addedDate}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            }
+        }
+        
+        // Remove item from wishlist in profile
+        function removeFromProfileWishlist(productId) {
+            window.wishlistManager.removeFromWishlist(productId);
+            loadProfileWishlist(); // Refresh the display
+            showWishlistNotification('Item removed from wishlist', false);
+        }
+        
+        // Move item from wishlist to cart in profile
+        function moveToCartFromProfile(productId) {
+            const success = window.wishlistManager.moveToCart(productId);
+            if (success) {
+                loadProfileWishlist(); // Refresh the display
+                showWishlistNotification('Item moved to cart!', true);
             }
         }
 
@@ -1472,7 +1612,7 @@ async function exportMyProfile() {
         </div>
     </div>
     <!-- Chat System JavaScript -->
-    <script src="../javascript/chat-system.js"></script><script src="../javascript/button-refresh.js"></script><script>
+    <script src="../javascript/chat-system.js"></script><script src="../javascript/wishlist-utils.js"></script><script src="../javascript/button-refresh.js"></script><script>
         // Message Admin button event handler
         document.addEventListener('DOMContentLoaded', function() {
             const messageAdminBtn = document.getElementById('messageAdminBtn');

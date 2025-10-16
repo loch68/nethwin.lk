@@ -188,54 +188,59 @@ async function createExcelWithCharts({ title, tableData, charts = [], metadata =
 
     // Charts Sheet
     if (charts && charts.length > 0) {
-      const chartsSheet = workbook.addWorksheet('Charts', {
-        properties: { tabColor: { argb: 'F59E0B' } }
-      });
+      // Filter out charts with null buffers
+      const validCharts = charts.filter(c => c.buffer);
+      
+      if (validCharts.length > 0) {
+        const chartsSheet = workbook.addWorksheet('Charts', {
+          properties: { tabColor: { argb: 'F59E0B' } }
+        });
 
-      chartsSheet.mergeCells('A1:H1');
-      const chartsTitle = chartsSheet.getCell('A1');
-      chartsTitle.value = 'Visual Analytics';
-      chartsTitle.font = { bold: true, size: 16, color: { argb: '4F46E5' } };
-      chartsTitle.alignment = { vertical: 'middle', horizontal: 'center' };
-      chartsSheet.getRow(1).height = 30;
+        chartsSheet.mergeCells('A1:H1');
+        const chartsTitle = chartsSheet.getCell('A1');
+        chartsTitle.value = 'Visual Analytics';
+        chartsTitle.font = { bold: true, size: 16, color: { argb: '4F46E5' } };
+        chartsTitle.alignment = { vertical: 'middle', horizontal: 'center' };
+        chartsSheet.getRow(1).height = 30;
 
-      let currentRow = 3;
+        let currentRow = 3;
 
-      for (const chart of charts) {
-        try {
-          // Add chart title
-          chartsSheet.mergeCells(`A${currentRow}:H${currentRow}`);
-          const chartTitleCell = chartsSheet.getCell(`A${currentRow}`);
-          chartTitleCell.value = chart.title || 'Chart';
-          chartTitleCell.font = { bold: true, size: 14, color: { argb: '1F2937' } };
-          chartTitleCell.alignment = { vertical: 'middle', horizontal: 'center' };
-          chartsSheet.getRow(currentRow).height = 25;
-          currentRow += 1;
+        for (const chart of validCharts) {
+          try {
+            // Add chart title
+            chartsSheet.mergeCells(`A${currentRow}:H${currentRow}`);
+            const chartTitleCell = chartsSheet.getCell(`A${currentRow}`);
+            chartTitleCell.value = chart.title || 'Chart';
+            chartTitleCell.font = { bold: true, size: 14, color: { argb: '1F2937' } };
+            chartTitleCell.alignment = { vertical: 'middle', horizontal: 'center' };
+            chartsSheet.getRow(currentRow).height = 25;
+            currentRow += 1;
 
-          // Add image
-          const imageId = workbook.addImage({
-            buffer: chart.buffer,
-            extension: 'png'
-          });
+            // Add image
+            const imageId = workbook.addImage({
+              buffer: chart.buffer,
+              extension: 'png'
+            });
 
-          chartsSheet.addImage(imageId, {
-            tl: { col: 0, row: currentRow },
-            ext: { width: 1000, height: 500 }
-          });
+            chartsSheet.addImage(imageId, {
+              tl: { col: 0, row: currentRow },
+              ext: { width: 1000, height: 500 }
+            });
 
-          // Reserve rows for image (approximate)
-          currentRow += 28; // ~500px / 18px per row
+            // Reserve rows for image (approximate)
+            currentRow += 28; // ~500px / 18px per row
 
-          // Add spacing
-          currentRow += 2;
-        } catch (error) {
-          console.error('Error adding chart to Excel:', error);
+            // Add spacing
+            currentRow += 2;
+          } catch (error) {
+            console.error('Error adding chart to Excel:', error);
+          }
         }
-      }
 
-      // Set column widths for charts sheet
-      for (let i = 1; i <= 8; i++) {
-        chartsSheet.getColumn(i).width = 15;
+        // Set column widths for charts sheet
+        for (let i = 1; i <= 8; i++) {
+          chartsSheet.getColumn(i).width = 15;
+        }
       }
     }
 

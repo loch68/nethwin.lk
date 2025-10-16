@@ -183,16 +183,39 @@
             gap: 8px;
             align-items: center;
         }
+        
+        /* Wishlist Styles */
+        .wishlist-heart {
+            transition: all 0.2s ease;
+            color: #6b7280;
+        }
+        
+        .wishlist-heart:hover {
+            color: #ef4444;
+            transform: scale(1.1);
+        }
+        
+        .in-wishlist .wishlist-heart {
+            color: #ef4444;
+        }
+        
+        .wishlist-updated {
+            animation: pulse 0.6s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
     </style></head><body><div class="relative flex min-h-screen flex-col bg-white overflow-x-hidden font-[Inter, 'Noto Sans', sans-serif] modern-gradient"><!-- Background Animation Container --><div class="particles-container fixed inset-0 pointer-events-none z-0" id="particlesContainer"></div><div class="layout-container flex flex-col grow h-full relative z-10"><!-- Modern Seamless Navbar --><nav class="modern-navbar fixed top-0 left-0 right-0 z-30"><div class="navbar-container"><!-- Logo/Brand --><div class="navbar-brand"><a href="index.html" class="flex items-center"><img src="../assets/fLogo.png" alt="NethwinLK" class="navbar-logo"></a></div><!-- Navigation Links --><div class="navbar-links" id="navbarLinks"><a href="index.html" class="nav-link">Home</a><a href="print.html" class="nav-link">Print Services</a><a href="bookshop.html" class="nav-link">Bookshop</a><a href="aboutus.html" class="nav-link">About</a><a href="contactus.html" class="nav-link">Contact</a></div><!-- Desktop Auth Area --><div class="navbar-auth" id="navbarAuth"><a href="cart.html" class="nav-auth-btn cart-container relative"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
         </svg>
         <span>Cart</span>
-        <span class="cart-count hidden" id="cartCount">0</span></a><a href="search.html" class="nav-auth-btn active"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                            Search</a><a href="login.html" class="nav-auth-btn"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path></svg>
+        <span class="cart-count hidden" id="cartCount">0</span></a><a href="wishlist.html" class="nav-auth-btn wishlist-container relative"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg><span>Wishlist</span><span class="cart-count hidden" id="wishlistCount">0</span></a><a href="login.html" class="nav-auth-btn"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path></svg>
                             Login</a></div><!-- Mobile Auth Icons (hidden on desktop) --><div class="mobile-auth-icons hidden md:hidden"><a href="cart.html" class="mobile-icon-btn mobile-cart-container relative"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H17M9 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM20.5 19.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
         </svg>
-        <span class="mobile-cart-count hidden" id="mobileCartCount">0</span></a><a href="search.html" class="mobile-icon-btn"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></a><a href="login.html" class="mobile-icon-btn"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path></svg></a></div><!-- Mobile Menu Toggle --><button class="mobile-menu-toggle" id="mobileToggle"><span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span></button></div></nav><!-- Navbar Spacer --><div style="height: 4rem;"></div><!-- Main Content --><div class="px-4 md:px-10 flex flex-1 justify-center py-5"><div class="layout-content-container flex flex-col max-w-[1200px] flex-1"><!-- Enhanced Search Section --><div class="mb-8"><div class="px-4"><!-- Modern Search Bar --><div class="relative mb-6"><div class="flex w-full items-center rounded-2xl border-2 border-gray-200 bg-white shadow-lg focus-within:border-[#19e619] focus-within:shadow-xl transition-all duration-300 hover:shadow-xl"><div class="text-gray-400 flex items-center justify-center pl-5"><svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></div><input
+        <span class="mobile-cart-count hidden" id="mobileCartCount">0</span></a><a href="wishlist.html" class="mobile-icon-btn mobile-wishlist-container relative"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg><span class="mobile-cart-count hidden" id="mobileWishlistCount">0</span></a><a href="login.html" class="mobile-icon-btn"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></a><a href="login.html" class="mobile-icon-btn"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path></svg></a></div><!-- Mobile Menu Toggle --><button class="mobile-menu-toggle" id="mobileToggle"><span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span></button></div></nav><!-- Navbar Spacer --><div style="height: 4rem;"></div><!-- Main Content --><div class="px-4 md:px-10 flex flex-1 justify-center py-5"><div class="layout-content-container flex flex-col max-w-[1200px] flex-1"><!-- Enhanced Search Section --><div class="mb-8"><div class="px-4"><!-- Modern Search Bar --><div class="relative mb-6"><div class="flex w-full items-center rounded-2xl border-2 border-gray-200 bg-white shadow-lg focus-within:border-[#19e619] focus-within:shadow-xl transition-all duration-300 hover:shadow-xl"><div class="text-gray-400 flex items-center justify-center pl-5"><svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></div><input
                                         id="searchInput"
                                         class="flex-1 px-4 py-4 text-gray-800 focus:outline-none border-none bg-transparent placeholder:text-gray-400 text-lg font-medium leading-normal"
                                         placeholder="Search products, brands, categories..."
@@ -846,14 +869,31 @@
                       'bg-red-100 text-red-800'
                     }">
                       ${status.charAt(0).toUpperCase() + status.slice(1)}
-                    </span></div><!-- Discount Badge -->
+                    </span></div>
+                  
+                  <!-- Discount Badge -->
                   ${hasDiscount ? `
-                    <div class="absolute top-3 right-3"><span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-red-500 text-white shadow-lg">
+                    <div class="absolute top-12 right-3"><span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-red-500 text-white shadow-lg">
                         -${discountPercentage}%
                       </span></div>
                   ` : ''}
                   
-                  <!-- Stock Badge --><div class="absolute bottom-3 right-3"><span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
+                  <!-- Wishlist Heart Icon -->
+                  <button class="absolute top-3 right-3 w-8 h-8 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110 z-10"
+                          data-wishlist-id="${productId}"
+                          data-product-name="${product.name}"
+                          data-product-price="${finalPrice}"
+                          data-product-image="${productImage}"
+                          data-product-category="${product.category || ''}"
+                          data-product-brand="${product.brand || ''}">
+                    <div class="wishlist-heart">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                      </svg>
+                    </div>
+                  </button>
+                  
+                  <!-- Stock Badge --><div class="absolute bottom-3 left-3"><span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
                       isInStock ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                     }">
                       ${isInStock ? `${stock} in stock` : 'Out of stock'}
@@ -1054,4 +1094,4 @@
             loadBrands();
             updateCartCount(); // Initialize cart count on page load
         });
-    </script><script src="../javascript/auth.js"></script><script src="../javascript/navbar.js"></script><script src="../javascript/cart-utils.js"></script><script src="../javascript/background-animations.js"></script></body></html>
+    </script><script src="../javascript/auth.js"></script><script src="../javascript/navbar.js"></script><script src="../javascript/cart-utils.js"></script><script src="../javascript/wishlist-utils.js"></script><script src="../javascript/background-animations.js"></script></body></html>

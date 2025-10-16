@@ -212,7 +212,7 @@ function exportProductsEnhanced() {
   enhancedExportManager.showExportModal('products', '/api/products/export/catalog/enhanced');
 }
 
-function exportUsersEnhanced() {
+function exportUsersEnhancedModal() {
   enhancedExportManager.showExportModal('users', '/api/users/export/enhanced');
 }
 

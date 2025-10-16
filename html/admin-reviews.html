@@ -37,10 +37,36 @@
             border: 1px solid #e5e7eb;
         }
         
-        .status-pending { @apply bg-yellow-100 text-yellow-800; }
-        .status-approved { @apply bg-green-100 text-green-800; }
-        .status-deleted { @apply bg-red-100 text-red-800; }
+        .status-pending { 
+            background-color: #fef3c7; 
+            color: #92400e; 
+        }
+        .status-approved { 
+            background-color: #d1fae5; 
+            color: #065f46; 
+        }
+        .status-deleted { 
+            background-color: #fee2e2; 
+            color: #991b1b; 
+        }
         .rating-stars { color: #fbbf24; }
+        
+        /* Star filter button styles */
+        .star-filter-btn {
+            transition: all 0.2s ease;
+        }
+        .star-filter-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .star-filter-btn.active {
+            border-color: #10b981;
+            background-color: #ecfdf5;
+            color: #065f46;
+        }
+        .star-filter-btn.active:hover {
+            background-color: #d1fae5;
+        }
         
         .dashboard-header {
             background: linear-gradient(135deg, #f8fbfa 0%, #e8f2ec 100%);
@@ -192,14 +218,22 @@
                                 <option value="approved">Approved</option>
                                 <option value="deleted">Deleted</option>
                             </select>
-                            <select id="ratingFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                                <option value="">All Ratings</option>
-                                <option value="5">5 Stars</option>
-                                <option value="4">4 Stars</option>
-                                <option value="3">3 Stars</option>
-                                <option value="2">2 Stars</option>
-                                <option value="1">1 Star</option>
-                            </select>
+                            <!-- Enhanced Star Rating Filter -->
+                            <div class="relative">
+                                <select id="ratingFilter" class="px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent appearance-none bg-white">
+                                    <option value="">All Ratings</option>
+                                    <option value="5">⭐⭐⭐⭐⭐ (5 Stars)</option>
+                                    <option value="4">⭐⭐⭐⭐☆ (4 Stars)</option>
+                                    <option value="3">⭐⭐⭐☆☆ (3 Stars)</option>
+                                    <option value="2">⭐⭐☆☆☆ (2 Stars)</option>
+                                    <option value="1">⭐☆☆☆☆ (1 Star)</option>
+                                </select>
+                                <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </div>
+                            </div>
                             <input type="text" id="searchInput" placeholder="Search reviews..." class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                         </div>
                         <div class="flex gap-2">
@@ -211,6 +245,42 @@
                             </button>
                             <button onclick="refreshReviews()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                                 Refresh
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visual Star Rating Filter -->
+                <div class="admin-card rounded-xl p-6 mb-6">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">Filter by Rating</h3>
+                            <p class="text-sm text-gray-600">Click on stars to filter reviews by rating</p>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <button onclick="filterByStars('')" id="filter-all" class="star-filter-btn active px-4 py-2 rounded-lg border-2 border-gray-300 bg-white hover:bg-gray-50 transition-colors">
+                                <span class="font-medium">All Ratings</span>
+                                <span class="text-sm text-gray-500 ml-2" id="count-all">0</span>
+                            </button>
+                            <button onclick="filterByStars('5')" id="filter-5" class="star-filter-btn px-4 py-2 rounded-lg border-2 border-gray-300 bg-white hover:bg-gray-50 transition-colors">
+                                <span class="text-yellow-500 text-lg">⭐⭐⭐⭐⭐</span>
+                                <span class="text-sm text-gray-500 ml-2" id="count-5">0</span>
+                            </button>
+                            <button onclick="filterByStars('4')" id="filter-4" class="star-filter-btn px-4 py-2 rounded-lg border-2 border-gray-300 bg-white hover:bg-gray-50 transition-colors">
+                                <span class="text-yellow-500 text-lg">⭐⭐⭐⭐</span><span class="text-gray-300 text-lg">☆</span>
+                                <span class="text-sm text-gray-500 ml-2" id="count-4">0</span>
+                            </button>
+                            <button onclick="filterByStars('3')" id="filter-3" class="star-filter-btn px-4 py-2 rounded-lg border-2 border-gray-300 bg-white hover:bg-gray-50 transition-colors">
+                                <span class="text-yellow-500 text-lg">⭐⭐⭐</span><span class="text-gray-300 text-lg">☆☆</span>
+                                <span class="text-sm text-gray-500 ml-2" id="count-3">0</span>
+                            </button>
+                            <button onclick="filterByStars('2')" id="filter-2" class="star-filter-btn px-4 py-2 rounded-lg border-2 border-gray-300 bg-white hover:bg-gray-50 transition-colors">
+                                <span class="text-yellow-500 text-lg">⭐⭐</span><span class="text-gray-300 text-lg">☆☆☆</span>
+                                <span class="text-sm text-gray-500 ml-2" id="count-2">0</span>
+                            </button>
+                            <button onclick="filterByStars('1')" id="filter-1" class="star-filter-btn px-4 py-2 rounded-lg border-2 border-gray-300 bg-white hover:bg-gray-50 transition-colors">
+                                <span class="text-yellow-500 text-lg">⭐</span><span class="text-gray-300 text-lg">☆☆☆☆</span>
+                                <span class="text-sm text-gray-500 ml-2" id="count-1">0</span>
                             </button>
                         </div>
                     </div>
@@ -288,6 +358,7 @@
 
     <script>
         let currentReviews = [];
+        let allReviews = []; // Store all reviews for counting
         let currentPage = 1;
         let selectedReviews = new Set();
 
@@ -301,7 +372,11 @@
         function setupEventListeners() {
             // Filters
             document.getElementById('statusFilter').addEventListener('change', loadReviews);
-            document.getElementById('ratingFilter').addEventListener('change', loadReviews);
+            document.getElementById('ratingFilter').addEventListener('change', function() {
+                // Update visual buttons when dropdown changes
+                updateVisualStarFilter();
+                loadReviews();
+            });
             document.getElementById('searchInput').addEventListener('input', debounce(loadReviews, 500));
 
             // Bulk actions
@@ -324,14 +399,17 @@
                 if (rating) url += `&rating=${rating}`;
                 if (search) url += `&search=${encodeURIComponent(search)}`;
 
+                console.log('Loading reviews with URL:', url); // Debug log
                 const response = await fetch(url);
                 if (!response.ok) throw new Error('Failed to load reviews');
 
                 const data = await response.json();
                 currentReviews = data.reviews;
+                allReviews = data.allReviews || data.reviews; // Store all reviews for counting
                 displayReviews();
                 updatePagination(data.pagination);
                 updateBulkActionButtons();
+                updateStarFilterCounts();
             } catch (error) {
                 console.error('Error loading reviews:', error);
                 showNotification('Failed to load reviews', 'error');
@@ -631,6 +709,70 @@
             selectedReviews.clear();
             document.getElementById('selectAll').checked = false;
             loadReviews();
+        }
+
+        // Star filter functions
+        function filterByStars(rating) {
+            console.log('Filtering by stars:', rating); // Debug log
+            
+            // Update the dropdown to match
+            document.getElementById('ratingFilter').value = rating;
+            
+            // Update active button styling
+            updateVisualStarFilter();
+            
+            // Reset to first page and load reviews
+            currentPage = 1;
+            loadReviews();
+        }
+
+        // Update visual star filter buttons to match dropdown
+        function updateVisualStarFilter() {
+            const currentRating = document.getElementById('ratingFilter').value;
+            console.log('Updating visual filter for rating:', currentRating); // Debug log
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.star-filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Add active class to current selection
+            const activeBtn = currentRating === '' ? 'filter-all' : `filter-${currentRating}`;
+            const activeButton = document.getElementById(activeBtn);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+        }
+
+        // Update star filter counts
+        function updateStarFilterCounts() {
+            // Get all reviews for counting (not just current page)
+            fetch('/api/reviews?limit=1000') // Get more reviews for accurate counting
+                .then(response => response.json())
+                .then(data => {
+                    const reviews = data.reviews || [];
+                    
+                    // Count reviews by rating
+                    const counts = {
+                        all: reviews.length,
+                        1: reviews.filter(r => r.rating === 1).length,
+                        2: reviews.filter(r => r.rating === 2).length,
+                        3: reviews.filter(r => r.rating === 3).length,
+                        4: reviews.filter(r => r.rating === 4).length,
+                        5: reviews.filter(r => r.rating === 5).length
+                    };
+                    
+                    // Update count displays
+                    document.getElementById('count-all').textContent = `(${counts.all})`;
+                    document.getElementById('count-1').textContent = `(${counts[1]})`;
+                    document.getElementById('count-2').textContent = `(${counts[2]})`;
+                    document.getElementById('count-3').textContent = `(${counts[3]})`;
+                    document.getElementById('count-4').textContent = `(${counts[4]})`;
+                    document.getElementById('count-5').textContent = `(${counts[5]})`;
+                })
+                .catch(error => {
+                    console.error('Error loading review counts:', error);
+                });
         }
 
         // Utility functions

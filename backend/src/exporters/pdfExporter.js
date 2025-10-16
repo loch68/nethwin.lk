@@ -253,7 +253,10 @@ async function createPdfWithCharts({ title, tableData, charts = [], metadata = {
       if (charts && charts.length > 0) {
         hasContent = true;
         
-        charts.forEach((chart, idx) => {
+        // Filter out charts with null buffers
+        const validCharts = charts.filter(c => c.buffer);
+        
+        validCharts.forEach((chart, idx) => {
           // EACH CHART GETS ITS OWN FULL PAGE
           doc.addPage();
           
@@ -326,7 +329,7 @@ async function createPdfWithCharts({ title, tableData, charts = [], metadata = {
           doc.fillColor('#94a3b8')
              .fontSize(9)
              .font('Helvetica')
-             .text(`Chart ${idx + 1} of ${charts.length}`, 0, pageHeight - 40, {
+             .text(`Chart ${idx + 1} of ${validCharts.length}`, 0, pageHeight - 40, {
                width: pageWidth,
                align: 'center'
              });
